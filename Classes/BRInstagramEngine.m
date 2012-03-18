@@ -1,0 +1,117 @@
+//
+//  BRInstagramEngine.m
+//  perSecond
+//
+//  Created by b123400 on 03/07/2011.
+//  Copyright 2011 home. All rights reserved.
+//
+
+#import "BRInstagramEngine.h"
+#import "ASIHTTPRequest.h"
+#import "NSObject+Identifier.h"
+#import "CJSONDeserializer.h"
+
+@interface BRInstagramEngine()
+
+-(void)failedWithError:(NSError*)error forRequestIdentifier:(NSString*)identifier;
+
+@end
+
+@implementation BRInstagramEngine
+@synthesize redirectUri, scope,accessToken,delegate;
+
+-(id)initWithClientID:(NSString*)_clientID secret:(NSString*)_clientSecret{
+	clientID=[_clientID retain];
+	clientSecret=[_clientSecret retain];
+	
+	return [super init];
+}
+
+-(NSURL*)authURL:(BOOL)mobileLayout{
+	NSString *urlString=[NSString stringWithFormat:@"https://api.instagram.com/oauth/authorize/?client_id=%@&response_type=token",clientID];
+	if(scope){
+		urlString=[urlString stringByAppendingFormat:@"&scope=%@",scope];
+	}
+	if(mobileLayout){
+		urlString=[urlString stringByAppendingFormat:@"&display=touch"];
+	}
+	
+	
+	urlString=[urlString stringByAppendingFormat:@"&redirect_uri=%@",(NSString *)CFURLCreateStringByAddingPercentEscapes(
+																														 NULL,
+																														 (CFStringRef)[[self redirectUri]absoluteString],
+																														 NULL,
+																														 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+																														 kCFStringEncodingUTF8 )];
+	return [NSURL URLWithString:urlString];
+}
+
+-(NSURL*)redirectUri{
+	if(!redirectUri){
+		return [NSURL URLWithString:instagramDefaultRedirectURL];
+	}
+	return redirectUri;
+}
+
+-(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params{
+	
+	NSMutableString *paramString=[NSMutableString string];
+	for(NSString *key in params){
+		[paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+	}
+	
+	NSURL *url=[NSURL URLWithString:[NSString	stringWithFormat:@"https://api.instagram.com/v1%@?access_token=%@%@",path,accessToken,paramString]];
+	ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
+	[request setDelegate:self];
+	[request startAsynchronous];
+	
+	return [request identifier];
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{	
+	// Use when fetching binary data
+	NSData *responseData = [request responseData];
+	NSError *error=nil;
+	id object=[[CJSONDeserializer deserializer]deserialize:responseData error:&error];
+	if(error){
+		[self failedWithError:error forRequestIdentifier:[request identifier]];
+		return;
+	}
+	if(delegate){
+		if([(id)delegate respondsToSelector:@selector(instagramEngine:didReceivedData:forRequestIdentifier:)]){
+			[(id)delegate instagramEngine:self didReceivedData:object forRequestIdentifier:[request identifier]];
+		}
+	}
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+	NSError *error = [request error];
+	[self failedWithError:error  forRequestIdentifier:[request identifier]];
+}
+
+-(void)failedWithError:(NSError*)error forRequestIdentifier:(NSString*)identifier{
+	if(!delegate)return;
+	if(![(id)delegate respondsToSelector:@selector(instagramEngine:didFailed: forRequestIdentifier:)])return;
+	[(id)delegate instagramEngine:self didFailed:error forRequestIdentifier:identifier];
+}
+
+-(NSString*)getSelfFeedWithMinID:(NSString*)minID maxID:(NSString*)maxID{
+	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"5" forKey:@"count"];
+	if(minID){
+		[params setObject:minID forKey:@"min_id"];
+	}else if(maxID){
+		[params setObject:maxID forKey:@"max_id"];
+	}
+	return [self performRequestWithPath:@"/users/self/feed" parameters:params];
+}
+
+-(void)dealloc{
+	[clientID release];
+	[clientSecret release];
+	if(redirectUri)[redirectUri release];
+	if(scope)[scope release];
+}
+
+@end

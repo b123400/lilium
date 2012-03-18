@@ -1,0 +1,255 @@
+//
+//  BRInstagramEngine.m
+//  perSecond
+//
+//  Created by b123400 on 22/07/2011.
+//  Copyright 2011 home. All rights reserved.
+//
+
+#import "BRTwitterEngine.h"
+#import "OAMutableURLRequest.h"
+#import "OADataFetcher.h"
+#import "NSObject+Identifier.h"
+#import "CJSONDeserializer.h"
+#import "OAServiceTicket.h"
+#import "RegexKitLite.h"
+
+@interface BRTwitterEngine()
+
+-(void)failedWithError:(NSError*)error  forRequestIdentifier:(NSString*)identifier;
+
+@end
+
+@implementation BRTwitterEngine
+@synthesize delegate,accessToken;
+
+-(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
+	return [self initWithConsumer:[[[OAConsumer alloc]initWithKey:consumerKey secret:consumerSecret]autorelease]];
+}
+-(id)initWithConsumer:(OAConsumer*)_consumer{
+	consumer =[_consumer retain];
+	return [self init];
+}
+
+-(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params{
+	NSMutableString *paramString=[NSMutableString string];
+	for(NSString *key in params){
+		if([paramString length]){
+			[paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+		}else{
+			[paramString appendFormat:@"?%@=%@",key,[params objectForKey:key]];
+		}
+	}
+	
+	NSString *url=[NSString stringWithFormat:@"http://api.twitter.com/1/%@.json%@",path,paramString];
+	
+	OAMutableURLRequest *request = [[[OAMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
+																	consumer:consumer
+																	   token:accessToken   
+																	   realm:nil   
+														   signatureProvider:nil]autorelease];
+	OADataFetcher *fetcher=[[[OADataFetcher alloc]init] autorelease];
+	[fetcher fetchDataWithRequest:request delegate:self didFinishSelector:@selector(requestDidFinished:withData:) didFailSelector:@selector(requestDidFailed:withError:)];
+	return [request identifier];
+}
+- (void)requestDidFinished:(OAServiceTicket *)ticket withData:(NSData *)data {
+	NSError *error=nil;
+	id object=[[CJSONDeserializer deserializer] deserialize:data error:&error];
+	if(error){
+		[self failedWithError:error  forRequestIdentifier:[[ticket request]identifier]];
+		return;
+	}
+	if(delegate){
+		if([(id)delegate respondsToSelector:@selector(twitterEngine:didReceivedData:forRequestIdentifier:)]){
+			[(id)delegate twitterEngine:self didReceivedData:object forRequestIdentifier:[[ticket request]identifier]];
+		}
+	}
+}
+- (void)requestDidFailed:(OAServiceTicket *)ticket withError:(NSError *)error{
+	[self failedWithError:error  forRequestIdentifier:[[ticket request]identifier]];
+}
+
+-(void)failedWithError:(NSError*)error  forRequestIdentifier:(NSString*)identifier{
+	if(!delegate)return;
+	if(![(id)delegate respondsToSelector:@selector(twitterEngine:didFailed: forRequestIdentifier:)])return;
+	[(id)delegate twitterEngine:self didFailed:error forRequestIdentifier:identifier];
+}
+
+
+
+-(NSString*)getHomeTimelineWithSinceID:(NSString*)sinceID maxID:(NSString*)maxID{
+	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								 @"true",@"include_entities",
+								 @"200",@"count",
+								 @"true",@"include_rts",
+								 @"true",@"include_entities",nil];
+	if(sinceID){
+		[params setObject:sinceID forKey:@"since_id"];
+	}
+	if(maxID){
+		[params	setObject:maxID forKey:@"max_id"];
+	}
+	return [self performRequestWithPath:@"statuses/home_timeline" parameters:params];
+}
+
++(NSURL*)rawImageURLFromURL:(NSURL*)aURL boolOnly:(BOOL)boolOnly size:(BRImageSize)size{
+	NSString *urlString=[aURL absoluteString];
+	NSString *regex=nil;
+	//twitpic
+	regex=@"http://(www.)?twitpic.com/([a-zA-Z0-9]+)";
+	if([urlString isMatchedByRegex:regex]){
+		if(boolOnly)return YES;
+		
+		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
+		NSString *imageID=[captures lastObject];
+		if(![imageID isEqualToString:@""]){
+			if(size==BRImageSizeLarge){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://twitpic.com/show/large/%@",imageID]];
+			}else if(size==BRImageSizeThumb){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://twitpic.com/show/thumb/%@",imageID]];
+			}else if(size==BRImageSizeMedium){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://twitpic.com/show/large/%@",imageID]];
+			}else if(size==BRImageSizeFull){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://twitpic.com/show/full/%@",imageID]];
+			}
+		}
+	}
+	//img.ly
+	regex=@"http://(www.)?img.ly/([a-zA-Z0-9]+)";
+	if([urlString isMatchedByRegex:regex]){
+		if(boolOnly)return YES;
+		
+		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
+		NSString *imageID=[captures lastObject];
+		if(![imageID isEqualToString:@""]){
+			if(size==BRImageSizeThumb){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://img.ly/show/thumb/%@",imageID]];
+			}else if(size==BRImageSizeMedium){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://img.ly/show/medium/%@",imageID]];
+			}else if(size==BRImageSizeLarge){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://img.ly/show/large/%@",imageID]];
+			}else if(size==BRImageSizeFull){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://img.ly/show/full/%@",imageID]];
+			}
+		}
+	}
+	//yfrog
+	regex=@"http://(www.)?yfrog.com/([a-zA-Z0-9]+)";
+	if([urlString isMatchedByRegex:regex]){
+		if(boolOnly)return YES;
+		
+		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
+		NSString *imageAddress=[captures objectAtIndex:0];
+		NSString *imageID=[[captures lastObject] substringFromIndex:[[captures lastObject]length]-2];
+		if(![imageID isEqualToString:@"z"]&&![imageID isEqualToString:@"f"]){
+			///those are video
+			if(![imageAddress isEqualToString:@""]){
+				if(size==BRImageSizeThumb){
+					return [NSURL URLWithString:[NSString stringWithFormat:@"%@:small",imageAddress]];
+				}else{
+					return [NSURL URLWithString:[NSString stringWithFormat:@"%@:iphone",imageAddress]];
+				}
+			}
+		}else{
+			//this is video
+			return nil;
+		}
+	}
+	//moby.to
+	regex=@"http://(www.)?moby.to/([a-zA-Z0-9]+)";
+	if([urlString isMatchedByRegex:regex]){
+		if(boolOnly)return YES;
+		
+		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
+		NSString *imageAddress=[captures objectAtIndex:0];
+		if(![imageAddress isEqualToString:@""]){
+			if(size!=BRImageSizeFull){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"%@:medium",imageAddress]];
+			}else{
+				return [NSURL URLWithString:[NSString stringWithFormat:@"%@:full",imageAddress]];
+			}
+		}
+	}
+	//instagram
+	regex=@"http://(www.)?instagr.am/p/([^/]+)";
+	if([urlString isMatchedByRegex:regex]){
+		if(boolOnly)return YES;
+		
+		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
+		NSString *imageAddress=[captures objectAtIndex:0];
+		if(![imageAddress isEqualToString:@""]){
+			if(size==BRImageSizeThumb){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"%@/media/?size=t",imageAddress]];
+			}else if(size==BRImageSizeMedium){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"%@/media/?size=m",imageAddress]];
+			}else{
+				return [NSURL URLWithString:[NSString stringWithFormat:@"%@/media/?size=l",imageAddress]];
+			}
+		}
+	}
+	//twitgoo
+	regex=@"http://(www.)?twitgoo.com/([a-zA-Z0-9]+)";
+	if([urlString isMatchedByRegex:regex]){
+		if(boolOnly)return YES;
+		
+		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
+		NSString *imageAddress=[captures objectAtIndex:0];
+		if(![imageAddress isEqualToString:@""]){
+			if(size==BRImageSizeThumb){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"%@/thumb",imageAddress]];
+			}
+			return [NSURL URLWithString:[NSString stringWithFormat:@"%@/img",imageAddress]];
+		}
+	}
+	//twipl
+	regex=@"http://(www.)?twipl.net/([a-zA-Z0-9]+)";
+	if([urlString isMatchedByRegex:regex]){
+		if(boolOnly)return YES;
+		
+		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
+		NSString *imageID=[captures lastObject];
+		if(![imageID isEqualToString:@""]){
+			if(size==BRImageSizeThumb){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://api.twipl.net/show/thumb/%@",imageID]];
+			}else if(size==BRImageSizeMedium||size==BRImageSizeLarge){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://api.twipl.net/show/view/%@",imageID]];
+			}
+			return [NSURL URLWithString:[NSString stringWithFormat:@"http://api.twipl.net/show/large/%@",imageID]];
+		}
+	}
+	//twipple
+	regex=@"http://p.twipple.jp/([a-zA-Z0-9]+)";
+	if([urlString isMatchedByRegex:regex]){
+		if(boolOnly)return YES;
+		
+		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
+		NSString *imageID=[captures lastObject];
+		if(size==BRImageSizeThumb){
+			return [NSURL URLWithString:[NSString stringWithFormat:@"http://p.twipple.jp/show/thumb/%@",imageID]];
+		}else if(size==BRImageSizeMedium||size==BRImageSizeLarge){
+			return [NSURL URLWithString:[NSString stringWithFormat:@"http://p.twipple.jp/show/large/%@",imageID]];
+		}else if(size==BRImageSizeFull){
+				return [NSURL URLWithString:[NSString stringWithFormat:@"http://p.twipple.jp/show/orig/%@",imageID]];
+		}
+	}
+	//step.ly
+	regex=@"http://step.ly/p/([a-zA-Z0-9]+)";
+	if([urlString isMatchedByRegex:regex]){
+		if(boolOnly)return YES;
+		
+		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
+		NSString *imageID=[captures lastObject];
+		if(![imageID isEqualToString:@""]){
+			NSURL *theURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://steply.com/photos/%@/image",imageID]];
+			return theURL;
+		}
+	}
+	return nil;
+}
+
+-(void)dealloc{
+	[consumer release];
+	[super dealloc];
+}
+
+@end
