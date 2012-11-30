@@ -5,7 +5,7 @@
 //  Created by b123400 on 03/07/2011.
 //  Copyright 2011 home. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "InstagramLoginViewController.h"
 #import "SVProgressHUD.h"
 
@@ -23,8 +23,7 @@
 }
 
 -(id)initWithInstagramEngine:(BRInstagramEngine*)_engine{
-	backgroundBorderView=[[UIView alloc]initWithFrame:CGRectMake(6, 6, 307, 448)];
-	backgroundBorderView.backgroundColor=[UIColor colorWithRed:153/255.0 green:102/255.0 blue:51/255.0 alpha:1.0];
+	backgroundBorderView=[[UIView alloc]init];
 	return [super initWithInstagramEngine:_engine];
 }
 
@@ -34,8 +33,14 @@
 	
 	[self.view addSubview:backgroundBorderView];
 	[self.view sendSubviewToBack:backgroundBorderView];
-	webView.frame=CGRectMake(14, 16, 291, 429);
+    
+    webView.layer.borderColor=[UIColor colorWithRed:153/255.0 green:102/255.0 blue:51/255.0 alpha:1.0].CGColor;
+    webView.layer.borderWidth=6;
+    webView.frame=CGRectInset(self.view.frame, 6, 6);
 	webView.multipleTouchEnabled=NO;
+}
+-(void)viewDidAppear:(BOOL)animated{
+    
 }
 
 -(void)didGetAccessToken:(NSString*)token{
@@ -66,6 +71,9 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
+- (NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

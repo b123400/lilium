@@ -74,7 +74,6 @@ static TimelineManager *sharedManager=nil;
 -(void)didGetStatuses:(NSMutableArray*)_statuses forRequest:(StatusRequest*)request{
 	NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
 	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
-	NSLog([_statuses description]);
 	if(request==loadNewerRequest){
 		[statuses insertObjects:_statuses atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
 		[loadNewerRequest release];

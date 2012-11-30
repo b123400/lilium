@@ -11,12 +11,13 @@
 #import "Status.h"
 
 @interface StatusDetailViewController : UIViewController {
-	IBOutlet UIView *statusDetailView;
-	IBOutlet UIView *tableViewHeader;
+	IBOutlet UIView *imageWrapperView;
 	IBOutlet UIImageView *mainImageView;
 	IBOutlet UIActivityIndicatorView *commentLoading;
 	IBOutlet UITableView *commentTableView;
-	IBOutlet BRGridView *gridView;
+	IBOutlet UIScrollView *mainScrollView;
+	IBOutlet UIScrollView *imageWrapperScrollView;
+	//IBOutlet BRGridView *gridView;
 	
 	Status *status;
 }

@@ -33,6 +33,7 @@
 -(NSString*)performRequestWithMethod:(NSString*)method parameters:(NSDictionary*)params; 
 
 -(NSString*)getContactsPhotos;
+-(NSString*)getCommentsForPhotoWithID:(NSString*)photoID;
 
 + (NSURL *)photoSourceURLFromDictionary:(NSDictionary *)inDictionary size:(NSString *)inSizeModifier;
 + (NSURL *)webPageURLFromDictionary:(NSDictionary *)inDictionary;

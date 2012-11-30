@@ -8,14 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SDWebImageManager.h"
-
-typedef enum StatusSourceType {
-    StatusSourceTypeTwitter       = 0,
-    StatusSourceTypeFacebook   =1,
-	StatusSourceTypeFlickr  = 2,
-	StatusSourceTypeInstagram =3,
-	StatusSourceTypeTumblr    =4,
-} StatusSourceType;
+#import "Account.h"
 
 @interface Status : NSObject <SDWebImageManagerDelegate> {
 	NSURL *thumbURL;
@@ -26,14 +19,15 @@ typedef enum StatusSourceType {
 	NSString *caption;
 	UIColor *captionColor;
 	
-	StatusSourceType source;
-	NSString *accountName;
-	NSString *accountID;
+	Account *account;
 	
 	NSString *statusID;
 	
 	NSDate *date;
 	BOOL liked;
+	NSMutableArray *attributes;
+	
+	NSMutableArray *comments;
 }
 
 @property (nonatomic,retain) NSURL *thumbURL;
@@ -45,14 +39,16 @@ typedef enum StatusSourceType {
 @property (nonatomic,retain) UIColor *captionColor;
 
 @property (assign)  StatusSourceType source;
-@property (nonatomic,retain) NSString *accountName;
-@property (nonatomic,retain) NSString *accountID;
+@property (nonatomic,retain) Account *account;
 @property (nonatomic,retain) NSString *statusID;
 
 @property (nonatomic,retain) NSDate *date;
 @property (nonatomic,assign) BOOL liked;
+@property (nonatomic,retain) NSMutableArray *attributes;
+@property (nonatomic,retain) NSMutableArray *comments;
 
 -(NSDictionary*)dictionaryRepresentation;
 -(void)prefetechThumb;
+-(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector;
 
 @end

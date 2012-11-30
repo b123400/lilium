@@ -98,7 +98,7 @@
 }
 
 -(NSString*)getSelfFeedWithMinID:(NSString*)minID maxID:(NSString*)maxID{
-	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"5" forKey:@"count"];
+	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"10" forKey:@"count"];
 	if(minID){
 		[params setObject:minID forKey:@"min_id"];
 	}else if(maxID){
@@ -106,12 +106,17 @@
 	}
 	return [self performRequestWithPath:@"/users/self/feed" parameters:params];
 }
+-(NSString*)getCommentsWithMediaID:(NSString*)mediaID{
+	NSMutableDictionary *params=[NSMutableDictionary dictionary];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"/media/%@/comments",mediaID] parameters:params];
+}
 
 -(void)dealloc{
 	[clientID release];
 	[clientSecret release];
 	if(redirectUri)[redirectUri release];
 	if(scope)[scope release];
+	[super dealloc];
 }
 
 @end

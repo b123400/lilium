@@ -9,6 +9,9 @@
 #import "StatusDetailViewController.h"
 #import "UIImageView+WebCache.h"
 #import "OHAttributedLabel.h"
+#import "Attribute.h"
+#import "Comment.h"
+#import "CommentTableViewCell.h"
 
 @implementation StatusDetailViewController
 
@@ -23,8 +26,10 @@
 }
 */
 -(id)initWithStatus:(Status*)_status{
+	self=[self init];
 	status=[_status retain];
-	return [self init];
+	[status getCommentsAndReturnTo:self withSelector:@selector(didReceiveComments:)];
+	return self;
 }
 -(id)init{
 	self = [super initWithNibName:@"StatusDetailViewController" bundle:nil];
@@ -36,7 +41,7 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	gridView.contentIndent=CGSizeMake(310, 10);
+	/*gridView.contentIndent=CGSizeMake(310, 10);
 	gridView.cellSize=CGSizeMake(120, 120);
 	gridView.numOfRow=3;
 	gridView.alwaysBounceVertical=YES;
@@ -45,14 +50,38 @@
 	gridView.showsVerticalScrollIndicator=NO;
 	gridView.cellMargin=CGSizeMake(40, 40);
 	gridView.alwaysBounceVertical=NO;
-	[gridView addSubview:statusDetailView];
+	[gridView addSubview:statusDetailView];*/
 	[mainImageView setImageWithURL:status.meduimURL];
     [super viewDidLoad];
 	
-	OHAttributedLabel *textLabel=[[OHAttributedLabel alloc] initWithFrame:CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height, mainImageView.frame.size.width, 100)];
+	OHAttributedLabel *textLabel=[[OHAttributedLabel alloc] initWithFrame:CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000)];
+	textLabel.extendBottomToFit=YES;
+	textLabel.lineBreakMode=UILineBreakModeWordWrap;
+	textLabel.numberOfLines=0;
+	textLabel.backgroundColor=[UIColor clearColor];
+	textLabel.textColor=[UIColor whiteColor];
 	textLabel.text=status.caption;
-	[tableViewHeader addSubview:textLabel];
+	
+	for(Attribute *thisAttribute in status.attributes){
+		[textLabel addCustomLink:thisAttribute.url inRange:thisAttribute.range];
+	}
+	
+	[imageWrapperView addSubview:textLabel];
+	CGRect frame=textLabel.frame;
+	frame.size=[textLabel sizeThatFits:textLabel.frame.size];
+	textLabel.frame=frame;
+	
+	frame=imageWrapperView.frame;
+	frame.size.height=textLabel.frame.size.height+textLabel.frame.origin.y+5;
+	imageWrapperView.frame=frame;
+	
+	imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, imageWrapperView.frame.size.height+imageWrapperView.frame.origin.y);
+	mainScrollView.contentSize=CGSizeMake(commentTableView.frame.origin.x+commentTableView.frame.size.width, commentTableView.frame.origin.y+commentTableView.frame.size.height);
 }
+-(void)didReceiveComments:(NSArray*)comments{
+	[commentTableView reloadData];
+}
+#pragma mark Grid View
 - (BRGridViewCell *)gridView:(id)gridView cellAtIndexPath:(NSIndexPath *)indexPath{
 	return nil;
 }
@@ -65,7 +94,40 @@
 - (void)gridView:(id)gridView didSelectCell:(BRGridViewCell*)cell AtIndexPath:(NSIndexPath *)indexPath{
 	
 }
-
+#pragma mark table view
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+	CommentTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
+	if(!cell){
+		cell=[[CommentTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
+	}
+	//cell.textLabel.text=((Comment*)[status.comments objectAtIndex:indexPath.row]).text;
+	//cell.detailTextLabel.text=((Comment*)[status.comments objectAtIndex:indexPath.row]).account.displayName;
+	cell.comment=[status.comments objectAtIndex:indexPath.row];
+	cell.selectionStyle=UITableViewCellSelectionStyleNone;
+	return cell;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+	return [status.comments count];
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+	float height=85;
+	
+	UIFont *cellFont = [UIFont fontWithName:@"Arial" size:12];
+	CGSize constraintSize = CGSizeMake(tableView.frame.size.width-99, MAXFLOAT);
+	CGSize labelSize = [((Comment*)[status.comments objectAtIndex:indexPath.row]).text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+	height=labelSize.height+=64;
+	
+	if(height<85){
+		height=85;
+	};
+	return height;
+}
+#pragma mark navigation
+-(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
+	NSMutableArray *views=[NSMutableArray arrayWithObject:imageWrapperView];
+	[views addObjectsFromArray:[commentTableView visibleCells]];
+	return views;
+}
 /*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -82,6 +144,10 @@
 }
 
 - (void)viewDidUnload {
+	[imageWrapperScrollView release];
+	imageWrapperScrollView = nil;
+	[mainScrollView release];
+	mainScrollView = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -90,6 +156,8 @@
 
 - (void)dealloc {
 	[status release];
+	[imageWrapperScrollView release];
+	[mainScrollView release];
     [super dealloc];
 }
 

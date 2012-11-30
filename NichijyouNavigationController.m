@@ -10,6 +10,7 @@
 #import "AccelerationAnimation.h"
 #import "Evaluate.h"
 #import "BRFunctions.h"
+#import "UIApplication+Frame.h"
 
 @interface NichijyouNavigationController ()
 
@@ -218,6 +219,8 @@ static float pressShiftFactor=0.2;
 	}
 	
 	viewController.view.userInteractionEnabled=NO;
+    viewController.view.frame=[UIApplication currentFrame];
+    [viewController.view layoutSubviews];
 	NSArray *viewsToAnimate=[self subviewsToAnimateForViewController:[self topViewController]];
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];

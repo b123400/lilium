@@ -10,7 +10,7 @@
 #import "BRTumblrLoginViewController.h"
 
 @interface TumblrLoginViewController : BRTumblrLoginViewController {
-	UIView *backgroundBorderView;
+	
 }
 
 @end

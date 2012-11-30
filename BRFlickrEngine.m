@@ -74,6 +74,11 @@
 																						 @"1",@"include_self",
 																						 @"count",@"30",nil]];
 }
+-(NSString*)getCommentsForPhotoWithID:(NSString*)photoID{
+	return [self performRequestWithMethod:@"flickr.photos.comments.getList" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+																						 photoID,@"photo_id"
+																						,nil]];
+}
 
 + (NSURL *)photoSourceURLFromDictionary:(NSDictionary *)inDictionary size:(NSString *)inSizeModifier
 {

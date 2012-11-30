@@ -6,6 +6,7 @@
 //  Copyright 2011 home. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "TumblrLoginViewController.h"
 #import "BRFunctions.h"
 #import "SVProgressHUD.h"
@@ -13,17 +14,15 @@
 @implementation TumblrLoginViewController
 
 -(id)init{
-	backgroundBorderView=[[UIView alloc]initWithFrame:CGRectMake(6, 6, 307, 448)];
-	backgroundBorderView.backgroundColor=[UIColor colorWithRed:44/255.0 green:71/255.0 blue:98/255.0 alpha:1.0];
 	return [super initWithConsumerKey:tumblrAPIKey consumerSecret:tumblrAPISecret];
 }
 
 -(void)viewDidLoad{
 	[super viewDidLoad];
-	
-	[self.view addSubview:backgroundBorderView];
-	[self.view sendSubviewToBack:backgroundBorderView];
-	webView.frame=CGRectMake(14, 16, 291, 429);
+
+	webView.frame=CGRectInset(self.view.frame, 6, 6);
+    webView.layer.borderColor=[UIColor colorWithRed:44/255.0 green:71/255.0 blue:98/255.0 alpha:1.0].CGColor;
+    webView.layer.borderWidth=6;
 }
 -(void)getAccessTokenFromQuery:(NSString*)query{
 	[SVProgressHUD show];
@@ -54,7 +53,6 @@
 }
 
 -(void)dealloc{
-	[backgroundBorderView release];
 	[super dealloc];
 }
 

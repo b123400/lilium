@@ -10,7 +10,7 @@
 
 
 @implementation StatusRequest
-@synthesize  twitterStatus, facebookStatus, instagramStatus, flickrStatus, tumblrStatus, plurkStatus,delegate,referenceStatuses,direction,tumblrOffset;
+@synthesize  twitterStatus, facebookStatus, instagramStatus, flickrStatus, tumblrStatus, plurkStatus,referenceStatuses,direction,tumblrOffset;
 
 +(id)requestWithRequestType:(StatusRequestType)_type{
 	return [[[StatusRequest alloc]initWithRequestType:_type]autorelease];

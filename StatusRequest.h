@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Status.h"
+#import "Request.h"
 
 typedef enum StatusRequestType {
     StatusRequestTypeSolo       = 0,
@@ -26,7 +27,7 @@ typedef enum StatusRequestDirection{
 	StatusRequestDirectionOlder  = 1,
 }StatusRequestDirection;
 
-@interface StatusRequest : NSObject {
+@interface StatusRequest : Request {
 	StatusRequestType type;
 	NSArray *referenceStatuses;
 	int tumblrOffset;
@@ -38,8 +39,6 @@ typedef enum StatusRequestDirection{
 	StatusFetchingStatus flickrStatus;
 	StatusFetchingStatus tumblrStatus;
 	StatusFetchingStatus plurkStatus;
-	
-	id delegate;
 }
 @property (retain) NSArray *referenceStatuses;
 @property (assign) int tumblrOffset;
@@ -51,8 +50,6 @@ typedef enum StatusRequestDirection{
 @property (assign) StatusFetchingStatus flickrStatus;
 @property (assign) StatusFetchingStatus tumblrStatus;
 @property (assign) StatusFetchingStatus plurkStatus;
-
-@property (assign) id delegate;
 
 +(id)requestWithRequestType:(StatusRequestType)_type;
 -(id)initWithRequestType:(StatusRequestType)_type;

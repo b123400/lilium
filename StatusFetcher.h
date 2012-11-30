@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Status.h"
 #import "StatusRequest.h"
+#import "CommentRequest.h"
 #import "BRFunctions.h"
 
 @protocol StatusFetcherDelegate
@@ -34,5 +35,6 @@
 -(BOOL)didCachedStatusWithStatusID:(NSString*)statusID source:(StatusSourceType)source inArray:(NSArray*)arr;
 
 -(void)getStatusesForRequest:(StatusRequest*)request;
+-(void)getCommentsForRequest:(CommentRequest*)request;
 
 @end

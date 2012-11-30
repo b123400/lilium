@@ -64,7 +64,7 @@ static float loadingBorder=40.0;
 	[loading stopAnimating];
 	if(webView.hidden){
 		[UIView animateWithDuration:0.5 animations:^{
-			backgroundBorderView.frame=fullBorder;
+			backgroundBorderView.frame=CGRectInset(webView.frame, -5, -5);
 		} completion:^(BOOL finished){
 			CGRect webFrame=webView.frame;
 			CGRect frame=webView.frame;

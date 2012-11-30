@@ -7,9 +7,10 @@
 //
 
 #import "Status.h"
+#import "StatusFetcher.h"
 
 @implementation Status
-@synthesize thumbURL,meduimURL,fullURL,webURL,caption,source,accountName,accountID,statusID,liked,date,captionColor;
+@synthesize thumbURL,meduimURL,fullURL,webURL,caption,source,account,statusID,liked,date,captionColor,attributes,comments;
 
 -(id)init{
 	return [super init];
@@ -22,9 +23,8 @@
 	if(meduimURL)[dict setObject:meduimURL forKey:@"medium"];
 	if(fullURL)[dict setObject:fullURL forKey:@"full"];
 	if(webURL)[dict setObject:webURL forKey:@"web"];
-	//if(caption)[dict setObject:caption forKey:@"caption"];
-	if(accountID)[dict setObject:accountID forKey:@"accountID"];
-	if(accountName)[dict setObject:accountName forKey:@"accountName"];
+	if(caption)[dict setObject:caption forKey:@"caption"];
+	//Attribute+Account+comments?
 	if(statusID)[dict setObject:statusID forKey:@"statusID"];
 	if(date)[dict setObject:date forKey:@"date"];
 	[dict setObject:[NSNumber numberWithBool:liked] forKey:@"liked"];
@@ -34,6 +34,19 @@
 	if(thumbURL){
 		[[SDWebImageManager sharedManager] downloadWithURL:thumbURL delegate:self retryFailed:NO lowPriority:YES];
 	}
+}
+-(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector{
+	if(comments){
+		if([target respondsToSelector:selector]){
+			[target performSelector:selector withObject:comments];
+		}
+		return;
+	}
+	CommentRequest *request=[[[CommentRequest alloc] init]autorelease];
+	request.targetStatus=self;
+	request.delegate=target;
+	request.selector=selector;
+	[[StatusFetcher sharedFetcher] getCommentsForRequest:request];
 }
 
 -(BOOL)isEqual:(id)object{
