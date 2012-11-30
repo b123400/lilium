@@ -47,6 +47,7 @@
 }
 
 -(void)didReceivedRequestTokenURL:(NSURL*)url{
+    url=[NSURL URLWithString:[NSString stringWithFormat:@"%@&iphone=true",url.absoluteString]];
 	[webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{

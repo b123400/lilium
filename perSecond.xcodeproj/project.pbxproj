@@ -166,7 +166,6 @@
 		CFBF2AD513D0CF48004DC335 /* WelcomePinchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF2AD313D0CF48004DC335 /* WelcomePinchViewController.m */; };
 		CFBF2AD613D0CF48004DC335 /* WelcomePinchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBF2AD413D0CF48004DC335 /* WelcomePinchViewController.xib */; };
 		CFC2EE69166934F700995FC9 /* UIApplication+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC2EE68166934F700995FC9 /* UIApplication+Frame.m */; };
-		CFC2EE6C166940A200995FC9 /* TumblrXAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC2EE6B166940A200995FC9 /* TumblrXAuth.m */; };
 		CFCCE77913BB9A5100D2BFD1 /* NichijyouNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE77813BB9A5100D2BFD1 /* NichijyouNavigationController.m */; };
 		CFCCE77C13BB9A6B00D2BFD1 /* NichijyouTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE77B13BB9A6B00D2BFD1 /* NichijyouTransparentView.m */; };
 		CFCCE78A13BB9B5700D2BFD1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCCE78913BB9B5700D2BFD1 /* QuartzCore.framework */; };
@@ -495,8 +494,6 @@
 		CFBF2AD413D0CF48004DC335 /* WelcomePinchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WelcomePinchViewController.xib; sourceTree = "<group>"; };
 		CFC2EE67166934F700995FC9 /* UIApplication+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Frame.h"; sourceTree = "<group>"; };
 		CFC2EE68166934F700995FC9 /* UIApplication+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Frame.m"; sourceTree = "<group>"; };
-		CFC2EE6A166940A100995FC9 /* TumblrXAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TumblrXAuth.h; sourceTree = "<group>"; };
-		CFC2EE6B166940A200995FC9 /* TumblrXAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TumblrXAuth.m; sourceTree = "<group>"; };
 		CFCCE77713BB9A5100D2BFD1 /* NichijyouNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NichijyouNavigationController.h; sourceTree = "<group>"; };
 		CFCCE77813BB9A5100D2BFD1 /* NichijyouNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NichijyouNavigationController.m; sourceTree = "<group>"; };
 		CFCCE77A13BB9A6B00D2BFD1 /* NichijyouTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NichijyouTransparentView.h; sourceTree = "<group>"; };
@@ -1233,8 +1230,6 @@
 		CFCDCD1813D89DF100E268E8 /* Tumblr */ = {
 			isa = PBXGroup;
 			children = (
-				CFC2EE6A166940A100995FC9 /* TumblrXAuth.h */,
-				CFC2EE6B166940A200995FC9 /* TumblrXAuth.m */,
 				CFCDCC7013D88D4B00E268E8 /* BRTumblrOAuthTokenGetter.h */,
 				CFCDCC7113D88D4B00E268E8 /* BRTumblrOAuthTokenGetter.m */,
 				CFCDCC7313D88EE900E268E8 /* BRTumblrLoginViewController.h */,
@@ -1668,7 +1663,6 @@
 				CF6E2F3B1545B75300E19AED /* CommentTableViewCell.m in Sources */,
 				CF6E2F491545D23900E19AED /* AccountDetailViewController.m in Sources */,
 				CFC2EE69166934F700995FC9 /* UIApplication+Frame.m in Sources */,
-				CFC2EE6C166940A200995FC9 /* TumblrXAuth.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
