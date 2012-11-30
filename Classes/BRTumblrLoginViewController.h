@@ -21,7 +21,7 @@
 @end
 
 
-@interface BRTumblrLoginViewController : UIViewController {
+@interface BRTumblrLoginViewController : UIViewController <BROAuthTokenGetterDelegate> {
 	IBOutlet UIWebView *webView;
 	
 	BRTumblrOAuthTokenGetter *getter;

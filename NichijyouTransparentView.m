@@ -23,7 +23,7 @@
 }
 -(id)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
 	if(delegate){
-		if([delegate respondsToSelector:@selector(didTouchedTransparentView:atPoint:)]){
+		if([(id)delegate respondsToSelector:@selector(didTouchedTransparentView:atPoint:)]){
 			[delegate didTouchedTransparentView:self atPoint:point];
 		}
 	}

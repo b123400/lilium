@@ -74,28 +74,28 @@
 		CF57FE4313BF503000C184F8 /* OAServiceTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF913BF503000C184F8 /* OAServiceTicket.m */; };
 		CF57FE4413BF503000C184F8 /* OAToken.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDFC13BF503000C184F8 /* OAToken.m */; };
 		CF57FE4513BF503000C184F8 /* OATokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDFE13BF503000C184F8 /* OATokenManager.m */; };
-		CF57FE4613BF503000C184F8 /* MGTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0213BF503000C184F8 /* MGTwitterEngine.m */; };
-		CF57FE4713BF503000C184F8 /* MGTwitterHTTPURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0613BF503000C184F8 /* MGTwitterHTTPURLConnection.m */; };
-		CF57FE4813BF503000C184F8 /* MGTwitterLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0813BF503000C184F8 /* MGTwitterLibXMLParser.m */; };
-		CF57FE4913BF503000C184F8 /* MGTwitterMessagesLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0A13BF503000C184F8 /* MGTwitterMessagesLibXMLParser.m */; };
-		CF57FE4A13BF503000C184F8 /* MGTwitterMessagesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0C13BF503000C184F8 /* MGTwitterMessagesParser.m */; };
-		CF57FE4B13BF503000C184F8 /* MGTwitterMessagesYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0E13BF503000C184F8 /* MGTwitterMessagesYAJLParser.m */; };
-		CF57FE4C13BF503000C184F8 /* MGTwitterMiscLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1013BF503000C184F8 /* MGTwitterMiscLibXMLParser.m */; };
-		CF57FE4D13BF503000C184F8 /* MGTwitterMiscParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1213BF503000C184F8 /* MGTwitterMiscParser.m */; };
-		CF57FE4E13BF503000C184F8 /* MGTwitterMiscYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1413BF503000C184F8 /* MGTwitterMiscYAJLParser.m */; };
-		CF57FE4F13BF503000C184F8 /* MGTwitterSearchYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1813BF503000C184F8 /* MGTwitterSearchYAJLParser.m */; };
-		CF57FE5013BF503000C184F8 /* MGTwitterSocialGraphLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1A13BF503000C184F8 /* MGTwitterSocialGraphLibXMLParser.m */; };
-		CF57FE5113BF503000C184F8 /* MGTwitterSocialGraphParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1C13BF503000C184F8 /* MGTwitterSocialGraphParser.m */; };
-		CF57FE5213BF503000C184F8 /* MGTwitterStatusesLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1E13BF503000C184F8 /* MGTwitterStatusesLibXMLParser.m */; };
-		CF57FE5313BF503000C184F8 /* MGTwitterStatusesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2013BF503000C184F8 /* MGTwitterStatusesParser.m */; };
-		CF57FE5413BF503000C184F8 /* MGTwitterStatusesYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2213BF503000C184F8 /* MGTwitterStatusesYAJLParser.m */; };
-		CF57FE5513BF503000C184F8 /* MGTwitterTouchJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2413BF503000C184F8 /* MGTwitterTouchJSONParser.m */; };
-		CF57FE5613BF503000C184F8 /* MGTwitterUserListsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2613BF503000C184F8 /* MGTwitterUserListsParser.m */; };
-		CF57FE5713BF503000C184F8 /* MGTwitterUsersLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2813BF503000C184F8 /* MGTwitterUsersLibXMLParser.m */; };
-		CF57FE5813BF503000C184F8 /* MGTwitterUsersParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2A13BF503000C184F8 /* MGTwitterUsersParser.m */; };
-		CF57FE5913BF503000C184F8 /* MGTwitterUsersYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2C13BF503000C184F8 /* MGTwitterUsersYAJLParser.m */; };
-		CF57FE5A13BF503000C184F8 /* MGTwitterXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2E13BF503000C184F8 /* MGTwitterXMLParser.m */; };
-		CF57FE5B13BF503000C184F8 /* MGTwitterYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE3013BF503000C184F8 /* MGTwitterYAJLParser.m */; };
+		CF57FE4613BF503000C184F8 /* MGTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0213BF503000C184F8 /* MGTwitterEngine.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE4713BF503000C184F8 /* MGTwitterHTTPURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0613BF503000C184F8 /* MGTwitterHTTPURLConnection.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE4813BF503000C184F8 /* MGTwitterLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0813BF503000C184F8 /* MGTwitterLibXMLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE4913BF503000C184F8 /* MGTwitterMessagesLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0A13BF503000C184F8 /* MGTwitterMessagesLibXMLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE4A13BF503000C184F8 /* MGTwitterMessagesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0C13BF503000C184F8 /* MGTwitterMessagesParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE4B13BF503000C184F8 /* MGTwitterMessagesYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE0E13BF503000C184F8 /* MGTwitterMessagesYAJLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE4C13BF503000C184F8 /* MGTwitterMiscLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1013BF503000C184F8 /* MGTwitterMiscLibXMLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE4D13BF503000C184F8 /* MGTwitterMiscParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1213BF503000C184F8 /* MGTwitterMiscParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE4E13BF503000C184F8 /* MGTwitterMiscYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1413BF503000C184F8 /* MGTwitterMiscYAJLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE4F13BF503000C184F8 /* MGTwitterSearchYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1813BF503000C184F8 /* MGTwitterSearchYAJLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5013BF503000C184F8 /* MGTwitterSocialGraphLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1A13BF503000C184F8 /* MGTwitterSocialGraphLibXMLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5113BF503000C184F8 /* MGTwitterSocialGraphParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1C13BF503000C184F8 /* MGTwitterSocialGraphParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5213BF503000C184F8 /* MGTwitterStatusesLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE1E13BF503000C184F8 /* MGTwitterStatusesLibXMLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5313BF503000C184F8 /* MGTwitterStatusesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2013BF503000C184F8 /* MGTwitterStatusesParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5413BF503000C184F8 /* MGTwitterStatusesYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2213BF503000C184F8 /* MGTwitterStatusesYAJLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5513BF503000C184F8 /* MGTwitterTouchJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2413BF503000C184F8 /* MGTwitterTouchJSONParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5613BF503000C184F8 /* MGTwitterUserListsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2613BF503000C184F8 /* MGTwitterUserListsParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5713BF503000C184F8 /* MGTwitterUsersLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2813BF503000C184F8 /* MGTwitterUsersLibXMLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5813BF503000C184F8 /* MGTwitterUsersParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2A13BF503000C184F8 /* MGTwitterUsersParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5913BF503000C184F8 /* MGTwitterUsersYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2C13BF503000C184F8 /* MGTwitterUsersYAJLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5A13BF503000C184F8 /* MGTwitterXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE2E13BF503000C184F8 /* MGTwitterXMLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF57FE5B13BF503000C184F8 /* MGTwitterYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE3013BF503000C184F8 /* MGTwitterYAJLParser.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CF57FE5C13BF503000C184F8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE3213BF503000C184F8 /* NSData+Base64.m */; };
 		CF57FE5D13BF503000C184F8 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE3413BF503000C184F8 /* NSString+UUID.m */; };
 		CF57FE9413BF52C800C184F8 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8413BF52C800C184F8 /* CJSONDeserializer.m */; };
@@ -108,13 +108,12 @@
 		CF57FE9B13BF52C800C184F8 /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE9313BF52C800C184F8 /* NSScanner_Extensions.m */; };
 		CF57FED313BF53CE00C184F8 /* YAJL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57FED213BF53CE00C184F8 /* YAJL.framework */; };
 		CF57FEEC13BF55B100C184F8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57FEEB13BF55B100C184F8 /* libxml2.dylib */; };
+		CF67D5E716695D1C004B2EAA /* ABTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F351545B6F100E19AED /* ABTableViewCell.m */; };
 		CF68A19413ECFBF100B9450E /* StatusDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68A19213ECFBF100B9450E /* StatusDetailViewController.m */; };
 		CF68A19513ECFBF100B9450E /* StatusDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF68A19313ECFBF100B9450E /* StatusDetailViewController.xib */; };
-		CF6D75EA13DF0B4300305FAE /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6D75E913DF0B4300305FAE /* RegexKitLite.m */; };
+		CF6D75EA13DF0B4300305FAE /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6D75E913DF0B4300305FAE /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CF6D761B13DF28A000305FAE /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6D761A13DF28A000305FAE /* libicucore.dylib */; };
 		CF6E2F3B1545B75300E19AED /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F3A1545B75300E19AED /* CommentTableViewCell.m */; };
-		CF6E2F451545C8AB00E19AED /* ABTableViewCell.h in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F341545B6F100E19AED /* ABTableViewCell.h */; };
-		CF6E2F461545C8AB00E19AED /* ABTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F351545B6F100E19AED /* ABTableViewCell.m */; };
 		CF6E2F491545D23900E19AED /* AccountDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F481545D23800E19AED /* AccountDetailViewController.m */; };
 		CF6E3BFD13E5A4D3007CC286 /* tumblrButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6E3BFB13E5A4D3007CC286 /* tumblrButton.png */; };
 		CF6E3BFE13E5A4D3007CC286 /* tumblrButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6E3BFC13E5A4D3007CC286 /* tumblrButton@2x.png */; };
@@ -123,25 +122,6 @@
 		CF6E66B413E969C9005E4674 /* BRGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E66B313E969C9005E4674 /* BRGridViewCell.m */; };
 		CF6E66ED13E99847005E4674 /* SquareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E66EC13E99847005E4674 /* SquareCell.m */; };
 		CF6E66EF13E99909005E4674 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF6E66EE13E99909005E4674 /* test.jpg */; };
-		CF6E674D13E9A0D9005E4674 /* config in Resources */ = {isa = PBXBuildFile; fileRef = CF6E671813E9A0D8005E4674 /* config */; };
-		CF6E674E13E9A0D9005E4674 /* FETCH_HEAD in Resources */ = {isa = PBXBuildFile; fileRef = CF6E671913E9A0D8005E4674 /* FETCH_HEAD */; };
-		CF6E674F13E9A0D9005E4674 /* HEAD in Resources */ = {isa = PBXBuildFile; fileRef = CF6E671A13E9A0D8005E4674 /* HEAD */; };
-		CF6E675013E9A0D9005E4674 /* index in Resources */ = {isa = PBXBuildFile; fileRef = CF6E671B13E9A0D8005E4674 /* index */; };
-		CF6E675113E9A0D9005E4674 /* HEAD in Resources */ = {isa = PBXBuildFile; fileRef = CF6E671D13E9A0D8005E4674 /* HEAD */; };
-		CF6E675213E9A0D9005E4674 /* master in Resources */ = {isa = PBXBuildFile; fileRef = CF6E672013E9A0D8005E4674 /* master */; };
-		CF6E675313E9A0D9005E4674 /* master in Resources */ = {isa = PBXBuildFile; fileRef = CF6E672313E9A0D8005E4674 /* master */; };
-		CF6E675413E9A0D9005E4674 /* 355d09c24e72a31cef6f8471e8e117dc20ab4b in Resources */ = {isa = PBXBuildFile; fileRef = CF6E672613E9A0D8005E4674 /* 355d09c24e72a31cef6f8471e8e117dc20ab4b */; };
-		CF6E675513E9A0D9005E4674 /* 00568942159142228e6e61c182c2d1964c2d33 in Resources */ = {isa = PBXBuildFile; fileRef = CF6E672813E9A0D8005E4674 /* 00568942159142228e6e61c182c2d1964c2d33 */; };
-		CF6E675613E9A0D9005E4674 /* c1c22235411da79d30db4f9168491ac467e8c2 in Resources */ = {isa = PBXBuildFile; fileRef = CF6E672A13E9A0D8005E4674 /* c1c22235411da79d30db4f9168491ac467e8c2 */; };
-		CF6E675713E9A0D9005E4674 /* 7f9acaba99bc8fa640db1296d63beabdd4f6c6 in Resources */ = {isa = PBXBuildFile; fileRef = CF6E672C13E9A0D8005E4674 /* 7f9acaba99bc8fa640db1296d63beabdd4f6c6 */; };
-		CF6E675813E9A0D9005E4674 /* 99dbc12d30a6965915f2c090a62c5e51b02160 in Resources */ = {isa = PBXBuildFile; fileRef = CF6E672E13E9A0D8005E4674 /* 99dbc12d30a6965915f2c090a62c5e51b02160 */; };
-		CF6E675913E9A0D9005E4674 /* pack-97308fed32f93d589617a97cb12c0adcb08f523b.idx in Resources */ = {isa = PBXBuildFile; fileRef = CF6E673113E9A0D9005E4674 /* pack-97308fed32f93d589617a97cb12c0adcb08f523b.idx */; };
-		CF6E675A13E9A0D9005E4674 /* pack-97308fed32f93d589617a97cb12c0adcb08f523b.pack in Resources */ = {isa = PBXBuildFile; fileRef = CF6E673213E9A0D9005E4674 /* pack-97308fed32f93d589617a97cb12c0adcb08f523b.pack */; };
-		CF6E675B13E9A0D9005E4674 /* ORIG_HEAD in Resources */ = {isa = PBXBuildFile; fileRef = CF6E673313E9A0D9005E4674 /* ORIG_HEAD */; };
-		CF6E675C13E9A0D9005E4674 /* packed-refs in Resources */ = {isa = PBXBuildFile; fileRef = CF6E673413E9A0D9005E4674 /* packed-refs */; };
-		CF6E675D13E9A0D9005E4674 /* master in Resources */ = {isa = PBXBuildFile; fileRef = CF6E673713E9A0D9005E4674 /* master */; };
-		CF6E675E13E9A0D9005E4674 /* HEAD in Resources */ = {isa = PBXBuildFile; fileRef = CF6E673A13E9A0D9005E4674 /* HEAD */; };
-		CF6E675F13E9A0D9005E4674 /* master in Resources */ = {isa = PBXBuildFile; fileRef = CF6E673B13E9A0D9005E4674 /* master */; };
 		CF6E676013E9A0D9005E4674 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = CF6E673D13E9A0D9005E4674 /* LICENSE */; };
 		CF6E676113E9A0D9005E4674 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF6E673E13E9A0D9005E4674 /* README.md */; };
 		CF6E676213E9A0D9005E4674 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674013E9A0D9005E4674 /* SDImageCache.m */; };
@@ -1415,7 +1395,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "perSecond" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1494,25 +1474,6 @@
 				CF6E3BFD13E5A4D3007CC286 /* tumblrButton.png in Resources */,
 				CF6E3BFE13E5A4D3007CC286 /* tumblrButton@2x.png in Resources */,
 				CF6E66EF13E99909005E4674 /* test.jpg in Resources */,
-				CF6E674D13E9A0D9005E4674 /* config in Resources */,
-				CF6E674E13E9A0D9005E4674 /* FETCH_HEAD in Resources */,
-				CF6E674F13E9A0D9005E4674 /* HEAD in Resources */,
-				CF6E675013E9A0D9005E4674 /* index in Resources */,
-				CF6E675113E9A0D9005E4674 /* HEAD in Resources */,
-				CF6E675213E9A0D9005E4674 /* master in Resources */,
-				CF6E675313E9A0D9005E4674 /* master in Resources */,
-				CF6E675413E9A0D9005E4674 /* 355d09c24e72a31cef6f8471e8e117dc20ab4b in Resources */,
-				CF6E675513E9A0D9005E4674 /* 00568942159142228e6e61c182c2d1964c2d33 in Resources */,
-				CF6E675613E9A0D9005E4674 /* c1c22235411da79d30db4f9168491ac467e8c2 in Resources */,
-				CF6E675713E9A0D9005E4674 /* 7f9acaba99bc8fa640db1296d63beabdd4f6c6 in Resources */,
-				CF6E675813E9A0D9005E4674 /* 99dbc12d30a6965915f2c090a62c5e51b02160 in Resources */,
-				CF6E675913E9A0D9005E4674 /* pack-97308fed32f93d589617a97cb12c0adcb08f523b.idx in Resources */,
-				CF6E675A13E9A0D9005E4674 /* pack-97308fed32f93d589617a97cb12c0adcb08f523b.pack in Resources */,
-				CF6E675B13E9A0D9005E4674 /* ORIG_HEAD in Resources */,
-				CF6E675C13E9A0D9005E4674 /* packed-refs in Resources */,
-				CF6E675D13E9A0D9005E4674 /* master in Resources */,
-				CF6E675E13E9A0D9005E4674 /* HEAD in Resources */,
-				CF6E675F13E9A0D9005E4674 /* master in Resources */,
 				CF6E676013E9A0D9005E4674 /* LICENSE in Resources */,
 				CF6E676113E9A0D9005E4674 /* README.md in Resources */,
 				CF4309AF13EAEE22007CA113 /* imageCoverAlpha.png in Resources */,
@@ -1533,8 +1494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF6E2F451545C8AB00E19AED /* ABTableViewCell.h in Sources */,
-				CF6E2F461545C8AB00E19AED /* ABTableViewCell.m in Sources */,
+				CF67D5E716695D1C004B2EAA /* ABTableViewCell.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* perSecondAppDelegate.m in Sources */,
 				CFCCE77913BB9A5100D2BFD1 /* NichijyouNavigationController.m in Sources */,

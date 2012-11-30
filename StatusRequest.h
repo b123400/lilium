@@ -27,7 +27,7 @@ typedef enum StatusRequestDirection{
 	StatusRequestDirectionOlder  = 1,
 }StatusRequestDirection;
 
-@interface StatusRequest : Request {
+@interface StatusRequest : Request <NSCopying> {
 	StatusRequestType type;
 	NSArray *referenceStatuses;
 	int tumblrOffset;

@@ -54,7 +54,7 @@
 		 imageRect.size.width=displayImage.size.width;
 		 imageRect.size.height=displayImage.size.height;
 		
-		/*if(displayImage.size.width>displayImage.size.height){
+		if(displayImage.size.width>displayImage.size.height){
 			float compression=rect.size.height/displayImage.size.height;
 			imageRect.size.width=displayImage.size.width*compression;
 			

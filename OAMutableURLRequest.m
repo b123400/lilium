@@ -33,6 +33,13 @@
 - (NSString *)_signatureBaseString;
 @end
 
+@interface OAToken (shutup)
+
+-(id)pin;
+-(id)oauth_token;
+
+@end
+
 @implementation OAMutableURLRequest
 @synthesize signature, nonce,shouldAddCustomCallback;
 
@@ -147,7 +154,7 @@ signatureProvider:(id<OASignatureProviding, NSObject>)aProvider
 }
 
 - (void)_generateTimestamp {
-    timestamp = [[NSString stringWithFormat:@"%d", time(NULL)] retain];
+    timestamp = [[NSString stringWithFormat:@"%ld", time(NULL)] retain];
 }
 
 - (void)_generateNonce {

@@ -86,7 +86,7 @@
 
 // The application got a new authorized
 // request token and is notifying us
-- (void)authorizedToken:(const NSString *)aKey
+- (void)authorizedToken:( NSString *)aKey
 {
 	if (reqToken && [aKey isEqualToString:reqToken.key]) {
 		[self exchangeToken];

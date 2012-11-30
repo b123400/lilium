@@ -44,7 +44,7 @@
 	}else if([paramKey isEqualToString:@"user_id"]){
 		userID = ((unsigned long long)[body longLongValue]);
 	}else{
-		return (BOOL)[super parseHTTPKey:paramKey value:body];
+		return NO;
 	}
 
 	return YES;

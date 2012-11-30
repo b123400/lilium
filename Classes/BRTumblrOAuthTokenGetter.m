@@ -8,6 +8,11 @@
 
 #import "BRTumblrOAuthTokenGetter.h"
 
+@interface BROAuthTokenGetter ()
+
+- (void)requestTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data;
+
+@end
 
 @implementation BRTumblrOAuthTokenGetter
 

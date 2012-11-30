@@ -36,13 +36,13 @@
 	
 	IBOutlet id <BRGridViewDelegate> delegate;
 }
-@property (assign,nonatomic) IBOutlet id <BRGridViewDelegate> delegate;
+@property (assign,nonatomic) IBOutlet id delegate;
 @property (assign) int numOfRow;
 @property (assign) CGSize contentIndent;
 @property (assign) CGSize cellSize;
 @property (assign) CGSize cellMargin;
 
 -(void)reloadData;
-- (BRGridViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier;
+- (id)dequeueReusableCellWithIdentifier:(NSString *)identifier;
 
 @end

@@ -40,6 +40,6 @@ typedef enum BRImageSize{
 
 -(NSString*)getHomeTimelineWithSinceID:(NSString*)sinceID maxID:(NSString*)maxID;
 
-+(NSURL*)rawImageURLFromURL:(NSURL*)aURL boolOnly:(BOOL)boolOnly size:(BRImageSize)size;
++(NSURL*)rawImageURLFromURL:(NSURL*)aURL size:(BRImageSize)size;
 
 @end

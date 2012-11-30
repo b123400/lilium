@@ -76,7 +76,7 @@ static char encodingTable[64] = {
 					ixinbuf = 0;
 					outbuf [0] = ( inbuf[0] << 2 ) | ( ( inbuf[1] & 0x30) >> 4 );
 					outbuf [1] = ( ( inbuf[1] & 0x0F ) << 4 ) | ( ( inbuf[2] & 0x3C ) >> 2 );
-					outbuf [2] = ( ( inbuf[2] & 0x03 ) << 6 ) | ( inbuf[3] & 0x3F );
+					outbuf [2] = ( ( inbuf[2] & 0x03 ) << 6 ) | ( inbuf[2] & 0x3F );
 
 					for( i = 0; i < ctcharsinbuf; i++ ) 
 						[mutableData appendBytes:&outbuf[i] length:1];

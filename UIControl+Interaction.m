@@ -11,6 +11,8 @@
 
 @implementation UIControl (Interaction)
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event{
 	[super touchesBegan:[NSSet setWithObject:touch] withEvent:event];
 	return YES;
@@ -27,5 +29,6 @@
 	[super touchesCancelled:[NSSet set] withEvent:event];
 	//[super cancelTrackingWithEvent:event];
 }
+#pragma clang diagnostic pop
 
 @end

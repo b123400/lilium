@@ -16,7 +16,7 @@
 @end
 
 
-@interface FlickrLoginViewController : UIViewController <UIWebViewDelegate> {
+@interface FlickrLoginViewController : UIViewController <UIWebViewDelegate,BROAuthTokenGetterDelegate> {
 	IBOutlet UIWebView *webView;
 	BRFlickrOAuthTokenGetter *getter;
 	

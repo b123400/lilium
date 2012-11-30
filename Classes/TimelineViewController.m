@@ -25,7 +25,7 @@
 }
 */
 -(id)init{
-	statuses=[[[TimelineManager sharedManager] lastestStatuses:99] retain];
+	statuses=[[[TimelineManager sharedManager] lastestStatuses:99] mutableCopy];
 	return [super initWithNibName:@"TimelineViewController" bundle:nil];
 }
 
@@ -59,7 +59,7 @@
 	}
 }
 - (BRGridViewCell *)gridView:(BRGridView*)_gridView cellAtIndexPath:(NSIndexPath *)indexPath{
-	SquareCell *cell=[gridView dequeueReusableCellWithIdentifier:@"cell"];
+	SquareCell *cell=(SquareCell*)[gridView dequeueReusableCellWithIdentifier:@"cell"];
 	if(!cell){
 		cell=[[[SquareCell alloc] initWithReuseIdentifier:@"cell"] autorelease];
 		cell.backgroundColor=[UIColor blackColor];

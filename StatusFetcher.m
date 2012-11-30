@@ -101,12 +101,12 @@ static StatusFetcher* sharedFetcher=nil;
 		if([BRFunctions didLoggedInTumblr]){
 			if(thisStatus){
 				if(request.direction==StatusRequestDirectionNewer){
-					[requestsByID setObject:request forKey:[[BRFunctions sharedTumblr] getUserDashBoardWithSinceID:[NSString stringWithFormat:@"%f",[thisStatus.statusID doubleValue]+1] offset:nil]];
+					[requestsByID setObject:request forKey:[[BRFunctions sharedTumblr] getUserDashBoardWithSinceID:[NSString stringWithFormat:@"%f",[thisStatus.statusID doubleValue]+1] offset:0]];
 				}else{
 					[requestsByID setObject:request forKey:[[BRFunctions sharedTumblr] getUserDashBoardWithSinceID:nil offset:request.tumblrOffset]];
 				}
 			}else{
-				[requestsByID setObject:request forKey:[[BRFunctions sharedTumblr] getUserDashBoardWithSinceID:nil offset:nil]];
+				[requestsByID setObject:request forKey:[[BRFunctions sharedTumblr] getUserDashBoardWithSinceID:nil offset:0]];
 			}
 			request.tumblrStatus=StatusFetchingStatusLoading;
 		}
@@ -421,7 +421,7 @@ static StatusFetcher* sharedFetcher=nil;
 			thisUrl=[thisUrl stringByReplacingOccurrencesOfString:@"　" withString:@""];
 			thisUrl=[thisUrl stringByReplacingOccurrencesOfString:@" " withString:@""];
 			
-			NSURL* thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] boolOnly:NO size:BRImageSizeThumb];
+			NSURL* thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeThumb];
 			
 			if(thumbURL){
 				BOOL addedAlready=NO;
@@ -461,10 +461,10 @@ static StatusFetcher* sharedFetcher=nil;
 					thisStatus.account=thisAccount;
 					
 					thisStatus.thumbURL=thumbURL;
-					//thisStatus.thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] boolOnly:NO size:BRImageSizeMedium]; <--retina
-					thisStatus.meduimURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] boolOnly:NO size:BRImageSizeMedium];
-					//thisStatus.meduimURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] boolOnly:NO size:BRImageSizeLarge]; <--retina
-					thisStatus.fullURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] boolOnly:NO size:BRImageSizeFull];
+					//thisStatus.thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeMedium]; <--retina
+					thisStatus.meduimURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeMedium];
+					//thisStatus.meduimURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeLarge]; <--retina
+					thisStatus.fullURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeFull];
 					
 					thisStatus.liked=[[tweet objectForKey:@"favorited"]intValue]==1;
 					thisStatus.date=[df dateFromString:[tweet objectForKey:@"created_at"]];

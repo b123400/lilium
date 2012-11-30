@@ -27,7 +27,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbDidLogin) name:facebookDidLoginNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbDidNotLogin) name:facebookDidNotLoginNotification object:nil];
 	
-	[super initWithNibName:NSStringFromClass([self class]) bundle:nil];
+	return [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -45,7 +45,7 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 -(void)fbDidLogin{
-	[[BRFunctions sharedFacebook] requestWithGraphPath:@"me" andDelegate:self];
+	[[BRFunctions sharedFacebook] requestWithGraphPath:@"me" andDelegate:(id)self];
 	[SVProgressHUD show];
 	//[self.navigationController popViewControllerAnimated:YES];
 }

@@ -92,13 +92,12 @@
 	return [self performRequestWithPath:@"statuses/home_timeline" parameters:params];
 }
 
-+(NSURL*)rawImageURLFromURL:(NSURL*)aURL boolOnly:(BOOL)boolOnly size:(BRImageSize)size{
++(NSURL*)rawImageURLFromURL:(NSURL*)aURL size:(BRImageSize)size{
 	NSString *urlString=[aURL absoluteString];
 	NSString *regex=nil;
 	//twitpic
 	regex=@"http://(www.)?twitpic.com/([a-zA-Z0-9]+)";
 	if([urlString isMatchedByRegex:regex]){
-		if(boolOnly)return YES;
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
 		NSString *imageID=[captures lastObject];
@@ -117,7 +116,6 @@
 	//img.ly
 	regex=@"http://(www.)?img.ly/([a-zA-Z0-9]+)";
 	if([urlString isMatchedByRegex:regex]){
-		if(boolOnly)return YES;
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
 		NSString *imageID=[captures lastObject];
@@ -136,7 +134,6 @@
 	//yfrog
 	regex=@"http://(www.)?yfrog.com/([a-zA-Z0-9]+)";
 	if([urlString isMatchedByRegex:regex]){
-		if(boolOnly)return YES;
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
 		NSString *imageAddress=[captures objectAtIndex:0];
@@ -158,7 +155,6 @@
 	//moby.to
 	regex=@"http://(www.)?moby.to/([a-zA-Z0-9]+)";
 	if([urlString isMatchedByRegex:regex]){
-		if(boolOnly)return YES;
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
 		NSString *imageAddress=[captures objectAtIndex:0];
@@ -173,7 +169,6 @@
 	//instagram
 	regex=@"http://(www.)?instagr.am/p/([^/]+)";
 	if([urlString isMatchedByRegex:regex]){
-		if(boolOnly)return YES;
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
 		NSString *imageAddress=[captures objectAtIndex:0];
@@ -190,7 +185,6 @@
 	//twitgoo
 	regex=@"http://(www.)?twitgoo.com/([a-zA-Z0-9]+)";
 	if([urlString isMatchedByRegex:regex]){
-		if(boolOnly)return YES;
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
 		NSString *imageAddress=[captures objectAtIndex:0];
@@ -204,7 +198,6 @@
 	//twipl
 	regex=@"http://(www.)?twipl.net/([a-zA-Z0-9]+)";
 	if([urlString isMatchedByRegex:regex]){
-		if(boolOnly)return YES;
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
 		NSString *imageID=[captures lastObject];
@@ -220,7 +213,6 @@
 	//twipple
 	regex=@"http://p.twipple.jp/([a-zA-Z0-9]+)";
 	if([urlString isMatchedByRegex:regex]){
-		if(boolOnly)return YES;
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
 		NSString *imageID=[captures lastObject];
@@ -235,7 +227,6 @@
 	//step.ly
 	regex=@"http://step.ly/p/([a-zA-Z0-9]+)";
 	if([urlString isMatchedByRegex:regex]){
-		if(boolOnly)return YES;
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
 		NSString *imageID=[captures lastObject];

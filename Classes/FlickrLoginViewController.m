@@ -48,7 +48,7 @@
 	[webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-	NSLog([[request  URL]absoluteString]);
+	NSLog(@"%@",[[request  URL]absoluteString]);
 	NSString *scheme=[[request URL] scheme];
 	NSString *query=[[request URL] query];
 	

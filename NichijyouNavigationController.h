@@ -10,6 +10,7 @@
 #import "NichijyouTransparentView.h"
 
 @protocol NichijyouNavigationControllerDelegate
+@optional
 
 -(BOOL)shouldWaitForViewToLoadBeforePush;
 

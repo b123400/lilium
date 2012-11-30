@@ -9,6 +9,13 @@
 #import "InstagramLoginViewController.h"
 #import "SVProgressHUD.h"
 
+@interface BRInstagramLoginViewController ()
+
+-(void)didGetAccessToken:(NSString*)token;
+-(void)didFailedToGetAccessToken;
+
+@end
+
 @implementation InstagramLoginViewController
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.

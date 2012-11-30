@@ -24,7 +24,6 @@
 }
 @property (assign) id delegate;
 
--(IBAction)push;
 -(IBAction)loginWithTwitter;
 -(IBAction)loginWithFacebook;
 -(IBAction)loginWithInstagram;

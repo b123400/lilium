@@ -9,6 +9,12 @@
 #import "BRFlickrOAuthTokenGetter.h"
 #import "OAServiceTicket.h"
 
+@interface BROAuthTokenGetter ()
+
+- (void)requestTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data;
+
+@end
+
 @implementation BRFlickrOAuthTokenGetter
 
 -(void)getRequestToken{

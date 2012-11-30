@@ -8,19 +8,18 @@
 
 #import "CustomUITableView.h"
 
-
 @implementation CustomUITableView
 
 -(void)reloadData{
 	[super	reloadData];
 	if([self.delegate respondsToSelector:@selector(tableViewDidReloadedData:)]){
-		[self.delegate tableViewDidReloadedData:self];
+		[(id)self.delegate tableViewDidReloadedData:self];
 	}
 }
 -(void)insertRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{
 	[super insertRowsAtIndexPaths:indexPaths withRowAnimation:animation];
 	if([self.delegate respondsToSelector:@selector(tableViewDidInsertedRow:)]){
-		[self.delegate tableViewDidInsertedRow:self];
+		[(id)self.delegate tableViewDidInsertedRow:self];
 	}
 }
 

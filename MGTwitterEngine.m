@@ -145,7 +145,7 @@
 }
 
 
-- (MGTwitterEngine *)initWithDelegate:(NSObject *)newDelegate
+- (MGTwitterEngine *)initWithDelegate:(NSObject  <MGTwitterEngineDelegate> *)newDelegate
 {
     if ((self = [super init])) {
         _delegate = newDelegate; // deliberately weak reference
@@ -891,7 +891,12 @@
 }
 
 #pragma mark MGTwitterParserDelegate methods
-
+- (void)parsingSucceededForRequest:(NSString *)identifier
+                    ofResponseType:(MGTwitterResponseType)responseType
+					 ofRequestType:(MGTwitterRequestType)requestType
+                 withParsedObjects:(NSArray *)parsedObjects{
+    [self parsingSucceededForRequest:identifier ofResponseType:responseType withParsedObjects:parsedObjects];
+}
 - (void)parsingSucceededForRequest:(NSString *)identifier 
                     ofResponseType:(MGTwitterResponseType)responseType 
                  withParsedObjects:(NSArray *)parsedObjects

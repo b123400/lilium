@@ -72,6 +72,7 @@ static float pressShiftFactor=0.2;
 	[super viewDidLoad];
 	
 	UIPinchGestureRecognizer *pinch=[[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinched:)];
+    pinch.delegate=self;
 	pinch.delaysTouchesBegan=NO;
 	pinch.delaysTouchesEnded=NO;
 	[self.view addGestureRecognizer:pinch];
@@ -117,12 +118,12 @@ static float pressShiftFactor=0.2;
 				}
 				if(isAnimating)return;
 				if([[self topViewController] respondsToSelector:@selector(shouldPopByPinch)]){
-					if(![[self topViewController]shouldPopByPinch]){
+					if(![(id)[self topViewController]shouldPopByPinch]){
 						return;
 					}
 				}
 				if([[self topViewController] respondsToSelector:@selector(didPinched)]){
-					[[self topViewController]didPinched];
+					[(id)[self topViewController]didPinched];
 				}
 				[self popViewControllerAnimated:YES];
 			}
@@ -137,6 +138,9 @@ static float pressShiftFactor=0.2;
 			}
 		}
 	}
+}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+    return YES;
 }
 -(void)didTouchedTransparentView:(id)sender atPoint:(CGPoint)point{
 	if(!isAnimating){
@@ -363,16 +367,20 @@ static float pressShiftFactor=0.2;
 }
 #pragma mark -
 #pragma mark Pop
--(void)popViewControllerAnimated:(BOOL)animated{
+-(UIViewController*)popViewControllerAnimated:(BOOL)animated{
+    UIViewController *topController=[self topViewController];
 	[self popToViewController:nil animated:animated];
+    return topController;
 }
--(void)popToRootViewControllerAnimated:(BOOL)animated{
+-(UIViewController*)popToRootViewControllerAnimated:(BOOL)animated{
+    UIViewController *topController=[self topViewController];
 	if([[self viewControllers]count]>1){
 		[self popToViewController:[[self viewControllers] objectAtIndex:0] animated:animated];
 	}
+    return topController;
 }
--(void)popToViewController:(UIViewController *)viewController animated:(BOOL)animated{
-	if([[self viewControllers]count]<=1)return;
+-(UIViewController*)popToViewController:(UIViewController *)viewController animated:(BOOL)animated{
+	if([[self viewControllers]count]<=1)return [self topViewController];
 	if(viewController){
 		nextController=viewController;
 	}else{
@@ -416,6 +424,7 @@ static float pressShiftFactor=0.2;
 	}
 	maxDelay+=animationDuration;
 	[self performSelector:@selector(popOutToViewController:) withObject:nextController afterDelay:maxDelay];
+    return [self topViewController];
 }
 
 -(void)zoomOutHide:(UIView*)theView{
@@ -578,11 +587,6 @@ static float pressShiftFactor=0.2;
 -(void)didTouchMovedTransparentView:(id)sender atPoint:(CGPoint)point{
 	NSArray *subviews=[self subviewsToAnimateForViewController:[self topViewController]];
 	for(UIView *thisView in subviews){
-		
-		CGPoint targetPosition=CGPointMake(thisView.frame.origin.x+(point.x-thisView.frame.origin.x)*pressShiftFactor, thisView.frame.origin.y+(point.y-thisView.frame.origin.y)*pressShiftFactor) ;
-		
-		//thisView.layer.position=targetPosition;
-		
 		thisView.layer.transform=CATransform3DScale(CATransform3DMakeTranslation((point.x-thisView.frame.origin.x)*pressShiftFactor, (point.y-thisView.frame.origin.y)*pressShiftFactor, 0), 1/pressZoomFactor, 1/pressZoomFactor, 1/pressZoomFactor);
 	}
 }
@@ -603,7 +607,7 @@ static float pressShiftFactor=0.2;
 
 -(NSArray*)subviewsToAnimateForViewController:(UIViewController*)controller{
 	if([controller respondsToSelector:@selector(viewsForNichijyouNavigationControllerToAnimate:)]){
-		return [controller viewsForNichijyouNavigationControllerToAnimate:self];
+		return [(id)controller viewsForNichijyouNavigationControllerToAnimate:self];
 	}
 	return controller.view.subviews;
 }

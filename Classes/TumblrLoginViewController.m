@@ -11,6 +11,14 @@
 #import "BRFunctions.h"
 #import "SVProgressHUD.h"
 
+@interface BRTumblrLoginViewController ()
+
+-(void)getAccessTokenFromQuery:(NSString*)query;
+-(void)didReceivedAccessToken:(SSToken*)token;
+-(void)failedWithError:(NSError*)error;
+
+@end
+
 @implementation TumblrLoginViewController
 
 -(id)init{
@@ -23,6 +31,9 @@
 	webView.frame=CGRectInset(self.view.frame, 6, 6);
     webView.layer.borderColor=[UIColor colorWithRed:44/255.0 green:71/255.0 blue:98/255.0 alpha:1.0].CGColor;
     webView.layer.borderWidth=6;
+    webView.scalesPageToFit=YES;
+    webView.multipleTouchEnabled=NO;
+    webView.scrollView.bouncesZoom=NO;
 }
 -(void)getAccessTokenFromQuery:(NSString*)query{
 	[SVProgressHUD show];
@@ -39,7 +50,8 @@
 	[SVProgressHUD dismissWithError:@"Failed"];	
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
+- (void)webViewDidFinishLoad:(UIWebView *)_webView{
+    webView.scalesPageToFit=NO;
 	[SVProgressHUD dismiss];
 }
 -(void)pushInAnimationDidFinished{

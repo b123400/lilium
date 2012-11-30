@@ -40,6 +40,6 @@
 
 - (void)calculateKeyFramesWithEvaluationObject:(NSObject<Evaluate> *)evaluationObject
 								   startZoomValue:(double)startValue
-									 endZoomValue:(double)endValue;
+									 endZoomValue:(double)endValue interstitialSteps:(NSUInteger)steps;
 
 @end

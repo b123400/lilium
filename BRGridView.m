@@ -25,7 +25,7 @@
 		cells=[[NSMutableArray	 alloc]init];
 		cellsIndex=[[NSMutableDictionary alloc]init];
 		self.backgroundColor=[UIColor clearColor];
-		[self addObserver:self forKeyPath:@"contentOffset" options:nil context:nil];
+		[self addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
         // Initialization code.
     }
     return self;
@@ -35,14 +35,14 @@
 	reuseCellIdentifiers=[[NSMutableDictionary alloc]init];
 	cells=[[NSMutableArray	 alloc]init];
 	cellsIndex=[[NSMutableDictionary alloc]init];
-	[self addObserver:self forKeyPath:@"contentOffset" options:nil context:nil];
+	[self addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
 	self.backgroundColor=[UIColor clearColor];
 	return self;
 }
 #pragma mark Drawing
 -(void)reloadData{
 	float totalContentWidth=contentIndent.width;
-	float drawingX=contentIndent.width;
+	//float drawingX=contentIndent.width;
 	
 	int numOfSection=[delegate numberOfSectionsInGridView:self];
 	float widthOfGapBetweenSection=40.0;
@@ -160,7 +160,7 @@
 	[self drawCurrentContent];
 }
 #pragma mark reuse
-- (BRGridViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier{
+- (id)dequeueReusableCellWithIdentifier:(NSString *)identifier{
 	if(!identifier)return nil;
 	if(![reuseCellIdentifiers objectForKey:identifier])return nil;
 	NSArray *cachedCells=[reuseCellIdentifiers objectForKey:identifier];
