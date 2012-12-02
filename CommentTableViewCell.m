@@ -16,11 +16,11 @@
 	CGContextRef context    = UIGraphicsGetCurrentContext();
 	CGContextClearRect(context, r);
 	
-	self.profileImage=[[SDWebImageManager sharedManager] imageWithURL:comment.account.profilePicture];
+	self.profileImage=[[SDWebImageManager sharedManager] imageWithURL:comment.user.profilePicture];
 	if(self.profileImage){
 		[self.profileImage drawInRect:CGRectMake(15, 29, 29, 29)];
 	}else{
-		[[SDWebImageManager sharedManager] downloadWithURL:comment.account.profilePicture delegate:self];
+		[[SDWebImageManager sharedManager] downloadWithURL:comment.user.profilePicture delegate:self];
 	}
 	
 	UIBezierPath *path = [UIBezierPath bezierPath];
@@ -37,7 +37,7 @@
 	
 	[[UIColor whiteColor] set];
 	[comment.text drawInRect:CGRectMake(68, 34, r.size.width-99, r.size.height-64) withFont:[UIFont fontWithName:@"Arial" size:12] lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentLeft];
-	[comment.account.displayName drawInRect:CGRectMake(68, r.size.height-28, r.size.width-156, 16) withFont:[UIFont fontWithName:@"Arial" size:12]];
+	[comment.user.displayName drawInRect:CGRectMake(68, r.size.height-28, r.size.width-156, 16) withFont:[UIFont fontWithName:@"Arial" size:12]];
 	
 	UIGraphicsEndImageContext();
     // subclasses should implement this

@@ -8,9 +8,10 @@
 
 #import "Status.h"
 #import "StatusFetcher.h"
+#import "SDImageCache.h"
 
 @implementation Status
-@synthesize thumbURL,meduimURL,fullURL,webURL,caption,source,account,statusID,liked,date,captionColor,attributes,comments;
+@synthesize thumbURL,mediumURL,fullURL,webURL,caption,source,user,statusID,liked,date,captionColor,attributes,comments;
 
 -(id)init{
 	return [super init];
@@ -34,6 +35,16 @@
 	if(thumbURL){
 		[[SDWebImageManager sharedManager] downloadWithURL:thumbURL delegate:self retryFailed:NO lowPriority:YES];
 	}
+}
+-(UIImage*)cachedImageOfSize:(StatusImageSize)size{
+    if(size==StatusImageSizeThumb){
+        return [[SDImageCache sharedImageCache] imageFromKey:self.thumbURL.absoluteString];
+    }else if(size==StatusImageSizeMedium){
+        return [[SDImageCache sharedImageCache] imageFromKey:self.mediumURL.absoluteString];
+    }else if(size==StatusImageSizeFull){
+        return [[SDImageCache sharedImageCache] imageFromKey:self.fullURL.absoluteString];
+    }
+    return nil;
 }
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector{
 	if(comments){

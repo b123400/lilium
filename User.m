@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 home. All rights reserved.
 //
 
-#import "Account.h"
+#import "User.h"
 
-@implementation Account
+@implementation User
 @synthesize displayName,userID,type,profilePicture,username;
 
 @end

@@ -134,7 +134,7 @@
 		CF8100BF13C4BFD100A68CB9 /* FlickrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8100BD13C4BFD100A68CB9 /* FlickrLoginViewController.m */; };
 		CF8100C013C4BFD100A68CB9 /* FlickrLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8100BE13C4BFD100A68CB9 /* FlickrLoginViewController.xib */; };
 		CF8100C313C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8100C213C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m */; };
-		CF8B6CF1151BAA91007798CE /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8B6CF0151BAA91007798CE /* Account.m */; };
+		CF8B6CF1151BAA91007798CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8B6CF0151BAA91007798CE /* User.m */; };
 		CF8B6CF4151BB76C007798CE /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8B6CF3151BB76C007798CE /* Comment.m */; };
 		CF8C6D9313C0AD4500C013B0 /* InstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6D9113C0AD4500C013B0 /* InstagramLoginViewController.m */; };
 		CF8C6DA913C0B04C00C013B0 /* BRInstagramEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6DA813C0B04C00C013B0 /* BRInstagramEngine.m */; };
@@ -453,8 +453,8 @@
 		CF8100BE13C4BFD100A68CB9 /* FlickrLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlickrLoginViewController.xib; sourceTree = "<group>"; };
 		CF8100C113C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRFlickrOAuthTokenGetter.h; sourceTree = "<group>"; };
 		CF8100C213C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRFlickrOAuthTokenGetter.m; sourceTree = "<group>"; };
-		CF8B6CEF151BAA91007798CE /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
-		CF8B6CF0151BAA91007798CE /* Account.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Account.m; sourceTree = "<group>"; };
+		CF8B6CEF151BAA91007798CE /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		CF8B6CF0151BAA91007798CE /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CF8B6CF2151BB76C007798CE /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		CF8B6CF3151BB76C007798CE /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		CF8C6D9013C0AD4500C013B0 /* InstagramLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramLoginViewController.h; sourceTree = "<group>"; };
@@ -1347,8 +1347,8 @@
 			children = (
 				CF3125E513BE25580064B7AA /* BRFunctions.h */,
 				CF3125E613BE25580064B7AA /* BRFunctions.m */,
-				CF8B6CEF151BAA91007798CE /* Account.h */,
-				CF8B6CF0151BAA91007798CE /* Account.m */,
+				CF8B6CEF151BAA91007798CE /* User.h */,
+				CF8B6CF0151BAA91007798CE /* User.m */,
 				CF261DCC13D4AA6200D3F844 /* Status.h */,
 				CF261DCD13D4AA6200D3F844 /* Status.m */,
 				CF8B6CF2151BB76C007798CE /* Comment.h */,
@@ -1618,7 +1618,7 @@
 				CFE97F84151A2CF800187398 /* Attribute.m in Sources */,
 				CFF72994151B531800540795 /* Request.m in Sources */,
 				CFF72997151B542400540795 /* CommentRequest.m in Sources */,
-				CF8B6CF1151BAA91007798CE /* Account.m in Sources */,
+				CF8B6CF1151BAA91007798CE /* User.m in Sources */,
 				CF8B6CF4151BB76C007798CE /* Comment.m in Sources */,
 				CF6E2F3B1545B75300E19AED /* CommentTableViewCell.m in Sources */,
 				CF6E2F491545D23900E19AED /* AccountDetailViewController.m in Sources */,
@@ -1633,8 +1633,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Chan (L3LZ8SXBMK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Chan (L3LZ8SXBMK)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1657,8 +1658,9 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = perSecond;
-				PROVISIONING_PROFILE = "E424BEBF-84AF-4A62-8F9C-02F50B51FCAE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E424BEBF-84AF-4A62-8F9C-02F50B51FCAE";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -1666,6 +1668,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1676,15 +1679,16 @@
 				INFOPLIST_FILE = "perSecond-Info.plist";
 				PRODUCT_NAME = perSecond;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Chan (L3LZ8SXBMK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Chan (L3LZ8SXBMK)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1695,13 +1699,13 @@
 					"\"$(SRCROOT)/Flickr/LFWebAPIKit\"",
 					"\"$(SRCROOT)/Flickr/Source\"",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
-				PROVISIONING_PROFILE = "E424BEBF-84AF-4A62-8F9C-02F50B51FCAE";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E424BEBF-84AF-4A62-8F9C-02F50B51FCAE";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;

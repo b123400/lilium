@@ -16,7 +16,7 @@ typedef enum StatusSourceType {
 	StatusSourceTypeTumblr    =4,
 } StatusSourceType;
 
-@interface Account : NSObject{
+@interface User : NSObject{
 	NSString *displayName; //all sources didnt implement this well
 	NSString *username;
 	NSString *userID;

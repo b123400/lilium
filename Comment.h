@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Account.h"
+#import "User.h"
 
 @interface Comment : NSObject{
 	NSDate *date;
-	Account *account;
+	User *user;
 	NSString *text;
 }
 @property (nonatomic,retain)NSDate *date;
-@property (nonatomic,retain)Account *account;
+@property (nonatomic,retain)User *user;
 @property (nonatomic,retain)NSString *text;
 
 @end

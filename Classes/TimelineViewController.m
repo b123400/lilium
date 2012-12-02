@@ -11,6 +11,7 @@
 #import "SquareCell.h"
 #import "UIView+Interaction.h"
 #import "StatusDetailViewController.h"
+#import "UIApplication+Frame.h"
 
 @implementation TimelineViewController
 
@@ -32,13 +33,15 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	gridView.contentIndent=CGSizeMake(10, 10);
-	gridView.cellSize=CGSizeMake(120, 120);
-	gridView.numOfRow=3;
+    float margin=([UIApplication currentFrame].size.height-gridView.contentIndent.height*2)/11;
+    float cellToMarginRatio=3;
+    gridView.cellMargin=CGSizeMake(margin, margin);
+	gridView.cellSize=CGSizeMake(margin*cellToMarginRatio, margin*cellToMarginRatio);
+	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-gridView.contentIndent.height*2+margin)/(margin+gridView.cellSize.height));
 	gridView.alwaysBounceVertical=YES;
 	gridView.alwaysBounceHorizontal=YES;
 	gridView.showsHorizontalScrollIndicator=NO;
 	gridView.showsVerticalScrollIndicator=NO;
-	gridView.cellMargin=CGSizeMake(40, 40);
     [super viewDidLoad];
 }
 

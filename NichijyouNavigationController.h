@@ -24,7 +24,7 @@
 @end
 
 
-@interface NichijyouNavigationController : UINavigationController <NichijyouTransparentViewDelegate> {
+@interface NichijyouNavigationController : UINavigationController <NichijyouTransparentViewDelegate,UIGestureRecognizerDelegate> {
 	NSMutableArray *centerPoints;
 	CGPoint lastTouchedPoint;
 	

@@ -8,7 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "SDWebImageManager.h"
-#import "Account.h"
+#import "User.h"
+
+typedef enum StatusImageSize {
+    StatusImageSizeThumb       = 0,
+    StatusImageSizeMedium   =1,
+	StatusImageSizeFull  = 2,
+} StatusImageSize;
 
 @interface Status : NSObject <SDWebImageManagerDelegate> {
 	NSURL *thumbURL;
@@ -19,7 +25,7 @@
 	NSString *caption;
 	UIColor *captionColor;
 	
-	Account *account;
+	User *user;
 	
 	NSString *statusID;
 	
@@ -31,7 +37,7 @@
 }
 
 @property (nonatomic,retain) NSURL *thumbURL;
-@property (nonatomic,retain) NSURL *meduimURL;
+@property (nonatomic,retain) NSURL *mediumURL;
 @property (nonatomic,retain) NSURL *fullURL;
 @property (nonatomic,retain) NSURL *webURL;
 
@@ -39,7 +45,7 @@
 @property (nonatomic,retain) UIColor *captionColor;
 
 @property (assign)  StatusSourceType source;
-@property (nonatomic,retain) Account *account;
+@property (nonatomic,retain) User *user;
 @property (nonatomic,retain) NSString *statusID;
 
 @property (nonatomic,retain) NSDate *date;
@@ -50,5 +56,6 @@
 -(NSDictionary*)dictionaryRepresentation;
 -(void)prefetechThumb;
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector;
+-(UIImage*)cachedImageOfSize:(StatusImageSize)size;
 
 @end

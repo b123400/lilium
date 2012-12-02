@@ -76,10 +76,9 @@
 }
 
 
-
+#pragma mark API
 -(NSString*)getHomeTimelineWithSinceID:(NSString*)sinceID maxID:(NSString*)maxID{
 	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
-								 @"true",@"include_entities",
 								 @"200",@"count",
 								 @"true",@"include_rts",
 								 @"true",@"include_entities",nil];
@@ -91,7 +90,14 @@
 	}
 	return [self performRequestWithPath:@"statuses/home_timeline" parameters:params];
 }
+-(NSString*)getRepliesForStatusWithID:(NSString*)statusID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"true",@"include_entities",nil];
+//    statusID=@"274902397728477185";
+	return [self performRequestWithPath:[NSString stringWithFormat:@"related_results/show/%@",statusID] parameters:params];
+}
 
+
+#pragma mark misc
 +(NSURL*)rawImageURLFromURL:(NSURL*)aURL size:(BRImageSize)size{
 	NSString *urlString=[aURL absoluteString];
 	NSString *regex=nil;

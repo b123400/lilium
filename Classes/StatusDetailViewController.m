@@ -41,17 +41,8 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	/*gridView.contentIndent=CGSizeMake(310, 10);
-	gridView.cellSize=CGSizeMake(120, 120);
-	gridView.numOfRow=3;
-	gridView.alwaysBounceVertical=YES;
-	gridView.alwaysBounceHorizontal=YES;
-	gridView.showsHorizontalScrollIndicator=NO;
-	gridView.showsVerticalScrollIndicator=NO;
-	gridView.cellMargin=CGSizeMake(40, 40);
-	gridView.alwaysBounceVertical=NO;
-	[gridView addSubview:statusDetailView];*/
-	[mainImageView setImageWithURL:status.meduimURL];
+    commentLoading.hidden=YES;
+	[mainImageView setImageWithURL:status.mediumURL placeholderImage:[status cachedImageOfSize:StatusImageSizeThumb]];
     [super viewDidLoad];
 	
 	OHAttributedLabel *textLabel=[[OHAttributedLabel alloc] initWithFrame:CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000)];
@@ -100,8 +91,6 @@
 	if(!cell){
 		cell=[[CommentTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
 	}
-	//cell.textLabel.text=((Comment*)[status.comments objectAtIndex:indexPath.row]).text;
-	//cell.detailTextLabel.text=((Comment*)[status.comments objectAtIndex:indexPath.row]).account.displayName;
 	cell.comment=[status.comments objectAtIndex:indexPath.row];
 	cell.selectionStyle=UITableViewCellSelectionStyleNone;
 	return cell;

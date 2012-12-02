@@ -9,6 +9,6 @@
 #import "Comment.h"
 
 @implementation Comment
-@synthesize text,date,account;
+@synthesize text,date,user;
 
 @end
