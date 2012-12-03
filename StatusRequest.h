@@ -20,6 +20,7 @@ typedef enum StatusFetchingStatus {
     StatusFetchingStatusNotAvailable       = 0,
     StatusFetchingStatusLoading   =1,
 	StatusFetchingStatusFinished  = 2,
+    StatusFetchingStatusError =3,
 } StatusFetchingStatus;
 
 typedef enum StatusRequestDirection{
@@ -39,6 +40,8 @@ typedef enum StatusRequestDirection{
 	StatusFetchingStatus flickrStatus;
 	StatusFetchingStatus tumblrStatus;
 	StatusFetchingStatus plurkStatus;
+    
+    NSMutableDictionary *errors;
 }
 @property (retain) NSArray *referenceStatuses;
 @property (assign) int tumblrOffset;
@@ -55,5 +58,7 @@ typedef enum StatusRequestDirection{
 -(id)initWithRequestType:(StatusRequestType)_type;
 
 -(StatusRequestType)type;
+-(NSError*)errorForSource:(StatusSourceType)source;
+-(void)setError:(NSError*)error forSource:(StatusSourceType)source;
 
 @end

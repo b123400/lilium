@@ -13,6 +13,7 @@
 #import "CJSONDeserializer.h"
 #import "Attribute.h"
 #import "Comment.h"
+#import "TimelineManager.h"
 
 @interface StatusFetcher ()
 
@@ -47,6 +48,7 @@ static StatusFetcher* sharedFetcher=nil;
 	return sharedFetcher;
 }
 
+#pragma mark - Timeline
 -(void)getStatusesForRequest:(StatusRequest*)request{
 	NSMutableArray *newArray=[NSMutableArray array];
 	[tempStatuses setObject:newArray forKey:request];
@@ -127,14 +129,61 @@ static StatusFetcher* sharedFetcher=nil;
 		NSMutableArray *_statuses=[tempStatuses objectForKey:request];
 		//A statusRequest finished loading
 		if(request.delegate&&_statuses){
-			if([(id)request.delegate respondsToSelector:@selector(didGetStatuses:forRequest:)]){
-				[(id)request.delegate didGetStatuses:_statuses forRequest:request];
+			if(request.selector){
+                NSError *error=nil;
+                NSMutableArray *servicesWithError=[NSMutableArray array];
+                NSArray *services=[Status allSources];
+                for(NSNumber *thisSource in services){
+                    if([request errorForSource:thisSource.intValue]){
+                        [servicesWithError addObject:[Status sourceName:thisSource.intValue]];
+                    }
+                }
+                if(servicesWithError.count){
+                    NSString *errorMessage=[servicesWithError componentsJoinedByString:@","];
+                    errorMessage=[NSString stringWithFormat:@"Failed to load from the following service:%@",errorMessage];
+                    error=[NSError errorWithDomain:@"net.b123400.lilium" code:10 userInfo:[NSDictionary dictionaryWithObject:errorMessage forKey:NSLocalizedDescriptionKey]];
+                }
+				//Three arugments: request, statuses, error
+                NSMethodSignature * mySignature = [TimelineManager
+                                                   instanceMethodSignatureForSelector:request.selector];
+                NSInvocation * myInvocation = [NSInvocation
+                                               invocationWithMethodSignature:mySignature];
+                [myInvocation setTarget:request.delegate];
+                [myInvocation setSelector:request.selector];
+                [myInvocation setArgument:&request atIndex:2];
+                [myInvocation setArgument:&_statuses atIndex:3];
+                [myInvocation setArgument:&error atIndex:4];
+                [myInvocation invoke];
 			}
 		}
 		[tempStatuses removeObjectForKey:request];
 	}
 }
-#pragma mark Flickr
+#pragma mark - Comment
+-(void)getCommentsForRequest:(CommentRequest*)request{
+	StatusSourceType type=request.targetStatus.source;
+	switch (type) {
+		case StatusSourceTypeInstagram:{
+			NSString *requestID=[[BRFunctions sharedInstagram]getCommentsWithMediaID:request.targetStatus.statusID];
+			[requestsByID setObject:request forKey:requestID];
+			break;
+        }
+        case StatusSourceTypeTwitter:{
+            NSString *requestID=[[BRFunctions sharedTwitter]getRepliesForStatusWithID:request.targetStatus.statusID];
+            [requestsByID setObject:request forKey:requestID];
+            break;
+        }
+		default:
+			break;
+	}
+}
+-(void)didReceivedComments:(NSArray*)comments forRequest:(CommentRequest*)request{
+	request.targetStatus.comments=[NSMutableArray arrayWithArray:comments];
+	id target=request.delegate;
+	[target performSelector:request.selector withObject:comments];
+    [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
+}
+#pragma mark - Flickr
 -(void)flickrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
 	StatusRequest *request=[requestsByID objectForKey:identifier];
 	request.flickrStatus=StatusFetchingStatusFinished;
@@ -178,9 +227,16 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)flickrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-	StatusRequest *request=[requestsByID objectForKey:identifier];
-	request.flickrStatus=StatusFetchingStatusFinished;
-	[self refreshTempStatusForRequest:request];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
+        StatusRequest *request=[requestsByID objectForKey:identifier];
+        request.flickrStatus=StatusFetchingStatusError;
+        [self refreshTempStatusForRequest:request];
+    }else{
+        Request *request=[requestsByID objectForKey:identifier];
+        if(request.failSelector){
+            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+        }
+    }
 	[requestsByID removeObjectForKey:identifier];
 }
 #pragma mark instagram
@@ -283,10 +339,17 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)instagramEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-	StatusRequest *request=[requestsByID objectForKey:identifier];
-	request.instagramStatus=StatusFetchingStatusFinished;
-	[self refreshTempStatusForRequest:request];
-	[requestsByID removeObjectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
+        StatusRequest *request=[requestsByID objectForKey:identifier];
+        request.instagramStatus=StatusFetchingStatusError;
+        [self refreshTempStatusForRequest:request];
+    }else{
+        Request *request=[requestsByID objectForKey:identifier];
+        if(request.failSelector){
+            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+        }
+    }
+    [requestsByID removeObjectForKey:identifier];
 }
 #pragma mark tumblr
 -(void)tumblrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
@@ -384,9 +447,16 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)tumblrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-	StatusRequest *request=[requestsByID objectForKey:identifier];
-	request.tumblrStatus=StatusFetchingStatusFinished;
-	[self refreshTempStatusForRequest:request];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
+        StatusRequest *request=[requestsByID objectForKey:identifier];
+        request.tumblrStatus=StatusFetchingStatusError;
+        [self refreshTempStatusForRequest:request];
+    }else{
+        Request *request=[requestsByID objectForKey:identifier];
+        if(request.failSelector){
+            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+        }
+    }
 	[requestsByID removeObjectForKey:identifier];
 }
 #pragma mark twitter
@@ -550,10 +620,15 @@ static StatusFetcher* sharedFetcher=nil;
 -(void)twitterEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
         StatusRequest *request=[requestsByID objectForKey:identifier];
-        request.twitterStatus=StatusFetchingStatusFinished;
+        request.twitterStatus=StatusFetchingStatusError;
         [self refreshTempStatusForRequest:request];
-        [requestsByID removeObjectForKey:identifier];
+    }else{
+        Request *request=[requestsByID objectForKey:identifier];
+        if(request.failSelector){
+            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+        }
     }
+    [requestsByID removeObjectForKey:identifier];
 }
 #pragma mark facebook
 - (void)request:(FBRequest *)fbRequest didLoad:(id)result{
@@ -658,35 +733,19 @@ static StatusFetcher* sharedFetcher=nil;
 }
 - (void)request:(FBRequest *)fbRequest didFailWithError:(NSError *)error{
 	NSString *identifier=[fbRequest identifier];
-	StatusRequest *request=[requestsByID objectForKey:identifier];
-	request.facebookStatus=StatusFetchingStatusFinished;
-	[self refreshTempStatusForRequest:request];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
+        StatusRequest *request=[requestsByID objectForKey:identifier];
+        request.facebookStatus=StatusFetchingStatusError;
+        [self refreshTempStatusForRequest:request];
+    }else{
+        Request *request=[requestsByID objectForKey:identifier];
+        if(request.failSelector){
+            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+        }
+    }
 	[requestsByID removeObjectForKey:identifier];
 }
-#pragma mark -
--(void)getCommentsForRequest:(CommentRequest*)request{
-	StatusSourceType type=request.targetStatus.source;
-	switch (type) {
-		case StatusSourceTypeInstagram:{
-			NSString *requestID=[[BRFunctions sharedInstagram]getCommentsWithMediaID:request.targetStatus.statusID];
-			[requestsByID setObject:request forKey:requestID];
-			break;
-        }
-        case StatusSourceTypeTwitter:{
-            NSString *requestID=[[BRFunctions sharedTwitter]getRepliesForStatusWithID:request.targetStatus.statusID];
-            [requestsByID setObject:request forKey:requestID];
-            break;
-        }
-		default:
-			break;
-	}
-}
--(void)didReceivedComments:(NSArray*)comments forRequest:(CommentRequest*)request{
-	request.targetStatus.comments=[NSMutableArray arrayWithArray:comments];
-	id target=request.delegate;
-	[target performSelector:request.selector withObject:comments];
-    [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
-}
+
 #pragma mark -
 -(BOOL)didCachedStatus:(Status*)status inArray:(NSArray*)arr{
 	for(Status *cachedStatus in arr){

@@ -18,13 +18,23 @@
 
 -(id)initWithRequestType:(StatusRequestType)_type{
 	type=_type;
+    errors=[[NSMutableDictionary alloc] init];
 	return [super init];
+}
+-(void)dealloc{
+    [errors release];
+    [super dealloc];
 }
 
 -(StatusRequestType)type{
 	return type;
 }
-
+-(NSError*)errorForSource:(StatusSourceType)source{
+    return [errors objectForKey:[NSNumber numberWithInt:source]];
+}
+-(void)setError:(NSError*)error forSource:(StatusSourceType)source{
+    [errors setObject:error forKey:[NSNumber numberWithInt:source]];
+}
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone{
 	return [self retain];
@@ -36,6 +46,7 @@
 	newRequest.flickrStatus=flickrStatus;
 	newRequest.tumblrStatus=tumblrStatus;
 	newRequest.plurkStatus=plurkStatus;
+    newRequest.direction=direction;
 	
 	return newRequest;
 }

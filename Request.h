@@ -11,8 +11,10 @@
 @interface Request : NSObject{
 	id delegate;
 	SEL selector;
+    SEL failSelector;
 }
 @property (assign) id delegate;
 @property (assign) SEL selector;
+@property (assign) SEL failSelector;
 
 @end

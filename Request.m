@@ -9,6 +9,6 @@
 #import "Request.h"
 
 @implementation Request
-@synthesize delegate,selector;
+@synthesize delegate,selector,failSelector;
 
 @end

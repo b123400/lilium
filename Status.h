@@ -58,4 +58,8 @@ typedef enum StatusImageSize {
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector;
 -(UIImage*)cachedImageOfSize:(StatusImageSize)size;
 
++(NSArray*)allSources;
++(NSString*)sourceName:(StatusSourceType)source;
+
+
 @end

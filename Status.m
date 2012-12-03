@@ -60,6 +60,33 @@
 	[[StatusFetcher sharedFetcher] getCommentsForRequest:request];
 }
 
++(NSArray*)allSources{
+    return @[
+        [NSNumber numberWithInt:StatusSourceTypeTwitter],
+        [NSNumber numberWithInt:StatusSourceTypeInstagram],
+        [NSNumber numberWithInt:StatusSourceTypeTumblr],
+        [NSNumber numberWithInt:StatusSourceTypeFlickr],
+        [NSNumber numberWithInt:StatusSourceTypeFacebook]
+    ];
+}
++(NSString*)sourceName:(StatusSourceType)source{
+    switch (source) {
+        case StatusSourceTypeTwitter:
+            return @"Twitter";
+        case StatusSourceTypeFacebook:
+            return @"Facebook";
+        case StatusSourceTypeFlickr:
+            return @"Flickr";
+        case StatusSourceTypeInstagram:
+            return @"Instagram";
+        case StatusSourceTypeTumblr:
+            return @"Tumblr";
+        default:
+            break;
+    }
+    return nil;
+}
+
 -(BOOL)isEqual:(id)object{
 	if([object class]!=[Status class]){
 		return NO;

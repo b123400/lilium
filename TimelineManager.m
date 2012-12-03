@@ -11,6 +11,8 @@
 
 @interface TimelineManager ()
 
+-(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
+
 -(NSArray*)referenceStatuses:(StatusRequestDirection)direction;
 -(Status*)firstStatusCachedWithSource:(StatusSourceType)source direction:(BOOL)isForward;
 -(int)tumblrOffset;
@@ -40,6 +42,7 @@ static TimelineManager *sharedManager=nil;
 	if(loadNewerRequest)return;
 	loadNewerRequest=[[StatusRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
 	loadNewerRequest.delegate=self;
+    loadNewerRequest.selector=@selector(requestFinished:withStatuses:withError:);
 	loadNewerRequest.direction=StatusRequestDirectionNewer;
 	loadNewerRequest.referenceStatuses=[self referenceStatuses:loadNewerRequest.direction];
 	[[StatusFetcher sharedFetcher] getStatusesForRequest:loadNewerRequest];
@@ -48,6 +51,7 @@ static TimelineManager *sharedManager=nil;
 	if(loadOlderRequest)return;
 	loadOlderRequest=[[StatusRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
 	loadOlderRequest.delegate=self;
+    loadNewerRequest.selector=@selector(requestFinished:withStatuses:withError:);
 	loadOlderRequest.direction=StatusRequestDirectionOlder;
 	loadOlderRequest.referenceStatuses=[self referenceStatuses:loadOlderRequest.direction];
 	loadOlderRequest.tumblrOffset=[self tumblrOffset];
@@ -71,7 +75,7 @@ static TimelineManager *sharedManager=nil;
 	return [statuses objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexOfStatus+1, count)]];
 }
 #pragma mark -
--(void)didGetStatuses:(NSMutableArray*)_statuses forRequest:(StatusRequest*)request{
+-(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
 	NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
 	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
 	if(request==loadNewerRequest){
