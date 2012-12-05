@@ -46,4 +46,9 @@
 	self.profileImage=image;
 	[self setNeedsDisplay];
 }
+-(void)setComment:(Comment *)_comment{
+    if(comment)[comment release];
+    comment=[_comment retain];
+    [self setNeedsDisplay];
+}
 @end

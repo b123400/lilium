@@ -173,6 +173,11 @@ static StatusFetcher* sharedFetcher=nil;
             [requestsByID setObject:request forKey:requestID];
             break;
         }
+        case StatusSourceTypeFacebook:{
+            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/comments",request.targetStatus.statusID] andDelegate:self];
+			[requestsByID setObject:request forKey:[fbRequest identifier]];
+            break;
+        }
 		default:
 			break;
 	}
@@ -631,8 +636,34 @@ static StatusFetcher* sharedFetcher=nil;
     [requestsByID removeObjectForKey:identifier];
 }
 #pragma mark facebook
+-(Comment*)facebookCommentFromDict:(NSDictionary*)dict{
+    NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
+	[df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
+    
+    User *newUser=[[[User alloc] init]autorelease];
+    newUser.type=StatusSourceTypeFacebook;
+    newUser.userID=[[dict objectForKey:@"from"] objectForKey:@"id"];
+    newUser.displayName=[[dict objectForKey:@"from"]objectForKey:@"name"];
+    
+    Comment *newComment=[[[Comment alloc] init]autorelease];
+    newComment.user=newUser;
+    newComment.text=[dict objectForKey:@"message"];
+    newComment.date=[df dateFromString:[dict objectForKey:@"created_time"]];
+    return newComment;
+}
 - (void)request:(FBRequest *)fbRequest didLoad:(id)result{
 	NSString *identifier=[fbRequest identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
+        CommentRequest *request=[requestsByID objectForKey:identifier];
+        NSMutableArray *comments=[NSMutableArray array];
+        if([[result objectForKey:@"data"] isKindOfClass:[NSArray class]]){
+            for(NSDictionary *dict in [result objectForKey:@"data"]){
+                [comments addObject:[self facebookCommentFromDict:dict]];
+            }
+        }
+        [self didReceivedComments:comments forRequest:request];
+        return;
+    }
 	StatusRequest *request=[requestsByID objectForKey:identifier];
 	
 	if([result	 isKindOfClass:[NSData class]]){
