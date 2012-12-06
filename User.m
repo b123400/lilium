@@ -11,11 +11,4 @@
 @implementation User
 @synthesize displayName,userID,type,profilePicture,username;
 
--(NSURL*)profilePicture{
-    if(type==StatusSourceTypeFacebook){
-        return [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture",self.userID]];
-    }
-    return profilePicture;
-}
-
 @end

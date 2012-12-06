@@ -643,7 +643,7 @@
 				CFCDCBD313D8763900E268E8 /* ASIHTTPRequest */,
 				CFCDCBD213D8762000E268E8 /* BRInstagramEngine */,
 				CF47763113D1D06700FC2D37 /* BRFlickrEngine */,
-				CFCDCD3313D89F3D00E268E8 /* BRInstagramEngine */,
+				CFCDCD3313D89F3D00E268E8 /* BRTumblrEngine */,
 				CF7C087213CB3E730089B05F /* Categories+Subclass */,
 				CFABC4FD13DA6F0E00B827DA /* BRTwitterEngine */,
 				CFF8198C13C08CAC00C37DD8 /* Facebook */,
@@ -1221,13 +1221,13 @@
 			name = Tumblr;
 			sourceTree = "<group>";
 		};
-		CFCDCD3313D89F3D00E268E8 /* BRInstagramEngine */ = {
+		CFCDCD3313D89F3D00E268E8 /* BRTumblrEngine */ = {
 			isa = PBXGroup;
 			children = (
 				CFCDCD3513D89F5900E268E8 /* BRTumblrEngine.h */,
 				CFCDCD3613D89F5900E268E8 /* BRTumblrEngine.m */,
 			);
-			name = BRInstagramEngine;
+			name = BRTumblrEngine;
 			sourceTree = "<group>";
 		};
 		CFF818ED13C07E3700C37DD8 /* Image */ = {

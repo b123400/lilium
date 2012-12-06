@@ -25,6 +25,8 @@
 -(User*)twitterUserFromDict:(NSDictionary*)dict;
 -(Comment*)twitterCommentFromDict:(NSDictionary*)dict;
 
+-(Comment*)tumblrCommentFromNotesDict:(NSDictionary*)dict;
+
 -(void)didReceivedComments:(NSArray*)comments forRequest:(CommentRequest*)request;
 
 @end
@@ -357,6 +359,29 @@ static StatusFetcher* sharedFetcher=nil;
     [requestsByID removeObjectForKey:identifier];
 }
 #pragma mark tumblr
+-(Comment*)tumblrCommentFromNotesDict:(NSDictionary*)dict{
+    User *newUser=[[[User alloc] init]autorelease];
+    newUser.displayName=[dict objectForKey:@"blog_name"];
+    newUser.username=[dict objectForKey:@"blog_url"];
+    newUser.userID=[dict objectForKey:@"blog_name"];
+    NSString *baseURLString=[dict objectForKey:@"blog_url"];
+    baseURLString=[baseURLString  stringByReplacingOccurrencesOfString:@"http:" withString:@""];
+    baseURLString=[baseURLString  stringByReplacingOccurrencesOfString:@"/" withString:@""];
+    newUser.profilePicture=[NSURL URLWithString:[NSString stringWithFormat:@"http://api.tumblr.com/v2/blog/%@/avatar/64",baseURLString]];
+    
+    Comment *newComment=[[[Comment alloc] init]autorelease];
+    newComment.user=newUser;
+    newComment.date=[NSDate dateWithTimeIntervalSince1970:[[dict objectForKey:@"timestamp"] doubleValue]];
+    
+    NSString *actionString=@"";
+    if([[dict objectForKey:@"type"] isEqualToString:@"reblog"]){
+        actionString=@"rebloged";
+    }else if([[dict objectForKey:@"type"]isEqualToString:@"like"]){
+        actionString=@"liked";
+    }
+    newComment.text=[NSString stringWithFormat:@"%@ this",actionString];
+    return newComment;
+}
 -(void)tumblrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
 	StatusRequest *request=[requestsByID objectForKey:identifier];
 	request.tumblrStatus=StatusFetchingStatusFinished;
@@ -431,6 +456,13 @@ static StatusFetcher* sharedFetcher=nil;
 				
 				thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[post objectForKey:@"timestamp"]doubleValue]];
 				
+                //Comment
+                NSMutableArray *comments=[NSMutableArray array];
+                for(NSDictionary *commentDict in [post objectForKey:@"notes"]){
+                    [comments addObject:[self tumblrCommentFromNotesDict:commentDict]];
+                }
+                thisStatus.comments=comments;
+                
 				if(![self didCachedStatus:thisStatus inArray:_statuses]){
 					if(request.delegate){
 						if([request.delegate respondsToSelector:@selector(needThisStatus:)]){
@@ -644,6 +676,7 @@ static StatusFetcher* sharedFetcher=nil;
     newUser.type=StatusSourceTypeFacebook;
     newUser.userID=[[dict objectForKey:@"from"] objectForKey:@"id"];
     newUser.displayName=[[dict objectForKey:@"from"]objectForKey:@"name"];
+    newUser.profilePicture=[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture",newUser.userID]];
     
     Comment *newComment=[[[Comment alloc] init]autorelease];
     newComment.user=newUser;
@@ -715,8 +748,10 @@ static StatusFetcher* sharedFetcher=nil;
 			if([dict objectForKey:@"message"])newStatus.caption=[dict objectForKey:@"message"];
 			
 			User *thisUser=[[[User alloc]init]autorelease];
+            thisUser.type=StatusSourceTypeFacebook;
 			thisUser.userID=[[dict objectForKey:@"from"]objectForKey:@"id"];
 			thisUser.displayName=[[dict objectForKey:@"from"]objectForKey:@"name"];
+            thisUser.profilePicture=[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture",thisUser.userID]];
 			newStatus.user=thisUser;
 			
 			//2010-12-01T21:35:43+0000  

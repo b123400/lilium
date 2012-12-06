@@ -84,6 +84,7 @@
 	if(offset){
 		[params setObject:[NSString stringWithFormat:@"%i",offset] forKey:@"offset"];
 	}
+    [params setObject:@"true" forKey:@"notes_info"];
 	return [self performRequestWithPath:@"/user/dashboard" parameters:params];
 }
 
