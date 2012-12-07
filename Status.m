@@ -11,7 +11,7 @@
 #import "SDImageCache.h"
 
 @implementation Status
-@synthesize thumbURL,mediumURL,fullURL,webURL,caption,source,user,statusID,liked,date,captionColor,attributes,comments;
+@synthesize thumbURL,mediumURL,fullURL,webURL,caption,user,statusID,liked,date,captionColor,attributes,comments;
 
 -(id)init{
 	return [super init];
@@ -19,7 +19,7 @@
 
 -(NSDictionary*)dictionaryRepresentation{
 	NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-	[dict setObject:[NSNumber numberWithInt:source] forKey:@"source"];
+	//[dict setObject:[NSNumber numberWithInt:source] forKey:@"source"];
 	if(thumbURL)[dict setObject:thumbURL forKey:@"thumb"];
 	if(meduimURL)[dict setObject:meduimURL forKey:@"medium"];
 	if(fullURL)[dict setObject:fullURL forKey:@"full"];
@@ -92,7 +92,7 @@
 		return NO;
 	}
 	Status *thatStatus=object;
-	if(source!=thatStatus.source)return NO;
+	if(self.user.type!=thatStatus.user.type)return NO;
 	if([[thumbURL absoluteString]isEqualToString:[thatStatus.thumbURL absoluteString]])return YES;
 	return[statusID isEqualToString:thatStatus.statusID];
 }

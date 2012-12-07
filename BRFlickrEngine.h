@@ -38,6 +38,7 @@
 + (NSURL *)photoSourceURLFromDictionary:(NSDictionary *)inDictionary size:(NSString *)inSizeModifier;
 + (NSURL *)webPageURLFromDictionary:(NSDictionary *)inDictionary;
 
++ (NSURL *)iconSourceURLWithFarm:(int)farm iconServer:(int)server userID:(NSString*)userID;
 + (NSString *)shortURLIDFromPhotoID:(long long)num ;
 + (NSString *)photoIDFromShortURLID:(NSString *)strNum;
 

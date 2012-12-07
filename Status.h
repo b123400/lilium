@@ -44,7 +44,6 @@ typedef enum StatusImageSize {
 @property (nonatomic,retain) NSString *caption;
 @property (nonatomic,retain) UIColor *captionColor;
 
-@property (assign)  StatusSourceType source;
 @property (nonatomic,retain) User *user;
 @property (nonatomic,retain) NSString *statusID;
 

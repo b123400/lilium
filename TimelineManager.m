@@ -94,8 +94,8 @@ static TimelineManager *sharedManager=nil;
 -(BOOL)needThisStatus:(Status*)status{
 	for(Status *thisStatus in statuses){
 		if([thisStatus isEqual:status])return NO;
-		if((thisStatus.source==StatusSourceTypeInstagram||thisStatus.source==StatusSourceTypeTwitter)&&
-		   (status.source==StatusSourceTypeInstagram||status.source==StatusSourceTypeTwitter)){
+		if((thisStatus.user.type==StatusSourceTypeInstagram||thisStatus.user.type==StatusSourceTypeTwitter)&&
+		   (status.user.type==StatusSourceTypeInstagram||status.user.type==StatusSourceTypeTwitter)){
 			if([[thisStatus.webURL absoluteString] isEqualToString:[status.webURL absoluteString]]){
 				return NO;
 			}
@@ -142,14 +142,14 @@ static TimelineManager *sharedManager=nil;
 	if(![statuses count])return nil;
 	for(int i=(isForward?0:[statuses count]-1);((isForward&&i<[statuses count])||(!isForward&&i>=0));i+=(isForward?1:-1)){
 		Status *thisStatus=[statuses objectAtIndex:i];
-		if(thisStatus.source==source)return thisStatus;
+		if(thisStatus.user.type==source)return thisStatus;
 	}
 	return nil;
 }
 -(int)tumblrOffset{
 	int tumblrOffset=0;
 	for(Status *thisStatus in statuses){
-		if(thisStatus.source==StatusSourceTypeTumblr)tumblrOffset++;
+		if(thisStatus.user.type==StatusSourceTypeTumblr)tumblrOffset++;
 	}
 	return tumblrOffset;
 }
