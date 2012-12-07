@@ -42,10 +42,17 @@
     }
     if(!autoCreate)return nil;
     
-    if(type==StatusSourceTypeFacebook)return [[[FacebookUser alloc]init]autorelease];
-    if(type==StatusSourceTypeTumblr)return [[[TumblrUser alloc]init]autorelease];
+    User *newUser=nil;
+    if(type==StatusSourceTypeFacebook){
+        newUser=[[[FacebookUser alloc]init]autorelease];
+    }else if(type==StatusSourceTypeTumblr){
+        newUser=[[[TumblrUser alloc]init]autorelease];
+    }else{
+        newUser=[[[User alloc] init] autorelease];
+    }
     
-    User *newUser=[[[User alloc] init] autorelease];
+    newUser.type=type;
+    newUser.userID=userID;
     return newUser;
 }
 

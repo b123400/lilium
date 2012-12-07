@@ -14,12 +14,15 @@
     return [FacebookUser userWithUserID:userID autoCreate:YES];
 }
 +(FacebookUser*)userWithUserID:(NSString*)userID autoCreate:(BOOL)autoCreate{
-    User *cachedUser=[super userWithType:StatusSourceTypeTumblr userID:userID autoCreate:NO];
+    User *cachedUser=[super userWithType:StatusSourceTypeFacebook userID:userID autoCreate:NO];
     if(cachedUser&&[cachedUser isKindOfClass:[FacebookUser class]]){
         return (FacebookUser*)cachedUser;
     }
     if(autoCreate){
-        return [[[FacebookUser alloc]init]autorelease];
+        FacebookUser *newUser=[[[FacebookUser alloc]init]autorelease];
+        newUser.type=StatusSourceTypeFacebook;
+        newUser.userID=userID;
+        return newUser;
     }
     return nil;
 }

@@ -19,7 +19,10 @@
         return (TumblrUser*)cachedUser;
     }
     if(autoCreate){
-        return [[[TumblrUser alloc]init]autorelease];
+        TumblrUser *newUser=[[[TumblrUser alloc]init]autorelease];
+        newUser.type=StatusSourceTypeTumblr;
+        newUser.userID=userID;
+        return newUser;
     }
     return nil;
 }
