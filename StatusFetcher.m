@@ -14,6 +14,8 @@
 #import "Attribute.h"
 #import "Comment.h"
 #import "TimelineManager.h"
+#import "FacebookUser.h"
+#import "TumblrUser.h"
 
 @interface StatusFetcher ()
 
@@ -197,9 +199,8 @@ static StatusFetcher* sharedFetcher=nil;
 }
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
-    User *newUser=[[[User alloc]init] autorelease];
+    User *newUser=[User userWithType:StatusSourceTypeFlickr userID:[dict objectForKey:@"author"]];
     newUser.profilePicture=[BRFlickrEngine iconSourceURLWithFarm:[[dict objectForKey:@"iconfarm"] intValue] iconServer:[[dict objectForKey:@"iconserver"] intValue] userID:[dict objectForKey:@"author"]];
-    newUser.userID=[dict objectForKey:@"author"];
     newUser.username=[dict objectForKey:@"authorname"];
     newUser.displayName=[dict objectForKey:@"authorname"];
     
@@ -238,11 +239,9 @@ static StatusFetcher* sharedFetcher=nil;
 		thisStatus.webURL=[BRFlickrEngine webPageURLFromDictionary:photo];
 		thisStatus.caption=[photo objectForKey:@"title"];
         
-		User *thisUser=[[[User alloc]init]autorelease];
+		User *thisUser=[User userWithType:StatusSourceTypeFlickr userID:[photo objectForKey:@"owner"]];
 //		thisUser.displayName=;
 		thisUser.username=[photo objectForKey:@"username"];
-		thisUser.userID=[photo objectForKey:@"owner"];
-        thisUser.type=StatusSourceTypeFlickr;
 		thisStatus.user=thisUser;
 		thisStatus.statusID=[NSString stringWithFormat:@"%@",[photo objectForKey:@"id"]];
 		
@@ -282,11 +281,11 @@ static StatusFetcher* sharedFetcher=nil;
 	NSMutableArray *comments=[NSMutableArray array];
 	for(int i=0;i<[dicts count];i++){
 		NSDictionary *thisDict=[dicts objectAtIndex:i];
-		User *thisUser=[[[User alloc]init]autorelease];
+		User *thisUser=[User userWithType:StatusSourceTypeInstagram userID:[[thisDict objectForKey:@"from"] objectForKey:@"id"]];
 		thisUser.displayName=[[thisDict objectForKey:@"from"] objectForKey:@"full_name"];
-		thisUser.userID=[[thisDict objectForKey:@"from"] objectForKey:@"id"];
 		thisUser.profilePicture=[NSURL URLWithString:[[thisDict objectForKey:@"from"]objectForKey:@"profile_picture"]];
 		thisUser.username=[[thisDict objectForKey:@"from"]objectForKey:@"username"];
+
 		Comment *thisComment=[[[Comment alloc]init]autorelease];
 		thisComment.user=thisUser;
 		thisComment.text=[thisDict objectForKey:@"text"];
@@ -322,11 +321,10 @@ static StatusFetcher* sharedFetcher=nil;
 			thisStatus.caption=[[photo objectForKey:@"caption"] objectForKey:@"text"];
 		}
 		thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[photo objectForKey:@"created_time"]doubleValue]];
-		User *thisUser=[[[User alloc]init]autorelease];
-        thisUser.type=StatusSourceTypeInstagram;
+        
+		User *thisUser=[User userWithType:StatusSourceTypeInstagram userID:[[photo objectForKey:@"user"] objectForKey:@"id"]];;
 		thisUser.displayName=[[photo objectForKey:@"user"] objectForKey:@"full_name"];
-//		thisUser.username=;
-		thisUser.userID=[[photo objectForKey:@"user"] objectForKey:@"id"];
+		thisUser.username=[[photo objectForKey:@"user"]objectForKey:@"username"];
 		thisStatus.user=thisUser;
 		thisStatus.statusID=[NSString stringWithFormat:@"%@",[photo objectForKey:@"id"]];
 		
@@ -391,14 +389,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 #pragma mark tumblr
 -(Comment*)tumblrCommentFromNotesDict:(NSDictionary*)dict{
-    User *newUser=[[[User alloc] init]autorelease];
-    newUser.displayName=[dict objectForKey:@"blog_name"];
-    newUser.username=[dict objectForKey:@"blog_url"];
-    newUser.userID=[dict objectForKey:@"blog_name"];
-    NSString *baseURLString=[dict objectForKey:@"blog_url"];
-    baseURLString=[baseURLString  stringByReplacingOccurrencesOfString:@"http:" withString:@""];
-    baseURLString=[baseURLString  stringByReplacingOccurrencesOfString:@"/" withString:@""];
-    newUser.profilePicture=[NSURL URLWithString:[NSString stringWithFormat:@"http://api.tumblr.com/v2/blog/%@/avatar/64",baseURLString]];
+    TumblrUser *newUser=[TumblrUser userWithBlogName:[dict objectForKey:@"blog_name"] anyUrl:[dict objectForKey:@"blog_url"]];
     
     Comment *newComment=[[[Comment alloc] init]autorelease];
     newComment.user=newUser;
@@ -478,9 +469,7 @@ static StatusFetcher* sharedFetcher=nil;
 					thisStatus.attributes=attributes;
 					thisStatus.caption=caption;
 				}
-				User *thisUser=[[[User alloc]init]autorelease];
-                thisUser.type=StatusSourceTypeTumblr;
-				thisUser.userID=[post objectForKey:@"blog_name"];
+                TumblrUser *thisUser=[TumblrUser userWithBlogName:[post objectForKey:@"blog_name"] anyUrl:[post objectForKey:@"post_url"]];
 				thisStatus.user=thisUser;
 				
 				thisStatus.statusID=[NSString stringWithFormat:@"%@",[post objectForKey:@"id"]];
@@ -529,9 +518,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 #pragma mark twitter
 -(User*)twitterUserFromDict:(NSDictionary*)dict{
-    User *thisUser=[[[User alloc]init]autorelease];
-    thisUser.type=StatusSourceTypeTwitter;
-    thisUser.userID=[dict objectForKey:@"id_str"];
+    User *thisUser=[User userWithType:StatusSourceTypeTwitter userID:[dict objectForKey:@"id_str"]];
     thisUser.username=[dict objectForKey:@"screen_name"];
     thisUser.profilePicture=[NSURL URLWithString:[dict objectForKey:@"profile_image_url"]];
     thisUser.displayName=[dict objectForKey:@"name"];
@@ -702,11 +689,8 @@ static StatusFetcher* sharedFetcher=nil;
     NSDateFormatter *df = [[[NSDateFormatter alloc] init] autorelease];
 	[df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
     
-    User *newUser=[[[User alloc] init]autorelease];
-    newUser.type=StatusSourceTypeFacebook;
-    newUser.userID=[[dict objectForKey:@"from"] objectForKey:@"id"];
+    User *newUser=[FacebookUser userWithUserID:[[dict objectForKey:@"from"] objectForKey:@"id"]];
     newUser.displayName=[[dict objectForKey:@"from"]objectForKey:@"name"];
-    newUser.profilePicture=[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture",newUser.userID]];
     
     Comment *newComment=[[[Comment alloc] init]autorelease];
     newComment.user=newUser;
@@ -776,11 +760,8 @@ static StatusFetcher* sharedFetcher=nil;
 			
 			if([dict objectForKey:@"message"])newStatus.caption=[dict objectForKey:@"message"];
 			
-			User *thisUser=[[[User alloc]init]autorelease];
-            thisUser.type=StatusSourceTypeFacebook;
-			thisUser.userID=[[dict objectForKey:@"from"]objectForKey:@"id"];
+            FacebookUser *thisUser=[FacebookUser userWithUserID:[[dict objectForKey:@"from"]objectForKey:@"id"]];
 			thisUser.displayName=[[dict objectForKey:@"from"]objectForKey:@"name"];
-            thisUser.profilePicture=[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture",thisUser.userID]];
 			newStatus.user=thisUser;
 			
 			//2010-12-01T21:35:43+0000  

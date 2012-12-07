@@ -142,6 +142,9 @@
 		CF8C6DAE13C0B41F00C013B0 /* BRInstagramLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8C6DAC13C0B41F00C013B0 /* BRInstagramLoginViewController.xib */; };
 		CF9DEAD3146D854700FB9519 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */; };
 		CFABC52613DA732500B827DA /* BRTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFABC52513DA732500B827DA /* BRTwitterEngine.m */; };
+		CFBBBE3216726CDF00065DFC /* ReferenceComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3116726CDF00065DFC /* ReferenceComment.m */; };
+		CFBBBE3616726D2300065DFC /* FacebookUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3516726D2300065DFC /* FacebookUser.m */; };
+		CFBBBE3916726D3000065DFC /* TumblrUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3816726D3000065DFC /* TumblrUser.m */; };
 		CFBF2A7413D0AC99004DC335 /* UIControl+Interaction.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF2A7313D0AC99004DC335 /* UIControl+Interaction.m */; };
 		CFBF2AD513D0CF48004DC335 /* WelcomePinchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF2AD313D0CF48004DC335 /* WelcomePinchViewController.m */; };
 		CFBF2AD613D0CF48004DC335 /* WelcomePinchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBF2AD413D0CF48004DC335 /* WelcomePinchViewController.xib */; };
@@ -467,6 +470,12 @@
 		CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		CFABC52413DA732500B827DA /* BRTwitterEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRTwitterEngine.h; sourceTree = "<group>"; };
 		CFABC52513DA732500B827DA /* BRTwitterEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRTwitterEngine.m; sourceTree = "<group>"; };
+		CFBBBE3016726CDF00065DFC /* ReferenceComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReferenceComment.h; sourceTree = "<group>"; };
+		CFBBBE3116726CDF00065DFC /* ReferenceComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReferenceComment.m; sourceTree = "<group>"; };
+		CFBBBE3416726D2300065DFC /* FacebookUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookUser.h; sourceTree = "<group>"; };
+		CFBBBE3516726D2300065DFC /* FacebookUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookUser.m; sourceTree = "<group>"; };
+		CFBBBE3716726D3000065DFC /* TumblrUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TumblrUser.h; sourceTree = "<group>"; };
+		CFBBBE3816726D3000065DFC /* TumblrUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TumblrUser.m; sourceTree = "<group>"; };
 		CFBF2A7213D0AC99004DC335 /* UIControl+Interaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+Interaction.h"; sourceTree = "<group>"; };
 		CFBF2A7313D0AC99004DC335 /* UIControl+Interaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+Interaction.m"; sourceTree = "<group>"; };
 		CFBF2AD213D0CF48004DC335 /* WelcomePinchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomePinchViewController.h; sourceTree = "<group>"; };
@@ -1123,6 +1132,30 @@
 			name = Plurk;
 			sourceTree = "<group>";
 		};
+		CFBBBE2916726C4200065DFC /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				CF8B6CF2151BB76C007798CE /* Comment.h */,
+				CF8B6CF3151BB76C007798CE /* Comment.m */,
+				CFBBBE3016726CDF00065DFC /* ReferenceComment.h */,
+				CFBBBE3116726CDF00065DFC /* ReferenceComment.m */,
+			);
+			name = Comment;
+			sourceTree = "<group>";
+		};
+		CFBBBE3316726CE500065DFC /* User */ = {
+			isa = PBXGroup;
+			children = (
+				CF8B6CEF151BAA91007798CE /* User.h */,
+				CF8B6CF0151BAA91007798CE /* User.m */,
+				CFBBBE3416726D2300065DFC /* FacebookUser.h */,
+				CFBBBE3516726D2300065DFC /* FacebookUser.m */,
+				CFBBBE3716726D3000065DFC /* TumblrUser.h */,
+				CFBBBE3816726D3000065DFC /* TumblrUser.m */,
+			);
+			name = User;
+			sourceTree = "<group>";
+		};
 		CFCDCBD213D8762000E268E8 /* BRInstagramEngine */ = {
 			isa = PBXGroup;
 			children = (
@@ -1347,12 +1380,10 @@
 			children = (
 				CF3125E513BE25580064B7AA /* BRFunctions.h */,
 				CF3125E613BE25580064B7AA /* BRFunctions.m */,
-				CF8B6CEF151BAA91007798CE /* User.h */,
-				CF8B6CF0151BAA91007798CE /* User.m */,
+				CFBBBE3316726CE500065DFC /* User */,
 				CF261DCC13D4AA6200D3F844 /* Status.h */,
 				CF261DCD13D4AA6200D3F844 /* Status.m */,
-				CF8B6CF2151BB76C007798CE /* Comment.h */,
-				CF8B6CF3151BB76C007798CE /* Comment.m */,
+				CFBBBE2916726C4200065DFC /* Comment */,
 				CF261E1713D4E01300D3F844 /* StatusFetcher.h */,
 				CF261E1813D4E01300D3F844 /* StatusFetcher.m */,
 				CFF72992151B531700540795 /* Request.h */,
@@ -1623,6 +1654,9 @@
 				CF6E2F3B1545B75300E19AED /* CommentTableViewCell.m in Sources */,
 				CF6E2F491545D23900E19AED /* AccountDetailViewController.m in Sources */,
 				CFC2EE69166934F700995FC9 /* UIApplication+Frame.m in Sources */,
+				CFBBBE3216726CDF00065DFC /* ReferenceComment.m in Sources */,
+				CFBBBE3616726D2300065DFC /* FacebookUser.m in Sources */,
+				CFBBBE3916726D3000065DFC /* TumblrUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
