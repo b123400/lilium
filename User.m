@@ -9,6 +9,8 @@
 #import "User.h"
 #import "FacebookUser.h"
 #import "TumblrUser.h"
+#import "Status.h"
+#import "StatusFetcher.h"
 
 @implementation User
 @synthesize displayName,userID,type,profilePicture,username;
@@ -28,6 +30,17 @@
 -(id)init{
     [[User allUsers] addObject:self];
     return [super init];
+}
+
+-(NSArray*)statuses{
+    NSArray *allStatuses=[[StatusFetcher sharedFetcher] allStatuses];
+    NSMutableArray *statuses=[NSMutableArray array];
+    for(Status *thisStatus in allStatuses){
+        if(thisStatus.user==self){
+            [statuses addObject:thisStatus];
+        }
+    }
+    return statuses;
 }
 
 +(User*)userWithType:(StatusSourceType)type userID:(NSString*)userID{
