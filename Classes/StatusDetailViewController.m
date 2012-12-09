@@ -12,6 +12,7 @@
 #import "Attribute.h"
 #import "Comment.h"
 #import "CommentTableViewCell.h"
+#import "UserViewController.h"
 
 @implementation StatusDetailViewController
 
@@ -110,6 +111,12 @@
 		height=85;
 	};
 	return height;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    Comment *thisComment=[status.comments objectAtIndex:indexPath.row];
+    
+    UserViewController *userViewController=[[[UserViewController alloc]initWithUser:thisComment.user] autorelease];
+    [self.navigationController pushViewController:userViewController animated:YES];
 }
 #pragma mark navigation
 -(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{

@@ -14,7 +14,8 @@
 
 @protocol StatusFetcherDelegate
 
--(void)didGetStatuses:(NSMutableArray*)statuses forRequest:(StatusRequest*)request;
+-(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
+
 @optional
 -(BOOL)needThisStatus:(Status*)status;
 

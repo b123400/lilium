@@ -114,7 +114,6 @@
 		CF6D75EA13DF0B4300305FAE /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6D75E913DF0B4300305FAE /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		CF6D761B13DF28A000305FAE /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6D761A13DF28A000305FAE /* libicucore.dylib */; };
 		CF6E2F3B1545B75300E19AED /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F3A1545B75300E19AED /* CommentTableViewCell.m */; };
-		CF6E2F491545D23900E19AED /* AccountDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F481545D23800E19AED /* AccountDetailViewController.m */; };
 		CF6E3BFD13E5A4D3007CC286 /* tumblrButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6E3BFB13E5A4D3007CC286 /* tumblrButton.png */; };
 		CF6E3BFE13E5A4D3007CC286 /* tumblrButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6E3BFC13E5A4D3007CC286 /* tumblrButton@2x.png */; };
 		CF6E3CE313E5DDA1007CC286 /* TimelineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E3CE213E5DDA1007CC286 /* TimelineManager.m */; };
@@ -171,6 +170,8 @@
 		CFCDCC7713D88EE900E268E8 /* BRTumblrLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCDCC7513D88EE900E268E8 /* BRTumblrLoginViewController.xib */; };
 		CFCDCC7C13D88F1500E268E8 /* TumblrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCC7B13D88F1500E268E8 /* TumblrLoginViewController.m */; };
 		CFCDCD3713D89F5900E268E8 /* BRTumblrEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCD3613D89F5900E268E8 /* BRTumblrEngine.m */; };
+		CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE0D201673E3E800C10953 /* UserViewController.m */; };
+		CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCE0D211673E3E800C10953 /* UserViewController.xib */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
 		CFF72997151B542400540795 /* CommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72996151B542400540795 /* CommentRequest.m */; };
@@ -401,8 +402,6 @@
 		CF6E2F351545B6F100E19AED /* ABTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ABTableViewCell.m; sourceTree = "<group>"; };
 		CF6E2F391545B75300E19AED /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
 		CF6E2F3A1545B75300E19AED /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
-		CF6E2F471545D23800E19AED /* AccountDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDetailViewController.h; sourceTree = "<group>"; };
-		CF6E2F481545D23800E19AED /* AccountDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountDetailViewController.m; sourceTree = "<group>"; };
 		CF6E3BFB13E5A4D3007CC286 /* tumblrButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tumblrButton.png; path = Images/tumblrButton.png; sourceTree = "<group>"; };
 		CF6E3BFC13E5A4D3007CC286 /* tumblrButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tumblrButton@2x.png"; path = "Images/tumblrButton@2x.png"; sourceTree = "<group>"; };
 		CF6E3CE113E5DDA1007CC286 /* TimelineManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineManager.h; sourceTree = "<group>"; };
@@ -528,6 +527,9 @@
 		CFCDCC7B13D88F1500E268E8 /* TumblrLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TumblrLoginViewController.m; sourceTree = "<group>"; };
 		CFCDCD3513D89F5900E268E8 /* BRTumblrEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRTumblrEngine.h; sourceTree = "<group>"; };
 		CFCDCD3613D89F5900E268E8 /* BRTumblrEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRTumblrEngine.m; sourceTree = "<group>"; };
+		CFCE0D1F1673E3E800C10953 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
+		CFCE0D201673E3E800C10953 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
+		CFCE0D211673E3E800C10953 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
 		CFE97F83151A2CF700187398 /* Attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attribute.m; sourceTree = "<group>"; };
 		CFF72992151B531700540795 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
@@ -619,8 +621,9 @@
 				CF68A19113ECFBF100B9450E /* StatusDetailViewController.h */,
 				CF68A19213ECFBF100B9450E /* StatusDetailViewController.m */,
 				CF68A19313ECFBF100B9450E /* StatusDetailViewController.xib */,
-				CF6E2F471545D23800E19AED /* AccountDetailViewController.h */,
-				CF6E2F481545D23800E19AED /* AccountDetailViewController.m */,
+				CFCE0D1F1673E3E800C10953 /* UserViewController.h */,
+				CFCE0D201673E3E800C10953 /* UserViewController.m */,
+				CFCE0D211673E3E800C10953 /* UserViewController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1515,6 +1518,7 @@
 				CFFE731A16680AED00457BD2 /* Default-568h@2x.png in Resources */,
 				CFFE731B16680AED00457BD2 /* Default.png in Resources */,
 				CFFE731C16680AED00457BD2 /* Default@2x.png in Resources */,
+				CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1652,11 +1656,11 @@
 				CF8B6CF1151BAA91007798CE /* User.m in Sources */,
 				CF8B6CF4151BB76C007798CE /* Comment.m in Sources */,
 				CF6E2F3B1545B75300E19AED /* CommentTableViewCell.m in Sources */,
-				CF6E2F491545D23900E19AED /* AccountDetailViewController.m in Sources */,
 				CFC2EE69166934F700995FC9 /* UIApplication+Frame.m in Sources */,
 				CFBBBE3216726CDF00065DFC /* ReferenceComment.m in Sources */,
 				CFBBBE3616726D2300065DFC /* FacebookUser.m in Sources */,
 				CFBBBE3916726D3000065DFC /* TumblrUser.m in Sources */,
+				CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

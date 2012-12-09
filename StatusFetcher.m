@@ -121,7 +121,20 @@ static StatusFetcher* sharedFetcher=nil;
 			}
 			request.tumblrStatus=StatusFetchingStatusLoading;
 		}
-	}
+	}else if(request.type==StatusRequestTypeSolo){
+        for(User *thisUser in request.referenceUsers){
+            switch (thisUser.type) {
+                case StatusSourceTypeInstagram:{
+                    NSString *requestID=[[BRFunctions sharedInstagram] getUserFeedWithUserID:thisUser.userID minID:nil maxID:nil];
+                    [requestsByID setObject:request forKey:requestID];
+                    request.instagramStatus=StatusFetchingStatusLoading;
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    }
 }
 -(void)refreshTempStatusForRequest:(StatusRequest*)request{
 	if(request.twitterStatus!=StatusFetchingStatusLoading&&
@@ -267,6 +280,7 @@ static StatusFetcher* sharedFetcher=nil;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
         StatusRequest *request=[requestsByID objectForKey:identifier];
         request.flickrStatus=StatusFetchingStatusError;
+        [request setError:error forSource:StatusSourceTypeFlickr];
         [self refreshTempStatusForRequest:request];
     }else{
         Request *request=[requestsByID objectForKey:identifier];
@@ -337,8 +351,8 @@ static StatusFetcher* sharedFetcher=nil;
 		BOOL needThisStatus=YES;
 		if(![self didCachedStatus:thisStatus inArray:_statuses]){
 			if(request.delegate){
-				if(![request.delegate respondsToSelector:@selector(needThisStatus:)]){
-					needThisStatus=NO;
+				if([request.delegate respondsToSelector:@selector(needThisStatus:)]){
+					needThisStatus=[request.delegate needThisStatus:thisStatus];
 				}
 			}
 		}
@@ -378,6 +392,7 @@ static StatusFetcher* sharedFetcher=nil;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
         StatusRequest *request=[requestsByID objectForKey:identifier];
         request.instagramStatus=StatusFetchingStatusError;
+        [request setError:error forSource:StatusSourceTypeInstagram];
         [self refreshTempStatusForRequest:request];
     }else{
         Request *request=[requestsByID objectForKey:identifier];
@@ -507,6 +522,7 @@ static StatusFetcher* sharedFetcher=nil;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
         StatusRequest *request=[requestsByID objectForKey:identifier];
         request.tumblrStatus=StatusFetchingStatusError;
+        [request setError:error forSource:StatusSourceTypeTumblr];
         [self refreshTempStatusForRequest:request];
     }else{
         Request *request=[requestsByID objectForKey:identifier];
@@ -675,6 +691,7 @@ static StatusFetcher* sharedFetcher=nil;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
         StatusRequest *request=[requestsByID objectForKey:identifier];
         request.twitterStatus=StatusFetchingStatusError;
+        [request setError:error forSource:StatusSourceTypeTwitter];
         [self refreshTempStatusForRequest:request];
     }else{
         Request *request=[requestsByID objectForKey:identifier];
@@ -812,6 +829,7 @@ static StatusFetcher* sharedFetcher=nil;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
         StatusRequest *request=[requestsByID objectForKey:identifier];
         request.facebookStatus=StatusFetchingStatusError;
+        [request setError:error forSource:StatusSourceTypeFacebook];
         [self refreshTempStatusForRequest:request];
     }else{
         Request *request=[requestsByID objectForKey:identifier];

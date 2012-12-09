@@ -69,7 +69,7 @@
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
-{	
+{
 	// Use when fetching binary data
 	NSData *responseData = [request responseData];
 	NSError *error=nil;
@@ -78,6 +78,11 @@
 		[self failedWithError:error forRequestIdentifier:[request identifier]];
 		return;
 	}
+    if(request.responseStatusCode>=400){
+        error=[NSError errorWithDomain:@"net.b123400.engine.tumblr" code:request.responseStatusCode userInfo:nil];
+        [self failedWithError:error forRequestIdentifier:[request identifier]];
+        return;
+    }
 	if(delegate){
 		if([(id)delegate respondsToSelector:@selector(instagramEngine:didReceivedData:forRequestIdentifier:)]){
 			[(id)delegate instagramEngine:self didReceivedData:object forRequestIdentifier:[request identifier]];
@@ -96,15 +101,26 @@
 	if(![(id)delegate respondsToSelector:@selector(instagramEngine:didFailed: forRequestIdentifier:)])return;
 	[(id)delegate instagramEngine:self didFailed:error forRequestIdentifier:identifier];
 }
-
+#pragma mark - REST api
 -(NSString*)getSelfFeedWithMinID:(NSString*)minID maxID:(NSString*)maxID{
 	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"10" forKey:@"count"];
 	if(minID){
 		[params setObject:minID forKey:@"min_id"];
-	}else if(maxID){
+	}
+    if(maxID){
 		[params setObject:maxID forKey:@"max_id"];
 	}
 	return [self performRequestWithPath:@"/users/self/feed" parameters:params];
+}
+-(NSString*)getUserFeedWithUserID:(NSString*)userID minID:(NSString*)minID maxID:(NSString*)maxID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+    if(minID){
+        [params setObject:minID forKey:@"MIN_ID"];
+    }
+    if(maxID){
+        [params setObject:maxID forKey:@"MAX_ID"];
+    }
+    return [self performRequestWithPath:[NSString stringWithFormat:@"/users/%@/media/recent",userID] parameters:params];
 }
 -(NSString*)getCommentsWithMediaID:(NSString*)mediaID{
 	NSMutableDictionary *params=[NSMutableDictionary dictionary];

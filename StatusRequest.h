@@ -31,6 +31,7 @@ typedef enum StatusRequestDirection{
 @interface StatusRequest : Request <NSCopying> {
 	StatusRequestType type;
 	NSArray *referenceStatuses;
+    NSArray *referenceUsers;
 	int tumblrOffset;
 	StatusRequestDirection direction;
 	
@@ -44,6 +45,7 @@ typedef enum StatusRequestDirection{
     NSMutableDictionary *errors;
 }
 @property (retain) NSArray *referenceStatuses;
+@property (retain) NSArray *referenceUsers;
 @property (assign) int tumblrOffset;
 @property (assign) StatusRequestDirection direction;
 

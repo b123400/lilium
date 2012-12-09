@@ -41,6 +41,7 @@
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params;
 
 -(NSString*)getSelfFeedWithMinID:(NSString*)minID maxID:(NSString*)maxID;
+-(NSString*)getUserFeedWithUserID:(NSString*)userID minID:(NSString*)minID maxID:(NSString*)maxID;
 -(NSString*)getCommentsWithMediaID:(NSString*)mediaID;
 
 @end

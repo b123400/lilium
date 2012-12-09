@@ -58,6 +58,11 @@
 		[self failedWithError:error  forRequestIdentifier:[[ticket request]identifier]];
 		return;
 	}
+    if([(NSHTTPURLResponse*)ticket.response statusCode]>=400){
+        error=[NSError errorWithDomain:@"net.b123400.engine.tumblr" code:[(NSHTTPURLResponse*)ticket.response statusCode] userInfo:nil];
+        [self failedWithError:error forRequestIdentifier:[[ticket request]identifier]];
+        return;
+    }
 	if(delegate){
 		if([(id)delegate respondsToSelector:@selector(tumblrEngine:didReceivedData:forRequestIdentifier:)]){
 			[(id)delegate tumblrEngine:self didReceivedData:object forRequestIdentifier:[[ticket request]identifier]];
