@@ -172,6 +172,7 @@
 		CFCDCD3713D89F5900E268E8 /* BRTumblrEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCD3613D89F5900E268E8 /* BRTumblrEngine.m */; };
 		CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE0D201673E3E800C10953 /* UserViewController.m */; };
 		CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCE0D211673E3E800C10953 /* UserViewController.xib */; };
+		CFCE0D2616752D8400C10953 /* BRLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE0D2516752D8400C10953 /* BRLoadingView.m */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
 		CFF72997151B542400540795 /* CommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72996151B542400540795 /* CommentRequest.m */; };
@@ -530,6 +531,8 @@
 		CFCE0D1F1673E3E800C10953 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		CFCE0D201673E3E800C10953 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		CFCE0D211673E3E800C10953 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
+		CFCE0D2416752D8400C10953 /* BRLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRLoadingView.h; sourceTree = "<group>"; };
+		CFCE0D2516752D8400C10953 /* BRLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRLoadingView.m; sourceTree = "<group>"; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
 		CFE97F83151A2CF700187398 /* Attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attribute.m; sourceTree = "<group>"; };
 		CFF72992151B531700540795 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
@@ -1115,6 +1118,8 @@
 				CF6E2F3A1545B75300E19AED /* CommentTableViewCell.m */,
 				CFC2EE67166934F700995FC9 /* UIApplication+Frame.h */,
 				CFC2EE68166934F700995FC9 /* UIApplication+Frame.m */,
+				CFCE0D2416752D8400C10953 /* BRLoadingView.h */,
+				CFCE0D2516752D8400C10953 /* BRLoadingView.m */,
 			);
 			name = "Categories+Subclass";
 			sourceTree = "<group>";
@@ -1661,6 +1666,7 @@
 				CFBBBE3616726D2300065DFC /* FacebookUser.m in Sources */,
 				CFBBBE3916726D3000065DFC /* TumblrUser.m in Sources */,
 				CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */,
+				CFCE0D2616752D8400C10953 /* BRLoadingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -130,6 +130,11 @@ static StatusFetcher* sharedFetcher=nil;
                     request.instagramStatus=StatusFetchingStatusLoading;
                     break;
                 }
+                case StatusSourceTypeTwitter:{
+                    NSString *requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:nil maxID:nil];
+                    [requestsByID setObject:request forKey:requestID];
+                    break;
+                }
                 default:
                     break;
             }

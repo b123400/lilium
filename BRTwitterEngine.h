@@ -39,6 +39,7 @@ typedef enum BRImageSize{
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params;
 
 -(NSString*)getHomeTimelineWithSinceID:(NSString*)sinceID maxID:(NSString*)maxID;
+-(NSString*)getUserTimelineWithUserID:(NSString*)userID sinceID:(NSString*)sinceID maxID:(NSString*)maxID;
 -(NSString*)getRepliesForStatusWithID:(NSString*)statusID;
 
 +(NSURL*)rawImageURLFromURL:(NSURL*)aURL size:(BRImageSize)size;
