@@ -133,15 +133,24 @@ static StatusFetcher* sharedFetcher=nil;
                 case StatusSourceTypeTwitter:{
                     NSString *requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:nil maxID:nil];
                     [requestsByID setObject:request forKey:requestID];
+                    request.twitterStatus=StatusFetchingStatusLoading;
                     break;
                 }
                 case StatusSourceTypeFlickr:{
                     NSString *requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:nil page:0];
                     [requestsByID setObject:request forKey:requestID];
+                    request.flickrStatus=StatusFetchingStatusLoading;
                 }
                 case StatusSourceTypeTumblr:{
                     NSString *requestID=[[BRFunctions sharedTumblr]getPostsWithBaseHostname:thisUser.userID offset:0];
                     [requestsByID setObject:request forKey:requestID];
+                    request.tumblrStatus=StatusFetchingStatusLoading;
+                    break;
+                }
+                case StatusSourceTypeFacebook:{
+                    FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo",thisUser.userID] andDelegate:self];
+                    [requestsByID setObject:request forKey:[fbRequest identifier]];
+                    request.facebookStatus=StatusFetchingStatusLoading;
                     break;
                 }
                 default:
