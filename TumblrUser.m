@@ -32,19 +32,20 @@
     NSString *baseURLString=[urlString stringByReplacingOccurrencesOfString:@"http://" withString:@""];
     baseURLString=[baseURLString substringToIndex:[baseURLString rangeOfString:@"/"].location];
     
-    TumblrUser *cachedUser=[TumblrUser userWithUserID:uniqueUsername autoCreate:NO];
+    TumblrUser *cachedUser=[TumblrUser userWithUserID:baseURLString autoCreate:NO];
     if(cachedUser){
         return cachedUser;
     }
     TumblrUser *newUser=[[[TumblrUser alloc] init]autorelease];
-    newUser.userID=uniqueUsername;
-    newUser.username=baseURLString;
+    newUser.type=StatusSourceTypeTumblr;
+    newUser.userID=baseURLString;
+    newUser.username=uniqueUsername;
     newUser.displayName=uniqueUsername;
     return newUser;
 }
 
 -(NSURL*)profilePicture{
-    return [NSURL URLWithString:[NSString stringWithFormat:@"http://api.tumblr.com/v2/blog/%@/avatar/64",self.username]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"http://api.tumblr.com/v2/blog/%@/avatar/64",self.userID]];
 }
 
 @end

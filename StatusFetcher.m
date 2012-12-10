@@ -139,6 +139,11 @@ static StatusFetcher* sharedFetcher=nil;
                     NSString *requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:nil page:0];
                     [requestsByID setObject:request forKey:requestID];
                 }
+                case StatusSourceTypeTumblr:{
+                    NSString *requestID=[[BRFunctions sharedTumblr]getPostsWithBaseHostname:thisUser.userID offset:0];
+                    [requestsByID setObject:request forKey:requestID];
+                    break;
+                }
                 default:
                     break;
             }
@@ -424,6 +429,10 @@ static StatusFetcher* sharedFetcher=nil;
         actionString=@"rebloged";
     }else if([[dict objectForKey:@"type"]isEqualToString:@"like"]){
         actionString=@"liked";
+    }else if([[dict objectForKey:@"type"]isEqualToString:@"posted"]){
+        actionString=@"posted";
+    }else{
+        NSLog(@"%@",[dict objectForKey:@"type"]);
     }
     newComment.text=[NSString stringWithFormat:@"%@ this",actionString];
     return newComment;
