@@ -74,6 +74,20 @@
 																						 @"1",@"include_self",
 																						 @"count",@"30",nil]];
 }
+-(NSString*)getPhotosOfUser:(NSString*)userID minDate:(NSDate*)minDate maxDate:(NSDate*)maxDate page:(int)page{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+    [params setObject:userID forKey:@"user_id"];
+    if(minDate){
+        [params setObject:[NSString stringWithFormat:@"%f",[minDate timeIntervalSince1970]] forKey:@"min_upload_date"];
+    }
+    if(maxDate){
+        [params setObject:[NSString stringWithFormat:@"%f",[maxDate timeIntervalSince1970]] forKey:@"max_upload_date"];
+    }
+    if(page){
+        [params setObject:[NSString stringWithFormat:@"%d",page] forKey:@"page"];
+    }
+    return [self performRequestWithMethod:@"flickr.people.getPhotos" parameters:params];
+}
 -(NSString*)getCommentsForPhotoWithID:(NSString*)photoID{
 	return [self performRequestWithMethod:@"flickr.photos.comments.getList" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
 																						 photoID,@"photo_id"

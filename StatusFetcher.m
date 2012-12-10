@@ -135,6 +135,10 @@ static StatusFetcher* sharedFetcher=nil;
                     [requestsByID setObject:request forKey:requestID];
                     break;
                 }
+                case StatusSourceTypeFlickr:{
+                    NSString *requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:nil page:0];
+                    [requestsByID setObject:request forKey:requestID];
+                }
                 default:
                     break;
             }

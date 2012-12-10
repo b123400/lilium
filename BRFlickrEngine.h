@@ -33,6 +33,7 @@
 -(NSString*)performRequestWithMethod:(NSString*)method parameters:(NSDictionary*)params; 
 
 -(NSString*)getContactsPhotos;
+-(NSString*)getPhotosOfUser:(NSString*)userID minDate:(NSDate*)minDate maxDate:(NSDate*)maxDate page:(int)page;
 -(NSString*)getCommentsForPhotoWithID:(NSString*)photoID;
 
 + (NSURL *)photoSourceURLFromDictionary:(NSDictionary *)inDictionary size:(NSString *)inSizeModifier;
