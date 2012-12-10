@@ -608,7 +608,39 @@ static StatusFetcher* sharedFetcher=nil;
 		
 		NSArray *urls=nil;
 		if([tweet objectForKey:@"entities"]&&[tweet objectForKey:@"entities"]!=[NSNull null]){
-			if([[tweet objectForKey:@"entities"] objectForKey:@"urls"]){
+            if([[[tweet objectForKey:@"entities"] objectForKey:@"media"] isKindOfClass:[NSArray class]]){
+                for(NSDictionary *media in [[tweet objectForKey:@"entities"]objectForKey:@"media"]){
+                    Status *thisStatus=[[[Status alloc]init] autorelease];
+                    thisStatus.statusID=[tweet objectForKey:@"id_str"];
+                    thisStatus.webURL=[NSURL URLWithString:[media objectForKey:@"expanded_url"]];
+                    thisStatus.caption=[[tweet objectForKey:@"text"] stringByReplacingOccurrencesOfString:[media objectForKey:@"url"] withString:@""];
+                    thisStatus.user=[self twitterUserFromDict:[tweet objectForKey:@"user"]];
+                    
+                    thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:thumb",[media objectForKey:@"media_url"]]];
+                    //thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:small",[media objectForKey:@"media_url"]]] <--retina
+                    thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:medium",[media objectForKey:@"media_url"]]];
+                    //thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:large",[media objectForKey:@"media_url"]]]
+                    thisStatus.fullURL=[NSURL URLWithString:[media objectForKey:@"media_url"]];
+                    
+                    thisStatus.liked=[[tweet objectForKey:@"favorited"]intValue]==1;
+                    thisStatus.date=[df dateFromString:[tweet objectForKey:@"created_at"]];
+                    
+                    if(request.delegate){
+                        if([request.delegate respondsToSelector:@selector(needThisStatus:)]){
+                            if(![request.delegate needThisStatus:thisStatus]){
+                                continue;
+                            }
+                        }
+                    }
+                    
+                    if(![self didCachedStatus:thisStatus inArray:_statuses]){
+                        [_statuses addObject:thisStatus];
+                    }
+                    if(![self didCachedStatus:thisStatus inArray:allStatuses]){
+                        [allStatuses addObject:thisStatus];
+                    }
+                }
+            }else if([[tweet objectForKey:@"entities"] objectForKey:@"urls"]){
 				NSArray *twitterParsedURLs=[[tweet objectForKey:@"entities"] objectForKey:@"urls"];
 				NSMutableArray *parsedURL=[NSMutableArray array];
 				for(NSDictionary *thisURL in twitterParsedURLs){
@@ -679,7 +711,7 @@ static StatusFetcher* sharedFetcher=nil;
 						[allStatuses addObject:thisStatus];
 					}
 					
-					break;
+					continue;
 				}
 			}
 		}
