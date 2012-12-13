@@ -108,6 +108,7 @@
 		CF57FE9B13BF52C800C184F8 /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE9313BF52C800C184F8 /* NSScanner_Extensions.m */; };
 		CF57FED313BF53CE00C184F8 /* YAJL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57FED213BF53CE00C184F8 /* YAJL.framework */; };
 		CF57FEEC13BF55B100C184F8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57FEEB13BF55B100C184F8 /* libxml2.dylib */; };
+		CF5EE5B11679AE53008D55D3 /* UIScrollView+Pinch.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE5B01679AE53008D55D3 /* UIScrollView+Pinch.m */; };
 		CF67D5E716695D1C004B2EAA /* ABTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F351545B6F100E19AED /* ABTableViewCell.m */; };
 		CF68A19413ECFBF100B9450E /* StatusDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68A19213ECFBF100B9450E /* StatusDetailViewController.m */; };
 		CF68A19513ECFBF100B9450E /* StatusDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF68A19313ECFBF100B9450E /* StatusDetailViewController.xib */; };
@@ -172,7 +173,6 @@
 		CFCDCD3713D89F5900E268E8 /* BRTumblrEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCD3613D89F5900E268E8 /* BRTumblrEngine.m */; };
 		CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE0D201673E3E800C10953 /* UserViewController.m */; };
 		CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCE0D211673E3E800C10953 /* UserViewController.xib */; };
-		CFCE0D2616752D8400C10953 /* BRLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE0D2516752D8400C10953 /* BRLoadingView.m */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
 		CFF72997151B542400540795 /* CommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72996151B542400540795 /* CommentRequest.m */; };
@@ -393,6 +393,8 @@
 		CF57FE9313BF52C800C184F8 /* NSScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScanner_Extensions.m; sourceTree = "<group>"; };
 		CF57FED213BF53CE00C184F8 /* YAJL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAJL.framework; sourceTree = "<group>"; };
 		CF57FEEB13BF55B100C184F8 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		CF5EE5AF1679AE53008D55D3 /* UIScrollView+Pinch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Pinch.h"; sourceTree = "<group>"; };
+		CF5EE5B01679AE53008D55D3 /* UIScrollView+Pinch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Pinch.m"; sourceTree = "<group>"; };
 		CF68A19113ECFBF100B9450E /* StatusDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusDetailViewController.h; sourceTree = "<group>"; };
 		CF68A19213ECFBF100B9450E /* StatusDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusDetailViewController.m; sourceTree = "<group>"; };
 		CF68A19313ECFBF100B9450E /* StatusDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatusDetailViewController.xib; sourceTree = "<group>"; };
@@ -531,8 +533,6 @@
 		CFCE0D1F1673E3E800C10953 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		CFCE0D201673E3E800C10953 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		CFCE0D211673E3E800C10953 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
-		CFCE0D2416752D8400C10953 /* BRLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRLoadingView.h; sourceTree = "<group>"; };
-		CFCE0D2516752D8400C10953 /* BRLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRLoadingView.m; sourceTree = "<group>"; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
 		CFE97F83151A2CF700187398 /* Attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attribute.m; sourceTree = "<group>"; };
 		CFF72992151B531700540795 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
@@ -1118,8 +1118,8 @@
 				CF6E2F3A1545B75300E19AED /* CommentTableViewCell.m */,
 				CFC2EE67166934F700995FC9 /* UIApplication+Frame.h */,
 				CFC2EE68166934F700995FC9 /* UIApplication+Frame.m */,
-				CFCE0D2416752D8400C10953 /* BRLoadingView.h */,
-				CFCE0D2516752D8400C10953 /* BRLoadingView.m */,
+				CF5EE5AF1679AE53008D55D3 /* UIScrollView+Pinch.h */,
+				CF5EE5B01679AE53008D55D3 /* UIScrollView+Pinch.m */,
 			);
 			name = "Categories+Subclass";
 			sourceTree = "<group>";
@@ -1666,7 +1666,7 @@
 				CFBBBE3616726D2300065DFC /* FacebookUser.m in Sources */,
 				CFBBBE3916726D3000065DFC /* TumblrUser.m in Sources */,
 				CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */,
-				CFCE0D2616752D8400C10953 /* BRLoadingView.m in Sources */,
+				CF5EE5B11679AE53008D55D3 /* UIScrollView+Pinch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

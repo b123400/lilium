@@ -82,6 +82,19 @@
     }
     return nil;
 }
++(Status*)sampleStatus{
+    User *newUser=[User userWithType:StatusSourceTypeTwitter userID:@"userID"];
+    newUser.displayName=@"display name";
+    newUser.username=@"username";
+    
+    Status *newStatus=[[Status alloc]init];
+    newStatus.statusID=@"status id";
+    newStatus.caption=@"caption";
+    newStatus.date=[NSDate date];
+    newStatus.user=newUser;
+    newStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"http://%@",[[NSDate date]description]]];
+    return newStatus;
+}
 
 -(BOOL)isEqual:(id)object{
 	if(![object isKindOfClass:[Status class]]){

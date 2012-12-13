@@ -57,6 +57,13 @@ static StatusFetcher* sharedFetcher=nil;
 	NSMutableArray *newArray=[NSMutableArray array];
 	[tempStatuses setObject:newArray forKey:request];
 	
+    if(true){
+        for(int i=0;i<30;i++){
+            [newArray addObject:[Status sampleStatus]];
+        }
+        [self refreshTempStatusForRequest:request];
+        return;
+    }
 	if([request type]==StatusRequestTypeTimeline){
 		Status *thisStatus=[self firstStatusWithSource:StatusSourceTypeTwitter inArray:request.referenceStatuses];
 		if([BRFunctions didLoggedInTwitter]){
