@@ -28,6 +28,7 @@ typedef enum StatusSourceType {
 @property (nonatomic,retain)NSString *userID;
 @property (nonatomic,retain)NSURL *profilePicture;
 @property (nonatomic,assign) StatusSourceType type;
+@property (nonatomic,readonly) NSArray *statuses;
 
 +(NSMutableArray*)allUsers;
 +(User*)userWithType:(StatusSourceType)type userID:(NSString*)userID;

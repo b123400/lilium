@@ -90,6 +90,21 @@
 	}
 	return [self performRequestWithPath:@"statuses/home_timeline" parameters:params];
 }
+-(NSString*)getUserTimelineWithUserID:(NSString*)userID sinceID:(NSString*)sinceID maxID:(NSString*)maxID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								 @"200",@"count",
+								 @"true",@"include_rts",
+								 @"true",@"include_entities",
+                                 userID,@"user_id", nil];
+	if(sinceID){
+		[params setObject:sinceID forKey:@"since_id"];
+	}
+	if(maxID){
+		[params	setObject:maxID forKey:@"max_id"];
+	}
+	return [self performRequestWithPath:@"statuses/user_timeline" parameters:params];
+
+}
 -(NSString*)getRepliesForStatusWithID:(NSString*)statusID{
     NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"true",@"include_entities",nil];
 //    statusID=@"274902397728477185";

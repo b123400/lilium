@@ -33,5 +33,6 @@
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params;
 
 -(NSString*)getUserDashBoardWithSinceID:(NSString*)sinceID offset:(int)offset;
+-(NSString*)getPostsWithBaseHostname:(NSString*)baseHostname offset:(int)offset;
 
 @end

@@ -103,7 +103,7 @@
 }
 #pragma mark - REST api
 -(NSString*)getSelfFeedWithMinID:(NSString*)minID maxID:(NSString*)maxID{
-	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"10" forKey:@"count"];
+	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"20" forKey:@"count"];
 	if(minID){
 		[params setObject:minID forKey:@"min_id"];
 	}

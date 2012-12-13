@@ -11,8 +11,9 @@
 #import "BRGridView.h"
 
 @interface UserViewController : UIViewController{
+    BOOL pushed;
+
     User *user;
-    NSMutableArray *statuses;
     
     IBOutlet BRGridView *gridView;
 }

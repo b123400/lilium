@@ -13,10 +13,6 @@
 @implementation Status
 @synthesize thumbURL,mediumURL,fullURL,webURL,caption,user,statusID,liked,date,captionColor,attributes,comments;
 
--(id)init{
-	return [super init];
-}
-
 -(NSDictionary*)dictionaryRepresentation{
 	NSMutableDictionary *dict=[NSMutableDictionary dictionary];
 	//[dict setObject:[NSNumber numberWithInt:source] forKey:@"source"];
@@ -88,7 +84,7 @@
 }
 
 -(BOOL)isEqual:(id)object{
-	if([object class]!=[Status class]){
+	if(![object isKindOfClass:[Status class]]){
 		return NO;
 	}
 	Status *thatStatus=object;

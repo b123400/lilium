@@ -30,8 +30,12 @@
 	return [self init];
 }
 
--(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params{
+-(NSString*)performRequestWithPath:(NSString*)path parameters:(NSMutableDictionary*)params{
 	NSMutableString *paramString=[NSMutableString string];
+    if(![params isKindOfClass:[NSMutableDictionary class]]){
+        params=[NSMutableDictionary dictionaryWithDictionary:params];
+    }
+    [params setObject:consumer.key forKey:@"api_key"];
 	for(NSString *key in params){
 		if([paramString length]){
 			[paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
@@ -40,7 +44,7 @@
 		}
 	}
 	
-	NSString *url=[NSString stringWithFormat:@"http://api.tumblr.com/v2%@%@",path,paramString];
+	NSString *url=[NSString stringWithFormat:@"http://api.tumblr.com/v2/%@%@",path,paramString];
 	
 	OAMutableURLRequest *request = [[[OAMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
 																	consumer:consumer
@@ -90,7 +94,16 @@
 		[params setObject:[NSString stringWithFormat:@"%i",offset] forKey:@"offset"];
 	}
     [params setObject:@"true" forKey:@"notes_info"];
-	return [self performRequestWithPath:@"/user/dashboard" parameters:params];
+	return [self performRequestWithPath:@"user/dashboard" parameters:params];
+}
+-(NSString*)getPostsWithBaseHostname:(NSString*)baseHostname offset:(int)offset{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"photo" forKey:@"type"];
+    //[params setObject:baseHostname forKey:@"base-hostname"];
+	if(offset){
+		[params setObject:[NSString stringWithFormat:@"%i",offset] forKey:@"offset"];
+	}
+    //[params setObject:@"true" forKey:@"notes_info"];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"blog/%@/posts/photo",baseHostname] parameters:params];
 }
 
 -(void)dealloc{
