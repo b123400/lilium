@@ -18,7 +18,9 @@
 
 -(void)pushInAnimationDidFinished;
 -(BOOL)shouldPopByPinch;
+-(void)didStartedPinching;
 -(void)didPinched;
+-(void)didCancelledPinching;
 -(void)poppedOutFromSubviewController;
 
 @end

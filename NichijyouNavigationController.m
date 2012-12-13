@@ -79,7 +79,12 @@ static float pressShiftFactor=0.2;
 	[pinch release];
 }
 -(void)pinched:(UIPinchGestureRecognizer*)gestureRecognizer{
-	if(gestureRecognizer.state==UIGestureRecognizerStateChanged&&gestureRecognizer.scale<1){
+    if(gestureRecognizer.state==UIGestureRecognizerStateBegan){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NichijyouNavigationControllerDelegateDidStartedPinchNotification" object:nil];
+        if([[self topViewController] respondsToSelector:@selector(didStartedPinching)]){
+            [(id)[self topViewController] didStartedPinching];
+        }
+    }else if(gestureRecognizer.state==UIGestureRecognizerStateChanged&&gestureRecognizer.scale<1){
 		if([[self viewControllers]count]<=1)return;
 		if([[[self viewControllers] objectAtIndex:0]class]==[UIViewController class]&&[[self viewControllers]count]==2){
 			return;
@@ -111,6 +116,10 @@ static float pressShiftFactor=0.2;
 		//resizeAnimation.toValue=[NSValue valueWithCATransform3D:CATransform3DScale(CATransform3DMakeTranslation(0, 0, 0), 1/zoomingFactor, 1/zoomingFactor, 1/zoomingFactor)];
 		
 	}else if(gestureRecognizer.state==UIGestureRecognizerStateEnded||gestureRecognizer.state==UIGestureRecognizerStateCancelled||gestureRecognizer.state==UIGestureRecognizerStateFailed){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"NichijyouNavigationControllerDelegateDidPinchedNotification" object:nil];
+        if([[self topViewController] respondsToSelector:@selector(didCancelledPinching)]){
+            [(id)[self topViewController]didCancelledPinching];
+        }
 		if(gestureRecognizer.scale<0.9){
 			if([[self viewControllers] count]>1){
 				if([[[self viewControllers] objectAtIndex:0]class]==[UIViewController class]&&[[self viewControllers]count]==2){

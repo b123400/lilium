@@ -58,6 +58,7 @@ typedef enum StatusImageSize {
 -(UIImage*)cachedImageOfSize:(StatusImageSize)size;
 
 +(NSArray*)allSources;
++(Status*)sampleStatus;
 +(NSString*)sourceName:(StatusSourceType)source;
 
 
