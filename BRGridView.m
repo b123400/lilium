@@ -7,6 +7,8 @@
 //
 
 #import "BRGridView.h"
+#import "AccelerationAnimation.h"
+#import "Evaluate.h"
 
 @interface BRGridView ()
 
@@ -41,6 +43,9 @@
 }
 #pragma mark Drawing
 -(void)reloadData{
+    [self reloadDataWithAnimation:NO];
+}
+-(void)reloadDataWithAnimation:(BOOL)animated{
 	float totalContentWidth=contentIndent.width;
 	//float drawingX=contentIndent.width;
 	
@@ -85,6 +90,32 @@
 	
 	self.contentSize=CGSizeMake(totalContentWidth, self.frame.size.height);
 	[self drawCurrentContent];
+    if(animated){
+        //animation
+        float zoomingFactor=3;
+        SecondOrderResponseEvaluator *evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
+        AccelerationAnimation *animationh =[AccelerationAnimation
+                                            animationWithKeyPath:@"transform"
+                                            startZoomValue:1/zoomingFactor
+                                            endZoomValue:1
+                                            evaluationObject:evaluator
+                                            interstitialSteps:99];
+        animationh.removedOnCompletion=YES;
+        animationh.duration=0.5;
+        
+        [cells enumerateObjectsUsingBlock:^(BRGridViewCell *cell, NSUInteger idx, BOOL *stop) {
+            float delay=idx*0.05;
+            animationh.beginTime=CACurrentMediaTime()+delay;
+            [[cell layer] addAnimation:animationh forKey:@"transform"];
+            
+            cell.layer.opacity=0;
+            [UIView animateWithDuration:animationh.duration delay:delay options:UIViewAnimationOptionTransitionNone animations:^{
+                cell.layer.opacity=1;
+            } completion:^(BOOL finished) {
+                
+            }];
+        }];
+    }
 	if(delegate){
 		if([(id)delegate respondsToSelector:@selector(gridViewDidFinishedLoading:)]){
 			[delegate gridViewDidFinishedLoading:self];

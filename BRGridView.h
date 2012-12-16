@@ -43,6 +43,7 @@
 @property (assign) CGSize cellMargin;
 
 -(void)reloadData;
+-(void)reloadDataWithAnimation:(BOOL)animated;
 - (id)dequeueReusableCellWithIdentifier:(NSString *)identifier;
 
 @end

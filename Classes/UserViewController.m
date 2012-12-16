@@ -73,7 +73,7 @@
         NSLog(@"%@",[error description]);
     }
     [statuses addObjectsFromArray:_statuses];
-    [gridView reloadData];
+    [gridView reloadDataWithAnimation:YES];
 }
 #pragma mark - grid view
 - (BRGridViewCell *)gridView:(id)_gridView cellAtIndexPath:(NSIndexPath *)indexPath{
