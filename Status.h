@@ -10,6 +10,8 @@
 #import "SDWebImageManager.h"
 #import "User.h"
 
+#define StatusDidPreloadedImageNotification @"StatusDidPreloadedImageNotification"
+
 typedef enum StatusImageSize {
     StatusImageSizeThumb       = 0,
     StatusImageSizeMedium   =1,
@@ -52,14 +54,17 @@ typedef enum StatusImageSize {
 @property (nonatomic,retain) NSMutableArray *attributes;
 @property (nonatomic,retain) NSMutableArray *comments;
 
--(NSDictionary*)dictionaryRepresentation;
--(void)prefetechThumb;
--(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector;
--(UIImage*)cachedImageOfSize:(StatusImageSize)size;
-
 +(NSArray*)allSources;
 +(Status*)sampleStatus;
 +(NSString*)sourceName:(StatusSourceType)source;
 
+
+-(void)prefetechThumb;
+-(UIImage*)cachedImageOfSize:(StatusImageSize)size;
+-(BOOL)isImagePreloaded;
+
+-(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector;
+
+-(NSDictionary*)dictionaryRepresentation;
 
 @end
