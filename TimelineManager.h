@@ -10,6 +10,9 @@
 #import "Status.h"
 #import "StatusRequest.h"
 
+#define TimelineManagerDidRefreshNotification @"TimelineManagerDidRefresh"
+#define TimelineManagerDidPrefectchThumbNotification @"TimelineManagerDidPrefectchThumbNotification"
+
 @interface TimelineManager : NSObject {
 	NSTimer *timer;
 	

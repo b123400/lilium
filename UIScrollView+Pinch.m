@@ -17,8 +17,7 @@
 }
 
 -(void)dealloc{
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"NichijyouNavigationControllerDelegateDidStartedPinchNotification" object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"NichijyouNavigationControllerDelegateDidPinchedNotification" object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
     [super dealloc];
 }
 

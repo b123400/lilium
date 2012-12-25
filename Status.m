@@ -27,6 +27,7 @@
 	[dict setObject:[NSNumber numberWithBool:liked] forKey:@"liked"];
 	return dict;
 }
+#pragma mark - image
 -(void)prefetechThumb{
 	if(thumbURL){
 		[[SDWebImageManager sharedManager] downloadWithURL:thumbURL delegate:self retryFailed:NO lowPriority:YES];
@@ -42,6 +43,16 @@
     }
     return nil;
 }
+- (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image{
+    [[NSNotificationCenter defaultCenter]postNotificationName:StatusDidPreloadedImageNotification object:self userInfo:nil];
+}
+-(BOOL)isImagePreloaded{
+    if([[SDImageCache sharedImageCache] imageFromKey:thumbURL.absoluteString fromDisk:NO]){
+        return YES;
+    }
+    return NO;
+}
+#pragma mark -
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector{
 	if(comments){
 		if([target respondsToSelector:selector]){

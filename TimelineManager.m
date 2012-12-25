@@ -31,6 +31,7 @@ static TimelineManager *sharedManager=nil;
 -(id)init{
 	statuses=[[NSMutableArray alloc] init];
 	timer=[[NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(autoSyncByTimer:) userInfo:nil repeats:YES] retain];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusDidPreloadedThumbImage:) name:StatusDidPreloadedImageNotification object:nil];
 	return [super init];
 }
 #pragma mark -
@@ -90,6 +91,13 @@ static TimelineManager *sharedManager=nil;
 	for(Status *thisStatus in _statuses){
 		[thisStatus prefetechThumb];
 	}
+    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidRefreshNotification object:nil];
+}
+-(void)statusDidPreloadedThumbImage:(NSNotification*)notification{
+    for(Status *status in statuses){
+        if(!status.isImagePreloaded)return;
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidPrefectchThumbNotification object:nil userInfo:nil];
 }
 -(BOOL)needThisStatus:(Status*)status{
 	for(Status *thisStatus in statuses){
@@ -154,6 +162,7 @@ static TimelineManager *sharedManager=nil;
 	return tumblrOffset;
 }
 -(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[statuses release];
 	[timer release];
 	[super dealloc];
