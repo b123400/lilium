@@ -60,7 +60,12 @@
 	[SVProgressHUD show];
 	[SVProgressHUD dismissWithError:@"Failed"];	
 }
-
+- (void)webViewDidStartLoad:(UIWebView *)_webView{
+    [SVProgressHUD show];
+    if([super respondsToSelector:@selector(webViewDidStartLoad:)]){
+        [super webViewDidStartLoad:_webView];
+    }
+}
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
 	[SVProgressHUD dismiss];
 }

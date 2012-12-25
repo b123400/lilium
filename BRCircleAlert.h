@@ -7,7 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BRCircleAlertButton.h"
 
-@interface BRCircleAlert : UIView
+#define MIN_BUTTON_MARGIN  10
+#define BUTTON_RADIUS       30
+#define BUTTON_SPACING      10
+
+@interface BRCircleAlert : UIView{
+    NSString *text;
+    UIColor *color;
+    NSArray *buttons;
+    
+    float _radius;
+    float _minimumTextWidth;
+    float _verticalBlank;
+    
+    UITextView *textView;
+}
+@property (retain,nonatomic) NSString *text;
+@property (retain,nonatomic) UIColor *color;
+@property (retain,nonatomic) NSArray *buttons;
+
++(BRCircleAlert*)alertWithText:(NSString*)text color:(UIColor*)color buttons:(NSArray*)buttons;
+- (id)initWithText:(NSString*)_text color:(UIColor*)_color buttons:(NSArray*)_buttons;
+
+-(void)show;
 
 @end

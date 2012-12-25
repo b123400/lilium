@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BRCircleAlertButton : UIButton
+@interface BRCircleAlertButton : UIButton{
+    void (^action)(void);
+}
+@property (nonatomic,assign) void (^action)(void);
+
++(BRCircleAlertButton*)buttonWithAction:(void (^) (void))_action;
 
 @end
