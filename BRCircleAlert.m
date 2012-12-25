@@ -73,9 +73,9 @@
     float buttonXMargin=([UIApplication currentFrame].size.width-totalButtonWidth)/2;
     
     float buttonMargin=MIN_BUTTON_MARGIN;
-    if(([UIApplication currentFrame].size.height/2+self.radius-(textView.frame.origin.y+textView.frame.size.height)-BUTTON_RADIUS*2)/2>MIN_BUTTON_MARGIN){
+//    if(([UIApplication currentFrame].size.height/2+self.radius-(textView.frame.origin.y+textView.frame.size.height)-BUTTON_RADIUS*2)/2>MIN_BUTTON_MARGIN){
         buttonMargin=([UIApplication currentFrame].size.height/2+self.radius-(textView.frame.origin.y+textView.frame.size.height)-BUTTON_RADIUS*2)/2;
-    }
+    //}
     
     for(int i=0;i<[buttons count];i++){
         BRCircleAlertButton *thisButton =[buttons objectAtIndex:i];
