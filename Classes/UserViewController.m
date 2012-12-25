@@ -23,7 +23,7 @@
 -(id)initWithUser:(User*)_user{
     user=[_user retain];
     
-    statuses=[[NSMutableArray alloc] init];
+    //statuses=[[NSMutableArray alloc] init];
     StatusRequest *request=[[[StatusRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
     request.referenceUsers=[NSMutableArray arrayWithObject:user];
     request.selector=@selector(requestFinished:withStatuses:withError:);
@@ -42,7 +42,7 @@
 }
 -(void)dealloc{
     if(user)[user release];
-    [statuses release];
+    //[statuses release];
     [super dealloc];
 }
 
@@ -72,7 +72,7 @@
     if(error){
         NSLog(@"%@",[error description]);
     }
-    [statuses addObjectsFromArray:_statuses];
+    //[statuses addObjectsFromArray:_statuses];
     [gridView reloadDataWithAnimation:YES];
 }
 #pragma mark - grid view
@@ -83,18 +83,18 @@
 		cell.backgroundColor=[UIColor blackColor];
 		[cell setTouchReactionEnabled:YES];
 	}
-	Status *thisStatus=[statuses objectAtIndex:indexPath.row];
+	Status *thisStatus=[user.statuses objectAtIndex:indexPath.row];
 	cell.status=thisStatus;
 	return cell;
 }
 - (NSInteger)gridView:(id)gridView numberOfCellsInSection:(NSInteger)section{
-    return [statuses count];
+    return [user.statuses count];
 }
 - (NSInteger)numberOfSectionsInGridView:(id)gridView{
     return 1;
 }
 - (void)gridView:(id)gridView didSelectCell:(BRGridViewCell*)cell AtIndexPath:(NSIndexPath *)indexPath{
-    Status *thisStatus=[statuses objectAtIndex:indexPath.row];
+    Status *thisStatus=[user.statuses objectAtIndex:indexPath.row];
 	StatusDetailViewController *detailViewController=[[StatusDetailViewController alloc]initWithStatus:thisStatus];
 	[self.navigationController pushViewController:detailViewController animated:YES];
 	[detailViewController release];
