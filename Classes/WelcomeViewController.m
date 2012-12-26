@@ -83,15 +83,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
--(void)pushInAnimationDidFinished{
-    BRCircleAlertButton *button=[BRCircleAlertButton buttonWithAction:^{
-        NSLog(@"action");
-    }];
-    button.frame=CGRectMake(0, 0, 60,60);
-    [button setTitle:@"title" forState:UIControlStateNormal];
-    BRCircleAlert *alert=[BRCircleAlert alertWithText:@"Are you sure you want to logout?" color:[UIColor redColor] buttons:[NSArray arrayWithObject:button]];
-    [alert show];
-}
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];

@@ -12,6 +12,7 @@
 #import "SVProgressHUD.h"
 #import "UIView+Interaction.h"
 #import "UIControl+Interaction.h"
+#import "BRCircleAlert.h"
 
 #import "Status.h"
 
@@ -34,10 +35,20 @@
 
 #pragma mark Twitter
 -(void)loginWithTwitter{
-	TwitterLoginController *twitterController=[[TwitterLoginController alloc]init];
-	twitterController.delegate=self;
-	[self.navigationController pushViewController:twitterController animated:YES];
-	[twitterController release];
+    if(![BRFunctions didLoggedInTwitter]){
+        TwitterLoginController *twitterController=[[TwitterLoginController alloc]init];
+        twitterController.delegate=self;
+        [self.navigationController pushViewController:twitterController animated:YES];
+        [twitterController release];
+    }else{
+        BRCircleAlert *alert=[BRCircleAlert alertWithText:@"Are you sure you want to logout twitter?" color:[UIColor redColor] buttons:[NSArray arrayWithObjects:
+                                                                                                                                [BRCircleAlertButton tickButtonWithAction:^{
+            [BRFunctions logoutTwitter];
+            [self refreshLoginStatus];
+        }],
+                                                                                                                                [BRCircleAlertButton cancelButton], nil]];
+        [alert show];
+    }
 }
 -(void)twitterLoginControllerDidReceivedAccessToken:(OAToken*)token{
 	[BRFunctions saveTwitterToken:token];

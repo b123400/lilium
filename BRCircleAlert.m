@@ -19,6 +19,8 @@
 
 -(void)layout;
 
+-(void)buttonPressed:(BRCircleAlertButton*)sender;
+
 @end
 
 @implementation BRCircleAlert
@@ -37,6 +39,7 @@
         
         self.buttons=_buttons;
         for(BRCircleAlertButton *button in self.buttons){
+            [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:button];
         }
         
@@ -44,6 +47,7 @@
         _radius=-1;
         
         textView=[[UITextView alloc] init];
+        textView.font=[UIFont systemFontOfSize:16];
         textView.textColor=[UIColor whiteColor];
         textView.backgroundColor=[UIColor clearColor];
         textView.textAlignment=NSTextAlignmentCenter;
@@ -103,7 +107,20 @@
     
     [self.layer addAnimation:animationh forKey:@"transform"];
 }
-
+-(void)dismiss{
+    [UIView animateWithDuration:0.2 animations:^{
+        self.layer.transform=CATransform3DMakeScale(0.1, 0.1, 1.0);
+    } completion:^(BOOL finished) {
+        if(finished){
+            [self removeFromSuperview];
+        }
+    }];
+}
+#pragma mark - interaction
+-(void)buttonPressed:(BRCircleAlertButton*)sender{
+    sender.action();
+    [self dismiss];
+}
 #pragma mark -
 -(CGSize)sizeForTextWithWidth:(float)width{
     CGRect textViewFrame=textView.frame;
@@ -149,8 +166,16 @@
     float radius=self.radius;
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextAddEllipseInRect(ctx, CGRectMake((self.frame.size.width-radius*2)/2, (self.frame.size.height-radius*2)/2, radius*2, radius*2));
-    CGContextSetFillColor(ctx, CGColorGetComponents([self.color CGColor]));
+    
+    CGRect circleRect=CGRectMake((self.frame.size.width-radius*2)/2, (self.frame.size.height-radius*2)/2, radius*2, radius*2);
+    CGContextAddEllipseInRect(ctx, circleRect);
+    CGContextSetFillColorWithColor(ctx, self.color.CGColor);
+    CGContextFillPath(ctx);
+    
+    circleRect=CGRectInset(circleRect, -10, -10);
+    CGContextAddEllipseInRect(ctx, circleRect);
+    CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
+    CGContextSetAlpha(ctx, 0.3);
     CGContextFillPath(ctx);
     
     //[super drawRect:rect];

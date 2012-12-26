@@ -10,9 +10,15 @@
 
 @interface BRCircleAlertButton : UIButton{
     void (^action)(void);
+    UIColor *color;
 }
-@property (nonatomic,assign) void (^action)(void);
+@property (nonatomic,retain) void (^action)(void);
+@property (nonatomic,assign) UIColor *color;
 
 +(BRCircleAlertButton*)buttonWithAction:(void (^) (void))_action;
++(BRCircleAlertButton*)buttonWithAction:(void (^) (void))_action color:(UIColor*)_color;
+
++(BRCircleAlertButton*)tickButtonWithAction:(void (^)(void))_action;
++(BRCircleAlertButton*)cancelButton;
 
 @end

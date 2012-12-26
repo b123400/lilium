@@ -42,6 +42,7 @@
 +(BRTwitterEngine*)sharedTwitter;
 +(void)saveTwitterToken:(OAToken*)token;
 +(BOOL)didLoggedInTwitter;
++(void)logoutTwitter;
 
 +(Facebook*)sharedFacebook;
 +(NSString*)facebookCurrentUserID;

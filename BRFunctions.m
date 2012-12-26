@@ -43,6 +43,9 @@ static BRTumblrEngine *sharedTumblr = nil;
 	}
 	return NO;
 }
++(void)logoutTwitter{
+    [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:twitterSaveKey];
+}
 #pragma mark -
 #pragma mark Facebook
 +(Facebook*)sharedFacebook{
