@@ -51,7 +51,6 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)_webView{
-    webView.scalesPageToFit=NO;
 	[SVProgressHUD dismiss];
 }
 -(void)pushInAnimationDidFinished{
