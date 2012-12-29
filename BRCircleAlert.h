@@ -28,7 +28,9 @@
 @property (retain,nonatomic) UIColor *color;
 @property (retain,nonatomic) NSArray *buttons;
 
++(BRCircleAlert*)alertWithText:(NSString*)_text buttons:(NSArray*)_buttons;
 +(BRCircleAlert*)alertWithText:(NSString*)text color:(UIColor*)color buttons:(NSArray*)buttons;
++(BRCircleAlert*)confirmAlertWithText:(NSString*)text action:(void (^)(void))action;
 - (id)initWithText:(NSString*)_text color:(UIColor*)_color buttons:(NSArray*)_buttons;
 
 -(void)show;

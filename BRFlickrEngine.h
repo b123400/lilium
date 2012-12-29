@@ -23,6 +23,8 @@
 	OAToken *accessToken;
 	
 	id <BRFlickrEngineDelegate> delegate;
+    
+    NSMutableArray *fetchers;
 }
 @property (retain,nonatomic) OAToken *accessToken;
 @property (assign) id delegate;

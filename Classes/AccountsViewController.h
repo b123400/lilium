@@ -13,6 +13,8 @@
 #import "FlickrLoginViewController.h"
 #import "TumblrLoginViewController.h"
 
+#define AccountsDidUpdatedNotification @"AccountsDidUpdatedNotification"
+
 @interface AccountsViewController : UIViewController <TwitterLoginControllerDelegate,BRInstagramLoginViewControllerDelegate,FlickrLoginViewControllerDelegate,BRTumblrLoginViewControllerDelegate> {
 	IBOutlet UIButton *twitterButton;
 	IBOutlet UIButton *facebookButton;

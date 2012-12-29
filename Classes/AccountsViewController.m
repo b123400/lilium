@@ -41,13 +41,10 @@
         [self.navigationController pushViewController:twitterController animated:YES];
         [twitterController release];
     }else{
-        BRCircleAlert *alert=[BRCircleAlert alertWithText:@"Are you sure you want to logout twitter?" color:[UIColor redColor] buttons:[NSArray arrayWithObjects:
-                                                                                                                                [BRCircleAlertButton tickButtonWithAction:^{
+        [[BRCircleAlert confirmAlertWithText:@"Are you sure to logout Twitter?" action:^{
             [BRFunctions logoutTwitter];
             [self refreshLoginStatus];
-        }],
-                                                                                                                                [BRCircleAlertButton cancelButton], nil]];
-        [alert show];
+        }] show];
     }
 }
 -(void)twitterLoginControllerDidReceivedAccessToken:(OAToken*)token{
@@ -56,17 +53,31 @@
 
 #pragma mark Facebook
 -(void)loginWithFacebook{
-	FacebookLoginController *facebookController=[[FacebookLoginController alloc]init];
-	[self.navigationController pushViewController:facebookController animated:YES];
-	[facebookController release];
+    if(![BRFunctions isFacebookLoggedIn:NO]){
+        FacebookLoginController *facebookController=[[FacebookLoginController alloc]init];
+        [self.navigationController pushViewController:facebookController animated:YES];
+        [facebookController release];
+    }else{
+        [[BRCircleAlert confirmAlertWithText:@"Are you sure to logout Facebook?" action:^{
+            [[BRFunctions sharedFacebook] logout:[BRFunctions sharedObject]];
+            [self refreshLoginStatus];
+        }] show];
+    }
 }
 
 #pragma mark Instagram
 -(void)loginWithInstagram{
-	InstagramLoginViewController *instagramController=[[InstagramLoginViewController alloc]initWithInstagramEngine:[BRFunctions sharedInstagram]];
-	instagramController.delegate=self;
-	[self.navigationController pushViewController:instagramController animated:YES];
-	[instagramController release];
+    if(![BRFunctions didLoggedInInstagram]){
+        InstagramLoginViewController *instagramController=[[InstagramLoginViewController alloc]initWithInstagramEngine:[BRFunctions sharedInstagram]];
+        instagramController.delegate=self;
+        [self.navigationController pushViewController:instagramController animated:YES];
+        [instagramController release];
+    }else{
+        [[BRCircleAlert confirmAlertWithText:@"Are you sure to logout Instagram?" action:^{
+            [BRFunctions logoutInstagram];
+            [self refreshLoginStatus];
+        }] show];
+    }
 }
 -(void)didReceivedInstagramToken:(NSString*)token{
 	[BRFunctions saveInstagramToken:token];
@@ -78,10 +89,17 @@
 
 #pragma mark Flickr
 -(void)loginWithFlickr{
-	FlickrLoginViewController *flickrController=[[FlickrLoginViewController alloc]init];
-	flickrController.delegate=self;
-	[self.navigationController pushViewController:flickrController animated:YES];
-	[flickrController release];
+    if(![BRFunctions didLoggedInFlickr]){
+        FlickrLoginViewController *flickrController=[[FlickrLoginViewController alloc]init];
+        flickrController.delegate=self;
+        [self.navigationController pushViewController:flickrController animated:YES];
+        [flickrController release];
+    }else{
+        [[BRCircleAlert confirmAlertWithText:@"Are you sure to logout Flickr?" action:^{
+            [BRFunctions logoutFlickr];
+            [self refreshLoginStatus];
+        }]show];
+    }
 }
 -(void)flickrLoginControllerDidReceivedAccessToken:(OAToken*)token{
 	[BRFunctions saveFlickrToken:token];
@@ -90,10 +108,17 @@
 #pragma mark -
 #pragma mark Tumblr
 -(IBAction)loginWithTumblr{
-	TumblrLoginViewController *tumblrController=[[TumblrLoginViewController alloc]init];
-	tumblrController.delegate=self;
-	[self.navigationController pushViewController:tumblrController animated:YES];
-	[tumblrController release];
+    if(![BRFunctions didLoggedInTumblr]){
+        TumblrLoginViewController *tumblrController=[[TumblrLoginViewController alloc]init];
+        tumblrController.delegate=self;
+        [self.navigationController pushViewController:tumblrController animated:YES];
+        [tumblrController release];
+    }else{
+        [[BRCircleAlert confirmAlertWithText:@"Are you sure to logout Tumblr?" action:^{
+            [BRFunctions logoutTumblr];
+            [self refreshLoginStatus];
+        }]show];
+    }
 }
 -(void)tumblrLoginViewController:(id)sender didReceivedAccessToken:(OAToken*)token{
 	[BRFunctions saveTumblrToken:token];
@@ -151,6 +176,7 @@
 }
 -(void)poppedOutFromSubviewController{
 	[self refreshLoginStatus];
+    [[NSNotificationCenter defaultCenter] postNotificationName:AccountsDidUpdatedNotification object:nil];
 }
 /*
 // Override to allow orientations other than the default portrait orientation.

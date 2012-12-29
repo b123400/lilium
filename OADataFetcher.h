@@ -40,6 +40,8 @@
 }
 
 @property (nonatomic, assign) id delegate;
+@property (nonatomic, readonly) OAMutableURLRequest *request;
+@property (nonatomic, readonly) NSURLConnection *connection;
 
 - (void)fetchDataWithRequest:(OAMutableURLRequest *)aRequest delegate:(id)aDelegate didFinishSelector:(SEL)finishSelector didFailSelector:(SEL)failSelector;
 

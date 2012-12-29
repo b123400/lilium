@@ -23,6 +23,8 @@
 	OAToken *accessToken;
 	
 	id <BRTumblrEngineDelegate> delegate;
+    
+    NSMutableArray *fetchers;
 }
 @property (nonatomic,retain) OAToken *accessToken;
 @property (nonatomic,assign) id <BRTumblrEngineDelegate> delegate;

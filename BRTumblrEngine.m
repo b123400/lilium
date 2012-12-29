@@ -27,6 +27,7 @@
 }
 -(id)initWithConsumer:(OAConsumer*)_consumer{
 	consumer =[_consumer retain];
+    fetchers=[[NSMutableArray alloc]init];
 	return [self init];
 }
 
@@ -53,9 +54,16 @@
 														   signatureProvider:nil]autorelease];
 	OADataFetcher *fetcher=[[[OADataFetcher alloc]init] autorelease];
 	[fetcher fetchDataWithRequest:request delegate:self didFinishSelector:@selector(requestDidFinished:withData:) didFailSelector:@selector(requestDidFailed:withError:)];
+    [fetchers addObject:fetcher];
 	return [request identifier];
 }
 - (void)requestDidFinished:(OAServiceTicket *)ticket withData:(NSData *)data {
+    for(OADataFetcher *fetcher in fetchers){
+        if(fetcher.request==ticket.request){
+            [fetchers removeObject:fetcher];
+        }
+    }
+    
 	NSError *error=nil;
 	id object=[[CJSONDeserializer deserializer] deserialize:data error:&error];
 	if(error){
@@ -75,6 +83,11 @@
 }
 - (void)requestDidFailed:(OAServiceTicket *)ticket withError:(NSError *)error{
 	[self failedWithError:error  forRequestIdentifier:[[ticket request]identifier]];
+    for(OADataFetcher *fetcher in fetchers){
+        if(fetcher.request==ticket.request){
+            [fetchers removeObject:fetcher];
+        }
+    }
 }
 
 -(void)failedWithError:(NSError*)error  forRequestIdentifier:(NSString*)identifier{
@@ -107,6 +120,11 @@
 }
 
 -(void)dealloc{
+    for(OADataFetcher *fetcher in fetchers){
+        [fetcher.connection cancel];
+        fetcher.delegate=nil;
+    }
+    [fetchers release];
 	[consumer release];
 	[super dealloc];
 }

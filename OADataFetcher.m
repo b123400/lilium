@@ -31,6 +31,7 @@
 
 
 @synthesize delegate;
+@synthesize request,connection;
 
 - (id)init {
 	[super init];

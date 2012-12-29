@@ -44,7 +44,12 @@ static BRTumblrEngine *sharedTumblr = nil;
 	return NO;
 }
 +(void)logoutTwitter{
+    if(![self didLoggedInTwitter])return;
     [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:twitterSaveKey];
+    if(sharedTwitter){
+        [sharedTwitter release];
+        sharedTwitter=nil;
+    }
 }
 #pragma mark -
 #pragma mark Facebook
@@ -119,6 +124,16 @@ static BRTumblrEngine *sharedTumblr = nil;
 	}
 	return NO;
 }
++(void)logoutInstagram{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:instagramSaveKey];
+    [defaults synchronize];
+	
+	if(sharedInstagram){
+        [sharedInstagram release];
+        sharedInstagram=nil;
+	}
+}
 #pragma mark -
 #pragma mark Flickr
 +(BRFlickrEngine*)sharedFlickr{
@@ -144,6 +159,13 @@ static BRTumblrEngine *sharedTumblr = nil;
 	}
 	return NO;
 }
++(void)logoutFlickr{
+    if(sharedFlickr){
+        [sharedFlickr release];
+        sharedFlickr=nil;
+    }
+    [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:flickrSaveKey];
+}
 #pragma mark -
 #pragma mark tumblr
 +(BRTumblrEngine*)sharedTumblr{
@@ -168,6 +190,13 @@ static BRTumblrEngine *sharedTumblr = nil;
 		return YES;
 	}
 	return NO;
+}
++(void)logoutTumblr{
+    if(sharedTumblr){
+        [sharedTumblr release];
+        sharedTumblr=nil;
+    }
+    [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:tumblrSaveKey];
 }
 #pragma mark -
 +(BRFunctions*)sharedObject{

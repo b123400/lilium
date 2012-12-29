@@ -23,8 +23,22 @@
 -(id)initWithClientID:(NSString*)_clientID secret:(NSString*)_clientSecret{
 	clientID=[_clientID retain];
 	clientSecret=[_clientSecret retain];
+    requests=[[NSMutableArray alloc]init];
 	
 	return [super init];
+}
+
+-(void)dealloc{
+    for(ASIHTTPRequest* request in requests){
+        [request cancel];
+        request.delegate=nil;
+    }
+    [requests release];
+	[clientID release];
+	[clientSecret release];
+	if(redirectUri)[redirectUri release];
+	if(scope)[scope release];
+	[super dealloc];
 }
 
 -(NSURL*)authURL:(BOOL)mobileLayout{
@@ -64,12 +78,13 @@
 	ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
 	[request setDelegate:self];
 	[request startAsynchronous];
-	
+	[requests addObject:request];
 	return [request identifier];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
+    [requests removeObject:request];
 	// Use when fetching binary data
 	NSData *responseData = [request responseData];
 	NSError *error=nil;
@@ -94,6 +109,7 @@
 {
 	NSError *error = [request error];
 	[self failedWithError:error  forRequestIdentifier:[request identifier]];
+    [requests removeObject:request];
 }
 
 -(void)failedWithError:(NSError*)error forRequestIdentifier:(NSString*)identifier{
@@ -125,14 +141,6 @@
 -(NSString*)getCommentsWithMediaID:(NSString*)mediaID{
 	NSMutableDictionary *params=[NSMutableDictionary dictionary];
 	return [self performRequestWithPath:[NSString stringWithFormat:@"/media/%@/comments",mediaID] parameters:params];
-}
-
--(void)dealloc{
-	[clientID release];
-	[clientSecret release];
-	if(redirectUri)[redirectUri release];
-	if(scope)[scope release];
-	[super dealloc];
 }
 
 @end

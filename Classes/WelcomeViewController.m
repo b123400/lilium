@@ -25,6 +25,7 @@
 }
 */
 -(id)init{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView) name:AccountsDidUpdatedNotification object:nil];
 	return [self initWithNibName:@"WelcomeViewController" bundle:nil];
 }
 
@@ -98,6 +99,7 @@
 
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 

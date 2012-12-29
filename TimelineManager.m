@@ -8,6 +8,7 @@
 
 #import "TimelineManager.h"
 #import "StatusFetcher.h"
+#import "AccountsViewController.h"
 
 @interface TimelineManager ()
 
@@ -32,6 +33,7 @@ static TimelineManager *sharedManager=nil;
 	statuses=[[NSMutableArray alloc] init];
 	timer=[[NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(autoSyncByTimer:) userInfo:nil repeats:YES] retain];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusDidPreloadedThumbImage:) name:StatusDidPreloadedImageNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sync) name:AccountsDidUpdatedNotification object:nil];
 	return [super init];
 }
 #pragma mark -

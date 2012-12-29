@@ -27,6 +27,8 @@
 	NSString *accessToken;
 	
 	id <BRInstagramEngineDelegate> delegate;
+    
+    NSMutableArray *requests;
 }
 @property (nonatomic,retain) NSURL *redirectUri;
 @property (nonatomic,retain) NSString *scope;

@@ -42,6 +42,7 @@
 }
 -(void)dealloc{
     if(user)[user release];
+    gridView.delegate=nil;
     //[statuses release];
     [super dealloc];
 }

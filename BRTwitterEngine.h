@@ -27,6 +27,8 @@ typedef enum BRImageSize{
 @interface BRTwitterEngine : NSObject {
 	OAConsumer *consumer;
 	OAToken *accessToken;
+    
+    NSMutableArray *fetchers;
 	
 	id <BRTwitterEngineDelegate> delegate;
 }

@@ -52,14 +52,17 @@
 +(BRInstagramEngine*)sharedInstagram;
 +(void)saveInstagramToken:(NSString*)token;
 +(BOOL)didLoggedInInstagram;
++(void)logoutInstagram;
 
 +(BRFlickrEngine*)sharedFlickr;
 +(void)saveFlickrToken:(OAToken*)token;
 +(BOOL)didLoggedInFlickr;
++(void)logoutFlickr;
 
 +(BRTumblrEngine*)sharedTumblr;
 +(void)saveTumblrToken:(OAToken*)token;
 +(BOOL)didLoggedInTumblr;
++(void)logoutTumblr;
 
 
 +(BRFunctions*)sharedObject;

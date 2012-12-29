@@ -61,10 +61,17 @@
     [textView release];
     [super dealloc];
 }
++(BRCircleAlert*)alertWithText:(NSString*)_text buttons:(NSArray*)_buttons{
+    return [BRCircleAlert alertWithText:_text color:[UIColor colorWithRed:1.0 green:63/255. blue:93/255. alpha:1.0] buttons:_buttons];
+}
 +(BRCircleAlert*)alertWithText:(NSString*)_text color:(UIColor*)color buttons:(NSArray*)_buttons{
     return [[[BRCircleAlert alloc]initWithText:_text color:color buttons:_buttons]autorelease];
 }
-
++(BRCircleAlert*)confirmAlertWithText:(NSString*)text action:(void (^)(void))action{
+    return [BRCircleAlert alertWithText:text buttons:[NSArray arrayWithObjects:
+                                                      [BRCircleAlertButton tickButtonWithAction:action],
+                                                      [BRCircleAlertButton cancelButton], nil]];
+}
 -(void)layout{
     CGSize textViewSize=[self sizeForTextWithWidth:self.minimumTextWidth];
     float xMargin=([UIApplication currentFrame].size.width-self.minimumTextWidth)/2;
@@ -109,7 +116,7 @@
 }
 -(void)dismiss{
     [UIView animateWithDuration:0.2 animations:^{
-        self.layer.transform=CATransform3DMakeScale(0.1, 0.1, 1.0);
+        self.layer.transform=CATransform3DMakeScale(0., 0., 1.0);
     } completion:^(BOOL finished) {
         if(finished){
             [self removeFromSuperview];
@@ -168,16 +175,18 @@
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     CGRect circleRect=CGRectMake((self.frame.size.width-radius*2)/2, (self.frame.size.height-radius*2)/2, radius*2, radius*2);
-    CGContextAddEllipseInRect(ctx, circleRect);
-    CGContextSetFillColorWithColor(ctx, self.color.CGColor);
-    CGContextFillPath(ctx);
     
-    circleRect=CGRectInset(circleRect, -10, -10);
-    CGContextAddEllipseInRect(ctx, circleRect);
+    CGRect outerCircleRect=CGRectInset(circleRect, -10, -10);
+    CGContextAddEllipseInRect(ctx, outerCircleRect);
     CGContextSetFillColorWithColor(ctx, [UIColor whiteColor].CGColor);
     CGContextSetAlpha(ctx, 0.3);
     CGContextFillPath(ctx);
     
+    CGContextAddEllipseInRect(ctx, circleRect);
+    CGContextSetAlpha(ctx, 1.0);
+    CGContextSetFillColorWithColor(ctx, self.color.CGColor);
+    CGContextFillPath(ctx);
+
     //[super drawRect:rect];
 }
 
