@@ -106,7 +106,7 @@
         [cells enumerateObjectsUsingBlock:^(BRGridViewCell *cell, NSUInteger idx, BOOL *stop) {
             float delay=idx*0.05;
             animationh.beginTime=CACurrentMediaTime()+delay;
-            [[cell layer] addAnimation:animationh forKey:@"transform"];
+            [[cell layer] addAnimation:animationh forKey:@"grid_transform"];
             
             cell.layer.opacity=0;
             [UIView animateWithDuration:animationh.duration delay:delay options:UIViewAnimationOptionTransitionNone animations:^{
@@ -221,7 +221,13 @@
 	}
 }
 
+#pragma mark -
+-(int)numberOfCellInSection:(int)section{
+    if([numOfCellInSections count]-1<section)return 0;
+    return [[numOfCellInSections objectAtIndex:section] intValue];
+}
 - (void)dealloc {
+    [self removeObserver:self forKeyPath:@"contentOffset"];
 	[cells release];
 	[cellsIndex release];
 	if(numOfCellInSections){

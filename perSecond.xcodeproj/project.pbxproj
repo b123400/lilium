@@ -26,6 +26,8 @@
 		CF3B015F13CB74440060E0F6 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B015D13CB74440060E0F6 /* WelcomeViewController.m */; };
 		CF3B016013CB74440060E0F6 /* WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B015E13CB74440060E0F6 /* WelcomeViewController.xib */; };
 		CF40613E13EC2AF70019767C /* UIImage-Tint.m in Sources */ = {isa = PBXBuildFile; fileRef = CF40613D13EC2AF70019767C /* UIImage-Tint.m */; };
+		CF42DFFC168F7104009FB526 /* BRCircleAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42DFF9168F7104009FB526 /* BRCircleAlert.m */; };
+		CF42DFFD168F7104009FB526 /* BRCircleAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42DFFB168F7104009FB526 /* BRCircleAlertButton.m */; };
 		CF42E77413D619060078935D /* StatusRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E77313D619060078935D /* StatusRequest.m */; };
 		CF43090413EAC7DC007CA113 /* UIImage+averageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43090313EAC7DC007CA113 /* UIImage+averageColor.m */; };
 		CF43099413EAE02F007CA113 /* UIImage+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43099313EAE02F007CA113 /* UIImage+Operations.m */; };
@@ -243,6 +245,10 @@
 		CF3B015E13CB74440060E0F6 /* WelcomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WelcomeViewController.xib; sourceTree = "<group>"; };
 		CF40613C13EC2AF70019767C /* UIImage-Tint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Tint.h"; sourceTree = "<group>"; };
 		CF40613D13EC2AF70019767C /* UIImage-Tint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Tint.m"; sourceTree = "<group>"; };
+		CF42DFF8168F7104009FB526 /* BRCircleAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRCircleAlert.h; sourceTree = "<group>"; };
+		CF42DFF9168F7104009FB526 /* BRCircleAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRCircleAlert.m; sourceTree = "<group>"; };
+		CF42DFFA168F7104009FB526 /* BRCircleAlertButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRCircleAlertButton.h; sourceTree = "<group>"; };
+		CF42DFFB168F7104009FB526 /* BRCircleAlertButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRCircleAlertButton.m; sourceTree = "<group>"; };
 		CF42E77213D619060078935D /* StatusRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusRequest.h; sourceTree = "<group>"; };
 		CF42E77313D619060078935D /* StatusRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusRequest.m; sourceTree = "<group>"; };
 		CF43090213EAC7DC007CA113 /* UIImage+averageColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+averageColor.h"; sourceTree = "<group>"; };
@@ -655,6 +661,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CF42DFF7168F70EA009FB526 /* BRCircleAlert */,
 				CFCDCBD313D8763900E268E8 /* ASIHTTPRequest */,
 				CFCDCBD213D8762000E268E8 /* BRInstagramEngine */,
 				CF47763113D1D06700FC2D37 /* BRFlickrEngine */,
@@ -728,6 +735,17 @@
 				CF2D0ED71413B3C100E173DC /* OHAttributedLabel.m */,
 			);
 			name = OHAttributedLabel;
+			sourceTree = "<group>";
+		};
+		CF42DFF7168F70EA009FB526 /* BRCircleAlert */ = {
+			isa = PBXGroup;
+			children = (
+				CF42DFF8168F7104009FB526 /* BRCircleAlert.h */,
+				CF42DFF9168F7104009FB526 /* BRCircleAlert.m */,
+				CF42DFFA168F7104009FB526 /* BRCircleAlertButton.h */,
+				CF42DFFB168F7104009FB526 /* BRCircleAlertButton.m */,
+			);
+			name = BRCircleAlert;
 			sourceTree = "<group>";
 		};
 		CF47763113D1D06700FC2D37 /* BRFlickrEngine */ = {
@@ -1667,6 +1685,8 @@
 				CFBBBE3916726D3000065DFC /* TumblrUser.m in Sources */,
 				CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */,
 				CF5EE5B11679AE53008D55D3 /* UIScrollView+Pinch.m in Sources */,
+				CF42DFFC168F7104009FB526 /* BRCircleAlert.m in Sources */,
+				CF42DFFD168F7104009FB526 /* BRCircleAlertButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

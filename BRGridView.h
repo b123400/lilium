@@ -46,4 +46,6 @@
 -(void)reloadDataWithAnimation:(BOOL)animated;
 - (id)dequeueReusableCellWithIdentifier:(NSString *)identifier;
 
+-(int)numberOfCellInSection:(int)section;
+
 @end

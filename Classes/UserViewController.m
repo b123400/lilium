@@ -11,6 +11,7 @@
 #import "UIView+Interaction.h"
 #import "StatusFetcher.h"
 #import "StatusDetailViewController.h"
+#import "NichijyouNavigationController.h"
 
 @interface UserViewController ()
 
@@ -67,15 +68,28 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
+	return [gridView subviews];
+}
+-(BOOL)shouldWaitForViewToLoadBeforePush{
+	return	 YES;
+}
 #pragma mark - load statuses
 -(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
     if(error){
         NSLog(@"%@",[error description]);
     }
-    //[statuses addObjectsFromArray:_statuses];
-    [gridView reloadDataWithAnimation:YES];
+    if([gridView numberOfCellInSection:0]!=user.statuses.count){
+        [gridView reloadDataWithAnimation:YES];
+    }
 }
 #pragma mark - grid view
+-(void)gridViewDidFinishedLoading:(id)sender{
+	if(!pushed){
+		[(NichijyouNavigationController*)self.navigationController viewCanBePushed:self];
+		pushed=YES;
+	}
+}
 - (BRGridViewCell *)gridView:(id)_gridView cellAtIndexPath:(NSIndexPath *)indexPath{
 	SquareCell *cell=(SquareCell*)[gridView dequeueReusableCellWithIdentifier:@"cell"];
 	if(!cell){
