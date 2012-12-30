@@ -24,7 +24,7 @@
     user=[_user retain];
     
     //statuses=[[NSMutableArray alloc] init];
-    StatusRequest *request=[[[StatusRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
+    StatusesRequest *request=[[[StatusesRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
     request.referenceUsers=[NSMutableArray arrayWithObject:user];
     request.selector=@selector(requestFinished:withStatuses:withError:);
     request.delegate=self;

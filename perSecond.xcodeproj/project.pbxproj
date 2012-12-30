@@ -26,7 +26,11 @@
 		CF3B015F13CB74440060E0F6 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B015D13CB74440060E0F6 /* WelcomeViewController.m */; };
 		CF3B016013CB74440060E0F6 /* WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B015E13CB74440060E0F6 /* WelcomeViewController.xib */; };
 		CF40613E13EC2AF70019767C /* UIImage-Tint.m in Sources */ = {isa = PBXBuildFile; fileRef = CF40613D13EC2AF70019767C /* UIImage-Tint.m */; };
-		CF42E77413D619060078935D /* StatusRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E77313D619060078935D /* StatusRequest.m */; };
+		CF42E00A1690D0FC009FB526 /* BRCircleAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0071690D0FC009FB526 /* BRCircleAlert.m */; };
+		CF42E00B1690D0FC009FB526 /* BRCircleAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0091690D0FC009FB526 /* BRCircleAlertButton.m */; };
+		CF42E0131690D678009FB526 /* CommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0121690D677009FB526 /* CommentRequest.m */; };
+		CF42E0161690D684009FB526 /* LikeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0151690D684009FB526 /* LikeRequest.m */; };
+		CF42E77413D619060078935D /* StatusesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E77313D619060078935D /* StatusesRequest.m */; };
 		CF43090413EAC7DC007CA113 /* UIImage+averageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43090313EAC7DC007CA113 /* UIImage+averageColor.m */; };
 		CF43099413EAE02F007CA113 /* UIImage+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43099313EAE02F007CA113 /* UIImage+Operations.m */; };
 		CF43099713EAE059007CA113 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43099613EAE059007CA113 /* UIColor-Expanded.m */; };
@@ -175,7 +179,6 @@
 		CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCE0D211673E3E800C10953 /* UserViewController.xib */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
-		CFF72997151B542400540795 /* CommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72996151B542400540795 /* CommentRequest.m */; };
 		CFF818F113C07E4000C37DD8 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF818F013C07E4000C37DD8 /* Checkmark@2x.png */; };
 		CFF818F313C07E5400C37DD8 /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF818F213C07E5400C37DD8 /* Checkmark.png */; };
 		CFF8190813C07EAF00C37DD8 /* svhud-error.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF8190213C07EAF00C37DD8 /* svhud-error.png */; };
@@ -243,8 +246,15 @@
 		CF3B015E13CB74440060E0F6 /* WelcomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WelcomeViewController.xib; sourceTree = "<group>"; };
 		CF40613C13EC2AF70019767C /* UIImage-Tint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Tint.h"; sourceTree = "<group>"; };
 		CF40613D13EC2AF70019767C /* UIImage-Tint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Tint.m"; sourceTree = "<group>"; };
-		CF42E77213D619060078935D /* StatusRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusRequest.h; sourceTree = "<group>"; };
-		CF42E77313D619060078935D /* StatusRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusRequest.m; sourceTree = "<group>"; };
+		CF42E0061690D0FC009FB526 /* BRCircleAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRCircleAlert.h; sourceTree = "<group>"; };
+		CF42E0071690D0FC009FB526 /* BRCircleAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRCircleAlert.m; sourceTree = "<group>"; };
+		CF42E0081690D0FC009FB526 /* BRCircleAlertButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRCircleAlertButton.h; sourceTree = "<group>"; };
+		CF42E0091690D0FC009FB526 /* BRCircleAlertButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRCircleAlertButton.m; sourceTree = "<group>"; };
+		CF42E0121690D677009FB526 /* CommentRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentRequest.m; sourceTree = "<group>"; };
+		CF42E0141690D684009FB526 /* LikeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LikeRequest.h; sourceTree = "<group>"; };
+		CF42E0151690D684009FB526 /* LikeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikeRequest.m; sourceTree = "<group>"; };
+		CF42E77213D619060078935D /* StatusesRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusesRequest.h; sourceTree = "<group>"; };
+		CF42E77313D619060078935D /* StatusesRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusesRequest.m; sourceTree = "<group>"; };
 		CF43090213EAC7DC007CA113 /* UIImage+averageColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+averageColor.h"; sourceTree = "<group>"; };
 		CF43090313EAC7DC007CA113 /* UIImage+averageColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+averageColor.m"; sourceTree = "<group>"; };
 		CF43099213EAE02F007CA113 /* UIImage+Operations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Operations.h"; sourceTree = "<group>"; };
@@ -538,7 +548,6 @@
 		CFF72992151B531700540795 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
 		CFF72993151B531700540795 /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
 		CFF72995151B542400540795 /* CommentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentRequest.h; sourceTree = "<group>"; };
-		CFF72996151B542400540795 /* CommentRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentRequest.m; sourceTree = "<group>"; };
 		CFF818F013C07E4000C37DD8 /* Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkmark@2x.png"; sourceTree = "<group>"; };
 		CFF818F213C07E5400C37DD8 /* Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checkmark.png; sourceTree = "<group>"; };
 		CFF8190213C07EAF00C37DD8 /* svhud-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "svhud-error.png"; sourceTree = "<group>"; };
@@ -655,6 +664,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CF42E0051690D0EC009FB526 /* BRCircleAlertView */,
 				CFCDCBD313D8763900E268E8 /* ASIHTTPRequest */,
 				CFCDCBD213D8762000E268E8 /* BRInstagramEngine */,
 				CF47763113D1D06700FC2D37 /* BRFlickrEngine */,
@@ -728,6 +738,32 @@
 				CF2D0ED71413B3C100E173DC /* OHAttributedLabel.m */,
 			);
 			name = OHAttributedLabel;
+			sourceTree = "<group>";
+		};
+		CF42E0051690D0EC009FB526 /* BRCircleAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				CF42E0061690D0FC009FB526 /* BRCircleAlert.h */,
+				CF42E0071690D0FC009FB526 /* BRCircleAlert.m */,
+				CF42E0081690D0FC009FB526 /* BRCircleAlertButton.h */,
+				CF42E0091690D0FC009FB526 /* BRCircleAlertButton.m */,
+			);
+			name = BRCircleAlertView;
+			sourceTree = "<group>";
+		};
+		CF42E00C1690D248009FB526 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				CFF72992151B531700540795 /* Request.h */,
+				CFF72993151B531700540795 /* Request.m */,
+				CF42E77213D619060078935D /* StatusesRequest.h */,
+				CF42E77313D619060078935D /* StatusesRequest.m */,
+				CFF72995151B542400540795 /* CommentRequest.h */,
+				CF42E0121690D677009FB526 /* CommentRequest.m */,
+				CF42E0141690D684009FB526 /* LikeRequest.h */,
+				CF42E0151690D684009FB526 /* LikeRequest.m */,
+			);
+			name = Request;
 			sourceTree = "<group>";
 		};
 		CF47763113D1D06700FC2D37 /* BRFlickrEngine */ = {
@@ -1394,12 +1430,7 @@
 				CFBBBE2916726C4200065DFC /* Comment */,
 				CF261E1713D4E01300D3F844 /* StatusFetcher.h */,
 				CF261E1813D4E01300D3F844 /* StatusFetcher.m */,
-				CFF72992151B531700540795 /* Request.h */,
-				CFF72993151B531700540795 /* Request.m */,
-				CF42E77213D619060078935D /* StatusRequest.h */,
-				CF42E77313D619060078935D /* StatusRequest.m */,
-				CFF72995151B542400540795 /* CommentRequest.h */,
-				CFF72996151B542400540795 /* CommentRequest.m */,
+				CF42E00C1690D248009FB526 /* Request */,
 				CF6E3CE113E5DDA1007CC286 /* TimelineManager.h */,
 				CF6E3CE213E5DDA1007CC286 /* TimelineManager.m */,
 				CFE97F82151A2CF700187398 /* Attribute.h */,
@@ -1622,7 +1653,7 @@
 				CF4776B713D1E8FB00FC2D37 /* TimelineViewController.m in Sources */,
 				CF261DCE13D4AA6200D3F844 /* Status.m in Sources */,
 				CF261E1913D4E01300D3F844 /* StatusFetcher.m in Sources */,
-				CF42E77413D619060078935D /* StatusRequest.m in Sources */,
+				CF42E77413D619060078935D /* StatusesRequest.m in Sources */,
 				CFCDCB3B13D8480A00E268E8 /* NSObject+Identifier.m in Sources */,
 				CFCDCBEC13D8764800E268E8 /* ASIAuthenticationDialog.m in Sources */,
 				CFCDCBED13D8764800E268E8 /* ASIDataCompressor.m in Sources */,
@@ -1657,7 +1688,6 @@
 				CF2D0ED91413B3C100E173DC /* OHAttributedLabel.m in Sources */,
 				CFE97F84151A2CF800187398 /* Attribute.m in Sources */,
 				CFF72994151B531800540795 /* Request.m in Sources */,
-				CFF72997151B542400540795 /* CommentRequest.m in Sources */,
 				CF8B6CF1151BAA91007798CE /* User.m in Sources */,
 				CF8B6CF4151BB76C007798CE /* Comment.m in Sources */,
 				CF6E2F3B1545B75300E19AED /* CommentTableViewCell.m in Sources */,
@@ -1667,6 +1697,10 @@
 				CFBBBE3916726D3000065DFC /* TumblrUser.m in Sources */,
 				CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */,
 				CF5EE5B11679AE53008D55D3 /* UIScrollView+Pinch.m in Sources */,
+				CF42E00A1690D0FC009FB526 /* BRCircleAlert.m in Sources */,
+				CF42E00B1690D0FC009FB526 /* BRCircleAlertButton.m in Sources */,
+				CF42E0131690D678009FB526 /* CommentRequest.m in Sources */,
+				CF42E0161690D684009FB526 /* LikeRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

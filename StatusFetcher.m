@@ -19,7 +19,7 @@
 
 @interface StatusFetcher ()
 
--(void)refreshTempStatusForRequest:(StatusRequest*)request;
+-(void)refreshTempStatusForRequest:(StatusesRequest*)request;
 -(Status*)firstStatusWithSource:(StatusSourceType)source inArray:(NSArray*)arr;
 
 -(NSArray*)instagramCommentsFromDicts:(NSArray*)dicts;
@@ -53,7 +53,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 
 #pragma mark - Timeline
--(void)getStatusesForRequest:(StatusRequest*)request{
+-(void)getStatusesForRequest:(StatusesRequest*)request{
 	NSMutableArray *newArray=[NSMutableArray array];
 	[tempStatuses setObject:newArray forKey:request];
 	
@@ -159,7 +159,7 @@ static StatusFetcher* sharedFetcher=nil;
         }
     }
 }
--(void)refreshTempStatusForRequest:(StatusRequest*)request{
+-(void)refreshTempStatusForRequest:(StatusesRequest*)request{
 	if(request.twitterStatus!=StatusFetchingStatusLoading&&
 	   request.facebookStatus!=StatusFetchingStatusLoading&&
 	   request.instagramStatus!=StatusFetchingStatusLoading&&
@@ -233,6 +233,28 @@ static StatusFetcher* sharedFetcher=nil;
 	[target performSelector:request.selector withObject:comments];
     [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
 }
+#pragma mark - Like
+-(void)likeStatusForRequest:(LikeRequest*)request{
+    StatusSourceType source=request.targetStatus.user.type;
+    switch (source) {
+        case StatusSourceTypeFacebook:{
+            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/likes",request.targetStatus.statusID] andParams:[NSMutableDictionary dictionary] andHttpMethod:request.isLike?@"POST":@"DELETE" andDelegate:self];
+			[requestsByID setObject:request forKey:[fbRequest identifier]];
+        }
+        break;
+        case StatusSourceTypeFlickr:
+            
+            break;
+        case StatusSourceTypeInstagram:
+            break;
+        case StatusSourceTypeTumblr:
+            break;
+        case StatusSourceTypeTwitter:
+            break;
+        default:
+            break;
+    }
+}
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
     User *newUser=[User userWithType:StatusSourceTypeFlickr userID:[dict objectForKey:@"author"]];
@@ -259,7 +281,7 @@ static StatusFetcher* sharedFetcher=nil;
         [self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
         return;
     }
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.flickrStatus=StatusFetchingStatusFinished;
 	
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
@@ -300,8 +322,8 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)flickrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.flickrStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeFlickr];
         [self refreshTempStatusForRequest:request];
@@ -339,7 +361,7 @@ static StatusFetcher* sharedFetcher=nil;
 		[self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
 		return;
 	}
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.instagramStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
 	
@@ -412,8 +434,8 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)instagramEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.instagramStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeInstagram];
         [self refreshTempStatusForRequest:request];
@@ -447,7 +469,7 @@ static StatusFetcher* sharedFetcher=nil;
     return newComment;
 }
 -(void)tumblrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.tumblrStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
 	
@@ -546,8 +568,8 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)tumblrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.tumblrStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeTumblr];
         [self refreshTempStatusForRequest:request];
@@ -620,7 +642,7 @@ static StatusFetcher* sharedFetcher=nil;
         [self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
         return;
     }
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.twitterStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
 	
@@ -747,8 +769,8 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)twitterEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.twitterStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeTwitter];
         [self refreshTempStatusForRequest:request];
@@ -787,7 +809,14 @@ static StatusFetcher* sharedFetcher=nil;
         [self didReceivedComments:comments forRequest:request];
         return;
     }
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&request.selector){
+            [request.delegate performSelector:request.selector];
+        }
+        return;
+    }
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	
 	if([result	 isKindOfClass:[NSData class]]){
 		NSError *error=nil;
@@ -885,8 +914,8 @@ static StatusFetcher* sharedFetcher=nil;
 }
 - (void)request:(FBRequest *)fbRequest didFailWithError:(NSError *)error{
 	NSString *identifier=[fbRequest identifier];
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.facebookStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeFacebook];
         [self refreshTempStatusForRequest:request];

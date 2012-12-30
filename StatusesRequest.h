@@ -28,7 +28,7 @@ typedef enum StatusRequestDirection{
 	StatusRequestDirectionOlder  = 1,
 }StatusRequestDirection;
 
-@interface StatusRequest : Request <NSCopying> {
+@interface StatusesRequest : Request <NSCopying> {
 	StatusRequestType type;
 	NSArray *referenceStatuses;
     NSArray *referenceUsers;

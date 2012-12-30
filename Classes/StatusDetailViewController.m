@@ -32,6 +32,7 @@
 	[status getCommentsAndReturnTo:self withSelector:@selector(didReceiveComments:)];
 	return self;
 }
+
 -(id)init{
 	self = [super initWithNibName:@"StatusDetailViewController" bundle:nil];
     if (self) {
@@ -62,9 +63,11 @@
 	CGRect frame=textLabel.frame;
 	frame.size=[textLabel sizeThatFits:textLabel.frame.size];
 	textLabel.frame=frame;
+    
+    likeButton.frame=CGRectMake(imageWrapperView.frame.size.width-likeButton.frame.size.width, textLabel.frame.origin.y+textLabel.frame.size.height, likeButton.frame.size.width, likeButton.frame.size.height);
 	
 	frame=imageWrapperView.frame;
-	frame.size.height=textLabel.frame.size.height+textLabel.frame.origin.y+5;
+	frame.size.height=likeButton.frame.size.height+likeButton.frame.origin.y+5;
 	imageWrapperView.frame=frame;
 	
 	imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, imageWrapperView.frame.size.height+imageWrapperView.frame.origin.y);
@@ -73,18 +76,9 @@
 -(void)didReceiveComments:(NSArray*)comments{
 	[commentTableView reloadData];
 }
-#pragma mark Grid View
-- (BRGridViewCell *)gridView:(id)gridView cellAtIndexPath:(NSIndexPath *)indexPath{
-	return nil;
-}
-- (NSInteger)gridView:(id)gridView numberOfCellsInSection:(NSInteger)section{
-	return 0;
-}
-- (NSInteger)numberOfSectionsInGridView:(id)gridView{
-	return 0;
-}
-- (void)gridView:(id)gridView didSelectCell:(BRGridViewCell*)cell AtIndexPath:(NSIndexPath *)indexPath{
-	
+#pragma mark user interaction
+- (IBAction)likeButtonClicked:(id)sender {
+    status.liked=true;
 }
 #pragma mark table view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

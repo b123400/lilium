@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Status.h"
-#import "StatusRequest.h"
+#import "StatusesRequest.h"
 
 #define TimelineManagerDidRefreshNotification @"TimelineManagerDidRefresh"
 #define TimelineManagerDidPrefectchThumbNotification @"TimelineManagerDidPrefectchThumbNotification"
@@ -18,8 +18,8 @@
 	
 	NSMutableArray *statuses;
 	
-	StatusRequest *loadNewerRequest;
-	StatusRequest *loadOlderRequest;
+	StatusesRequest *loadNewerRequest;
+	StatusesRequest *loadOlderRequest;
 }
 
 +(TimelineManager*)sharedManager;

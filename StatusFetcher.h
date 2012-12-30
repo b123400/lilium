@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "Status.h"
-#import "StatusRequest.h"
+#import "StatusesRequest.h"
 #import "CommentRequest.h"
+#import "LikeRequest.h"
 #import "BRFunctions.h"
 
 @protocol StatusFetcherDelegate
@@ -35,7 +36,8 @@
 -(BOOL)didCachedStatus:(Status*)status inArray:(NSArray*)arr;
 -(BOOL)didCachedStatusWithStatusID:(NSString*)statusID source:(StatusSourceType)source inArray:(NSArray*)arr;
 
--(void)getStatusesForRequest:(StatusRequest*)request;
+-(void)getStatusesForRequest:(StatusesRequest*)request;
 -(void)getCommentsForRequest:(CommentRequest*)request;
+-(void)likeStatusForRequest:(LikeRequest*)request;
 
 @end
