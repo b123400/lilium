@@ -249,7 +249,10 @@ static StatusFetcher* sharedFetcher=nil;
             break;
         case StatusSourceTypeTumblr:
             break;
-        case StatusSourceTypeTwitter:
+        case StatusSourceTypeTwitter:{
+            NSString *requestID=[[BRFunctions sharedTwitter]markFavorite:request.isLike forStatusWithID:request.targetStatus.statusID];
+            [requestsByID setObject:request forKey:requestID];
+        }
             break;
         default:
             break;
@@ -640,6 +643,13 @@ static StatusFetcher* sharedFetcher=nil;
             }
         }
         [self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
+        return;
+    }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&request.selector){
+            [request.delegate performSelector:request.selector];
+        }
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];

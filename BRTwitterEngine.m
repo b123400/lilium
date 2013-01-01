@@ -30,24 +30,35 @@
 	consumer =[_consumer retain];
 	return [self init];
 }
-
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params{
+    return [self performRequestWithPath:path parameters:params withMethod:@"GET"];
+}
+-(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params withMethod:(NSString*)method{
 	NSMutableString *paramString=[NSMutableString string];
 	for(NSString *key in params){
 		if([paramString length]){
 			[paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
 		}else{
-			[paramString appendFormat:@"?%@=%@",key,[params objectForKey:key]];
+			[paramString appendFormat:@"%@=%@",key,[params objectForKey:key]];
 		}
 	}
 	
-	NSString *url=[NSString stringWithFormat:@"http://api.twitter.com/1/%@.json%@",path,paramString];
+    NSString *url;
+    if([[method lowercaseString]isEqualToString:@"get"]){
+        url=[NSString stringWithFormat:@"http://api.twitter.com/1.1/%@.json?%@",path,paramString];
+    }else{
+        url=[NSString stringWithFormat:@"http://api.twitter.com/1.1/%@.json",path];
+    }
 	
 	OAMutableURLRequest *request = [[[OAMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
 																	consumer:consumer
 																	   token:accessToken   
-																	   realm:nil   
+																	   realm:nil
 														   signatureProvider:nil]autorelease];
+    [request setHTTPMethod:method];
+    if(![[method lowercaseString]isEqualToString:@"get"]){
+        [request setHTTPBodyWithString:paramString];
+    }
 	OADataFetcher *fetcher=[[[OADataFetcher alloc]init] autorelease];
 	[fetcher fetchDataWithRequest:request delegate:self didFinishSelector:@selector(requestDidFinished:withData:) didFailSelector:@selector(requestDidFailed:withError:)];
 	return [request identifier];
@@ -108,10 +119,17 @@
 -(NSString*)getRepliesForStatusWithID:(NSString*)statusID{
     NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"true",@"include_entities",nil];
 //    statusID=@"274902397728477185";
-	return [self performRequestWithPath:[NSString stringWithFormat:@"related_results/show/%@",statusID] parameters:params];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"../1/related_results/show/%@",statusID] parameters:params];
 }
 
-
+-(NSString*)markFavorite:(BOOL)favorite forStatusWithID:(NSString*)statusID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								 statusID,@"id", nil];
+    if(favorite){
+        return [self performRequestWithPath:@"favorites/create" parameters:params withMethod:@"POST"];
+    }
+    return [self performRequestWithPath:@"favorites/destroy" parameters:params withMethod:@"POST"];
+}
 #pragma mark misc
 +(NSURL*)rawImageURLFromURL:(NSURL*)aURL size:(BRImageSize)size{
 	NSString *urlString=[aURL absoluteString];
