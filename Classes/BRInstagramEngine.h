@@ -39,9 +39,12 @@
 -(NSURL*)authURL:(BOOL)mobileLayout;
 
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params;
+-(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params withMethod:(NSString *)method;
 
 -(NSString*)getSelfFeedWithMinID:(NSString*)minID maxID:(NSString*)maxID;
 -(NSString*)getUserFeedWithUserID:(NSString*)userID minID:(NSString*)minID maxID:(NSString*)maxID;
 -(NSString*)getCommentsWithMediaID:(NSString*)mediaID;
+-(NSString*)likeMediaWithMediaID:(NSString*)mediaID;
+-(NSString*)unlikeMediaWithMediaID:(NSString*)mediaID;
 
 @end

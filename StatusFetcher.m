@@ -246,7 +246,15 @@ static StatusFetcher* sharedFetcher=nil;
         case StatusSourceTypeFlickr:
             
             break;
-        case StatusSourceTypeInstagram:
+        case StatusSourceTypeInstagram:{
+            NSString *requestID;
+            if(request.isLike){
+                requestID=[[BRFunctions sharedInstagram]likeMediaWithMediaID:request.targetStatus.statusID];
+            }else{
+                requestID=[[BRFunctions sharedInstagram]unlikeMediaWithMediaID:request.targetStatus.statusID];
+            }
+            [requestsByID setObject:request forKey:requestID];
+        }
             break;
         case StatusSourceTypeTumblr:{
             if([request.targetStatus isKindOfClass:[TumblrStatus class]]){
@@ -375,6 +383,13 @@ static StatusFetcher* sharedFetcher=nil;
 		[self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
 		return;
 	}
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&request.selector){
+            [request.delegate performSelector:request.selector];
+        }
+        return;
+    }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.instagramStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
@@ -402,7 +417,7 @@ static StatusFetcher* sharedFetcher=nil;
 		thisStatus.statusID=[NSString stringWithFormat:@"%@",[photo objectForKey:@"id"]];
 		
 		thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[photo objectForKey:@"created_time"]doubleValue]];
-		thisStatus.liked=[[photo objectForKey:@"user_has_liked"]intValue]==1;
+		[thisStatus setLiked:[[photo objectForKey:@"user_has_liked"]intValue]==1 sync:NO];
 		
 		NSMutableArray *comments=[NSMutableArray arrayWithArray:[self instagramCommentsFromDicts:[[photo objectForKey:@"comments"]objectForKey:@"data"]]];
 		thisStatus.comments=comments;
@@ -561,7 +576,7 @@ static StatusFetcher* sharedFetcher=nil;
 				
 				thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[post objectForKey:@"timestamp"]doubleValue]];
                 thisStatus.reblogKey=[post objectForKey:@"reblog_key"];
-                thisStatus.liked=[[post objectForKey:@"liked"] boolValue];
+                [thisStatus setLiked:[[post objectForKey:@"liked"] boolValue] sync:NO];
 				
                 //Comment
                 NSMutableArray *comments=[NSMutableArray array];
@@ -701,7 +716,7 @@ static StatusFetcher* sharedFetcher=nil;
                     //thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:large",[media objectForKey:@"media_url"]]]
                     thisStatus.fullURL=[NSURL URLWithString:[media objectForKey:@"media_url"]];
                     
-                    thisStatus.liked=[[tweet objectForKey:@"favorited"]intValue]==1;
+                    [thisStatus setLiked:[[tweet objectForKey:@"favorited"]intValue]==1 sync:NO];
                     thisStatus.date=[df dateFromString:[tweet objectForKey:@"created_at"]];
                     
                     if(request.delegate){
@@ -780,7 +795,7 @@ static StatusFetcher* sharedFetcher=nil;
 					//thisStatus.meduimURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeLarge]; <--retina
 					thisStatus.fullURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeFull];
 					
-					thisStatus.liked=[[tweet objectForKey:@"favorited"]intValue]==1;
+					[thisStatus setLiked:[[tweet objectForKey:@"favorited"]intValue]==1 sync:NO];
 					thisStatus.date=[df dateFromString:[tweet objectForKey:@"created_at"]];
 					
 					if(![self didCachedStatus:thisStatus inArray:_statuses]){
@@ -911,7 +926,7 @@ static StatusFetcher* sharedFetcher=nil;
 					for(NSDictionary *thisLike in likes){
 						NSString *idString=[NSString stringWithFormat:@"%@",[thisLike objectForKey:@"id"]];
 						if([idString isEqualToString:[BRFunctions facebookCurrentUserID]]){
-							newStatus.liked=YES;
+							[newStatus setLiked:YES sync:NO];
 						}
 					}
 				}
