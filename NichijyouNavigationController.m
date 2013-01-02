@@ -363,7 +363,10 @@ static float pressShiftFactor=0.2;
 	NSArray *views=[self subviewsToAnimateForViewController:viewController];
 	for (UIView *thisView in views) {
 		if([thisView class]!=[UIActivityIndicatorView class]){
-			[thisView.layer removeAllAnimations];
+			[thisView.layer removeAnimationForKey:@"positionx"];
+            [thisView.layer removeAnimationForKey:@"positiony"];
+            [thisView.layer removeAnimationForKey:@"transform"];
+            [thisView.layer removeAnimationForKey:@"opacity"];
 		}
 		if(!disableFade){
 			thisView.layer.opacity=1;
