@@ -243,8 +243,15 @@ static StatusFetcher* sharedFetcher=nil;
 			[requestsByID setObject:request forKey:[fbRequest identifier]];
         }
         break;
-        case StatusSourceTypeFlickr:
-            
+        case StatusSourceTypeFlickr:{
+            NSString *requestID;
+            if(request.isLike){
+                requestID=[[BRFunctions sharedFlickr]addFavoritesForPhotoWithID:request.targetStatus.statusID];
+            }else{
+                requestID=[[BRFunctions sharedFlickr]removeFavoritesForPhotoWithID:request.targetStatus.statusID];
+            }
+            [requestsByID setObject:request forKey:requestID];
+        }
             break;
         case StatusSourceTypeInstagram:{
             NSString *requestID;
@@ -301,6 +308,13 @@ static StatusFetcher* sharedFetcher=nil;
         }
         NSLog(@"%@",data);
         [self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
+        return;
+    }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&request.selector){
+            [request.delegate performSelector:request.selector];
+        }
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];

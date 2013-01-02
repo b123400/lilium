@@ -29,19 +29,40 @@
 }
 
 -(NSString*)performRequestWithMethod:(NSString*)method parameters:(NSDictionary*)params{
-	
+    return [self performRequestWithMethod:method parameters:params withHTTPMethod:@"GET"];
+}
+-(NSString*)performRequestWithMethod:(NSString*)method parameters:(NSDictionary*)_params withHTTPMethod:(NSString*)httpMethod{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithDictionary:_params];
+    [params setObject:method forKey:@"method"];
+    [params setObject:[consumer key] forKey:@"api_key"];
+    [params setObject:@"json" forKey:@"format"];
+    [params setObject:@"1" forKey:@"nojsoncallback"];
+    
 	NSMutableString *paramString=[NSMutableString string];
-	for(NSString *key in params){
-		[paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+    for(NSString *key in params){
+        if(paramString.length){
+            [paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+        }else{
+            [paramString appendFormat:@"%@=%@",key,[params objectForKey:key]];
+        }
 	}
 	
-	NSString *url=[NSString stringWithFormat:@"http://api.flickr.com/services/rest?method=%@&api_key=%@&format=json&nojsoncallback=1%@",method,[consumer key],paramString];
+	NSString *url;
+    if([[httpMethod lowercaseString] isEqualToString:@"get"]){
+        url=[NSString stringWithFormat:@"http://api.flickr.com/services/rest?%@",paramString];
+    }else{
+        url=@"http://api.flickr.com/services/rest";
+    }
 	
 	OAMutableURLRequest *request = [[[OAMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
 																	consumer:consumer
 																	   token:accessToken   
 																	   realm:nil   
 														   signatureProvider:nil]autorelease];
+    if(![[httpMethod lowercaseString]isEqualToString:@"get"]){
+        request.HTTPMethod=httpMethod;
+        [request setHTTPBodyWithString:paramString];
+    }
 	OADataFetcher *fetcher=[[[OADataFetcher alloc]init] autorelease];
 	[fetcher fetchDataWithRequest:request delegate:self didFinishSelector:@selector(requestDidFinished:withData:) didFailSelector:@selector(requestDidFailed:withError:)];
 	return [request identifier];
@@ -91,6 +112,16 @@
 -(NSString*)getCommentsForPhotoWithID:(NSString*)photoID{
 	return [self performRequestWithMethod:@"flickr.photos.comments.getList" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
 																						 photoID,@"photo_id"
+																						,nil]];
+}
+-(NSString*)addFavoritesForPhotoWithID:(NSString*)photoID{
+    return [self performRequestWithMethod:@"flickr.favorites.add" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                        photoID,@"photo_id"
+																						,nil]];
+}
+-(NSString*)removeFavoritesForPhotoWithID:(NSString*)photoID{
+    return [self performRequestWithMethod:@"flickr.favorites.remove" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                        photoID,@"photo_id"
 																						,nil]];
 }
 
