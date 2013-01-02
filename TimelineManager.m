@@ -43,7 +43,7 @@ static TimelineManager *sharedManager=nil;
 
 -(void)sync{
 	if(loadNewerRequest)return;
-	loadNewerRequest=[[StatusRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
+	loadNewerRequest=[[StatusesRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
 	loadNewerRequest.delegate=self;
     loadNewerRequest.selector=@selector(requestFinished:withStatuses:withError:);
 	loadNewerRequest.direction=StatusRequestDirectionNewer;
@@ -52,7 +52,7 @@ static TimelineManager *sharedManager=nil;
 }
 -(void)getOlderStatuses{
 	if(loadOlderRequest)return;
-	loadOlderRequest=[[StatusRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
+	loadOlderRequest=[[StatusesRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
 	loadOlderRequest.delegate=self;
     loadNewerRequest.selector=@selector(requestFinished:withStatuses:withError:);
 	loadOlderRequest.direction=StatusRequestDirectionOlder;

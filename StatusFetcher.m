@@ -16,10 +16,11 @@
 #import "TimelineManager.h"
 #import "FacebookUser.h"
 #import "TumblrUser.h"
+#import "TumblrStatus.h"
 
 @interface StatusFetcher ()
 
--(void)refreshTempStatusForRequest:(StatusRequest*)request;
+-(void)refreshTempStatusForRequest:(StatusesRequest*)request;
 -(Status*)firstStatusWithSource:(StatusSourceType)source inArray:(NSArray*)arr;
 
 -(NSArray*)instagramCommentsFromDicts:(NSArray*)dicts;
@@ -53,7 +54,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 
 #pragma mark - Timeline
--(void)getStatusesForRequest:(StatusRequest*)request{
+-(void)getStatusesForRequest:(StatusesRequest*)request{
 	NSMutableArray *newArray=[NSMutableArray array];
 	[tempStatuses setObject:newArray forKey:request];
 	
@@ -159,7 +160,7 @@ static StatusFetcher* sharedFetcher=nil;
         }
     }
 }
--(void)refreshTempStatusForRequest:(StatusRequest*)request{
+-(void)refreshTempStatusForRequest:(StatusesRequest*)request{
 	if(request.twitterStatus!=StatusFetchingStatusLoading&&
 	   request.facebookStatus!=StatusFetchingStatusLoading&&
 	   request.instagramStatus!=StatusFetchingStatusLoading&&
@@ -233,6 +234,56 @@ static StatusFetcher* sharedFetcher=nil;
 	[target performSelector:request.selector withObject:comments];
     [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
 }
+#pragma mark - Like
+-(void)likeStatusForRequest:(LikeRequest*)request{
+    StatusSourceType source=request.targetStatus.user.type;
+    switch (source) {
+        case StatusSourceTypeFacebook:{
+            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/likes",request.targetStatus.statusID] andParams:[NSMutableDictionary dictionary] andHttpMethod:request.isLike?@"POST":@"DELETE" andDelegate:self];
+			[requestsByID setObject:request forKey:[fbRequest identifier]];
+        }
+        break;
+        case StatusSourceTypeFlickr:{
+            NSString *requestID;
+            if(request.isLike){
+                requestID=[[BRFunctions sharedFlickr]addFavoritesForPhotoWithID:request.targetStatus.statusID];
+            }else{
+                requestID=[[BRFunctions sharedFlickr]removeFavoritesForPhotoWithID:request.targetStatus.statusID];
+            }
+            [requestsByID setObject:request forKey:requestID];
+        }
+            break;
+        case StatusSourceTypeInstagram:{
+            NSString *requestID;
+            if(request.isLike){
+                requestID=[[BRFunctions sharedInstagram]likeMediaWithMediaID:request.targetStatus.statusID];
+            }else{
+                requestID=[[BRFunctions sharedInstagram]unlikeMediaWithMediaID:request.targetStatus.statusID];
+            }
+            [requestsByID setObject:request forKey:requestID];
+        }
+            break;
+        case StatusSourceTypeTumblr:{
+            if([request.targetStatus isKindOfClass:[TumblrStatus class]]){
+                NSString *requestID;
+                if(request.isLike){
+                    requestID=[[BRFunctions sharedTumblr]likePostWithID:request.targetStatus.statusID reblogKey:[(TumblrStatus*)request.targetStatus reblogKey]];
+                }else{
+                    requestID=[[BRFunctions sharedTumblr]unlikePostWithID:request.targetStatus.statusID reblogKey:[(TumblrStatus*)request.targetStatus reblogKey]];
+                }
+                [requestsByID setObject:request forKey:requestID];
+            }
+        }
+            break;
+        case StatusSourceTypeTwitter:{
+            NSString *requestID=[[BRFunctions sharedTwitter]markFavorite:request.isLike forStatusWithID:request.targetStatus.statusID];
+            [requestsByID setObject:request forKey:requestID];
+        }
+            break;
+        default:
+            break;
+    }
+}
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
     User *newUser=[User userWithType:StatusSourceTypeFlickr userID:[dict objectForKey:@"author"]];
@@ -259,7 +310,14 @@ static StatusFetcher* sharedFetcher=nil;
         [self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
         return;
     }
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&request.selector){
+            [request.delegate performSelector:request.selector];
+        }
+        return;
+    }
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.flickrStatus=StatusFetchingStatusFinished;
 	
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
@@ -300,8 +358,8 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)flickrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.flickrStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeFlickr];
         [self refreshTempStatusForRequest:request];
@@ -339,7 +397,14 @@ static StatusFetcher* sharedFetcher=nil;
 		[self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
 		return;
 	}
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&request.selector){
+            [request.delegate performSelector:request.selector];
+        }
+        return;
+    }
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.instagramStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
 	
@@ -366,7 +431,7 @@ static StatusFetcher* sharedFetcher=nil;
 		thisStatus.statusID=[NSString stringWithFormat:@"%@",[photo objectForKey:@"id"]];
 		
 		thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[photo objectForKey:@"created_time"]doubleValue]];
-		thisStatus.liked=[[photo objectForKey:@"user_has_liked"]intValue]==1;
+		[thisStatus setLiked:[[photo objectForKey:@"user_has_liked"]intValue]==1 sync:NO];
 		
 		NSMutableArray *comments=[NSMutableArray arrayWithArray:[self instagramCommentsFromDicts:[[photo objectForKey:@"comments"]objectForKey:@"data"]]];
 		thisStatus.comments=comments;
@@ -412,8 +477,8 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)instagramEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.instagramStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeInstagram];
         [self refreshTempStatusForRequest:request];
@@ -447,14 +512,21 @@ static StatusFetcher* sharedFetcher=nil;
     return newComment;
 }
 -(void)tumblrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&[request.delegate respondsToSelector:request.selector]){
+            [request.delegate performSelector:request.selector withObject:request];
+        }
+        return;
+    }
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.tumblrStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
 	
 	NSArray *photos=[[data objectForKey:@"response"] objectForKey:@"posts"];
 	for(NSDictionary *post in photos){
 		if([[post objectForKey:@"photos"] count]){
-			Status *thisStatus=[[[Status alloc]init]autorelease];
+			TumblrStatus *thisStatus=[[[TumblrStatus alloc]init]autorelease];
 			
 			NSArray *sizes=[[[post objectForKey:@"photos"] objectAtIndex:0] objectForKey:@"alt_sizes"];
 			for(NSDictionary *size in sizes){
@@ -517,6 +589,8 @@ static StatusFetcher* sharedFetcher=nil;
 				thisStatus.statusID=[NSString stringWithFormat:@"%@",[post objectForKey:@"id"]];
 				
 				thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[post objectForKey:@"timestamp"]doubleValue]];
+                thisStatus.reblogKey=[post objectForKey:@"reblog_key"];
+                [thisStatus setLiked:[[post objectForKey:@"liked"] boolValue] sync:NO];
 				
                 //Comment
                 NSMutableArray *comments=[NSMutableArray array];
@@ -546,8 +620,8 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)tumblrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.tumblrStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeTumblr];
         [self refreshTempStatusForRequest:request];
@@ -620,7 +694,14 @@ static StatusFetcher* sharedFetcher=nil;
         [self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
         return;
     }
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&request.selector){
+            [request.delegate performSelector:request.selector];
+        }
+        return;
+    }
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.twitterStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
 	
@@ -649,7 +730,7 @@ static StatusFetcher* sharedFetcher=nil;
                     //thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:large",[media objectForKey:@"media_url"]]]
                     thisStatus.fullURL=[NSURL URLWithString:[media objectForKey:@"media_url"]];
                     
-                    thisStatus.liked=[[tweet objectForKey:@"favorited"]intValue]==1;
+                    [thisStatus setLiked:[[tweet objectForKey:@"favorited"]intValue]==1 sync:NO];
                     thisStatus.date=[df dateFromString:[tweet objectForKey:@"created_at"]];
                     
                     if(request.delegate){
@@ -728,7 +809,7 @@ static StatusFetcher* sharedFetcher=nil;
 					//thisStatus.meduimURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeLarge]; <--retina
 					thisStatus.fullURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeFull];
 					
-					thisStatus.liked=[[tweet objectForKey:@"favorited"]intValue]==1;
+					[thisStatus setLiked:[[tweet objectForKey:@"favorited"]intValue]==1 sync:NO];
 					thisStatus.date=[df dateFromString:[tweet objectForKey:@"created_at"]];
 					
 					if(![self didCachedStatus:thisStatus inArray:_statuses]){
@@ -747,8 +828,8 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)twitterEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.twitterStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeTwitter];
         [self refreshTempStatusForRequest:request];
@@ -787,7 +868,14 @@ static StatusFetcher* sharedFetcher=nil;
         [self didReceivedComments:comments forRequest:request];
         return;
     }
-	StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&request.selector){
+            [request.delegate performSelector:request.selector];
+        }
+        return;
+    }
+	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	
 	if([result	 isKindOfClass:[NSData class]]){
 		NSError *error=nil;
@@ -852,7 +940,7 @@ static StatusFetcher* sharedFetcher=nil;
 					for(NSDictionary *thisLike in likes){
 						NSString *idString=[NSString stringWithFormat:@"%@",[thisLike objectForKey:@"id"]];
 						if([idString isEqualToString:[BRFunctions facebookCurrentUserID]]){
-							newStatus.liked=YES;
+							[newStatus setLiked:YES sync:NO];
 						}
 					}
 				}
@@ -885,8 +973,8 @@ static StatusFetcher* sharedFetcher=nil;
 }
 - (void)request:(FBRequest *)fbRequest didFailWithError:(NSError *)error{
 	NSString *identifier=[fbRequest identifier];
-    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusRequest class]]){
-        StatusRequest *request=[requestsByID objectForKey:identifier];
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
+        StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.facebookStatus=StatusFetchingStatusError;
         [request setError:error forSource:StatusSourceTypeFacebook];
         [self refreshTempStatusForRequest:request];

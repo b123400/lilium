@@ -62,6 +62,7 @@ typedef enum StatusImageSize {
 -(void)prefetechThumb;
 -(UIImage*)cachedImageOfSize:(StatusImageSize)size;
 -(BOOL)isImagePreloaded;
+-(void)setLiked:(BOOL)_liked sync:(BOOL)sync;
 
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector;
 

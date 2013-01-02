@@ -32,9 +32,12 @@
 -(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
 -(id)initWithConsumer:(OAConsumer*)_consumer;
 
--(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params;
+-(NSString*)performRequestWithPath:(NSString*)path parameters:(NSMutableDictionary*)params;
+-(NSString*)performRequestWithPath:(NSString*)path parameters:(NSMutableDictionary*)params method:(NSString*)method;
 
 -(NSString*)getUserDashBoardWithSinceID:(NSString*)sinceID offset:(int)offset;
 -(NSString*)getPostsWithBaseHostname:(NSString*)baseHostname offset:(int)offset;
+-(NSString*)likePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey;
+-(NSString*)unlikePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey;
 
 @end

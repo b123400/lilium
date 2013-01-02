@@ -66,7 +66,21 @@
 	request.selector=selector;
 	[[StatusFetcher sharedFetcher] getCommentsForRequest:request];
 }
-
+-(void)setLiked:(BOOL)_liked{
+    [self setLiked:_liked sync:YES];
+}
+-(void)setLiked:(BOOL)_liked sync:(BOOL)sync{
+    if(_liked!=liked){
+        liked=_liked;
+        if(sync){
+            LikeRequest *request=[[[LikeRequest alloc]init] autorelease];
+            request.targetStatus=self;
+            request.isLike=liked;
+            [[StatusFetcher sharedFetcher] likeStatusForRequest:request];
+        }
+    }
+}
+#pragma mark - util
 +(NSArray*)allSources{
     return @[
         [NSNumber numberWithInt:StatusSourceTypeTwitter],

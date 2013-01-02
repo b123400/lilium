@@ -7,7 +7,7 @@
 //
 
 #import "BRInstagramEngine.h"
-#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 #import "NSObject+Identifier.h"
 #import "CJSONDeserializer.h"
 
@@ -68,14 +68,34 @@
 }
 
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params{
-	
+    return [self performRequestWithPath:path parameters:params withMethod:@"get"];
+}
+-(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)_params withMethod:(NSString *)method{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithDictionary:_params];
+    [params setObject:accessToken forKey:@"access_token"];
+    
 	NSMutableString *paramString=[NSMutableString string];
 	for(NSString *key in params){
-		[paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+        if(paramString.length){
+            [paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+        }else{
+            [paramString appendFormat:@"%@=%@",key,[params objectForKey:key]];
+        }
 	}
-	
-	NSURL *url=[NSURL URLWithString:[NSString	stringWithFormat:@"https://api.instagram.com/v1%@?access_token=%@%@",path,accessToken,paramString]];
-	ASIHTTPRequest *request=[ASIHTTPRequest requestWithURL:url];
+    ASIFormDataRequest *request=[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@""]];
+	if([[method lowercaseString] isEqualToString:@"get"]){
+        request.url=[NSURL URLWithString:[NSString	stringWithFormat:@"https://api.instagram.com/v1/%@?%@",path,paramString]];
+    }else if([[method lowercaseString]isEqualToString:@"delete"]){
+        request.url=[NSURL URLWithString:[NSString	stringWithFormat:@"https://api.instagram.com/v1/%@?access_token=%@",path,accessToken]];
+        [request appendPostData:[paramString dataUsingEncoding:NSUTF8StringEncoding]];
+        [request buildPostBody];
+        request.requestMethod=method;
+    }else{
+        request.url=[NSURL URLWithString:[NSString	stringWithFormat:@"https://api.instagram.com/v1/%@",path]];
+        [request appendPostData:[paramString dataUsingEncoding:NSUTF8StringEncoding]];
+        request.requestMethod=method;
+    }
+    
 	[request setDelegate:self];
 	[request startAsynchronous];
 	[requests addObject:request];
@@ -87,6 +107,7 @@
     [requests removeObject:request];
 	// Use when fetching binary data
 	NSData *responseData = [request responseData];
+    NSLog(@"%@",[[[NSString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]autorelease]);
 	NSError *error=nil;
 	id object=[[CJSONDeserializer deserializer]deserialize:responseData error:&error];
 	if(error){
@@ -126,7 +147,7 @@
     if(maxID){
 		[params setObject:maxID forKey:@"max_id"];
 	}
-	return [self performRequestWithPath:@"/users/self/feed" parameters:params];
+	return [self performRequestWithPath:@"users/self/feed" parameters:params];
 }
 -(NSString*)getUserFeedWithUserID:(NSString*)userID minID:(NSString*)minID maxID:(NSString*)maxID{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
@@ -136,11 +157,27 @@
     if(maxID){
         [params setObject:maxID forKey:@"MAX_ID"];
     }
-    return [self performRequestWithPath:[NSString stringWithFormat:@"/users/%@/media/recent",userID] parameters:params];
+    return [self performRequestWithPath:[NSString stringWithFormat:@"users/%@/media/recent",userID] parameters:params];
 }
 -(NSString*)getCommentsWithMediaID:(NSString*)mediaID{
 	NSMutableDictionary *params=[NSMutableDictionary dictionary];
-	return [self performRequestWithPath:[NSString stringWithFormat:@"/media/%@/comments",mediaID] parameters:params];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"media/%@/comments",mediaID] parameters:params];
+}
+-(NSString*)likeMediaWithMediaID:(NSString*)mediaID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"media/%@/likes",mediaID] parameters:params withMethod:@"POST"];
+}
+-(NSString*)unlikeMediaWithMediaID:(NSString*)mediaID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"media/%@/likes",mediaID] parameters:params withMethod:@"DELETE"];
+}
+#pragma mark -
+-(void)dealloc{
+	[clientID release];
+	[clientSecret release];
+	if(redirectUri)[redirectUri release];
+	if(scope)[scope release];
+	[super dealloc];
 }
 
 @end

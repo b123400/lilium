@@ -17,10 +17,13 @@
 	IBOutlet UITableView *commentTableView;
 	IBOutlet UIScrollView *mainScrollView;
 	IBOutlet UIScrollView *imageWrapperScrollView;
-	//IBOutlet BRGridView *gridView;
+    
+    IBOutlet UIButton *likeButton;
 	
 	Status *status;
 }
 -(id)initWithStatus:(Status*)_status;
+
+- (IBAction)likeButtonClicked:(id)sender;
 
 @end

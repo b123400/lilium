@@ -6,14 +6,14 @@
 //  Copyright 2011 home. All rights reserved.
 //
 
-#import "StatusRequest.h"
+#import "StatusesRequest.h"
 
 
-@implementation StatusRequest
+@implementation StatusesRequest
 @synthesize  twitterStatus, facebookStatus, instagramStatus, flickrStatus, tumblrStatus, plurkStatus,referenceStatuses,referenceUsers,direction,tumblrOffset;
 
 +(id)requestWithRequestType:(StatusRequestType)_type{
-	return [[[StatusRequest alloc]initWithRequestType:_type]autorelease];
+	return [[[StatusesRequest alloc]initWithRequestType:_type]autorelease];
 }
 
 -(id)initWithRequestType:(StatusRequestType)_type{
@@ -39,7 +39,7 @@
 - (id)copyWithZone:(NSZone *)zone{
 	return [self retain];
 	
-	StatusRequest *newRequest=[[StatusRequest alloc] initWithRequestType:type];
+	StatusesRequest *newRequest=[[StatusesRequest alloc] initWithRequestType:type];
 	newRequest.twitterStatus=twitterStatus;
 	newRequest.facebookStatus=facebookStatus;
 	newRequest.instagramStatus=instagramStatus;
