@@ -31,6 +31,9 @@
 }
 
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSMutableDictionary*)params{
+    return [self performRequestWithPath:path parameters:params method:@"GET"];
+}
+-(NSString*)performRequestWithPath:(NSString*)path parameters:(NSMutableDictionary*)params method:(NSString*)method{
 	NSMutableString *paramString=[NSMutableString string];
     if(![params isKindOfClass:[NSMutableDictionary class]]){
         params=[NSMutableDictionary dictionaryWithDictionary:params];
@@ -40,17 +43,25 @@
 		if([paramString length]){
 			[paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
 		}else{
-			[paramString appendFormat:@"?%@=%@",key,[params objectForKey:key]];
+			[paramString appendFormat:@"%@=%@",key,[params objectForKey:key]];
 		}
 	}
 	
-	NSString *url=[NSString stringWithFormat:@"http://api.tumblr.com/v2/%@%@",path,paramString];
-	
+	NSString *url;
+    if([[method lowercaseString] isEqualToString:@"get"]){
+        url=[NSString stringWithFormat:@"http://api.tumblr.com/v2/%@?%@",path,paramString];
+	}else{
+        url=[NSString stringWithFormat:@"http://api.tumblr.com/v2/%@",path];
+    }
 	OAMutableURLRequest *request = [[[OAMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
 																	consumer:consumer
 																	   token:accessToken   
 																	   realm:nil   
 														   signatureProvider:nil]autorelease];
+    if(![[method lowercaseString] isEqualToString:@"get"]){
+        request.HTTPMethod=method;
+        [request setHTTPBodyWithString:paramString];
+    }
 	OADataFetcher *fetcher=[[[OADataFetcher alloc]init] autorelease];
 	[fetcher fetchDataWithRequest:request delegate:self didFinishSelector:@selector(requestDidFinished:withData:) didFailSelector:@selector(requestDidFailed:withError:)];
 	return [request identifier];
@@ -83,7 +94,7 @@
 	[(id)delegate tumblrEngine:self didFailed:error  forRequestIdentifier:identifier];
 }
 
-
+#pragma mark - rest-ful api
 
 -(NSString*)getUserDashBoardWithSinceID:(NSString*)sinceID offset:(int)offset{
 	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"photo" forKey:@"type"];
@@ -104,6 +115,18 @@
 	}
     //[params setObject:@"true" forKey:@"notes_info"];
 	return [self performRequestWithPath:[NSString stringWithFormat:@"blog/%@/posts/photo",baseHostname] parameters:params];
+}
+-(NSString*)likePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+    [params setObject:postID forKey:@"id"];
+    [params setObject:reblogKey forKey:@"reblog_key"];
+	return [self performRequestWithPath:@"user/like" parameters:params method:@"post"];
+}
+-(NSString*)unlikePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+    [params setObject:postID forKey:@"id"];
+    [params setObject:reblogKey forKey:@"reblog_key"];
+	return [self performRequestWithPath:@"user/unlike" parameters:params method:@"post"];
 }
 
 -(void)dealloc{

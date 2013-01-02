@@ -78,7 +78,7 @@
 }
 #pragma mark user interaction
 - (IBAction)likeButtonClicked:(id)sender {
-    status.liked=true;
+    status.liked=!status.liked;
 }
 #pragma mark table view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

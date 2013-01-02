@@ -16,6 +16,7 @@
 #import "TimelineManager.h"
 #import "FacebookUser.h"
 #import "TumblrUser.h"
+#import "TumblrStatus.h"
 
 @interface StatusFetcher ()
 
@@ -247,7 +248,17 @@ static StatusFetcher* sharedFetcher=nil;
             break;
         case StatusSourceTypeInstagram:
             break;
-        case StatusSourceTypeTumblr:
+        case StatusSourceTypeTumblr:{
+            if([request.targetStatus isKindOfClass:[TumblrStatus class]]){
+                NSString *requestID;
+                if(request.isLike){
+                    requestID=[[BRFunctions sharedTumblr]likePostWithID:request.targetStatus.statusID reblogKey:[(TumblrStatus*)request.targetStatus reblogKey]];
+                }else{
+                    requestID=[[BRFunctions sharedTumblr]unlikePostWithID:request.targetStatus.statusID reblogKey:[(TumblrStatus*)request.targetStatus reblogKey]];
+                }
+                [requestsByID setObject:request forKey:requestID];
+            }
+        }
             break;
         case StatusSourceTypeTwitter:{
             NSString *requestID=[[BRFunctions sharedTwitter]markFavorite:request.isLike forStatusWithID:request.targetStatus.statusID];
@@ -472,6 +483,13 @@ static StatusFetcher* sharedFetcher=nil;
     return newComment;
 }
 -(void)tumblrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
+        LikeRequest *request=[requestsByID objectForKey:identifier];
+        if(request.delegate&&[request.delegate respondsToSelector:request.selector]){
+            [request.delegate performSelector:request.selector withObject:request];
+        }
+        return;
+    }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.tumblrStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
@@ -479,7 +497,7 @@ static StatusFetcher* sharedFetcher=nil;
 	NSArray *photos=[[data objectForKey:@"response"] objectForKey:@"posts"];
 	for(NSDictionary *post in photos){
 		if([[post objectForKey:@"photos"] count]){
-			Status *thisStatus=[[[Status alloc]init]autorelease];
+			TumblrStatus *thisStatus=[[[TumblrStatus alloc]init]autorelease];
 			
 			NSArray *sizes=[[[post objectForKey:@"photos"] objectAtIndex:0] objectForKey:@"alt_sizes"];
 			for(NSDictionary *size in sizes){
@@ -542,6 +560,8 @@ static StatusFetcher* sharedFetcher=nil;
 				thisStatus.statusID=[NSString stringWithFormat:@"%@",[post objectForKey:@"id"]];
 				
 				thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[post objectForKey:@"timestamp"]doubleValue]];
+                thisStatus.reblogKey=[post objectForKey:@"reblog_key"];
+                thisStatus.liked=[[post objectForKey:@"liked"] boolValue];
 				
                 //Comment
                 NSMutableArray *comments=[NSMutableArray array];
