@@ -46,7 +46,9 @@
 -(NSString*)getSelfFeedWithMinID:(NSString*)minID maxID:(NSString*)maxID;
 -(NSString*)getUserFeedWithUserID:(NSString*)userID minID:(NSString*)minID maxID:(NSString*)maxID;
 -(NSString*)getCommentsWithMediaID:(NSString*)mediaID;
+-(NSString*)sendComment:(NSString*)comment withMediaID:(NSString*)mediaID;
 -(NSString*)likeMediaWithMediaID:(NSString*)mediaID;
 -(NSString*)unlikeMediaWithMediaID:(NSString*)mediaID;
+-(NSString*)getUserInfoWithUserID:(NSString*)userID;
 
 @end

@@ -11,6 +11,7 @@
 #import "User.h"
 
 #define StatusDidPreloadedImageNotification @"StatusDidPreloadedImageNotification"
+#define StatusDidSentCommentNotification @"StatusDidSentCommentNotification"
 
 typedef enum StatusImageSize {
     StatusImageSizeThumb       = 0,
@@ -66,6 +67,7 @@ typedef enum StatusImageSize {
 -(void)submitComment:(NSString*)commentString;
 
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector;
+-(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector cached:(BOOL)cached;
 
 -(NSDictionary*)dictionaryRepresentation;
 

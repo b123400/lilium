@@ -60,6 +60,7 @@
     }else{
         [[BRCircleAlert confirmAlertWithText:@"Are you sure to logout Facebook?" action:^{
             [[BRFunctions sharedFacebook] logout:[BRFunctions sharedObject]];
+            [[NSUserDefaults standardUserDefaults]synchronize];
             [self refreshLoginStatus];
         }] show];
     }

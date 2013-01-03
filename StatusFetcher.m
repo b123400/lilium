@@ -24,6 +24,7 @@
 -(Status*)firstStatusWithSource:(StatusSourceType)source inArray:(NSArray*)arr;
 
 -(NSArray*)instagramCommentsFromDicts:(NSArray*)dicts;
+-(User*)instagramUserFromDict:(NSDictionary*)dictionary;
 
 -(User*)twitterUserFromDict:(NSDictionary*)dict;
 -(Comment*)twitterCommentFromDict:(NSDictionary*)dict;
@@ -233,23 +234,23 @@ static StatusFetcher* sharedFetcher=nil;
     StatusSourceType type=request.targetStatus.user.type;
 	switch (type) {
 		case StatusSourceTypeInstagram:{
-//			NSString *requestID=[[BRFunctions sharedInstagram]getCommentsWithMediaID:request.targetStatus.statusID];
-//			[requestsByID setObject:request forKey:requestID];
+			NSString *requestID=[[BRFunctions sharedInstagram]sendComment:request.submitCommentString withMediaID:request.targetStatus.statusID];
+			[requestsByID setObject:request forKey:requestID];
 			break;
         }
         case StatusSourceTypeTwitter:{
-//            NSString *requestID=[[BRFunctions sharedTwitter]getRepliesForStatusWithID:request.targetStatus.statusID];
-//            [requestsByID setObject:request forKey:requestID];
+            NSString *requestID=[[BRFunctions sharedTwitter]sendTweet:[NSString stringWithFormat:@"@%@ %@",request.targetStatus.user.username,request.submitCommentString] inReplyToStatusWithID:request.targetStatus.statusID];
+            [requestsByID setObject:request forKey:requestID];
             break;
         }
         case StatusSourceTypeFacebook:{
-//            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/comments",request.targetStatus.statusID] andDelegate:self];
-//			[requestsByID setObject:request forKey:[fbRequest identifier]];
+            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/comments",request.targetStatus.statusID] andParams:[NSMutableDictionary dictionaryWithObject:request.submitCommentString forKey:@"message"] andHttpMethod:@"POST" andDelegate:self];
+			[requestsByID setObject:request forKey:[fbRequest identifier]];
             break;
         }
         case StatusSourceTypeFlickr: {
-//            NSString *requestID=[[BRFunctions sharedFlickr] getCommentsForPhotoWithID:request.targetStatus.statusID];
-//            [requestsByID setObject:request forKey:requestID];
+            NSString *requestID=[[BRFunctions sharedFlickr] addComment:request.submitCommentString toPhotoWithPhotoID:request.targetStatus.statusID];
+            [requestsByID setObject:request forKey:requestID];
             break;
         }
 		default:
@@ -259,7 +260,7 @@ static StatusFetcher* sharedFetcher=nil;
 -(void)didReceivedComments:(NSArray*)comments forRequest:(CommentRequest*)request{
 	request.targetStatus.comments=[NSMutableArray arrayWithArray:comments];
 	id target=request.delegate;
-	[target performSelector:request.selector withObject:comments];
+	[target performSelector:request.selector withObject:request withObject:comments];
     [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
 }
 #pragma mark - Like
@@ -315,9 +316,48 @@ static StatusFetcher* sharedFetcher=nil;
 -(void)didFinishedLikeRequestWithIdentifier:(NSString*)identifier{
     LikeRequest *request=[requestsByID objectForKey:identifier];
     if(request.delegate&&request.selector){
-        [request.delegate performSelector:request.selector];
+        [request.delegate performSelector:request.selector withObject:request];
     }
     [requestsByID removeObjectForKey:identifier];
+}
+#pragma mark - Get user
+-(void)getUserForRequest:(UserRequest*)request{
+    StatusSourceType type=request.type;
+	switch (type) {
+		case StatusSourceTypeInstagram:{
+			NSString *requestID=[[BRFunctions sharedInstagram]getUserInfoWithUserID:request.userID];
+			[requestsByID setObject:request forKey:requestID];
+			break;
+        }
+        case StatusSourceTypeTwitter:{
+            NSString *requestID;
+            if([request.userID isEqualToString:@"self"]){
+                requestID=[[BRFunctions sharedTwitter] getAuthedUserInfo];
+            }else{
+                requestID=[[BRFunctions sharedTwitter]getUserInfoWithUserID:request.userID];
+            }
+            [requestsByID setObject:request forKey:requestID];
+            break;
+        }
+        case StatusSourceTypeFacebook:{
+            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/",request.userID] andDelegate:self];
+			[requestsByID setObject:request forKey:[fbRequest identifier]];
+            break;
+        }
+        case StatusSourceTypeFlickr: {
+            NSString *requestID=[[BRFunctions sharedFlickr]getUserInfoWithUserID:request.userID];
+            [requestsByID setObject:request forKey:requestID];
+            break;
+        }
+		default:
+			break;
+	}
+}
+-(void)didReceivedUser:(User*)user forRequest:(UserRequest*)request{
+    if(request.delegate&&request.selector&&[request.delegate respondsToSelector:request.selector]){
+        [request.delegate performSelector:request.selector withObject:request withObject:user];
+    }
+    [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
 }
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
@@ -347,6 +387,10 @@ static StatusFetcher* sharedFetcher=nil;
     }
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
         [self didFinishedLikeRequestWithIdentifier:identifier];
+        return;
+    }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[UserRequest class]]){
+        NSLog(@"%@",[data description]);
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
@@ -398,7 +442,7 @@ static StatusFetcher* sharedFetcher=nil;
     }else{
         Request *request=[requestsByID objectForKey:identifier];
         if(request.failSelector){
-            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+            [request.delegate performSelector:request.failSelector withObject:request withObject:error];
         }
     }
 	[requestsByID removeObjectForKey:identifier];
@@ -422,6 +466,15 @@ static StatusFetcher* sharedFetcher=nil;
 	}
 	return comments;
 }
+-(User*)instagramUserFromDict:(NSDictionary*)dictionary{
+    User *thisUser=[User userWithType:StatusSourceTypeInstagram userID:[dictionary objectForKey:@"id"]];;
+    thisUser.displayName=[dictionary objectForKey:@"full_name"];
+    thisUser.username=[dictionary objectForKey:@"username"];
+    if([dictionary objectForKey:@"profile_picture"]){
+        thisUser.profilePicture=[NSURL URLWithString:[dictionary objectForKey:@"profile_picture"]];
+    }
+    return thisUser;
+}
 -(void)instagramEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
 	if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
 		NSArray *dicts=[data objectForKey:@"data"];
@@ -431,6 +484,10 @@ static StatusFetcher* sharedFetcher=nil;
 	}
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
         [self didFinishedLikeRequestWithIdentifier:identifier];
+        return;
+    }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[UserRequest class]]){
+        [self didReceivedUser:[data objectForKey:@"data"] forRequest:[requestsByID objectForKey:identifier]];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
@@ -453,10 +510,7 @@ static StatusFetcher* sharedFetcher=nil;
 		}
 		thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[photo objectForKey:@"created_time"]doubleValue]];
         
-		User *thisUser=[User userWithType:StatusSourceTypeInstagram userID:[[photo objectForKey:@"user"] objectForKey:@"id"]];;
-		thisUser.displayName=[[photo objectForKey:@"user"] objectForKey:@"full_name"];
-		thisUser.username=[[photo objectForKey:@"user"]objectForKey:@"username"];
-		thisStatus.user=thisUser;
+		thisStatus.user=[self instagramUserFromDict:[photo objectForKey:@"user"]];
 		thisStatus.statusID=[NSString stringWithFormat:@"%@",[photo objectForKey:@"id"]];
 		
 		thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[photo objectForKey:@"created_time"]doubleValue]];
@@ -514,7 +568,7 @@ static StatusFetcher* sharedFetcher=nil;
     }else{
         Request *request=[requestsByID objectForKey:identifier];
         if(request.failSelector){
-            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+            [request.delegate performSelector:request.failSelector withObject:request withObject:error];
         }
     }
     [requestsByID removeObjectForKey:identifier];
@@ -654,7 +708,7 @@ static StatusFetcher* sharedFetcher=nil;
     }else{
         Request *request=[requestsByID objectForKey:identifier];
         if(request.failSelector){
-            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+            [request.delegate performSelector:request.failSelector withObject:request withObject:error];
         }
     }
 	[requestsByID removeObjectForKey:identifier];
@@ -724,6 +778,10 @@ static StatusFetcher* sharedFetcher=nil;
         [self didFinishedLikeRequestWithIdentifier:identifier];
         return;
     }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[UserRequest class]]){
+        [self didReceivedUser:[self twitterUserFromDict:data] forRequest:[requestsByID objectForKey:identifier]];
+        return;
+    }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.twitterStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
@@ -733,7 +791,7 @@ static StatusFetcher* sharedFetcher=nil;
 	[df setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[df setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
 	[df setDateFormat:@"EEE LLL dd HH:mm:ss Z yyyy"];
-	
+	if(![data isKindOfClass:[NSArray class]])return;
 	for(NSDictionary *tweet in data){
 		NSString *urlRegex=@"[^(href=\\')]?((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))";
 		
@@ -859,7 +917,7 @@ static StatusFetcher* sharedFetcher=nil;
     }else{
         Request *request=[requestsByID objectForKey:identifier];
         if(request.failSelector){
-            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+            [request.delegate performSelector:request.failSelector withObject:request withObject:error];
         }
     }
     [requestsByID removeObjectForKey:identifier];
@@ -878,6 +936,12 @@ static StatusFetcher* sharedFetcher=nil;
     newComment.date=[df dateFromString:[dict objectForKey:@"created_time"]];
     return newComment;
 }
+-(User*)facebookUserFromDict:(NSDictionary*)dictionary{
+    FacebookUser *thisUser=[FacebookUser userWithUserID:[dictionary objectForKey:@"id"]];
+    thisUser.displayName=[dictionary objectForKey:@"name"];
+    thisUser.username=[dictionary objectForKey:@"username"];
+    return thisUser;
+}
 - (void)request:(FBRequest *)fbRequest didLoad:(id)result{
 	NSString *identifier=[fbRequest identifier];
     if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
@@ -893,6 +957,10 @@ static StatusFetcher* sharedFetcher=nil;
     }
     if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
         [self didFinishedLikeRequestWithIdentifier:identifier];
+        return;
+    }
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[UserRequest class]]){
+        [self didReceivedUser:[self facebookUserFromDict:result] forRequest:[requestsByID objectForKey:identifier]];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
@@ -944,9 +1012,7 @@ static StatusFetcher* sharedFetcher=nil;
 			
 			if([dict objectForKey:@"message"])newStatus.caption=[dict objectForKey:@"message"];
 			
-            FacebookUser *thisUser=[FacebookUser userWithUserID:[[dict objectForKey:@"from"]objectForKey:@"id"]];
-			thisUser.displayName=[[dict objectForKey:@"from"]objectForKey:@"name"];
-			newStatus.user=thisUser;
+			newStatus.user=[self facebookUserFromDict:[dict objectForKey:@"from"]];
 			
 			//2010-12-01T21:35:43+0000  
 			
@@ -1001,7 +1067,7 @@ static StatusFetcher* sharedFetcher=nil;
     }else{
         Request *request=[requestsByID objectForKey:identifier];
         if(request.failSelector){
-            [request.delegate performSelector:request.failSelector withObject:self withObject:error];
+            [request.delegate performSelector:request.failSelector withObject:request withObject:error];
         }
     }
 	[requestsByID removeObjectForKey:identifier];

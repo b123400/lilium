@@ -9,11 +9,20 @@
 #import "BRFunctions.h"
 #import "StatusFetcher.h"
 
+@interface BRFunctions ()
+
++(void)requestFinished:(UserRequest*)request didReceivedTwitterUser:(User*)user;
+
+@end
+
 @implementation BRFunctions
 
 static BRTwitterEngine *sharedTwitter=nil;
+static User *twitterUser=nil;
 static Facebook *sharedFacebook=nil;
+static FacebookUser *facebookUser=nil;
 static BRInstagramEngine *sharedInstagram=nil;
+static User *instagramUser=nil;
 static BRFunctions *sharedObject=nil;
 static BRFlickrEngine *sharedFlickr = nil;
 static BRTumblrEngine *sharedTumblr = nil;
@@ -35,6 +44,11 @@ static BRTumblrEngine *sharedTumblr = nil;
 	if(sharedTwitter){
 		[sharedTwitter setAccessToken:token];
 	}
+    UserRequest *request=[[[UserRequest alloc] init]autorelease];
+    request.delegate=self;
+    request.selector=@selector(requestFinished:didReceivedTwitterUser:);
+    request.userID=@"self";
+    [[StatusFetcher sharedFetcher] getUserForRequest:request];
 }
 +(BOOL)didLoggedInTwitter{
 	OAToken *token=[[[OAToken alloc]initWithUserDefaultsUsingServiceProviderName:nil prefix:twitterSaveKey]autorelease];
@@ -43,6 +57,9 @@ static BRTumblrEngine *sharedTumblr = nil;
 	}
 	return NO;
 }
++(User*)twitterUser{
+    return twitterUser;
+}
 +(void)logoutTwitter{
     if(![self didLoggedInTwitter])return;
     [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:twitterSaveKey];
@@ -50,6 +67,11 @@ static BRTumblrEngine *sharedTumblr = nil;
         [sharedTwitter release];
         sharedTwitter=nil;
     }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
++(void)requestFinished:(UserRequest*)request didReceivedTwitterUser:(User*)user{
+    if(twitterUser)[twitterUser release];
+    twitterUser=[user retain];
 }
 #pragma mark -
 #pragma mark Facebook
@@ -86,6 +108,19 @@ static BRTumblrEngine *sharedTumblr = nil;
     [defaults synchronize];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:facebookDidLoginNotification	object:nil];
+    
+    UserRequest *request=[[[UserRequest alloc] init]autorelease];
+    request.delegate=[self class];
+    request.selector=@selector(requestFinished:didReceivedFacebookUser:);
+    request.userID=@"me";
+    [[StatusFetcher sharedFetcher] getUserForRequest:request];
+}
++(FacebookUser*)facebookUser{
+    return facebookUser;
+}
++(void)requestFinished:(UserRequest*)request didReceivedFacebookUser:(FacebookUser*)user{
+    if(facebookUser)[facebookUser release];
+    facebookUser=[user retain];
 }
 - (void)fbDidNotLogin:(BOOL)cancelled{
 	[[NSNotificationCenter defaultCenter] postNotificationName:facebookDidNotLoginNotification	object:nil];
@@ -116,6 +151,18 @@ static BRTumblrEngine *sharedTumblr = nil;
 	if(sharedInstagram){
 		[sharedInstagram setAccessToken:token];
 	}
+    UserRequest *request=[[[UserRequest alloc] init]autorelease];
+    request.delegate=[self class];
+    request.selector=@selector(requestFinished:didReceivedInstagramUser:);
+    request.userID=@"self";
+    [[StatusFetcher sharedFetcher] getUserForRequest:request];
+}
++(User*)instagramUser{
+    return instagramUser;
+}
++(void)requestFinished:(UserRequest*)request didReceivedInstagramUser:(User*)user{
+    if(instagramUser)[instagramUser release];
+    instagramUser=[user retain];
 }
 +(BOOL)didLoggedInInstagram{
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -165,6 +212,7 @@ static BRTumblrEngine *sharedTumblr = nil;
         sharedFlickr=nil;
     }
     [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:flickrSaveKey];
+    [[NSUserDefaults standardUserDefaults]synchronize];
 }
 #pragma mark -
 #pragma mark tumblr

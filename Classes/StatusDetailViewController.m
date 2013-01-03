@@ -40,6 +40,10 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification 
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(commentPosted)
+                                                 name:StatusDidSentCommentNotification
+                                               object:_status];
 	return self;
 }
 
@@ -115,8 +119,17 @@
     [commentComposeView.textField resignFirstResponder];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [status submitComment:textField.text];
     [textField resignFirstResponder];
+    [commentTableView reloadData];
+    if(commentTableView.contentSize.height>commentTableView.frame.size.height){
+        [commentTableView setContentOffset:CGPointMake(0, commentTableView.contentSize.height - commentTableView.bounds.size.height) animated:YES];
+    }
+    textField.text=@"";
     return YES;
+}
+-(void)commentPosted{
+    [status getCommentsAndReturnTo:self withSelector:@selector(didReceiveComments:) cached:NO];
 }
 -(void) keyboardWillShow:(NSNotification *)note{
     // get keyboard size and loctaion
@@ -192,14 +205,16 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     Comment *thisComment=[status.comments objectAtIndex:indexPath.row];
-    
-    UserViewController *userViewController=[[[UserViewController alloc]initWithUser:thisComment.user] autorelease];
-    [self.navigationController pushViewController:userViewController animated:YES];
+    if(thisComment.user!=[User me]){
+        UserViewController *userViewController=[[[UserViewController alloc]initWithUser:thisComment.user] autorelease];
+        [self.navigationController pushViewController:userViewController animated:YES];
+    }
 }
 #pragma mark navigation
 -(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
 	NSMutableArray *views=[NSMutableArray arrayWithObject:imageWrapperView];
 	[views addObjectsFromArray:[commentTableView visibleCells]];
+    [views addObject:commentComposeView];
 	return views;
 }
 /*

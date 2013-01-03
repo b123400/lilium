@@ -98,7 +98,8 @@ static float pressShiftFactor=0.2;
 		
 		float scale=gestureRecognizer.scale;
 		
-		for(UIView *thisView in viewsToAnimate){
+		for(int i=0;i<viewsToAnimate.count;i++){
+            UIView *thisView=[viewsToAnimate objectAtIndex:i];
 			//thisView.layer.position
 			CGPoint relativeTarget=[self.view convertPoint:lastTouchedPoint toView:thisView.superview];
 			float delay=pow((578-[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint]/zoomDelayPerPixelFromCenter)/500,8)+1.0f;
@@ -139,7 +140,8 @@ static float pressShiftFactor=0.2;
 		}else{
 			NSArray *viewsToAnimate=[self subviewsToAnimateForViewController:[self topViewController]];
 			
-			for(UIView *thisView in viewsToAnimate){
+			for(int i=0;i<viewsToAnimate.count;i++){
+                UIView *thisView=[viewsToAnimate objectAtIndex:i];
 				[UIView animateWithDuration:animationDuration animations:^{
 					CATransform3D transform=CATransform3DMakeTranslation(0, 0, 0);
 					thisView.layer.transform=transform;
@@ -181,7 +183,8 @@ static float pressShiftFactor=0.2;
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
-	for(UIView *thisView in viewsToAnimate){
+	for(int i=0;i<viewsToAnimate.count;i++){
+        UIView *thisView=[viewsToAnimate objectAtIndex:i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
 		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
 		if(thisDelay<minimumDelay){
@@ -413,7 +416,8 @@ static float pressShiftFactor=0.2;
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
-	for(UIView *thisView in viewsToAnimate){
+	for(int i=0;i<viewsToAnimate.count;i++){
+        UIView *thisView=[viewsToAnimate objectAtIndex:i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
 		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
 		if(thisDelay<minimumDelay){
@@ -499,7 +503,8 @@ static float pressShiftFactor=0.2;
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
-	for(UIView *thisView in viewsToAnimate){
+	for(int i=0;i<viewsToAnimate.count;i++){
+        UIView *thisView=[viewsToAnimate objectAtIndex:i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
 		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
 		if(thisDelay<minimumDelay){
@@ -599,13 +604,15 @@ static float pressShiftFactor=0.2;
 #pragma mark Pressing
 -(void)didTouchMovedTransparentView:(id)sender atPoint:(CGPoint)point{
 	NSArray *subviews=[self subviewsToAnimateForViewController:[self topViewController]];
-	for(UIView *thisView in subviews){
+    for(int i=0;i<subviews.count;i++) {
+        UIView *thisView=[subviews objectAtIndex:i];
 		thisView.layer.transform=CATransform3DScale(CATransform3DMakeTranslation((point.x-thisView.frame.origin.x)*pressShiftFactor, (point.y-thisView.frame.origin.y)*pressShiftFactor, 0), 1/pressZoomFactor, 1/pressZoomFactor, 1/pressZoomFactor);
 	}
 }
 -(void)didTouchEndedTransparentView:(id)sender atPoint:(CGPoint)point{
 	NSArray *subviews=[self subviewsToAnimateForViewController:[self topViewController]];
-	for(UIView *thisView in subviews){
+    for(int i=0;i<subviews.count;i++) {
+        UIView *thisView=[subviews objectAtIndex:i];
 		thisView.layer.transform=CATransform3DScale(CATransform3DMakeTranslation(0,0, 0), 1, 1, 1);
 	}
 }

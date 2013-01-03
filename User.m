@@ -68,5 +68,13 @@
     newUser.userID=userID;
     return newUser;
 }
++(User*)me{
+    static User* me=nil;
+    if(!me){
+        me=[[User alloc] init];
+    }
+    me.displayName=@"me";
+    return me;
+}
 
 @end

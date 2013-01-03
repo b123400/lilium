@@ -136,7 +136,18 @@
                                                                                         photoID,@"photo_id"
 																						,nil]];
 }
-
+-(NSString*)getUserInfoWithUserID:(NSString*)userID{
+    return [self performRequestWithMethod:@"flickr.people.getInfo" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                 userID,@"user_id"
+                                                                                 ,nil]];
+}
+-(NSString*)addComment:(NSString*)comment toPhotoWithPhotoID:(NSString*)photoID{
+    return [self performRequestWithMethod:@"flickr.photos.comments.addComment" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                               photoID,@"photo_id",
+                                                                               comment,@"comment_text",
+                                                                               nil]];
+}
+#pragma mark -
 + (NSURL *)iconSourceURLWithFarm:(int)farm iconServer:(int)server userID:(NSString*)userID{
     return [NSURL URLWithString:[NSString stringWithFormat:@"http://farm%d.staticflickr.com/%d/buddyicons/%@.jpg",farm,server,userID]];
 }

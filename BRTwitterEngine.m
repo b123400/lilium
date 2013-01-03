@@ -13,6 +13,7 @@
 #import "CJSONDeserializer.h"
 #import "OAServiceTicket.h"
 #import "RegexKitLite.h"
+#import "NSString+EscapePercentage.h"
 
 @interface BRTwitterEngine()
 
@@ -38,15 +39,15 @@
 	NSMutableString *paramString=[NSMutableString string];
 	for(NSString *key in params){
 		if([paramString length]){
-			[paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+			[paramString appendFormat:@"&%@=%@",key,[[params objectForKey:key] stringByEscapingWithPercentage]];
 		}else{
-			[paramString appendFormat:@"%@=%@",key,[params objectForKey:key]];
+			[paramString appendFormat:@"%@=%@",key,[[params objectForKey:key] stringByEscapingWithPercentage]];
 		}
 	}
 	
     NSString *url;
     if([[method lowercaseString]isEqualToString:@"get"]){
-        url=[NSString stringWithFormat:@"http://api.twitter.com/1.1/%@.json?%@",path,paramString];
+        url=[NSString stringWithFormat:@"http://api.twitter.com/1.1/%@.json?%@",path,[paramString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     }else{
         url=[NSString stringWithFormat:@"http://api.twitter.com/1.1/%@.json",path];
     }
@@ -58,8 +59,9 @@
 														   signatureProvider:nil]autorelease];
     [request setHTTPMethod:method];
     if(![[method lowercaseString]isEqualToString:@"get"]){
-        [request setHTTPBodyWithString:paramString];
+        [request setHTTPBody:[paramString dataUsingEncoding:NSUTF8StringEncoding]];
     }
+    [request setValue:@"Fuck you twitter" forHTTPHeaderField:@"X-Twitter-Client"];
 	OADataFetcher *fetcher=[[[OADataFetcher alloc]init] autorelease];
 	[fetcher fetchDataWithRequest:request delegate:self didFinishSelector:@selector(requestDidFinished:withData:) didFailSelector:@selector(requestDidFailed:withError:)];
     [fetchers addObject:fetcher];
@@ -112,7 +114,7 @@
 	if(maxID){
 		[params	setObject:maxID forKey:@"max_id"];
 	}
-	return [self performRequestWithPath:@"statuses/home_timeline" parameters:params];
+	return [self performRequestWithPath:@"../1/statuses/home_timeline" parameters:params];
 }
 -(NSString*)getUserTimelineWithUserID:(NSString*)userID sinceID:(NSString*)sinceID maxID:(NSString*)maxID{
     NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -142,6 +144,23 @@
         return [self performRequestWithPath:@"favorites/create" parameters:params withMethod:@"POST"];
     }
     return [self performRequestWithPath:@"favorites/destroy" parameters:params withMethod:@"POST"];
+}
+-(NSString*)getAuthedUserInfo{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"true",@"include_entities",nil];
+	return [self performRequestWithPath:@"account/verify_credentials" parameters:params];
+}
+-(NSString*)getUserInfoWithUserID:(NSString*)userID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"true",@"include_entities",nil];
+    [params setObject:userID forKey:@"user_id"];
+	return [self performRequestWithPath:@"users/show" parameters:params];
+}
+-(NSString*)sendTweet:(NSString*)tweet inReplyToStatusWithID:(NSString*)statusID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								 tweet,@"status", nil];
+    if(statusID){
+        [params setObject:statusID forKey:@"in_reply_to_status_id"];
+    }
+    return [self performRequestWithPath:@"statuses/update" parameters:params withMethod:@"POST"];
 }
 #pragma mark misc
 +(NSURL*)rawImageURLFromURL:(NSURL*)aURL size:(BRImageSize)size{

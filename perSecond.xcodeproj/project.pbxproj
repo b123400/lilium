@@ -182,6 +182,8 @@
 		CFF819B413C08CB700C37DD8 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A913C08CB700C37DD8 /* SBJsonWriter.m */; };
 		CFFCD990169589AC006DC49B /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFFCD98E169589AC006DC49B /* libTestFlight.a */; };
 		CFFCD9A71695BFB3006DC49B /* CommentComposeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9A61695BFB3006DC49B /* CommentComposeView.m */; };
+		CFFCD9B81695FB2E006DC49B /* UserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9B71695FB2E006DC49B /* UserRequest.m */; };
+		CFFCD9CF16963873006DC49B /* NSString+EscapePercentage.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9CE16963873006DC49B /* NSString+EscapePercentage.m */; };
 		CFFE731A16680AED00457BD2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFE731716680AED00457BD2 /* Default-568h@2x.png */; };
 		CFFE731B16680AED00457BD2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFE731816680AED00457BD2 /* Default.png */; };
 		CFFE731C16680AED00457BD2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFE731916680AED00457BD2 /* Default@2x.png */; };
@@ -526,6 +528,10 @@
 		CFFCD98F169589AC006DC49B /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		CFFCD9A51695BFB3006DC49B /* CommentComposeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentComposeView.h; sourceTree = "<group>"; };
 		CFFCD9A61695BFB3006DC49B /* CommentComposeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentComposeView.m; sourceTree = "<group>"; };
+		CFFCD9B61695FB2E006DC49B /* UserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserRequest.h; sourceTree = "<group>"; };
+		CFFCD9B71695FB2E006DC49B /* UserRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRequest.m; sourceTree = "<group>"; };
+		CFFCD9CD16963873006DC49B /* NSString+EscapePercentage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+EscapePercentage.h"; sourceTree = "<group>"; };
+		CFFCD9CE16963873006DC49B /* NSString+EscapePercentage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+EscapePercentage.m"; sourceTree = "<group>"; };
 		CFFE731716680AED00457BD2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CFFE731816680AED00457BD2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		CFFE731916680AED00457BD2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -707,6 +713,8 @@
 				CF42E0121690D677009FB526 /* CommentRequest.m */,
 				CF42E0141690D684009FB526 /* LikeRequest.h */,
 				CF42E0151690D684009FB526 /* LikeRequest.m */,
+				CFFCD9B61695FB2E006DC49B /* UserRequest.h */,
+				CFFCD9B71695FB2E006DC49B /* UserRequest.m */,
 			);
 			name = Request;
 			sourceTree = "<group>";
@@ -1021,6 +1029,8 @@
 				CF5EE5B01679AE53008D55D3 /* UIScrollView+Pinch.m */,
 				CFFCD9A51695BFB3006DC49B /* CommentComposeView.h */,
 				CFFCD9A61695BFB3006DC49B /* CommentComposeView.m */,
+				CFFCD9CD16963873006DC49B /* NSString+EscapePercentage.h */,
+				CFFCD9CE16963873006DC49B /* NSString+EscapePercentage.m */,
 			);
 			name = "Categories+Subclass";
 			sourceTree = "<group>";
@@ -1601,6 +1611,8 @@
 				CF42E0161690D684009FB526 /* LikeRequest.m in Sources */,
 				CFADA8241694B94D00A1543F /* TumblrStatus.m in Sources */,
 				CFFCD9A71695BFB3006DC49B /* CommentComposeView.m in Sources */,
+				CFFCD9B81695FB2E006DC49B /* UserRequest.m in Sources */,
+				CFFCD9CF16963873006DC49B /* NSString+EscapePercentage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
