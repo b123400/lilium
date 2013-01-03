@@ -171,13 +171,5 @@
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
 	return [self performRequestWithPath:[NSString stringWithFormat:@"media/%@/likes",mediaID] parameters:params withMethod:@"DELETE"];
 }
-#pragma mark -
--(void)dealloc{
-	[clientID release];
-	[clientSecret release];
-	if(redirectUri)[redirectUri release];
-	if(scope)[scope release];
-	[super dealloc];
-}
 
 @end

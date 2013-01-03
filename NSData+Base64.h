@@ -8,7 +8,7 @@
 // Original development by Dave Winer.
 //
 
-#import "MGTwitterEngineGlobalHeader.h"
+//#import "MGTwitterEngineGlobalHeader.h"
 
 @interface NSData (Base64)
 

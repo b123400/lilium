@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NichijyouNavigationController.h"
+#import "TestFlight.h"
 
 @interface perSecondAppDelegate : NSObject <UIApplicationDelegate> {
     

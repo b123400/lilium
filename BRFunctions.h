@@ -10,7 +10,6 @@
 #import "FBConnect.h"
 #import "BRTwitterEngine.h"
 #import "BRInstagramEngine.h"
-#import "ObjectiveFlickr.h"
 #import "BRFlickrEngine.h"
 #import "BRTumblrEngine.h"
 #import "OAToken.h"

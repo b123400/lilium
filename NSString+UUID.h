@@ -6,7 +6,7 @@
 //  Copyright 2008 Instinctive Code.
 //
 
-#import "MGTwitterEngineGlobalHeader.h"
+//#import "MGTwitterEngineGlobalHeader.h"
 
 @interface NSString (UUID)
 
