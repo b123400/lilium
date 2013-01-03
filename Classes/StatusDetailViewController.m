@@ -13,6 +13,7 @@
 #import "Comment.h"
 #import "CommentTableViewCell.h"
 #import "UserViewController.h"
+#import "UIImage-Tint.h"
 
 @implementation StatusDetailViewController
 
@@ -30,6 +31,15 @@
 	self=[self init];
 	status=[_status retain];
 	[status getCommentsAndReturnTo:self withSelector:@selector(didReceiveComments:)];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification 
+                                               object:nil];
 	return self;
 }
 
@@ -72,13 +82,87 @@
 	
 	imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, imageWrapperView.frame.size.height+imageWrapperView.frame.origin.y);
 	mainScrollView.contentSize=CGSizeMake(commentTableView.frame.origin.x+commentTableView.frame.size.width, commentTableView.frame.origin.y+commentTableView.frame.size.height);
+    
+    if(!commentComposeView){
+        commentComposeView=[[CommentComposeView alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+        commentComposeView.autoresizingMask=UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
+        commentComposeView.textField.delegate=self;
+    }
+    commentComposeView.frame=CGRectMake(10, mainScrollView.frame.size.height-commentComposeView.frame.size.height, mainScrollView.frame.size.width-20, commentComposeView.frame.size.height);
+    
+    [self.view insertSubview:commentComposeView aboveSubview:mainScrollView];
+    commentTableView.contentInset=UIEdgeInsetsMake(0, 0, 44, 0);
+    imageWrapperScrollView.contentInset=UIEdgeInsetsMake(0, 0, 54, 0);
+    
+    [self refreshLikeButton];
 }
 -(void)didReceiveComments:(NSArray*)comments{
 	[commentTableView reloadData];
 }
+-(void)refreshLikeButton{
+    if(status.liked){
+        [likeButton setImage:[[UIImage imageNamed:@"heart.png"] tintedImageUsingColor:[UIColor colorWithRed:238/255. green:0 blue:72/255. alpha:1.0]] forState:UIControlStateNormal];
+    }else{
+        [likeButton setImage:[[UIImage imageNamed:@"heart.png"] tintedImageUsingColor:[UIColor colorWithRed:171/255. green:242/255. blue:109/255. alpha:1.0]] forState:UIControlStateNormal];
+    }
+}
 #pragma mark user interaction
 - (IBAction)likeButtonClicked:(id)sender {
     status.liked=!status.liked;
+    [self refreshLikeButton];
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [commentComposeView.textField resignFirstResponder];
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+-(void) keyboardWillShow:(NSNotification *)note{
+    // get keyboard size and loctaion
+	CGRect keyboardBounds;
+    [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    
+    // Need to translate the bounds to account for rotation.
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+    
+	// get a rect for the textView frame
+	CGRect containerFrame = commentComposeView.frame;
+    containerFrame.origin.y = self.view.bounds.size.height - (keyboardBounds.size.height + containerFrame.size.height);
+	// animations settings
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+	
+	// set views with new info
+	commentComposeView.frame = containerFrame;
+	
+	// commit animations
+	[UIView commitAnimations];
+}
+
+-(void) keyboardWillHide:(NSNotification *)note{
+    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+	
+	// get a rect for the textView frame
+	CGRect containerFrame = commentComposeView.frame;
+    containerFrame.origin.y = self.view.bounds.size.height - containerFrame.size.height;
+	
+	// animations settings
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+    
+	// set views with new info
+	commentComposeView.frame = containerFrame;
+	
+	// commit animations
+	[UIView commitAnimations];
 }
 #pragma mark table view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -145,6 +229,8 @@
 
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if(commentComposeView)[commentComposeView release];
 	[status release];
 	[imageWrapperScrollView release];
 	[mainScrollView release];

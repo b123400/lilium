@@ -38,6 +38,7 @@
 
 -(void)getStatusesForRequest:(StatusesRequest*)request;
 -(void)getCommentsForRequest:(CommentRequest*)request;
+-(void)sendCommentForRequest:(CommentRequest*)request;
 -(void)likeStatusForRequest:(LikeRequest*)request;
 
 @end

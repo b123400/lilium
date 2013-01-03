@@ -181,6 +181,7 @@
 		CFF819B313C08CB700C37DD8 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A713C08CB700C37DD8 /* SBJsonParser.m */; };
 		CFF819B413C08CB700C37DD8 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A913C08CB700C37DD8 /* SBJsonWriter.m */; };
 		CFFCD990169589AC006DC49B /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFFCD98E169589AC006DC49B /* libTestFlight.a */; };
+		CFFCD9A71695BFB3006DC49B /* CommentComposeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9A61695BFB3006DC49B /* CommentComposeView.m */; };
 		CFFE731A16680AED00457BD2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFE731716680AED00457BD2 /* Default-568h@2x.png */; };
 		CFFE731B16680AED00457BD2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFE731816680AED00457BD2 /* Default.png */; };
 		CFFE731C16680AED00457BD2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFE731916680AED00457BD2 /* Default@2x.png */; };
@@ -523,6 +524,8 @@
 		CFF819A913C08CB700C37DD8 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		CFFCD98E169589AC006DC49B /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		CFFCD98F169589AC006DC49B /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		CFFCD9A51695BFB3006DC49B /* CommentComposeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentComposeView.h; sourceTree = "<group>"; };
+		CFFCD9A61695BFB3006DC49B /* CommentComposeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentComposeView.m; sourceTree = "<group>"; };
 		CFFE731716680AED00457BD2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CFFE731816680AED00457BD2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		CFFE731916680AED00457BD2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -1016,6 +1019,8 @@
 				CFC2EE68166934F700995FC9 /* UIApplication+Frame.m */,
 				CF5EE5AF1679AE53008D55D3 /* UIScrollView+Pinch.h */,
 				CF5EE5B01679AE53008D55D3 /* UIScrollView+Pinch.m */,
+				CFFCD9A51695BFB3006DC49B /* CommentComposeView.h */,
+				CFFCD9A61695BFB3006DC49B /* CommentComposeView.m */,
 			);
 			name = "Categories+Subclass";
 			sourceTree = "<group>";
@@ -1595,6 +1600,7 @@
 				CF42E0131690D678009FB526 /* CommentRequest.m in Sources */,
 				CF42E0161690D684009FB526 /* LikeRequest.m in Sources */,
 				CFADA8241694B94D00A1543F /* TumblrStatus.m in Sources */,
+				CFFCD9A71695BFB3006DC49B /* CommentComposeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

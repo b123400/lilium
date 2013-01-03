@@ -9,6 +9,7 @@
 #import "Status.h"
 #import "StatusFetcher.h"
 #import "SDImageCache.h"
+#import "Comment.h"
 
 @implementation Status
 @synthesize thumbURL,mediumURL,fullURL,webURL,caption,user,statusID,liked,date,captionColor,attributes,comments;
@@ -79,6 +80,19 @@
             [[StatusFetcher sharedFetcher] likeStatusForRequest:request];
         }
     }
+}
+-(void)submitComment:(NSString*)commentString{
+    Comment *newComment=[[[Comment alloc]init] autorelease];
+    newComment.user=self.user;
+    newComment.text=commentString;
+    newComment.date=[NSDate date];
+    [self.comments addObject:newComment];
+    
+    CommentRequest *request=[[[CommentRequest alloc] init]autorelease];
+    request.targetStatus=self;
+    request.submitCommentString=commentString;
+    
+    [[StatusFetcher sharedFetcher] sendCommentForRequest:request];
 }
 #pragma mark - util
 +(NSArray*)allSources{

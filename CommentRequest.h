@@ -11,7 +11,9 @@
 
 @interface CommentRequest : Request{
 	Status *targetStatus;
+    NSString *submitCommentString;
 }
-@property (retain,nonatomic) 	Status *targetStatus;
+@property (retain,nonatomic) Status *targetStatus;
+@property (retain,nonatomic) NSString *submitCommentString;
 
 @end

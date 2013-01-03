@@ -9,6 +9,6 @@
 #import "CommentRequest.h"
 
 @implementation CommentRequest
-@synthesize targetStatus;
+@synthesize targetStatus,submitCommentString;
 
 @end

@@ -63,6 +63,7 @@ typedef enum StatusImageSize {
 -(UIImage*)cachedImageOfSize:(StatusImageSize)size;
 -(BOOL)isImagePreloaded;
 -(void)setLiked:(BOOL)_liked sync:(BOOL)sync;
+-(void)submitComment:(NSString*)commentString;
 
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector;
 

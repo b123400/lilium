@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "BRGridView.h"
 #import "Status.h"
+#import "CommentComposeView.h"
 
-@interface StatusDetailViewController : UIViewController {
+@interface StatusDetailViewController : UIViewController <UITextFieldDelegate> {
 	IBOutlet UIView *imageWrapperView;
 	IBOutlet UIImageView *mainImageView;
 	IBOutlet UIActivityIndicatorView *commentLoading;
@@ -19,11 +20,14 @@
 	IBOutlet UIScrollView *imageWrapperScrollView;
     
     IBOutlet UIButton *likeButton;
+    
+    CommentComposeView *commentComposeView;
 	
 	Status *status;
 }
 -(id)initWithStatus:(Status*)_status;
 
+-(void)refreshLikeButton;
 - (IBAction)likeButtonClicked:(id)sender;
 
 @end

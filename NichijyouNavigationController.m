@@ -238,7 +238,8 @@ static float pressShiftFactor=0.2;
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
-	for(UIView *thisView in viewsToAnimate){
+	for(int i=0;i< viewsToAnimate.count;i++){
+        UIView *thisView=[viewsToAnimate objectAtIndex:i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
 		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
 		if(thisDelay<minimumDelay){

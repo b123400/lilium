@@ -31,6 +31,7 @@
 -(Comment*)tumblrCommentFromNotesDict:(NSDictionary*)dict;
 
 -(void)didReceivedComments:(NSArray*)comments forRequest:(CommentRequest*)request;
+-(void)didFinishedLikeRequestWithIdentifier:(NSString*)identifier;
 
 @end
 
@@ -228,6 +229,33 @@ static StatusFetcher* sharedFetcher=nil;
 			break;
 	}
 }
+-(void)sendCommentForRequest:(CommentRequest*)request{
+    StatusSourceType type=request.targetStatus.user.type;
+	switch (type) {
+		case StatusSourceTypeInstagram:{
+//			NSString *requestID=[[BRFunctions sharedInstagram]getCommentsWithMediaID:request.targetStatus.statusID];
+//			[requestsByID setObject:request forKey:requestID];
+			break;
+        }
+        case StatusSourceTypeTwitter:{
+//            NSString *requestID=[[BRFunctions sharedTwitter]getRepliesForStatusWithID:request.targetStatus.statusID];
+//            [requestsByID setObject:request forKey:requestID];
+            break;
+        }
+        case StatusSourceTypeFacebook:{
+//            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/comments",request.targetStatus.statusID] andDelegate:self];
+//			[requestsByID setObject:request forKey:[fbRequest identifier]];
+            break;
+        }
+        case StatusSourceTypeFlickr: {
+//            NSString *requestID=[[BRFunctions sharedFlickr] getCommentsForPhotoWithID:request.targetStatus.statusID];
+//            [requestsByID setObject:request forKey:requestID];
+            break;
+        }
+		default:
+			break;
+	}
+}
 -(void)didReceivedComments:(NSArray*)comments forRequest:(CommentRequest*)request{
 	request.targetStatus.comments=[NSMutableArray arrayWithArray:comments];
 	id target=request.delegate;
@@ -284,6 +312,13 @@ static StatusFetcher* sharedFetcher=nil;
             break;
     }
 }
+-(void)didFinishedLikeRequestWithIdentifier:(NSString*)identifier{
+    LikeRequest *request=[requestsByID objectForKey:identifier];
+    if(request.delegate&&request.selector){
+        [request.delegate performSelector:request.selector];
+    }
+    [requestsByID removeObjectForKey:identifier];
+}
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
     User *newUser=[User userWithType:StatusSourceTypeFlickr userID:[dict objectForKey:@"author"]];
@@ -311,10 +346,7 @@ static StatusFetcher* sharedFetcher=nil;
         return;
     }
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
-        LikeRequest *request=[requestsByID objectForKey:identifier];
-        if(request.delegate&&request.selector){
-            [request.delegate performSelector:request.selector];
-        }
+        [self didFinishedLikeRequestWithIdentifier:identifier];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
@@ -398,10 +430,7 @@ static StatusFetcher* sharedFetcher=nil;
 		return;
 	}
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
-        LikeRequest *request=[requestsByID objectForKey:identifier];
-        if(request.delegate&&request.selector){
-            [request.delegate performSelector:request.selector];
-        }
+        [self didFinishedLikeRequestWithIdentifier:identifier];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
@@ -513,10 +542,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 -(void)tumblrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
     if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
-        LikeRequest *request=[requestsByID objectForKey:identifier];
-        if(request.delegate&&[request.delegate respondsToSelector:request.selector]){
-            [request.delegate performSelector:request.selector withObject:request];
-        }
+        [self didFinishedLikeRequestWithIdentifier:identifier];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
@@ -695,10 +721,7 @@ static StatusFetcher* sharedFetcher=nil;
         return;
     }
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
-        LikeRequest *request=[requestsByID objectForKey:identifier];
-        if(request.delegate&&request.selector){
-            [request.delegate performSelector:request.selector];
-        }
+        [self didFinishedLikeRequestWithIdentifier:identifier];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
@@ -869,10 +892,7 @@ static StatusFetcher* sharedFetcher=nil;
         return;
     }
     if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
-        LikeRequest *request=[requestsByID objectForKey:identifier];
-        if(request.delegate&&request.selector){
-            [request.delegate performSelector:request.selector];
-        }
+        [self didFinishedLikeRequestWithIdentifier:identifier];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
