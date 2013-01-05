@@ -17,4 +17,6 @@
 +(TumblrUser*)userWithUserID:(NSString*)userID autoCreate:(BOOL)autoCreate;
 +(TumblrUser*)userWithBlogName:(NSString*)blogName anyUrl:(NSString*)urlString;
 
++(TumblrUser*)userWithDictionary:(NSDictionary*)dict;
+
 @end

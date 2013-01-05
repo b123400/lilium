@@ -51,12 +51,7 @@ static NSArray *tumblrUsers=nil;
 	if(sharedTwitter){
 		[sharedTwitter setAccessToken:token];
 	}
-    UserRequest *request=[[[UserRequest alloc] init]autorelease];
-    request.type=StatusSourceTypeTwitter;
-    request.delegate=self;
-    request.selector=@selector(requestFinished:didReceivedTwitterUser:);
-    request.userID=@"self";
-    [[StatusFetcher sharedFetcher] getUserForRequest:request];
+    [BRFunctions loadAccounts];
 }
 +(BOOL)didLoggedInTwitter{
 	OAToken *token=[[[OAToken alloc]initWithUserDefaultsUsingServiceProviderName:nil prefix:twitterSaveKey]autorelease];
@@ -80,6 +75,7 @@ static NSArray *tumblrUsers=nil;
 +(void)requestFinished:(UserRequest*)request didReceivedTwitterUser:(User*)user{
     if(twitterUser)[twitterUser release];
     twitterUser=[user retain];
+    [BRFunctions saveAccounts];
 }
 #pragma mark -
 #pragma mark Facebook
@@ -116,13 +112,7 @@ static NSArray *tumblrUsers=nil;
     [defaults synchronize];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:facebookDidLoginNotification	object:nil];
-    
-    UserRequest *request=[[[UserRequest alloc] init]autorelease];
-    request.type=StatusSourceTypeFacebook;
-    request.delegate=[self class];
-    request.selector=@selector(requestFinished:didReceivedFacebookUser:);
-    request.userID=@"me";
-    [[StatusFetcher sharedFetcher] getUserForRequest:request];
+    [BRFunctions loadAccounts];
 }
 +(FacebookUser*)facebookUser{
     return facebookUser;
@@ -130,6 +120,7 @@ static NSArray *tumblrUsers=nil;
 +(void)requestFinished:(UserRequest*)request didReceivedFacebookUser:(FacebookUser*)user{
     if(facebookUser)[facebookUser release];
     facebookUser=[user retain];
+    [BRFunctions saveAccounts];
 }
 - (void)fbDidNotLogin:(BOOL)cancelled{
 	[[NSNotificationCenter defaultCenter] postNotificationName:facebookDidNotLoginNotification	object:nil];
@@ -160,12 +151,7 @@ static NSArray *tumblrUsers=nil;
 	if(sharedInstagram){
 		[sharedInstagram setAccessToken:token];
 	}
-    UserRequest *request=[[[UserRequest alloc] init]autorelease];
-    request.type=StatusSourceTypeInstagram;
-    request.delegate=[self class];
-    request.selector=@selector(requestFinished:didReceivedInstagramUser:);
-    request.userID=@"self";
-    [[StatusFetcher sharedFetcher] getUserForRequest:request];
+    [BRFunctions loadAccounts];
 }
 +(User*)instagramUser{
     return instagramUser;
@@ -173,7 +159,9 @@ static NSArray *tumblrUsers=nil;
 +(void)requestFinished:(UserRequest*)request didReceivedInstagramUser:(User*)user{
     if(instagramUser)[instagramUser release];
     instagramUser=[user retain];
+    [BRFunctions saveAccounts];
 }
+
 +(BOOL)didLoggedInInstagram{
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	if([defaults objectForKey:instagramSaveKey]){
@@ -241,13 +229,6 @@ static NSArray *tumblrUsers=nil;
 	if(sharedTumblr){
 		sharedTumblr.accessToken=token;
 	}
-    
-    UserRequest *request=[[[UserRequest alloc] init]autorelease];
-    request.type=StatusSourceTypeTumblr;
-    request.delegate=self;
-    request.selector=@selector(requestFinished:didReceivedTumblrUsers:);
-    request.userID=@"self";
-    [[StatusFetcher sharedFetcher] getUserForRequest:request];
 }
 +(NSArray*)tumblrUsers{
     return tumblrUsers;
@@ -267,12 +248,84 @@ static NSArray *tumblrUsers=nil;
     [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:tumblrSaveKey];
 }
 +(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSArray*)users{
-    if(tumblrUsers)[tumblrUsers release];
+    if(tumblrUsers){
+        [tumblrUsers release];
+        tumblrUsers=nil;
+    }
     tumblrUsers=[users retain];
+    [BRFunctions saveAccounts];
 }
 #pragma mark - accounts
++(void)loadAccounts{
+    NSDictionary *savedAccounts=[[NSUserDefaults standardUserDefaults] objectForKey:@"accounts"];
+    if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeTwitter]]){
+        if(twitterUser)[twitterUser release];
+        twitterUser=[[User userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeTwitter]]] retain];
+    }
+    if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]){
+        if(facebookUser)[facebookUser release];
+        facebookUser=[[FacebookUser userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]] retain];
+    }
+    if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeInstagram]]){
+        if(instagramUser)[instagramUser release];
+        instagramUser=[[User userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeInstagram]]] retain];
+    }
+    if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeTumblr]]){
+        if(tumblrUsers)[tumblrUsers release];
+        tumblrUsers=[[NSMutableArray alloc]init];
+        for(NSDictionary *thisDict in [savedAccounts objectForKey:[Status sourceName:StatusSourceTypeTumblr]]){
+            [(NSMutableArray*)tumblrUsers addObject:[TumblrUser userWithDictionary:thisDict]];
+        }
+    }
+    
+    
+    if([BRFunctions didLoggedInTwitter]&&!twitterUser){
+        UserRequest *request=[[[UserRequest alloc] init]autorelease];
+        request.type=StatusSourceTypeTwitter;
+        request.delegate=self;
+        request.selector=@selector(requestFinished:didReceivedTwitterUser:);
+        request.userID=@"self";
+        [[StatusFetcher sharedFetcher] getUserForRequest:request];
+    }
+    if([BRFunctions isFacebookLoggedIn:NO]&&!facebookUser){
+        UserRequest *request=[[[UserRequest alloc] init]autorelease];
+        request.type=StatusSourceTypeFacebook;
+        request.delegate=[self class];
+        request.selector=@selector(requestFinished:didReceivedFacebookUser:);
+        request.userID=@"me";
+        [[StatusFetcher sharedFetcher] getUserForRequest:request];
+    }
+    if([BRFunctions didLoggedInInstagram]&&!instagramUser){
+        UserRequest *request=[[[UserRequest alloc] init]autorelease];
+        request.type=StatusSourceTypeInstagram;
+        request.delegate=[self class];
+        request.selector=@selector(requestFinished:didReceivedInstagramUser:);
+        request.userID=@"self";
+        [[StatusFetcher sharedFetcher] getUserForRequest:request];
+    }
+    if([BRFunctions didLoggedInTumblr]&&!tumblrUsers){
+        UserRequest *request=[[[UserRequest alloc] init]autorelease];
+        request.type=StatusSourceTypeTumblr;
+        request.delegate=self;
+        request.selector=@selector(requestFinished:didReceivedTumblrUsers:);
+        request.userID=@"self";
+        [[StatusFetcher sharedFetcher] getUserForRequest:request];
+    }
+}
 +(void)saveAccounts{
     NSMutableDictionary *accounts=[NSMutableDictionary dictionary];
+    if(twitterUser)[accounts setObject:[twitterUser dictionaryRepresentation] forKey:[Status sourceName:StatusSourceTypeTwitter]];
+    if(facebookUser)[accounts setObject:[facebookUser dictionaryRepresentation] forKey:[Status sourceName:StatusSourceTypeFacebook]];
+    if(instagramUser)[accounts setObject:[instagramUser dictionaryRepresentation] forKey:[Status sourceName:StatusSourceTypeInstagram]];
+    if(tumblrUsers){
+        NSMutableArray *tumblrDicts=[NSMutableArray array];
+        for(TumblrUser *thisUser in tumblrUsers){
+            [tumblrDicts addObject:[thisUser dictionaryRepresentation]];
+        }
+        [accounts setObject:tumblrDicts forKey:[Status sourceName:StatusSourceTypeTumblr]];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:accounts forKey:@"accounts"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 #pragma mark - utils
 +(BRFunctions*)sharedObject{

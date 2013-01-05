@@ -36,6 +36,6 @@ typedef enum StatusSourceType {
 +(User*)me;
 
 +(User*)userWithDictionary:(NSDictionary*)dict;
--(NSDictionary*)dictionaryRepresentation;
+-(NSMutableDictionary*)dictionaryRepresentation;
 
 @end

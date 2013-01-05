@@ -69,6 +69,8 @@
 +(BOOL)didLoggedInTumblr;
 +(void)logoutTumblr;
 
++(void)loadAccounts;
+
 
 +(BRFunctions*)sharedObject;
 

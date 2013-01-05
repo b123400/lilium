@@ -22,6 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [TestFlight takeOff:@"02c4122f796fe828e4bdabd359ef6ae9_NzU4NDIwMTItMTItMjkgMTM6MzM6NDkuMTc1MDYy"];
+    [BRFunctions loadAccounts];
     [[TimelineManager sharedManager] sync];
     // Override point for customization after application launch.
     

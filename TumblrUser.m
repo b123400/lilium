@@ -48,4 +48,13 @@
     return [NSURL URLWithString:[NSString stringWithFormat:@"http://api.tumblr.com/v2/blog/%@/avatar/64",self.userID]];
 }
 
++(TumblrUser*)userWithDictionary:(NSDictionary*)dict{
+    User *thisUser=[super userWithDictionary:dict];
+    if([thisUser isKindOfClass:[TumblrUser class]])return (TumblrUser*)thisUser;
+    TumblrUser *newUser=[TumblrUser userWithUserID:thisUser.userID autoCreate:YES];
+    newUser.username=thisUser.username;
+    newUser.displayName=thisUser.displayName;
+    return newUser;
+}
+
 @end

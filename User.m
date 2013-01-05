@@ -85,7 +85,7 @@
     if([dict objectForKey:@"profilePicture"])thisUser.profilePicture=[NSURL URLWithString:[dict objectForKey:@"profilePicture"]];
     return thisUser;
 }
--(NSDictionary*)dictionaryRepresentation{
+-(NSMutableDictionary*)dictionaryRepresentation{
     NSMutableDictionary *dict=[NSMutableDictionary dictionary];
     if(self.displayName)[dict setObject:self.displayName forKey:@"displayName"];
     if(self.userID)[dict setObject:self.userID forKey:@"userID"];
