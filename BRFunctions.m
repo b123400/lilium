@@ -9,6 +9,12 @@
 #import "BRFunctions.h"
 #import "StatusFetcher.h"
 
+@interface BRFunctions ()
+
++(void)saveAccounts;
+
+@end
+
 @implementation BRFunctions
 
 static BRTwitterEngine *sharedTwitter=nil;
@@ -198,7 +204,11 @@ static BRTumblrEngine *sharedTumblr = nil;
     }
     [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:tumblrSaveKey];
 }
-#pragma mark -
+#pragma mark - accounts
++(void)saveAccounts{
+    NSMutableDictionary *accounts=[NSMutableDictionary dictionary];
+}
+#pragma mark - util
 +(BRFunctions*)sharedObject{
 	if(!sharedObject){
 		sharedObject=[[BRFunctions alloc]init];

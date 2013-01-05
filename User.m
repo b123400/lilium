@@ -69,4 +69,22 @@
     return newUser;
 }
 
++(User*)userWithDictionary:(NSDictionary*)dict{
+    StatusSourceType type=[[dict objectForKey:@"type"] intValue];
+    User *thisUser=[User userWithType:type userID:[dict objectForKey:@"userID"]];
+    thisUser.displayName=[dict objectForKey:@"displayName"];
+    thisUser.username=[dict objectForKey:@"username"];
+    if([dict objectForKey:@"profilePicture"])thisUser.profilePicture=[NSURL URLWithString:[dict objectForKey:@"profilePicture"]];
+    return thisUser;
+}
+-(NSDictionary*)dictionaryRepresentation{
+    NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+    if(self.displayName)[dict setObject:self.displayName forKey:@"displayName"];
+    if(self.userID)[dict setObject:self.userID forKey:@"userID"];
+    if(self.username)[dict setObject:self.username forKey:@"username"];
+    if(self.profilePicture)[dict setObject:self.profilePicture.absoluteString forKey:@"profilePicture"];
+    [dict setObject:[NSNumber numberWithInt:self.type] forKey:@"type"];
+    return dict;
+}
+
 @end
