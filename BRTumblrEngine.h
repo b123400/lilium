@@ -40,6 +40,7 @@
 -(NSString*)likePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey;
 -(NSString*)unlikePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey;
 -(NSString*)getUserBlogs;
--(NSString*)reblogPostWithPostID:(NSString*)postID reblogKey:(NSString*)reblogKey comment:(NSString*)comment;
+-(NSString*)reblogPostWithBaseHostname:(NSString*)baseHostname postID:(NSString*)postID reblogKey:(NSString*)reblogKey comment:(NSString*)comment;
+-(NSString*)getBlogPostInfoWithBaseHostName:(NSString*)baseHostname postId:(NSString*)postID withNotes:(BOOL)withNotes;
 
 @end

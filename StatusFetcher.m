@@ -225,6 +225,11 @@ static StatusFetcher* sharedFetcher=nil;
             [requestsByID setObject:request forKey:requestID];
             break;
         }
+        case StatusSourceTypeTumblr:{
+            NSString *requestID=[[BRFunctions sharedTumblr] getBlogPostInfoWithBaseHostName:request.targetStatus.user.userID postId:request.targetStatus.statusID withNotes:YES];
+            [requestsByID setObject:request forKey:requestID];
+            break;
+        }
 		default:
 			break;
 	}
@@ -254,7 +259,8 @@ static StatusFetcher* sharedFetcher=nil;
         }
         case StatusSourceTypeTumblr:{
             if([request.targetStatus isKindOfClass:[TumblrStatus class]]){
-                NSString *requestID=[[BRFunctions sharedTumblr] reblogPostWithPostID:request.targetStatus.statusID reblogKey:[(TumblrStatus*)request.targetStatus reblogKey] comment:request.submitCommentString];
+                TumblrUser *defaultTumblrBlog=[[BRFunctions tumblrUsers] objectAtIndex:0];
+                NSString *requestID=[[BRFunctions sharedTumblr] reblogPostWithBaseHostname:defaultTumblrBlog.userID postID:request.targetStatus.statusID reblogKey:[(TumblrStatus*)request.targetStatus reblogKey] comment:request.submitCommentString];
                 [requestsByID setObject:request forKey:requestID];
             }
         }
@@ -635,6 +641,21 @@ static StatusFetcher* sharedFetcher=nil;
             [request.delegate performSelector:request.failSelector withObject:request];
         }
         [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
+        return;
+    }
+    if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
+        CommentRequest *request=[requestsByID objectForKey:identifier];
+        NSMutableArray *comments=[NSMutableArray array];
+        if([[[data objectForKey:@"response"] objectForKey:@"posts"] isKindOfClass:[NSArray class]]){
+            NSArray *posts=[[data objectForKey:@"response"] objectForKey:@"posts"];
+            if(posts.count){
+                NSDictionary *post=[posts objectAtIndex:0];
+                for(NSDictionary *commentDict in [post objectForKey:@"notes"]){
+                    [comments addObject:[self tumblrCommentFromNotesDict:commentDict]];
+                }
+            }
+        }
+        [self didReceivedComments:comments forRequest:request];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];

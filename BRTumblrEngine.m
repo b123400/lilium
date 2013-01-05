@@ -149,12 +149,20 @@
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
 	return [self performRequestWithPath:@"user/info" parameters:params];
 }
--(NSString*)reblogPostWithPostID:(NSString*)postID reblogKey:(NSString*)reblogKey comment:(NSString*)comment{
+-(NSString*)reblogPostWithBaseHostname:(NSString*)baseHostname postID:(NSString*)postID reblogKey:(NSString*)reblogKey comment:(NSString*)comment{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
     [params setObject:postID forKey:@"id"];
     [params setObject:reblogKey forKey:@"reblog_key"];
     if(comment)[params setObject:comment forKey:@"comment"];
-	return [self performRequestWithPath:@"post/reblog" parameters:params method:@"post"];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"blog/%@/post/reblog",baseHostname] parameters:params method:@"post"];
+}
+-(NSString*)getBlogPostInfoWithBaseHostName:(NSString*)baseHostname postId:(NSString*)postID withNotes:(BOOL)withNotes{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+    [params setObject:postID forKey:@"id"];
+    if(withNotes){
+        [params setObject:@"true" forKey:@"notes_info"];
+    }
+	return [self performRequestWithPath:[NSString stringWithFormat:@"blog/%@/posts",baseHostname] parameters:params];
 }
 -(void)dealloc{
     for(OADataFetcher *fetcher in fetchers){
