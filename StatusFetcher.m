@@ -252,6 +252,13 @@ static StatusFetcher* sharedFetcher=nil;
             [requestsByID setObject:request forKey:requestID];
             break;
         }
+        case StatusSourceTypeTumblr:{
+            if([request.targetStatus isKindOfClass:[TumblrStatus class]]){
+                NSString *requestID=[[BRFunctions sharedTumblr] reblogPostWithPostID:request.targetStatus.statusID reblogKey:[(TumblrStatus*)request.targetStatus reblogKey] comment:request.submitCommentString];
+                [requestsByID setObject:request forKey:requestID];
+            }
+        }
+            break;
 		default:
 			break;
 	}
@@ -345,6 +352,16 @@ static StatusFetcher* sharedFetcher=nil;
         }
         case StatusSourceTypeFlickr: {
             NSString *requestID=[[BRFunctions sharedFlickr]getUserInfoWithUserID:request.userID];
+            [requestsByID setObject:request forKey:requestID];
+            break;
+        }
+        case StatusSourceTypeTumblr:{
+            NSString *requestID;
+            if([request.userID isEqualToString:@"self"]){
+                requestID=[[BRFunctions sharedTumblr]getUserBlogs];
+            }else{
+//                requestID=[[BRFunctions sharedTumblr]getUserInfo];
+            }
             [requestsByID setObject:request forKey:requestID];
             break;
         }
@@ -486,7 +503,7 @@ static StatusFetcher* sharedFetcher=nil;
         return;
     }
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[UserRequest class]]){
-        [self didReceivedUser:[data objectForKey:@"data"] forRequest:[requestsByID objectForKey:identifier]];
+        [self didReceivedUser:[self instagramUserFromDict:[data objectForKey:@"data"]] forRequest:[requestsByID objectForKey:identifier]];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
@@ -596,6 +613,28 @@ static StatusFetcher* sharedFetcher=nil;
 -(void)tumblrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
     if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
         [self didFinishedLikeRequestWithIdentifier:identifier];
+        return;
+    }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[UserRequest class]]){
+        UserRequest *request=[requestsByID objectForKey:identifier];
+        if([data isKindOfClass:[NSDictionary class]]&&[[[data objectForKey:@"response"] objectForKey:@"user"] objectForKey:@"blogs"]){
+            NSMutableArray *userBlogs=[NSMutableArray array];
+            NSArray *blogs=[[[data objectForKey:@"response"] objectForKey:@"user"] objectForKey:@"blogs"];
+            for(NSDictionary *thisBlog in blogs){
+                TumblrUser *thisUser=[TumblrUser userWithBlogName:[thisBlog objectForKey:@"name"] anyUrl:[thisBlog objectForKey:@"url"]];
+                thisUser.displayName=[thisBlog objectForKey:@"title"];
+                [userBlogs addObject:thisUser];
+            }
+            if(request.delegate&&request.selector&&[request.delegate respondsToSelector:request.selector]){
+                [request.delegate performSelector:request.selector withObject:request withObject:userBlogs];
+            }
+            [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
+            return;
+        }
+        if(request.delegate&&request.selector&&[request.delegate respondsToSelector:request.selector]){
+            [request.delegate performSelector:request.failSelector withObject:request];
+        }
+        [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];

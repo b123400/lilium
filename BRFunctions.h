@@ -65,6 +65,7 @@
 
 +(BRTumblrEngine*)sharedTumblr;
 +(void)saveTumblrToken:(OAToken*)token;
++(NSArray*)tumblrUsers;
 +(BOOL)didLoggedInTumblr;
 +(void)logoutTumblr;
 

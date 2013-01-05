@@ -145,7 +145,17 @@
     [params setObject:reblogKey forKey:@"reblog_key"];
 	return [self performRequestWithPath:@"user/unlike" parameters:params method:@"post"];
 }
-
+-(NSString*)getUserBlogs{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+	return [self performRequestWithPath:@"user/info" parameters:params];
+}
+-(NSString*)reblogPostWithPostID:(NSString*)postID reblogKey:(NSString*)reblogKey comment:(NSString*)comment{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+    [params setObject:postID forKey:@"id"];
+    [params setObject:reblogKey forKey:@"reblog_key"];
+    if(comment)[params setObject:comment forKey:@"comment"];
+	return [self performRequestWithPath:@"post/reblog" parameters:params method:@"post"];
+}
 -(void)dealloc{
     for(OADataFetcher *fetcher in fetchers){
         [fetcher.connection cancel];

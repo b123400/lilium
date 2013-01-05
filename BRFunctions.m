@@ -8,10 +8,14 @@
 
 #import "BRFunctions.h"
 #import "StatusFetcher.h"
+#import "TumblrUser.h"
 
 @interface BRFunctions ()
 
 +(void)requestFinished:(UserRequest*)request didReceivedTwitterUser:(User*)user;
++(void)requestFinished:(UserRequest*)request didReceivedFacebookUser:(User*)user;
++(void)requestFinished:(UserRequest*)request didReceivedInstagramUser:(User*)user;
++(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSArray*)users;
 
 @end
 
@@ -26,6 +30,7 @@ static User *instagramUser=nil;
 static BRFunctions *sharedObject=nil;
 static BRFlickrEngine *sharedFlickr = nil;
 static BRTumblrEngine *sharedTumblr = nil;
+static NSArray *tumblrUsers=nil;
 
 #pragma mark -
 #pragma mark Twitter
@@ -45,6 +50,7 @@ static BRTumblrEngine *sharedTumblr = nil;
 		[sharedTwitter setAccessToken:token];
 	}
     UserRequest *request=[[[UserRequest alloc] init]autorelease];
+    request.type=StatusSourceTypeTwitter;
     request.delegate=self;
     request.selector=@selector(requestFinished:didReceivedTwitterUser:);
     request.userID=@"self";
@@ -110,6 +116,7 @@ static BRTumblrEngine *sharedTumblr = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:facebookDidLoginNotification	object:nil];
     
     UserRequest *request=[[[UserRequest alloc] init]autorelease];
+    request.type=StatusSourceTypeFacebook;
     request.delegate=[self class];
     request.selector=@selector(requestFinished:didReceivedFacebookUser:);
     request.userID=@"me";
@@ -152,6 +159,7 @@ static BRTumblrEngine *sharedTumblr = nil;
 		[sharedInstagram setAccessToken:token];
 	}
     UserRequest *request=[[[UserRequest alloc] init]autorelease];
+    request.type=StatusSourceTypeInstagram;
     request.delegate=[self class];
     request.selector=@selector(requestFinished:didReceivedInstagramUser:);
     request.userID=@"self";
@@ -231,6 +239,16 @@ static BRTumblrEngine *sharedTumblr = nil;
 	if(sharedTumblr){
 		sharedTumblr.accessToken=token;
 	}
+    
+    UserRequest *request=[[[UserRequest alloc] init]autorelease];
+    request.type=StatusSourceTypeTumblr;
+    request.delegate=self;
+    request.selector=@selector(requestFinished:didReceivedTumblrUsers:);
+    request.userID=@"self";
+    [[StatusFetcher sharedFetcher] getUserForRequest:request];
+}
++(NSArray*)tumblrUsers{
+    return tumblrUsers;
 }
 +(BOOL)didLoggedInTumblr{
 	OAToken *token=[[[OAToken alloc]initWithUserDefaultsUsingServiceProviderName:nil prefix:tumblrSaveKey]autorelease];
@@ -245,6 +263,10 @@ static BRTumblrEngine *sharedTumblr = nil;
         sharedTumblr=nil;
     }
     [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:tumblrSaveKey];
+}
++(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSArray*)users{
+    if(tumblrUsers)[tumblrUsers release];
+    tumblrUsers=[users retain];
 }
 #pragma mark -
 +(BRFunctions*)sharedObject{
