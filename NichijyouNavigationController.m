@@ -215,7 +215,8 @@ static float pressShiftFactor=0.2;
 	[self pushViewController:viewController animated:NO];
 	
 	NSArray *animatedViews=[self subviewsToAnimateForViewController:lastController];
-	for (UIView *thisView in animatedViews) {
+    for(int i=0;i<animatedViews.count;i++){
+        UIView *thisView=[animatedViews objectAtIndex:i];
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;
@@ -365,7 +366,8 @@ static float pressShiftFactor=0.2;
 -(void)finishedZoomInShow:(UIViewController*)viewController{
 	viewController.view.userInteractionEnabled=YES;
 	NSArray *views=[self subviewsToAnimateForViewController:viewController];
-	for (UIView *thisView in views) {
+    for(int i=0;i<views.count;i++){
+        UIView *thisView=[views objectAtIndex:i];
 		if([thisView class]!=[UIActivityIndicatorView class]){
 			[thisView.layer removeAnimationForKey:@"positionx"];
             [thisView.layer removeAnimationForKey:@"positiony"];
@@ -483,7 +485,8 @@ static float pressShiftFactor=0.2;
 }
 -(void)popOutToViewController:(UIViewController*)viewController{
 	NSArray *animatedViews=[self subviewsToAnimateForViewController:[self topViewController]];
-	for (UIView *thisView in animatedViews) {
+    for(int i=0;i<animatedViews.count;i++){
+        UIView *thisView=[animatedViews objectAtIndex:i];
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;
@@ -592,7 +595,8 @@ static float pressShiftFactor=0.2;
 -(void)finishedZoomOutShow:(UIViewController*)viewController{
 	[self topViewController].view.userInteractionEnabled=YES;
 	NSArray *views=[self subviewsToAnimateForViewController:viewController];
-	for (UIView *thisView in views) {
+    for(int i=0;i<views.count;i++){
+        UIView *thisView=[views objectAtIndex:i];
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;

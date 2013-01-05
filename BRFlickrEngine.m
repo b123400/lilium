@@ -70,11 +70,14 @@
 	return [request identifier];
 }
 - (void)requestDidFinished:(OAServiceTicket *)ticket withData:(NSData *)data {
+    NSMutableArray *itemsToRemove=[NSMutableArray array];
     for(OADataFetcher *fetcher in fetchers){
         if(fetcher.request==ticket.request){
-            [fetchers removeObject:fetcher];
+            [itemsToRemove addObject:fetcher];
         }
     }
+    [fetchers removeObject:itemsToRemove];
+    
 	NSError *error=nil;
 	id object=[[CJSONDeserializer deserializer] deserialize:data error:&error];
 	if(error){
@@ -89,11 +92,13 @@
 }
 - (void)requestDidFailed:(OAServiceTicket *)ticket withError:(NSError *)error{
 	[self failedWithError:error forRequestIdentifier:[[ticket request]identifier]];
+    NSMutableArray *itemsToRemove=[NSMutableArray array];
     for(OADataFetcher *fetcher in fetchers){
         if(fetcher.request==ticket.request){
-            [fetchers removeObject:fetcher];
+            [itemsToRemove addObject:fetcher];
         }
     }
+    [fetchers removeObject:itemsToRemove];
 }
 
 -(void)failedWithError:(NSError*)error forRequestIdentifier:(NSString*)identifier{
