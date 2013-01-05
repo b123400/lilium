@@ -98,7 +98,8 @@ static float pressShiftFactor=0.2;
 		
 		float scale=gestureRecognizer.scale;
 		
-		for(UIView *thisView in viewsToAnimate){
+		for(int i=0;i<viewsToAnimate.count;i++){
+            UIView *thisView=[viewsToAnimate objectAtIndex:i];
 			//thisView.layer.position
 			CGPoint relativeTarget=[self.view convertPoint:lastTouchedPoint toView:thisView.superview];
 			float delay=pow((578-[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint]/zoomDelayPerPixelFromCenter)/500,8)+1.0f;
@@ -139,7 +140,8 @@ static float pressShiftFactor=0.2;
 		}else{
 			NSArray *viewsToAnimate=[self subviewsToAnimateForViewController:[self topViewController]];
 			
-			for(UIView *thisView in viewsToAnimate){
+			for(int i=0;i<viewsToAnimate.count;i++){
+                UIView *thisView=[viewsToAnimate objectAtIndex:i];
 				[UIView animateWithDuration:animationDuration animations:^{
 					CATransform3D transform=CATransform3DMakeTranslation(0, 0, 0);
 					thisView.layer.transform=transform;
@@ -181,7 +183,8 @@ static float pressShiftFactor=0.2;
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
-	for(UIView *thisView in viewsToAnimate){
+	for(int i=0;i<viewsToAnimate.count;i++){
+        UIView *thisView=[viewsToAnimate objectAtIndex:i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
 		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
 		if(thisDelay<minimumDelay){
@@ -212,7 +215,8 @@ static float pressShiftFactor=0.2;
 	[self pushViewController:viewController animated:NO];
 	
 	NSArray *animatedViews=[self subviewsToAnimateForViewController:lastController];
-	for (UIView *thisView in animatedViews) {
+    for(int i=0;i<animatedViews.count;i++){
+        UIView *thisView=[animatedViews objectAtIndex:i];
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;
@@ -362,7 +366,8 @@ static float pressShiftFactor=0.2;
 -(void)finishedZoomInShow:(UIViewController*)viewController{
 	viewController.view.userInteractionEnabled=YES;
 	NSArray *views=[self subviewsToAnimateForViewController:viewController];
-	for (UIView *thisView in views) {
+    for(int i=0;i<views.count;i++){
+        UIView *thisView=[views objectAtIndex:i];
 		if([thisView class]!=[UIActivityIndicatorView class]){
 			[thisView.layer removeAnimationForKey:@"positionx"];
             [thisView.layer removeAnimationForKey:@"positiony"];
@@ -413,7 +418,8 @@ static float pressShiftFactor=0.2;
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
-	for(UIView *thisView in viewsToAnimate){
+	for(int i=0;i<viewsToAnimate.count;i++){
+        UIView *thisView=[viewsToAnimate objectAtIndex:i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
 		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
 		if(thisDelay<minimumDelay){
@@ -479,7 +485,8 @@ static float pressShiftFactor=0.2;
 }
 -(void)popOutToViewController:(UIViewController*)viewController{
 	NSArray *animatedViews=[self subviewsToAnimateForViewController:[self topViewController]];
-	for (UIView *thisView in animatedViews) {
+    for(int i=0;i<animatedViews.count;i++){
+        UIView *thisView=[animatedViews objectAtIndex:i];
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;
@@ -499,7 +506,8 @@ static float pressShiftFactor=0.2;
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
-	for(UIView *thisView in viewsToAnimate){
+	for(int i=0;i<viewsToAnimate.count;i++){
+        UIView *thisView=[viewsToAnimate objectAtIndex:i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
 		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
 		if(thisDelay<minimumDelay){
@@ -587,7 +595,8 @@ static float pressShiftFactor=0.2;
 -(void)finishedZoomOutShow:(UIViewController*)viewController{
 	[self topViewController].view.userInteractionEnabled=YES;
 	NSArray *views=[self subviewsToAnimateForViewController:viewController];
-	for (UIView *thisView in views) {
+    for(int i=0;i<views.count;i++){
+        UIView *thisView=[views objectAtIndex:i];
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;
@@ -599,13 +608,15 @@ static float pressShiftFactor=0.2;
 #pragma mark Pressing
 -(void)didTouchMovedTransparentView:(id)sender atPoint:(CGPoint)point{
 	NSArray *subviews=[self subviewsToAnimateForViewController:[self topViewController]];
-	for(UIView *thisView in subviews){
+    for(int i=0;i<subviews.count;i++) {
+        UIView *thisView=[subviews objectAtIndex:i];
 		thisView.layer.transform=CATransform3DScale(CATransform3DMakeTranslation((point.x-thisView.frame.origin.x)*pressShiftFactor, (point.y-thisView.frame.origin.y)*pressShiftFactor, 0), 1/pressZoomFactor, 1/pressZoomFactor, 1/pressZoomFactor);
 	}
 }
 -(void)didTouchEndedTransparentView:(id)sender atPoint:(CGPoint)point{
 	NSArray *subviews=[self subviewsToAnimateForViewController:[self topViewController]];
-	for(UIView *thisView in subviews){
+    for(int i=0;i<subviews.count;i++) {
+        UIView *thisView=[subviews objectAtIndex:i];
 		thisView.layer.transform=CATransform3DScale(CATransform3DMakeTranslation(0,0, 0), 1, 1, 1);
 	}
 }

@@ -13,6 +13,8 @@
 #import "BRFlickrEngine.h"
 #import "BRTumblrEngine.h"
 #import "OAToken.h"
+#import "User.h"
+#import "FacebookUser.h"
 
 #define kTwitterOAuthConsumerKey				@"lGuUouxoENJfJDKD29FOA"		//REPLACE ME
 #define kTwitterOAuthConsumerSecret			@"Cw76i2Jl7A12soeeQCIDRNpNSmGJvMj9eRS5kOmUA"		//REPLACE ME
@@ -41,15 +43,18 @@
 +(BRTwitterEngine*)sharedTwitter;
 +(void)saveTwitterToken:(OAToken*)token;
 +(BOOL)didLoggedInTwitter;
++(User*)twitterUser;
 +(void)logoutTwitter;
 
 +(Facebook*)sharedFacebook;
 +(NSString*)facebookCurrentUserID;
++(FacebookUser*)facebookUser;
 +(void)setFacebookCurrentUserID:(NSString*)userID;
 +(BOOL)isFacebookLoggedIn:(BOOL)authIfNotLoggedIn;
 
 +(BRInstagramEngine*)sharedInstagram;
 +(void)saveInstagramToken:(NSString*)token;
++(User*)instagramUser;
 +(BOOL)didLoggedInInstagram;
 +(void)logoutInstagram;
 
@@ -60,6 +65,7 @@
 
 +(BRTumblrEngine*)sharedTumblr;
 +(void)saveTumblrToken:(OAToken*)token;
++(NSArray*)tumblrUsers;
 +(BOOL)didLoggedInTumblr;
 +(void)logoutTumblr;
 

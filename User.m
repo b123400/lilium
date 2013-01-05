@@ -68,6 +68,14 @@
     newUser.userID=userID;
     return newUser;
 }
++(User*)me{
+    static User* me=nil;
+    if(!me){
+        me=[[User alloc] init];
+    }
+    me.displayName=@"me";
+    return me;
+}
 
 +(User*)userWithDictionary:(NSDictionary*)dict{
     StatusSourceType type=[[dict objectForKey:@"type"] intValue];

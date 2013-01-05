@@ -54,7 +54,6 @@
 	return [gridView subviews];
 }
 -(void)pushInAnimationDidFinished{
-	[[TimelineManager sharedManager] sync];
 	//[[StatusFetcher sharedFetcher]getStatusesForRequest:[StatusRequest requestWithRequestType:StatusRequestTypeTimeline]];
 }
 -(BOOL)shouldWaitForViewToLoadBeforePush{

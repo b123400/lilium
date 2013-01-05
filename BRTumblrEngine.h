@@ -39,5 +39,7 @@
 -(NSString*)getPostsWithBaseHostname:(NSString*)baseHostname offset:(int)offset;
 -(NSString*)likePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey;
 -(NSString*)unlikePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey;
+-(NSString*)getUserBlogs;
+-(NSString*)reblogPostWithPostID:(NSString*)postID reblogKey:(NSString*)reblogKey comment:(NSString*)comment;
 
 @end

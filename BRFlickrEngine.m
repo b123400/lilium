@@ -70,11 +70,14 @@
 	return [request identifier];
 }
 - (void)requestDidFinished:(OAServiceTicket *)ticket withData:(NSData *)data {
+    NSMutableArray *itemsToRemove=[NSMutableArray array];
     for(OADataFetcher *fetcher in fetchers){
         if(fetcher.request==ticket.request){
-            [fetchers removeObject:fetcher];
+            [itemsToRemove addObject:fetcher];
         }
     }
+    [fetchers removeObject:itemsToRemove];
+    
 	NSError *error=nil;
 	id object=[[CJSONDeserializer deserializer] deserialize:data error:&error];
 	if(error){
@@ -89,11 +92,13 @@
 }
 - (void)requestDidFailed:(OAServiceTicket *)ticket withError:(NSError *)error{
 	[self failedWithError:error forRequestIdentifier:[[ticket request]identifier]];
+    NSMutableArray *itemsToRemove=[NSMutableArray array];
     for(OADataFetcher *fetcher in fetchers){
         if(fetcher.request==ticket.request){
-            [fetchers removeObject:fetcher];
+            [itemsToRemove addObject:fetcher];
         }
     }
+    [fetchers removeObject:itemsToRemove];
 }
 
 -(void)failedWithError:(NSError*)error forRequestIdentifier:(NSString*)identifier{
@@ -136,7 +141,18 @@
                                                                                         photoID,@"photo_id"
 																						,nil]];
 }
-
+-(NSString*)getUserInfoWithUserID:(NSString*)userID{
+    return [self performRequestWithMethod:@"flickr.people.getInfo" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                                 userID,@"user_id"
+                                                                                 ,nil]];
+}
+-(NSString*)addComment:(NSString*)comment toPhotoWithPhotoID:(NSString*)photoID{
+    return [self performRequestWithMethod:@"flickr.photos.comments.addComment" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                               photoID,@"photo_id",
+                                                                               comment,@"comment_text",
+                                                                               nil]];
+}
+#pragma mark -
 + (NSURL *)iconSourceURLWithFarm:(int)farm iconServer:(int)server userID:(NSString*)userID{
     return [NSURL URLWithString:[NSString stringWithFormat:@"http://farm%d.staticflickr.com/%d/buddyicons/%@.jpg",farm,server,userID]];
 }

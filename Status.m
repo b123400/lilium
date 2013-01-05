@@ -55,7 +55,10 @@
 }
 #pragma mark -
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector{
-	if(comments){
+    [self getCommentsAndReturnTo:target withSelector:selector cached:YES];
+}
+-(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector cached:(BOOL)cached{
+	if(comments&&cached){
 		if([target respondsToSelector:selector]){
 			[target performSelector:selector withObject:comments];
 		}
@@ -83,7 +86,15 @@
 }
 -(void)submitComment:(NSString*)commentString{
     Comment *newComment=[[[Comment alloc]init] autorelease];
-    newComment.user=self.user;
+    if(self.user.type==StatusSourceTypeTwitter&&[BRFunctions twitterUser]){
+        newComment.user=[BRFunctions twitterUser];
+    }else if(self.user.type==StatusSourceTypeFacebook&&[BRFunctions facebookUser]){
+        newComment.user=[BRFunctions facebookUser];
+    }else if(self.user.type==StatusSourceTypeInstagram&&[BRFunctions instagramUser]){
+        newComment.user=[BRFunctions instagramUser];
+    }else{
+        newComment.user=[User me];
+    }
     newComment.text=commentString;
     newComment.date=[NSDate date];
     [self.comments addObject:newComment];
@@ -91,8 +102,12 @@
     CommentRequest *request=[[[CommentRequest alloc] init]autorelease];
     request.targetStatus=self;
     request.submitCommentString=commentString;
-    
+    request.delegate=self;
+    request.selector=@selector(commentRequestFinished:);
     [[StatusFetcher sharedFetcher] sendCommentForRequest:request];
+}
+-(void)commentRequestFinished:(CommentRequest*)request{
+    [[NSNotificationCenter defaultCenter] postNotificationName:StatusDidSentCommentNotification object:self];
 }
 #pragma mark - util
 +(NSArray*)allSources{

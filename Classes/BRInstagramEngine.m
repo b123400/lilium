@@ -163,6 +163,10 @@
 	NSMutableDictionary *params=[NSMutableDictionary dictionary];
 	return [self performRequestWithPath:[NSString stringWithFormat:@"media/%@/comments",mediaID] parameters:params];
 }
+-(NSString*)sendComment:(NSString*)comment withMediaID:(NSString*)mediaID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:comment forKey:@"text"];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"media/%@/comments",mediaID] parameters:params withMethod:@"POST"];
+}
 -(NSString*)likeMediaWithMediaID:(NSString*)mediaID{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
 	return [self performRequestWithPath:[NSString stringWithFormat:@"media/%@/likes",mediaID] parameters:params withMethod:@"POST"];
@@ -171,5 +175,8 @@
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
 	return [self performRequestWithPath:[NSString stringWithFormat:@"media/%@/likes",mediaID] parameters:params withMethod:@"DELETE"];
 }
-
+-(NSString*)getUserInfoWithUserID:(NSString*)userID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"users/%@",userID] parameters:params];
+}
 @end

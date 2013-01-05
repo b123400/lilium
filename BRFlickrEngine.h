@@ -39,6 +39,8 @@
 -(NSString*)getCommentsForPhotoWithID:(NSString*)photoID;
 -(NSString*)addFavoritesForPhotoWithID:(NSString*)photoID;
 -(NSString*)removeFavoritesForPhotoWithID:(NSString*)photoID;
+-(NSString*)getUserInfoWithUserID:(NSString*)userID;
+-(NSString*)addComment:(NSString*)comment toPhotoWithPhotoID:(NSString*)photoID;
 
 + (NSURL *)photoSourceURLFromDictionary:(NSDictionary *)inDictionary size:(NSString *)inSizeModifier;
 + (NSURL *)webPageURLFromDictionary:(NSDictionary *)inDictionary;

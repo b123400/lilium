@@ -45,6 +45,9 @@ typedef enum BRImageSize{
 -(NSString*)getUserTimelineWithUserID:(NSString*)userID sinceID:(NSString*)sinceID maxID:(NSString*)maxID;
 -(NSString*)getRepliesForStatusWithID:(NSString*)statusID;
 -(NSString*)markFavorite:(BOOL)favorite forStatusWithID:(NSString*)statusID;
+-(NSString*)getAuthedUserInfo;
+-(NSString*)getUserInfoWithUserID:(NSString*)userID;
+-(NSString*)sendTweet:(NSString*)tweet inReplyToStatusWithID:(NSString*)statusID;
 
 +(NSURL*)rawImageURLFromURL:(NSURL*)aURL size:(BRImageSize)size;
 

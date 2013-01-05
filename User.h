@@ -33,6 +33,7 @@ typedef enum StatusSourceType {
 +(NSMutableArray*)allUsers;
 +(User*)userWithType:(StatusSourceType)type userID:(NSString*)userID;
 +(User*)userWithType:(StatusSourceType)type userID:(NSString*)userID autoCreate:(BOOL)autoCreate;
++(User*)me;
 
 +(User*)userWithDictionary:(NSDictionary*)dict;
 -(NSDictionary*)dictionaryRepresentation;
