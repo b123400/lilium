@@ -33,12 +33,12 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	gridView.contentIndent=CGSizeMake(10, 10);
-    float margin=([UIApplication currentFrame].size.height-gridView.contentIndent.height*2)/11;
+	gridView.contentIndent=UIEdgeInsetsMake(10, 10, 10, 10);
+    float margin=([UIApplication currentFrame].size.height-gridView.contentIndent.top-gridView.contentIndent.bottom)/11;
     float cellToMarginRatio=3;
     gridView.cellMargin=CGSizeMake(margin, margin);
 	gridView.cellSize=CGSizeMake(margin*cellToMarginRatio, margin*cellToMarginRatio);
-	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-gridView.contentIndent.height*2+margin)/(margin+gridView.cellSize.height));
+	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+margin)/(margin+gridView.cellSize.height));
 	gridView.alwaysBounceVertical=YES;
 	gridView.alwaysBounceHorizontal=YES;
 	gridView.showsHorizontalScrollIndicator=NO;

@@ -11,9 +11,10 @@
 #import "TumblrUser.h"
 #import "Status.h"
 #import "StatusFetcher.h"
+#import "RelationshipRequest.h"
 
 @implementation User
-@synthesize displayName,userID,type,profilePicture,username;
+@synthesize displayName,userID,type,profilePicture,username,relationship;
 
 +(NSMutableArray*)allUsers{
     static NSMutableArray *allUsers;
@@ -76,7 +77,13 @@
     me.displayName=@"me";
     return me;
 }
-
+#pragma mark -
+-(void)getRelationshipAndReturnTo:(id)target withSelector:(SEL)selector{
+    RelationshipRequest *request=[[[RelationshipRequest alloc] init]autorelease];
+    request.targetUser=self;
+    
+}
+#pragma mark -
 +(User*)userWithDictionary:(NSDictionary*)dict{
     StatusSourceType type=[[dict objectForKey:@"type"] intValue];
     User *thisUser=[User userWithType:type userID:[dict objectForKey:@"userID"]];

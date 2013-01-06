@@ -381,6 +381,22 @@ static StatusFetcher* sharedFetcher=nil;
     }
     [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
 }
+#pragma mark - relationship
+-(void)getUserRelationship:(RelationshipRequest*)request{
+    StatusSourceType type=request.targetUser.type;
+	switch (type) {
+		case StatusSourceTypeInstagram:{
+            
+            break;
+        }
+        case StatusSourceTypeTwitter:{
+            
+            break;
+        }
+            default:
+            break;
+    }
+}
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
     User *newUser=[User userWithType:StatusSourceTypeFlickr userID:[dict objectForKey:@"author"]];
@@ -490,6 +506,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 -(User*)instagramUserFromDict:(NSDictionary*)dictionary{
     User *thisUser=[User userWithType:StatusSourceTypeInstagram userID:[dictionary objectForKey:@"id"]];;
+    thisUser.relationship=UserRelationshipUnknown;
     thisUser.displayName=[dictionary objectForKey:@"full_name"];
     thisUser.username=[dictionary objectForKey:@"username"];
     if([dictionary objectForKey:@"profile_picture"]){
@@ -775,6 +792,7 @@ static StatusFetcher* sharedFetcher=nil;
 #pragma mark twitter
 -(User*)twitterUserFromDict:(NSDictionary*)dict{
     User *thisUser=[User userWithType:StatusSourceTypeTwitter userID:[dict objectForKey:@"id_str"]];
+    thisUser.relationship=UserRelationshipUnknown;
     thisUser.username=[dict objectForKey:@"screen_name"];
     thisUser.profilePicture=[NSURL URLWithString:[dict objectForKey:@"profile_image_url"]];
     thisUser.displayName=[dict objectForKey:@"name"];

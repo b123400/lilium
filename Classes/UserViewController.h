@@ -14,10 +14,16 @@
     BOOL pushed;
 
     User *user;
+    BOOL canFollow;
+    BOOL isFollowing;
     
     IBOutlet BRGridView *gridView;
+    IBOutlet UILabel *usernameLabel;
+    IBOutlet UIView *actionView;
+    IBOutlet UIButton *followButton;
 }
 
 -(id)initWithUser:(User*)_user;
+- (IBAction)followButtonPressed:(id)sender;
 
 @end

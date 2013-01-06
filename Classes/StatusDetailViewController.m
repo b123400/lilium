@@ -93,6 +93,9 @@
         commentComposeView.textField.delegate=self;
     }
     commentComposeView.frame=CGRectMake(10, mainScrollView.frame.size.height-commentComposeView.frame.size.height, mainScrollView.frame.size.width-20, commentComposeView.frame.size.height);
+    if(status.user.type==StatusSourceTypeTumblr){
+        commentComposeView.textField.placeholder=@"reblog with comment";
+    }
     
     [self.view insertSubview:commentComposeView aboveSubview:mainScrollView];
     commentTableView.contentInset=UIEdgeInsetsMake(0, 0, 44, 0);

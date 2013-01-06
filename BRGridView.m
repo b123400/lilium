@@ -46,7 +46,7 @@
     [self reloadDataWithAnimation:NO];
 }
 -(void)reloadDataWithAnimation:(BOOL)animated{
-	float totalContentWidth=contentIndent.width;
+	float totalContentWidth=contentIndent.left;
 	//float drawingX=contentIndent.width;
 	
 	int numOfSection=[delegate numberOfSectionsInGridView:self];
@@ -62,7 +62,7 @@
 	frameOfSections=[[NSMutableArray alloc]init];
 	
 	for(int i=0;i<numOfSection;i++){
-		CGRect thisSectionFrame=CGRectMake(totalContentWidth, contentIndent.height, 0, 0);
+		CGRect thisSectionFrame=CGRectMake(totalContentWidth, contentIndent.top, 0, 0);
 		
 		int numOfCellInThisSection=[delegate gridView:self numberOfCellsInSection:i];
 		int numOfColumns=ceil(numOfCellInThisSection/(numOfRow/1.0f));
@@ -148,7 +148,7 @@
 				int currentColumn=j/numOfRow;
 				int currentRow=j%numOfRow;
 				
-				CGRect targetFrame=CGRectMake(sectionFrame.origin.x+currentColumn*(cellSize.width+cellMargin.width), contentIndent.height+currentRow*(cellSize.height+cellMargin.height), cellSize.width, cellSize.height);
+				CGRect targetFrame=CGRectMake(sectionFrame.origin.x+currentColumn*(cellSize.width+cellMargin.width), contentIndent.top+currentRow*(cellSize.height+cellMargin.height), cellSize.width, cellSize.height);
 				
 				BOOL cellExistsAtIndexPath=NO;
 				NSIndexPath *indexPath=[NSIndexPath indexPathForRow:j inSection:i];

@@ -15,7 +15,9 @@
 
 @interface UserViewController ()
 
+-(void)didGetUserRelationship:(User*)thisUser;
 -(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
+-(void)layoutActionView;
 
 @end
 
@@ -31,8 +33,13 @@
     request.delegate=self;
     [[StatusFetcher sharedFetcher] getStatusesForRequest:request];
     
+    if(user.relationship==UserRelationshipUnknown){
+        [user getRelationshipAndReturnTo:self withSelector:@selector(didGetUserRelationship:)];
+    }
+    
     return [self initWithNibName:@"UserViewController" bundle:nil];
 }
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -45,6 +52,9 @@
     if(user)[user release];
     gridView.delegate=nil;
     //[statuses release];
+    [usernameLabel release];
+    [actionView release];
+    [followButton release];
     [super dealloc];
 }
 
@@ -52,16 +62,19 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    gridView.contentIndent=CGSizeMake(10, 10);
-    float margin=([UIApplication currentFrame].size.height-gridView.contentIndent.height*2)/11;
+    gridView.contentIndent=UIEdgeInsetsMake(80, 10, 10, 10);
+    float margin=(gridView.frame.size.height-gridView.contentIndent.top-gridView.contentIndent.bottom)/11;
     float cellToMarginRatio=3;
     gridView.cellMargin=CGSizeMake(margin, margin);
 	gridView.cellSize=CGSizeMake(margin*cellToMarginRatio, margin*cellToMarginRatio);
-	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-gridView.contentIndent.height*2+margin)/(margin+gridView.cellSize.height));
+	gridView.numOfRow=floor((gridView.frame.size.height-(gridView.contentIndent.top+gridView.contentIndent.bottom)+margin)/(margin+gridView.cellSize.height));
 	gridView.alwaysBounceVertical=YES;
 	gridView.alwaysBounceHorizontal=YES;
 	gridView.showsHorizontalScrollIndicator=NO;
 	gridView.showsVerticalScrollIndicator=NO;
+    
+    usernameLabel.text=[NSString stringWithFormat:@"%@@%@",user.username,[Status sourceName:user.type]];
+    [usernameLabel sizeToFit];
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,7 +88,18 @@
 -(BOOL)shouldWaitForViewToLoadBeforePush{
 	return	 YES;
 }
-#pragma mark - load statuses
+#pragma mark action view
+-(void)layoutActionView{
+    usernameLabel.text=[NSString stringWithFormat:@"%@@%@",user.username,[Status sourceName:user.type]];
+    [usernameLabel sizeToFit];
+    CGRect frame=followButton.frame;
+    frame.origin.x=usernameLabel.frame.origin.x+usernameLabel.frame.size.width+10;
+    followButton.frame=frame;
+}
+- (IBAction)followButtonPressed:(id)sender {
+    
+}
+#pragma mark - load things
 -(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
     if(error){
         NSLog(@"%@",[error description]);
@@ -84,12 +108,16 @@
         [gridView reloadDataWithAnimation:YES];
     }
 }
+-(void)didGetUserRelationship:(User*)thisUser{
+    [self layoutActionView];
+}
 #pragma mark - grid view
 -(void)gridViewDidFinishedLoading:(id)sender{
 	if(!pushed){
 		[(NichijyouNavigationController*)self.navigationController viewCanBePushed:self];
 		pushed=YES;
 	}
+    [gridView addSubview:actionView];
 }
 - (BRGridViewCell *)gridView:(id)_gridView cellAtIndexPath:(NSIndexPath *)indexPath{
 	SquareCell *cell=(SquareCell*)[gridView dequeueReusableCellWithIdentifier:@"cell"];
@@ -115,4 +143,13 @@
 	[detailViewController release];
 }
 
+- (void)viewDidUnload {
+    [usernameLabel release];
+    usernameLabel = nil;
+    [actionView release];
+    actionView = nil;
+    [followButton release];
+    followButton = nil;
+    [super viewDidUnload];
+}
 @end

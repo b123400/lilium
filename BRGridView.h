@@ -23,7 +23,7 @@
 @end
 
 @interface BRGridView : UIScrollView <BRGridViewCellDelegate>{
-	CGSize contentIndent;
+	UIEdgeInsets contentIndent;
 	CGSize cellSize;
 	int numOfRow;
 	CGSize cellMargin;
@@ -38,7 +38,7 @@
 }
 @property (assign,nonatomic) IBOutlet id delegate;
 @property (assign) int numOfRow;
-@property (assign) CGSize contentIndent;
+@property (assign) UIEdgeInsets contentIndent;
 @property (assign) CGSize cellSize;
 @property (assign) CGSize cellMargin;
 
