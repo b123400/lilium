@@ -156,6 +156,7 @@
 	}
 }
 -(void)didMoveToWindow{
+    [[SDWebImageManager sharedManager] cancelForDelegate:self];
 	if(self.window){
 		if(imageURL){
 			[[SDWebImageManager sharedManager] downloadWithURL:imageURL delegate:self];
