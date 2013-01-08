@@ -158,6 +158,7 @@
 		CFCDCD3713D89F5900E268E8 /* BRTumblrEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCD3613D89F5900E268E8 /* BRTumblrEngine.m */; };
 		CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE0D201673E3E800C10953 /* UserViewController.m */; };
 		CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCE0D211673E3E800C10953 /* UserViewController.xib */; };
+		CFD9DD64169A102A0067D127 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD9DD63169A102A0067D127 /* AudioToolbox.framework */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
 		CFF818F113C07E4000C37DD8 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF818F013C07E4000C37DD8 /* Checkmark@2x.png */; };
@@ -483,6 +484,7 @@
 		CFCE0D1F1673E3E800C10953 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		CFCE0D201673E3E800C10953 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		CFCE0D211673E3E800C10953 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
+		CFD9DD63169A102A0067D127 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
 		CFE97F83151A2CF700187398 /* Attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attribute.m; sourceTree = "<group>"; };
 		CFF72992151B531700540795 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
@@ -542,6 +544,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFD9DD64169A102A0067D127 /* AudioToolbox.framework in Frameworks */,
 				CF9DEAD3146D854700FB9519 /* libz.1.2.5.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -600,7 +603,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -665,6 +667,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CFD9DD63169A102A0067D127 /* AudioToolbox.framework */,
+				CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */,
 				CF6D761A13DF28A000305FAE /* libicucore.dylib */,
 				CF81000013C4AE4300A68CB9 /* CFNetwork.framework */,
 				CF57FEEB13BF55B100C184F8 /* libxml2.dylib */,
@@ -1624,8 +1628,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KC Chan Co.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KC Chan Co.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Chan (96BTYNR4S9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Chan (96BTYNR4S9)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1652,8 +1656,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = perSecond;
-				PROVISIONING_PROFILE = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
+				PROVISIONING_PROFILE = "DCBC0CC8-3398-44EE-9AC1-FF47318F8958";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DCBC0CC8-3398-44EE-9AC1-FF47318F8958";
 				VALID_ARCHS = armv7;
 			};
 			name = Debug;
@@ -1706,8 +1710,8 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PROVISIONING_PROFILE = "D77C5E45-8278-4BC1-86D5-B1976E368A66";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D77C5E45-8278-4BC1-86D5-B1976E368A66";
+				PROVISIONING_PROFILE = "DCBC0CC8-3398-44EE-9AC1-FF47318F8958";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DCBC0CC8-3398-44EE-9AC1-FF47318F8958";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;

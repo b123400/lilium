@@ -9,6 +9,7 @@
 #import "BRFunctions.h"
 #import "StatusFetcher.h"
 #import "TumblrUser.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface BRFunctions ()
 
@@ -83,7 +84,7 @@ static NSArray *tumblrUsers=nil;
 	if(!sharedFacebook){
 		sharedFacebook=[[Facebook alloc] initWithAppId:kFacebookAppID];
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		if ([defaults objectForKey:@"FBAccessTokenKey"] 
+		if ([defaults objectForKey:@"FBAccessTokenKey"]
 			&& [defaults objectForKey:@"FBExpirationDateKey"]) {
 			sharedFacebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
 			sharedFacebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
@@ -350,6 +351,28 @@ static NSArray *tumblrUsers=nil;
 		dispatch_retain(imageQueue);
 	}
 	return imageQueue;
+}
++ (NSString *)applicationDocumentsDirectory {
+    
+    NSArray *paths =
+    NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    return basePath;
+}
+
++(void)playSound:(NSString*)filename{
+    SystemSoundID audioEffect;
+    NSString *path=[[[BRFunctions applicationDocumentsDirectory] stringByAppendingPathComponent:filename] stringByAppendingPathExtension:@"aif"];
+    /*
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    CFURLRef soundFileURLRef = CFBundleCopyResourceURL(mainBundle, CFSTR(path), CFSTR("caf"), NULL);
+    SystemSoundID soundId;
+    AudioServicesCreateSystemSoundID(soundFileURLRef, &soundId);
+    AudioServicesPlaySystemSound(soundId);
+    CFRelease(soundFileURLRef);*/
+    NSURL *pathURL = [NSURL fileURLWithPath : path];
+    AudioServicesCreateSystemSoundID((CFURLRef) pathURL, &audioEffect);
+    AudioServicesPlaySystemSound(audioEffect);
 }
 
 @end

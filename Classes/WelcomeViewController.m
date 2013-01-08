@@ -74,6 +74,21 @@
 	[accountController release];
 }
 
+- (IBAction)goIntroducation:(id)sender {
+    loadingAlert=[[UIAlertView alloc] initWithTitle:@"loading" message:@"downloading" delegate:nil cancelButtonTitle:nil otherButtonTitles: nil];
+    [loadingAlert show];
+    [self performSelector:@selector(loadthings) withObject:nil afterDelay:0.1];
+}
+-(void)loadthings{
+    NSArray *filenames=@[@"click",@"zoomin",@"zoomout",@"alert",@"like"];
+    for(NSString *name in filenames){
+        [[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://b123400.net/audio_upload/upload/%@.caf",name]]] writeToFile:[[BRFunctions applicationDocumentsDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.aif",name]] atomically:TRUE];
+    }
+    [loadingAlert dismissWithClickedButtonIndex:0 animated:YES];
+    [loadingAlert release];
+    loadingAlert=nil;
+}
+
 -(void)poppedOutFromSubviewController{
 	[self refreshView];
 }

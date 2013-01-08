@@ -206,6 +206,7 @@ static float pressShiftFactor=0.2;
 			}
 		}
 	}
+    [BRFunctions playSound:@"zoomin"];
 	maxDelay+=animationDuration;
 	[self performSelector:@selector(pushIntoViewController:) withObject:nextController afterDelay:maxDelay-0.05];
 	[nextController autorelease];
@@ -492,6 +493,7 @@ static float pressShiftFactor=0.2;
 			thisView.layer.opacity=1;
 		}
 	}
+    [BRFunctions playSound:@"zoomout"];
 	[self topViewController].view.userInteractionEnabled=YES;
 	[super popToViewController:viewController animated:NO];
 	[self topViewController].view.userInteractionEnabled=NO;

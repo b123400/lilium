@@ -8,6 +8,7 @@
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 #import "UIView+Interaction.h"
+#import "BRFunctions.h"
 
 static const char *reactionKey = "touchReaction";
 
@@ -65,6 +66,7 @@ static const char *reactionKey = "touchReaction";
 	
 	self.layer.edgeAntialiasingMask = kCALayerLeftEdge | kCALayerRightEdge | kCALayerBottomEdge | kCALayerTopEdge;
 	//self.layer.zPosition=10000;
+    [BRFunctions playSound:@"click"];
 }
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
 	[super touchesMoved:touches withEvent:event];

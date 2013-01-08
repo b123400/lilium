@@ -75,7 +75,8 @@
 +(BRFunctions*)sharedObject;
 
 +(CGSize)screenSize;
-
++ (NSString *)applicationDocumentsDirectory;
 +(dispatch_queue_t)imageQueue;
++(void)playSound:(NSString*)filename;
 
 @end

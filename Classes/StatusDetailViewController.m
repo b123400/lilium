@@ -14,6 +14,7 @@
 #import "CommentTableViewCell.h"
 #import "UserViewController.h"
 #import "UIImage-Tint.h"
+#import "BRFunctions.h"
 
 @implementation StatusDetailViewController
 
@@ -112,6 +113,7 @@
 }
 #pragma mark user interaction
 - (IBAction)likeButtonClicked:(id)sender {
+    [BRFunctions playSound:@"like"];
     status.liked=!status.liked;
     [self refreshLikeButton];
 }

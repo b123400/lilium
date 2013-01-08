@@ -13,6 +13,8 @@
 	IBOutlet UIView *initialPinchView;
 	IBOutlet UIView *noAccountView;
 	IBOutlet UIView *mainView;
+    
+    UIAlertView *loadingAlert;
 }
 
 -(IBAction)getStartPressed;
@@ -20,5 +22,6 @@
 
 -(IBAction)goTimeline;
 -(IBAction)goAddAccount;
+- (IBAction)goIntroducation:(id)sender;
 
 @end
