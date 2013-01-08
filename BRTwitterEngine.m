@@ -166,6 +166,21 @@
     }
     return [self performRequestWithPath:@"statuses/update" parameters:params withMethod:@"POST"];
 }
+-(NSString*)getRelationshipWithUser:(NSString*)userID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								 userID,@"user_id", nil];
+    return [self performRequestWithPath:@"friendships/lookup" parameters:params];
+}
+-(NSString*)followUserWithUserID:(NSString*)userID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								 userID,@"user_id", nil];
+    return [self performRequestWithPath:@"friendships/create" parameters:params withMethod:@"POST"];
+}
+-(NSString*)unfollowUserWithUserID:(NSString*)userID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								 userID,@"user_id", nil];
+    return [self performRequestWithPath:@"friendships/destroy" parameters:params withMethod:@"POST"];
+}
 #pragma mark misc
 +(NSURL*)rawImageURLFromURL:(NSURL*)aURL size:(BRImageSize)size{
 	NSString *urlString=[aURL absoluteString];

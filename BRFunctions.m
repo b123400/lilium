@@ -133,7 +133,7 @@ static NSArray *tumblrUsers=nil;
 +(BRInstagramEngine*)sharedInstagram{
 	if(!sharedInstagram){
 		sharedInstagram=[[BRInstagramEngine alloc]initWithClientID:instagramClientID secret:instagramClientSecret];
-		sharedInstagram.scope=@"likes+comments";
+		sharedInstagram.scope=@"likes+comments+relationships";
 		sharedInstagram.redirectUri=[NSURL URLWithString:@"persecond://authed"];
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

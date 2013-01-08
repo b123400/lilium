@@ -33,7 +33,7 @@
 
 -(void)didReceivedComments:(NSArray*)comments forRequest:(CommentRequest*)request;
 -(void)didFinishedLikeRequestWithIdentifier:(NSString*)identifier;
-
+-(void)didFollowedUserWithRequest:(RelationshipRequest*)request;
 @end
 
 @implementation StatusFetcher
@@ -386,16 +386,59 @@ static StatusFetcher* sharedFetcher=nil;
     StatusSourceType type=request.targetUser.type;
 	switch (type) {
 		case StatusSourceTypeInstagram:{
-            
+            NSString *requestID=[[BRFunctions sharedInstagram]getRelationshipWithUser:request.targetUser.userID];
+			[requestsByID setObject:request forKey:requestID];
             break;
         }
         case StatusSourceTypeTwitter:{
-            
+            NSString *requestID=[[BRFunctions sharedTwitter]getRelationshipWithUser:request.targetUser.userID];
+			[requestsByID setObject:request forKey:requestID];
             break;
         }
             default:
             break;
     }
+}
+-(void)followsUser:(RelationshipRequest*)request{
+    StatusSourceType type=request.targetUser.type;
+	switch (type) {
+		case StatusSourceTypeInstagram:{
+            NSString *requestID;
+            if(request.targetRelationship==UserRelationshipNotFollowing){
+                requestID=[[BRFunctions sharedInstagram]unfollowUserWithUserID:request.targetUser.userID];
+            }else{
+                requestID=[[BRFunctions sharedInstagram]followUserWithUserID:request.targetUser.userID];
+            }
+			[requestsByID setObject:request forKey:requestID];
+            break;
+        }
+        case StatusSourceTypeTwitter:{
+            NSString *requestID;
+            if(request.targetRelationship==UserRelationshipNotFollowing){
+                requestID=[[BRFunctions sharedTwitter]unfollowUserWithUserID:request.targetUser.userID];
+            }else{
+                requestID=[[BRFunctions sharedTwitter]followUserWithUserID:request.targetUser.userID];
+            }
+			[requestsByID setObject:request forKey:requestID];
+            break;
+        }
+        default:
+            break;
+    }
+}
+-(void)request:(RelationshipRequest*)request finishedWithUserRelationship:(UserRelationship)relationship{
+    [request.targetUser setRelationship:relationship sync:NO];
+    if(request.delegate&&[request.delegate respondsToSelector:request.selector]){
+        [request.delegate performSelector:request.selector withObject:request];
+    }
+    [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
+}
+-(void)didFollowedUserWithRequest:(RelationshipRequest*)request{
+    [request.targetUser setRelationship:request.targetRelationship sync:NO];
+    if(request.delegate&&[request.delegate respondsToSelector:request.selector]){
+        [request.delegate performSelector:request.selector withObject:request];
+    }
+    [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
 }
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
@@ -506,7 +549,9 @@ static StatusFetcher* sharedFetcher=nil;
 }
 -(User*)instagramUserFromDict:(NSDictionary*)dictionary{
     User *thisUser=[User userWithType:StatusSourceTypeInstagram userID:[dictionary objectForKey:@"id"]];;
-    thisUser.relationship=UserRelationshipUnknown;
+    if(thisUser.relationship!=UserRelationshipFollowing&&thisUser.relationship!=UserRelationshipNotFollowing){
+        thisUser.relationship=UserRelationshipUnknown;
+    }
     thisUser.displayName=[dictionary objectForKey:@"full_name"];
     thisUser.username=[dictionary objectForKey:@"username"];
     if([dictionary objectForKey:@"profile_picture"]){
@@ -527,6 +572,25 @@ static StatusFetcher* sharedFetcher=nil;
     }
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[UserRequest class]]){
         [self didReceivedUser:[self instagramUserFromDict:[data objectForKey:@"data"]] forRequest:[requestsByID objectForKey:identifier]];
+        return;
+    }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[RelationshipRequest class]]){
+        RelationshipRequest *request=[requestsByID objectForKey:identifier];
+        if(request.targetRelationship==UserRelationshipFollowing||request.targetRelationship==UserRelationshipNotFollowing){
+            if(request.targetRelationship==UserRelationshipNotFollowing||request.targetRelationship==UserRelationshipFollowing){
+                [self didFollowedUserWithRequest:request];
+                return;
+            }
+            return;
+        }
+        UserRelationship relationship=UserRelationshipNotFollowing;
+        if([data isKindOfClass:[NSDictionary class]]&&[[data objectForKey:@"data"] isKindOfClass:[NSDictionary class]]){
+            NSString *followingStatus=[[data objectForKey:@"data"] objectForKey:@"outgoing_status"];
+            if(followingStatus&&[followingStatus isEqualToString:@"follows"]){
+                relationship=UserRelationshipFollowing;
+            }
+        }
+        [self request:request finishedWithUserRelationship:relationship];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
@@ -792,10 +856,20 @@ static StatusFetcher* sharedFetcher=nil;
 #pragma mark twitter
 -(User*)twitterUserFromDict:(NSDictionary*)dict{
     User *thisUser=[User userWithType:StatusSourceTypeTwitter userID:[dict objectForKey:@"id_str"]];
-    thisUser.relationship=UserRelationshipUnknown;
+    if(thisUser.relationship!=UserRelationshipFollowing&&thisUser.relationship!=UserRelationshipNotFollowing){
+        thisUser.relationship=UserRelationshipUnknown;
+    }
     thisUser.username=[dict objectForKey:@"screen_name"];
     thisUser.profilePicture=[NSURL URLWithString:[dict objectForKey:@"profile_image_url"]];
     thisUser.displayName=[dict objectForKey:@"name"];
+    if([dict objectForKey:@"following"]&&![[dict objectForKey:@"following"] isKindOfClass:[NSNull class]]){
+        BOOL isFollowing=[[dict objectForKey:@"following"] boolValue];
+        if(isFollowing){
+            [thisUser setRelationship:UserRelationshipFollowing sync:NO];
+        }else{
+            [thisUser setRelationship:UserRelationshipNotFollowing sync:NO];
+        }
+    }
     return thisUser;
 }
 -(Comment*)twitterCommentFromDict:(NSDictionary*)dict{
@@ -857,6 +931,26 @@ static StatusFetcher* sharedFetcher=nil;
     }
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[UserRequest class]]){
         [self didReceivedUser:[self twitterUserFromDict:data] forRequest:[requestsByID objectForKey:identifier]];
+        return;
+    }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[RelationshipRequest class]]){
+        RelationshipRequest *request=[requestsByID objectForKey:identifier];
+        if(request.targetRelationship==UserRelationshipNotFollowing||request.targetRelationship==UserRelationshipFollowing){
+            [self didFollowedUserWithRequest:request];
+            return;
+        }
+        UserRelationship relationship=UserRelationshipNotFollowing;
+        if([data isKindOfClass:[NSArray class]]&&[data count]){
+            NSDictionary *thisDict=[data objectAtIndex:0];
+            if([thisDict isKindOfClass:[NSDictionary class]]&&[[thisDict objectForKey:@"connections"] isKindOfClass:[NSArray class]]){
+                for(NSString *connection in [thisDict objectForKey:@"connections"]){
+                    if([connection isEqualToString:@"following"]){
+                        relationship=UserRelationshipFollowing;
+                    }
+                }
+            }
+        }
+        [self request:request finishedWithUserRelationship:relationship];
         return;
     }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];

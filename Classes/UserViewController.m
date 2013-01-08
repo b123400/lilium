@@ -73,8 +73,9 @@
 	gridView.showsHorizontalScrollIndicator=NO;
 	gridView.showsVerticalScrollIndicator=NO;
     
-    usernameLabel.text=[NSString stringWithFormat:@"%@@%@",user.username,[Status sourceName:user.type]];
+    usernameLabel.text=[NSString stringWithFormat:@"%@@%@",user.displayName,[Status sourceName:user.type]];
     [usernameLabel sizeToFit];
+    [self layoutActionView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -83,7 +84,9 @@
     // Dispose of any resources that can be recreated.
 }
 -(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
-	return [gridView subviews];
+    NSMutableArray *views=[[[NSMutableArray alloc] initWithArray:[gridView subviews]] autorelease];
+    [views addObject:actionView];
+	return views;
 }
 -(BOOL)shouldWaitForViewToLoadBeforePush{
 	return	 YES;
@@ -92,12 +95,37 @@
 -(void)layoutActionView{
     usernameLabel.text=[NSString stringWithFormat:@"%@@%@",user.username,[Status sourceName:user.type]];
     [usernameLabel sizeToFit];
-    CGRect frame=followButton.frame;
+    CGRect frame=usernameLabel.frame;
+    frame.origin.y=(usernameLabel.superview.frame.size.height-usernameLabel.frame.size.height)/2;
+    usernameLabel.frame=frame;
+    
+    frame=followButton.frame;
     frame.origin.x=usernameLabel.frame.origin.x+usernameLabel.frame.size.width+10;
     followButton.frame=frame;
+    if(user.relationship==UserRelationshipUnknown||user.relationship==UserRelationshipNotAvailable){
+        followButton.hidden=YES;
+    }else{
+        followButton.hidden=NO;
+        if(user.relationship==UserRelationshipNotFollowing){
+            [followButton setTitle:@"follow" forState:UIControlStateNormal];
+        }else{
+            [followButton setTitle:@"unfollow" forState:UIControlStateNormal];
+        }
+    }
+    frame=actionView.frame;
+    frame.size.width=usernameLabel.frame.size.width+usernameLabel.frame.origin.x;
+    if(!followButton.hidden){
+        frame.size.width=followButton.frame.size.width+followButton.frame.origin.x;
+    }
+    actionView.frame=frame;
 }
 - (IBAction)followButtonPressed:(id)sender {
-    
+    if(user.relationship==UserRelationshipFollowing){
+        user.relationship=UserRelationshipNotFollowing;
+    }else if(user.relationship==UserRelationshipNotFollowing){
+        user.relationship=UserRelationshipFollowing;
+    }
+    [self layoutActionView];
 }
 #pragma mark - load things
 -(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{

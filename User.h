@@ -46,6 +46,7 @@ typedef enum UserRelationship {
 +(User*)me;
 
 -(void)getRelationshipAndReturnTo:(id)target withSelector:(SEL)selector;
+-(void)setRelationship:(UserRelationship)_relationship sync:(BOOL)sync;
 
 +(User*)userWithDictionary:(NSDictionary*)dict;
 -(NSMutableDictionary*)dictionaryRepresentation;

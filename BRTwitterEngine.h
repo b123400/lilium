@@ -48,6 +48,9 @@ typedef enum BRImageSize{
 -(NSString*)getAuthedUserInfo;
 -(NSString*)getUserInfoWithUserID:(NSString*)userID;
 -(NSString*)sendTweet:(NSString*)tweet inReplyToStatusWithID:(NSString*)statusID;
+-(NSString*)getRelationshipWithUser:(NSString*)userID;
+-(NSString*)followUserWithUserID:(NSString*)userID;
+-(NSString*)unfollowUserWithUserID:(NSString*)userID;
 
 +(NSURL*)rawImageURLFromURL:(NSURL*)aURL size:(BRImageSize)size;
 

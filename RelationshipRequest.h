@@ -10,7 +10,9 @@
 
 @interface RelationshipRequest : Request{
     User *targetUser;
+    UserRelationship targetRelationship;
 }
-@property (nonatomic,retain)    User *targetUser;
+@property (nonatomic,retain) User *targetUser;
+@property (nonatomic,assign) UserRelationship targetRelationship;
 
 @end

@@ -179,4 +179,16 @@
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
 	return [self performRequestWithPath:[NSString stringWithFormat:@"users/%@",userID] parameters:params];
 }
+-(NSString*)getRelationshipWithUser:(NSString*)userID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionary];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"users/%@/relationship",userID] parameters:params];
+}
+-(NSString*)followUserWithUserID:(NSString*)userID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"follow" forKey:@"action"];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"users/%@/relationship",userID] parameters:params withMethod:@"POST"];
+}
+-(NSString*)unfollowUserWithUserID:(NSString*)userID{
+    NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"unfollow" forKey:@"action"];
+	return [self performRequestWithPath:[NSString stringWithFormat:@"users/%@/relationship",userID] parameters:params withMethod:@"POST"];
+}
 @end

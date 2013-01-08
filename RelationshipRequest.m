@@ -9,6 +9,6 @@
 #import "RelationshipRequest.h"
 
 @implementation RelationshipRequest
-@synthesize targetUser;
+@synthesize targetUser,targetRelationship;
 
 @end

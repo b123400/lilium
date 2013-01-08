@@ -44,5 +44,6 @@
 -(void)likeStatusForRequest:(LikeRequest*)request;
 -(void)getUserForRequest:(UserRequest*)request;
 -(void)getUserRelationship:(RelationshipRequest*)request;
+-(void)followsUser:(RelationshipRequest*)request;
 
 @end

@@ -13,6 +13,13 @@
 #import "StatusFetcher.h"
 #import "RelationshipRequest.h"
 
+@interface User ()
+
+-(void)requestFinished:(RelationshipRequest*)request withRelationship:(UserRelationship)_relationship;
+-(void)followRequestFinished:(RelationshipRequest*)request;
+
+@end
+
 @implementation User
 @synthesize displayName,userID,type,profilePicture,username,relationship;
 
@@ -83,10 +90,34 @@
     if(userID)return userID;
     return nil;
 }
+-(void)setRelationship:(UserRelationship)_relationship{
+    [self setRelationship:_relationship sync:YES];
+}
+-(void)setRelationship:(UserRelationship)_relationship sync:(BOOL)sync{
+    if(relationship!=_relationship){
+        relationship=_relationship;
+        if(sync&&(relationship==UserRelationshipFollowing||relationship==UserRelationshipNotFollowing)){
+            RelationshipRequest *request=[[[RelationshipRequest alloc]init]autorelease];
+            request.targetUser=self;
+            request.targetRelationship=relationship;
+            request.delegate=self;
+            request.selector=@selector(followRequestFinished:);
+            [[StatusFetcher sharedFetcher]followsUser:request];
+        }
+    }
+}
 #pragma mark -
 -(void)getRelationshipAndReturnTo:(id)target withSelector:(SEL)selector{
     RelationshipRequest *request=[[[RelationshipRequest alloc] init]autorelease];
     request.targetUser=self;
+    request.delegate=target;
+    request.selector=selector;
+    [[StatusFetcher sharedFetcher] getUserRelationship:request];
+}
+-(void)requestFinished:(RelationshipRequest*)request withRelationship:(UserRelationship)_relationship{
+    [self setRelationship:_relationship sync:NO];
+}
+-(void)followRequestFinished:(RelationshipRequest*)request{
     
 }
 #pragma mark -

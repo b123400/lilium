@@ -50,5 +50,8 @@
 -(NSString*)likeMediaWithMediaID:(NSString*)mediaID;
 -(NSString*)unlikeMediaWithMediaID:(NSString*)mediaID;
 -(NSString*)getUserInfoWithUserID:(NSString*)userID;
+-(NSString*)getRelationshipWithUser:(NSString*)userID;
+-(NSString*)followUserWithUserID:(NSString*)userID;
+-(NSString*)unfollowUserWithUserID:(NSString*)userID;
 
 @end
