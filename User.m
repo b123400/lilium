@@ -77,6 +77,12 @@
     me.displayName=@"me";
     return me;
 }
+-(NSString*)displayName{
+    if(displayName)return displayName;
+    if(username)return username;
+    if(userID)return userID;
+    return nil;
+}
 #pragma mark -
 -(void)getRelationshipAndReturnTo:(id)target withSelector:(SEL)selector{
     RelationshipRequest *request=[[[RelationshipRequest alloc] init]autorelease];

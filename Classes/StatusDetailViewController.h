@@ -19,7 +19,10 @@
 	IBOutlet UIScrollView *mainScrollView;
 	IBOutlet UIScrollView *imageWrapperScrollView;
     
+    IBOutlet UIView *userView;
     IBOutlet UIButton *likeButton;
+    IBOutlet UIImageView *profileImageView;
+    IBOutlet UILabel *displayNameLabel;
     
     CommentComposeView *commentComposeView;
 	

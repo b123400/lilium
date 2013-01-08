@@ -14,6 +14,13 @@
 #import "CommentTableViewCell.h"
 #import "UserViewController.h"
 #import "UIImage-Tint.h"
+#import "UIImageView+WebCache.h"
+
+@interface StatusDetailViewController ()
+
+-(void)userViewTapped;
+
+@end
 
 @implementation StatusDetailViewController
 
@@ -77,14 +84,21 @@
 	CGRect frame=textLabel.frame;
 	frame.size=[textLabel sizeThatFits:textLabel.frame.size];
 	textLabel.frame=frame;
-    
-    likeButton.frame=CGRectMake(imageWrapperView.frame.size.width-likeButton.frame.size.width, textLabel.frame.origin.y+textLabel.frame.size.height, likeButton.frame.size.width, likeButton.frame.size.height);
 	
 	frame=imageWrapperView.frame;
-	frame.size.height=likeButton.frame.size.height+likeButton.frame.origin.y+5;
+	frame.size.height=textLabel.frame.size.height+textLabel.frame.origin.y+5;
+    if([status.caption isEqualToString:@""])frame.size.height-=5;
 	imageWrapperView.frame=frame;
-	
-	imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, imageWrapperView.frame.size.height+imageWrapperView.frame.origin.y);
+    
+    if(!userView.superview){
+        [imageWrapperScrollView addSubview:userView];
+    }
+    userView.frame=CGRectMake(imageWrapperView.frame.origin.x, imageWrapperView.frame.origin.y+imageWrapperView.frame.size.height, imageWrapperView.frame.size.width, userView.frame.size.height);
+    displayNameLabel.text=status.user.displayName;
+    [profileImageView setImageWithURL:status.user.profilePicture];
+    [userView addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userViewTapped)] autorelease]];
+    
+    imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, userView.frame.size.height+userView.frame.origin.y);
 	mainScrollView.contentSize=CGSizeMake(commentTableView.frame.origin.x+commentTableView.frame.size.width, commentTableView.frame.origin.y+commentTableView.frame.size.height);
     
     if(!commentComposeView){
@@ -110,7 +124,7 @@
     if(status.liked){
         [likeButton setImage:[[UIImage imageNamed:@"heart.png"] tintedImageUsingColor:[UIColor colorWithRed:238/255. green:0 blue:72/255. alpha:1.0]] forState:UIControlStateNormal];
     }else{
-        [likeButton setImage:[[UIImage imageNamed:@"heart.png"] tintedImageUsingColor:[UIColor colorWithRed:171/255. green:242/255. blue:109/255. alpha:1.0]] forState:UIControlStateNormal];
+        [likeButton setImage:[[UIImage imageNamed:@"heart.png"] tintedImageUsingColor:[UIColor colorWithRed:101/255.0 green:156/255.0 blue:60/255.0 alpha:1.0]] forState:UIControlStateNormal];
     }
 }
 #pragma mark user interaction
@@ -180,6 +194,11 @@
 	// commit animations
 	[UIView commitAnimations];
 }
+-(void)userViewTapped{
+    UserViewController *userViewController=[[UserViewController alloc]initWithUser:status.user];
+    [self.navigationController pushViewController:userViewController animated:YES];
+    [userViewController release];
+}
 #pragma mark table view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 	CommentTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -215,7 +234,7 @@
 }
 #pragma mark navigation
 -(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
-	NSMutableArray *views=[NSMutableArray arrayWithObject:imageWrapperView];
+	NSMutableArray *views=[NSMutableArray arrayWithObject:imageWrapperScrollView];
 	[views addObjectsFromArray:[commentTableView visibleCells]];
     [views addObject:commentComposeView];
 	return views;
@@ -240,6 +259,12 @@
 	imageWrapperScrollView = nil;
 	[mainScrollView release];
 	mainScrollView = nil;
+    [userView release];
+    userView = nil;
+    [profileImageView release];
+    profileImageView = nil;
+    [displayNameLabel release];
+    displayNameLabel = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -252,6 +277,9 @@
 	[status release];
 	[imageWrapperScrollView release];
 	[mainScrollView release];
+    [userView release];
+    [profileImageView release];
+    [displayNameLabel release];
     [super dealloc];
 }
 

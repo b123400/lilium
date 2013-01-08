@@ -158,6 +158,7 @@
 		CFCDCD3713D89F5900E268E8 /* BRTumblrEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCD3613D89F5900E268E8 /* BRTumblrEngine.m */; };
 		CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE0D201673E3E800C10953 /* UserViewController.m */; };
 		CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCE0D211673E3E800C10953 /* UserViewController.xib */; };
+		CFD783D3169CB3970018976E /* StatusUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD783D2169CB3970018976E /* StatusUserView.m */; };
 		CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
@@ -484,6 +485,8 @@
 		CFCE0D1F1673E3E800C10953 /* UserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
 		CFCE0D201673E3E800C10953 /* UserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
 		CFCE0D211673E3E800C10953 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
+		CFD783D1169CB3970018976E /* StatusUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusUserView.h; sourceTree = "<group>"; };
+		CFD783D2169CB3970018976E /* StatusUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusUserView.m; sourceTree = "<group>"; };
 		CFD9DD4B1699FCE50067D127 /* RelationshipRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelationshipRequest.h; sourceTree = "<group>"; };
 		CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelationshipRequest.m; sourceTree = "<group>"; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
@@ -1034,6 +1037,8 @@
 				CF5EE5B01679AE53008D55D3 /* UIScrollView+Pinch.m */,
 				CFFCD9A51695BFB3006DC49B /* CommentComposeView.h */,
 				CFFCD9A61695BFB3006DC49B /* CommentComposeView.m */,
+				CFD783D1169CB3970018976E /* StatusUserView.h */,
+				CFD783D2169CB3970018976E /* StatusUserView.m */,
 				CFFCD9CD16963873006DC49B /* NSString+EscapePercentage.h */,
 				CFFCD9CE16963873006DC49B /* NSString+EscapePercentage.m */,
 			);
@@ -1619,6 +1624,7 @@
 				CFFCD9B81695FB2E006DC49B /* UserRequest.m in Sources */,
 				CFFCD9CF16963873006DC49B /* NSString+EscapePercentage.m in Sources */,
 				CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */,
+				CFD783D3169CB3970018976E /* StatusUserView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
