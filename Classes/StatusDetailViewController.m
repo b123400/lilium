@@ -74,6 +74,9 @@
 	textLabel.numberOfLines=0;
 	textLabel.backgroundColor=[UIColor clearColor];
 	textLabel.textColor=[UIColor whiteColor];
+    textLabel.font=[UIFont systemFontOfSize:15];
+    textLabel.linkColor=[UIColor whiteColor];
+    textLabel.highlightedLinkColor=[UIColor whiteColor];
 	textLabel.text=status.caption;
 	
 	for(Attribute *thisAttribute in status.attributes){
