@@ -487,6 +487,19 @@
 		CFCE0D211673E3E800C10953 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
 		CFD783D1169CB3970018976E /* StatusUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusUserView.h; sourceTree = "<group>"; };
 		CFD783D2169CB3970018976E /* StatusUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusUserView.m; sourceTree = "<group>"; };
+		CFD784B3169CF99F0018976E /* perSecond copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "perSecond copy-Info.plist"; path = "/Users/b123400/Dropbox/iphone app/perSecond/perSecond copy-Info.plist"; sourceTree = "<absolute>"; };
+		CFD784B4169CF9A30018976E /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = "Resources-iPad/MainWindow.xib"; sourceTree = "<group>"; };
+		CFD784B5169CF9A30018976E /* AccountsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AccountsViewController.xib; path = "Resources-iPad/Classes/AccountsViewController.xib"; sourceTree = "<group>"; };
+		CFD784B6169CF9A30018976E /* TwitterLoginController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TwitterLoginController.xib; path = "Resources-iPad/Classes/TwitterLoginController.xib"; sourceTree = "<group>"; };
+		CFD784B7169CF9A30018976E /* FacebookLoginController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FacebookLoginController.xib; path = "Resources-iPad/Classes/FacebookLoginController.xib"; sourceTree = "<group>"; };
+		CFD784B8169CF9A30018976E /* BRInstagramLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BRInstagramLoginViewController.xib; path = "Resources-iPad/Classes/BRInstagramLoginViewController.xib"; sourceTree = "<group>"; };
+		CFD784B9169CF9A30018976E /* FlickrLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FlickrLoginViewController.xib; path = "Resources-iPad/Classes/FlickrLoginViewController.xib"; sourceTree = "<group>"; };
+		CFD784BA169CF9A30018976E /* WelcomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WelcomeViewController.xib; path = "Resources-iPad/Classes/WelcomeViewController.xib"; sourceTree = "<group>"; };
+		CFD784BB169CF9A30018976E /* WelcomePinchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WelcomePinchViewController.xib; path = "Resources-iPad/Classes/WelcomePinchViewController.xib"; sourceTree = "<group>"; };
+		CFD784BC169CF9A30018976E /* TimelineViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = TimelineViewController.xib; path = "Resources-iPad/Classes/TimelineViewController.xib"; sourceTree = "<group>"; };
+		CFD784BD169CF9A30018976E /* BRTumblrLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BRTumblrLoginViewController.xib; path = "Resources-iPad/Classes/BRTumblrLoginViewController.xib"; sourceTree = "<group>"; };
+		CFD784BE169CF9A30018976E /* StatusDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = StatusDetailViewController.xib; path = "Resources-iPad/Classes/StatusDetailViewController.xib"; sourceTree = "<group>"; };
+		CFD784BF169CF9A30018976E /* UserViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserViewController.xib; path = "Resources-iPad/Classes/UserViewController.xib"; sourceTree = "<group>"; };
 		CFD9DD4B1699FCE50067D127 /* RelationshipRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelationshipRequest.h; sourceTree = "<group>"; };
 		CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelationshipRequest.m; sourceTree = "<group>"; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
@@ -610,8 +623,10 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				CFD784B2169CF99E0018976E /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				CFD784B3169CF99F0018976E /* perSecond copy-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -1203,6 +1218,25 @@
 			name = BRTumblrEngine;
 			sourceTree = "<group>";
 		};
+		CFD784B2169CF99E0018976E /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				CFD784B4169CF9A30018976E /* MainWindow.xib */,
+				CFD784B5169CF9A30018976E /* AccountsViewController.xib */,
+				CFD784B6169CF9A30018976E /* TwitterLoginController.xib */,
+				CFD784B7169CF9A30018976E /* FacebookLoginController.xib */,
+				CFD784B8169CF9A30018976E /* BRInstagramLoginViewController.xib */,
+				CFD784B9169CF9A30018976E /* FlickrLoginViewController.xib */,
+				CFD784BA169CF9A30018976E /* WelcomeViewController.xib */,
+				CFD784BB169CF9A30018976E /* WelcomePinchViewController.xib */,
+				CFD784BC169CF9A30018976E /* TimelineViewController.xib */,
+				CFD784BD169CF9A30018976E /* BRTumblrLoginViewController.xib */,
+				CFD784BE169CF9A30018976E /* StatusDetailViewController.xib */,
+				CFD784BF169CF9A30018976E /* UserViewController.xib */,
+			);
+			name = "Resources-iPad";
+			sourceTree = "<group>";
+		};
 		CFF818ED13C07E3700C37DD8 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -1666,6 +1700,7 @@
 				PRODUCT_NAME = perSecond;
 				PROVISIONING_PROFILE = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
 			};
 			name = Debug;
@@ -1692,6 +1727,7 @@
 				PRODUCT_NAME = perSecond;
 				PROVISIONING_PROFILE = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = armv7;
 			};
@@ -1702,7 +1738,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Chan (96BTYNR4S9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Chan (96BTYNR4S9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KC Chan Co.";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1718,8 +1754,8 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PROVISIONING_PROFILE = "D77C5E45-8278-4BC1-86D5-B1976E368A66";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D77C5E45-8278-4BC1-86D5-B1976E368A66";
+				PROVISIONING_PROFILE = "DCBC0CC8-3398-44EE-9AC1-FF47318F8958";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1802,6 +1838,7 @@
 				PRODUCT_NAME = perSecond;
 				PROVISIONING_PROFILE = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
 			};
 			name = TestFlight;
