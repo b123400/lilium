@@ -8,22 +8,22 @@
 
 #import "StatusDetailViewController.h"
 #import "UIImageView+WebCache.h"
-#import "OHAttributedLabel.h"
-#import "Attribute.h"
 #import "Comment.h"
 #import "CommentTableViewCell.h"
 #import "UserViewController.h"
 #import "UIImage-Tint.h"
 #import "UIImageView+WebCache.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface StatusDetailViewController ()
 
+-(void)layout;
 -(void)userViewTapped;
 
 @end
 
 @implementation StatusDetailViewController
-
+@synthesize delegate;
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -37,7 +37,6 @@
 -(id)initWithStatus:(Status*)_status{
 	self=[self init];
 	status=[_status retain];
-	[status getCommentsAndReturnTo:self withSelector:@selector(didReceiveComments:)];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -64,20 +63,30 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    commentLoading.hidden=YES;
-	[mainImageView setImageWithURL:status.mediumURL placeholderImage:[status cachedImageOfSize:StatusImageSizeThumb]];
     [super viewDidLoad];
 	
-	OHAttributedLabel *textLabel=[[OHAttributedLabel alloc] initWithFrame:CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000)];
-	textLabel.extendBottomToFit=YES;
-	textLabel.lineBreakMode=UILineBreakModeWordWrap;
-	textLabel.numberOfLines=0;
-	textLabel.backgroundColor=[UIColor clearColor];
-	textLabel.textColor=[UIColor whiteColor];
-    textLabel.font=[UIFont systemFontOfSize:15];
-    textLabel.linkColor=[UIColor whiteColor];
-    textLabel.highlightedLinkColor=[UIColor whiteColor];
-	textLabel.text=status.caption;
+    if(!textLabel){
+        textLabel=[[OHAttributedLabel alloc] initWithFrame:CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000)];
+        textLabel.extendBottomToFit=YES;
+        textLabel.lineBreakMode=UILineBreakModeWordWrap;
+        textLabel.numberOfLines=0;
+        textLabel.backgroundColor=[UIColor clearColor];
+        textLabel.textColor=[UIColor whiteColor];
+        textLabel.font=[UIFont systemFontOfSize:15];
+        textLabel.linkColor=[UIColor whiteColor];
+    }
+	if(!commentComposeView){
+        commentComposeView=[[CommentComposeView alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
+        commentComposeView.autoresizingMask=UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
+        commentComposeView.textField.delegate=self;
+    }
+    [self layout];
+}
+-(void)layout{
+    commentLoading.hidden=YES;
+	[mainImageView setImageWithURL:status.mediumURL placeholderImage:[status cachedImageOfSize:StatusImageSizeThumb]];
+    
+    textLabel.text=status.caption;
 	
 	for(Attribute *thisAttribute in status.attributes){
 		[textLabel addCustomLink:thisAttribute.url inRange:thisAttribute.range];
@@ -104,11 +113,7 @@
     imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, userView.frame.size.height+userView.frame.origin.y);
 	mainScrollView.contentSize=CGSizeMake(commentTableView.frame.origin.x+commentTableView.frame.size.width, commentTableView.frame.origin.y+commentTableView.frame.size.height);
     
-    if(!commentComposeView){
-        commentComposeView=[[CommentComposeView alloc] initWithFrame:CGRectMake(0, 0, 300, 44)];
-        commentComposeView.autoresizingMask=UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
-        commentComposeView.textField.delegate=self;
-    }
+    
     commentComposeView.frame=CGRectMake(10, mainScrollView.frame.size.height-commentComposeView.frame.size.height, mainScrollView.frame.size.width-20, commentComposeView.frame.size.height);
     if(status.user.type==StatusSourceTypeTumblr){
         commentComposeView.textField.placeholder=@"reblog with comment";
@@ -119,6 +124,7 @@
     imageWrapperScrollView.contentInset=UIEdgeInsetsMake(0, 0, 54, 0);
     
     [self refreshLikeButton];
+    [status getCommentsAndReturnTo:self withSelector:@selector(didReceiveComments:)];
 }
 -(void)didReceiveComments:(NSArray*)comments{
 	[commentTableView reloadData];
@@ -202,6 +208,55 @@
     [self.navigationController pushViewController:userViewController animated:YES];
     [userViewController release];
 }
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if(scrollView==imageWrapperScrollView){
+        if(scrollView.contentOffset.y<80){
+            //prev
+            Status *prevStatus=[delegate previousImageForStatusViewController:self currentStatus:status];
+            if(prevStatus){
+                [UIView animateWithDuration:0.1 animations:^{
+                    imageWrapperScrollView.layer.transform=CATransform3DMakeTranslation(0, 300, 0);
+                    imageWrapperScrollView.layer.opacity=0;
+                } completion:^(BOOL finished) {
+                    if(finished){
+                        [status release];
+                        status=[prevStatus retain];
+                        [self layout];
+                    }
+                    imageWrapperScrollView.layer.transform=CATransform3DMakeTranslation(0, -300, 0);
+                    [UIView animateWithDuration:0.1 animations:^{
+                        imageWrapperScrollView.layer.transform=CATransform3DIdentity;
+                        imageWrapperScrollView.layer.opacity=1;
+                    } completion:^(BOOL finished) {
+                        
+                    }];
+                }];
+            }
+        }else if(scrollView.contentOffset.y>scrollView.contentSize.height-scrollView.frame.size.height+80){
+            //next
+            Status *nextStatus=[delegate nextImageForStatusViewController:self currentStatus:status];
+            if(nextStatus){
+                [UIView animateWithDuration:0.1 animations:^{
+                    imageWrapperScrollView.layer.transform=CATransform3DMakeTranslation(0, -300, 0);
+                    imageWrapperScrollView.layer.opacity=0;
+                } completion:^(BOOL finished) {
+                    if(finished){
+                        [status release];
+                        status=[nextStatus retain];
+                        [self layout];
+                    }
+                    imageWrapperScrollView.layer.transform=CATransform3DMakeTranslation(0, 300, 0);
+                    [UIView animateWithDuration:0.1 animations:^{
+                        imageWrapperScrollView.layer.transform=CATransform3DIdentity;
+                        imageWrapperScrollView.layer.opacity=1;
+                    } completion:^(BOOL finished) {
+                        
+                    }];
+                }];
+            }
+        }
+    }
+}
 #pragma mark table view
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 	CommentTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -258,6 +313,9 @@
 }
 
 - (void)viewDidUnload {
+    if(commentComposeView)[commentComposeView release];
+    if(textLabel)[textLabel release];
+    textLabel=nil;
 	[imageWrapperScrollView release];
 	imageWrapperScrollView = nil;
 	[mainScrollView release];
@@ -276,7 +334,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    if(commentComposeView)[commentComposeView release];
 	[status release];
 	[imageWrapperScrollView release];
 	[mainScrollView release];
