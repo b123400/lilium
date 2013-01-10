@@ -210,7 +210,7 @@
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if(scrollView==imageWrapperScrollView){
-        if(scrollView.contentOffset.y<80){
+        if(scrollView.contentOffset.y<-60){
             //prev
             Status *prevStatus=[delegate previousImageForStatusViewController:self currentStatus:status];
             if(prevStatus){
@@ -232,7 +232,7 @@
                     }];
                 }];
             }
-        }else if(scrollView.contentOffset.y>scrollView.contentSize.height-scrollView.frame.size.height+80){
+        }else if(scrollView.contentOffset.y>scrollView.contentSize.height-scrollView.frame.size.height+60){
             //next
             Status *nextStatus=[delegate nextImageForStatusViewController:self currentStatus:status];
             if(nextStatus){
