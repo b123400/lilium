@@ -27,7 +27,10 @@
 -(void)sync;
 -(void)getOlderStatuses;
 
--(NSArray*)lastestStatuses:(int)count;
+-(NSArray*)latestStatuses:(int)count;
 -(NSArray*)statusesAfter:(Status*)aStatus count:(int)count;
+
+-(void)saveRecentStatuses;
+-(void)loadRecentStatuses;
 
 @end

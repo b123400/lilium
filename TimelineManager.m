@@ -61,7 +61,7 @@ static TimelineManager *sharedManager=nil;
 	[[StatusFetcher sharedFetcher] getStatusesForRequest:loadOlderRequest];
 }
 
--(NSArray*)lastestStatuses:(int)count{
+-(NSArray*)latestStatuses:(int)count{
 	if([statuses count]<=count){
 		return [[statuses copy] autorelease];
 	}
@@ -76,6 +76,21 @@ static TimelineManager *sharedManager=nil;
 		[self getOlderStatuses];
 	}
 	return [statuses objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexOfStatus+1, count)]];
+}
+-(void)saveRecentStatuses{
+    NSArray *recentStatuses=[self latestStatuses:30];
+    NSMutableArray *statusDicts=[NSMutableArray array];
+    for(Status *thisStatus in recentStatuses){
+        [statusDicts addObject:[thisStatus dictionaryRepresentation]];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:statusDicts forKey:@"recentStatuses"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+-(void)loadRecentStatuses{
+    NSArray *statusDicts=[[NSUserDefaults standardUserDefaults] objectForKey:@"recentStatuses"];
+    for(NSDictionary *thisDict in statusDicts){
+        [statuses addObject:[Status statusWithDictionary:thisDict]];
+    }
 }
 #pragma mark -
 -(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
