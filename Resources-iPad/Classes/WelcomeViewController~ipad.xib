@@ -37,15 +37,16 @@
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="191373211">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIButton" id="108656037">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{113, 325}, {94, 94}}</string>
+						<int key="NSvFlags">301</int>
+						<string key="NSFrame">{{337, 766}, {94, 94}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSNextKeyView" ref="148342442"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC41NjUzMDg5MTcyIDAuMzA2NTMyNzk1NiAwLjY4ODc3NTUxMDIAA</bytes>
@@ -88,8 +89,8 @@
 					</object>
 					<object class="IBUIButton" id="148342442">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{113, 450}, {94, 29}}</string>
+						<int key="NSvFlags">301</int>
+						<string key="NSFrame">{{337, 972}, {94, 29}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -108,9 +109,10 @@
 					</object>
 					<object class="IBUIButton" id="604249273">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{113, 203}, {94, 94}}</string>
+						<int key="NSvFlags">301</int>
+						<string key="NSFrame">{{337, 478}, {94, 94}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSNextKeyView" ref="108656037"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xODAwMjA4NzIgMC42ODg3NzU1MTAyIDAuNDMwMDcxNzYzNgA</bytes>
@@ -132,9 +134,10 @@
 					</object>
 					<object class="IBUIButton" id="725267257">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{113, 79}, {94, 94}}</string>
+						<int key="NSvFlags">301</int>
+						<string key="NSFrame">{{337, 186}, {94, 94}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSNextKeyView" ref="604249273"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC42NzM0NjkzODc4IDAuNDQzNzUwMDM1NCAwLjQ1MTA1OTUyMzEAA</bytes>
@@ -151,23 +154,50 @@
 						<reference key="IBUIFont" ref="474397617"/>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 480}</string>
+				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSNextKeyView" ref="725267257"/>
 				<object class="NSColor" key="IBUIBackgroundColor" id="217494548">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
 					<reference key="NSCustomColorSpace" ref="480663006"/>
 				</object>
+				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics" id="1020859856">
+					<int key="IBUIStatusBarStyle">2</int>
+				</object>
+				<object class="IBUIScreenMetrics" key="IBUISimulatedDestinationMetrics" id="690614464">
+					<string key="IBUISimulatedSizeMetricsClass">IBUIScreenMetrics</string>
+					<object class="NSMutableDictionary" key="IBUINormalizedOrientationToSizeMap">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<integer value="1"/>
+							<integer value="3"/>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>{768, 1024}</string>
+							<string>{1024, 768}</string>
+						</object>
+					</object>
+					<string key="IBUITargetRuntime">IBIPadFramework</string>
+					<string key="IBUIDisplayName">iPad Full Screen</string>
+					<int key="IBUIType">1</int>
+				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="85376307">
-				<nil key="NSNextResponder"/>
-				<int key="NSvFlags">292</int>
+				<reference key="NSNextResponder"/>
+				<int key="NSvFlags">319</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIView" id="679712269">
 						<reference key="NSNextResponder" ref="85376307"/>
 						<int key="NSvFlags">319</int>
-						<string key="NSFrame">{{54, 136}, {212, 141}}</string>
+						<object class="NSMutableArray" key="NSSubviews">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
+						<string key="NSFrame">{{173, 316}, {404, 240}}</string>
 						<reference key="NSSuperview" ref="85376307"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
@@ -177,8 +207,8 @@
 					</object>
 					<object class="IBUITextView" id="475030795">
 						<reference key="NSNextResponder" ref="85376307"/>
-						<int key="NSvFlags">319</int>
-						<string key="NSFrame">{{65, 147}, {186, 115}}</string>
+						<int key="NSvFlags">301</int>
+						<string key="NSFrame">{{282, 378}, {186, 115}}</string>
 						<reference key="NSSuperview" ref="85376307"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -213,7 +243,7 @@ dC4</string>
 					<object class="IBUIButton" id="705287090">
 						<reference key="NSNextResponder" ref="85376307"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{132, 244}, {143, 36}}</string>
+						<string key="NSFrame">{{447, 522}, {143, 36}}</string>
 						<reference key="NSSuperview" ref="85376307"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -235,19 +265,22 @@ dC4</string>
 						<reference key="IBUIFont" ref="474397617"/>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 460}</string>
+				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
+				<reference key="NSSuperview"/>
 				<reference key="IBUIBackgroundColor" ref="217494548"/>
+				<reference key="IBUISimulatedStatusBarMetrics" ref="1020859856"/>
+				<reference key="IBUISimulatedDestinationMetrics" ref="690614464"/>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="350997264">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIView" id="952489587">
 						<reference key="NSNextResponder" ref="350997264"/>
-						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{34, 81}, {250, 95}}</string>
+						<int key="NSvFlags">319</int>
+						<string key="NSFrame">{{81, 176}, {600, 207}}</string>
 						<reference key="NSSuperview" ref="350997264"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
@@ -257,8 +290,8 @@ dC4</string>
 					</object>
 					<object class="IBUILabel" id="818240571">
 						<reference key="NSNextResponder" ref="350997264"/>
-						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{61, 102}, {196, 50}}</string>
+						<int key="NSvFlags">319</int>
+						<string key="NSFrame">{{146, 222}, {470, 109}}</string>
 						<reference key="NSSuperview" ref="350997264"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -287,12 +320,12 @@ dC4</string>
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
 						</object>
-						<double key="preferredMaxLayoutWidth">196</double>
+						<double key="preferredMaxLayoutWidth">470</double>
 					</object>
 					<object class="IBUIButton" id="826077773">
 						<reference key="NSNextResponder" ref="350997264"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{34, 221}, {250, 55}}</string>
+						<string key="NSFrame">{{251, 517}, {250, 55}}</string>
 						<reference key="NSSuperview" ref="350997264"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -310,12 +343,15 @@ dC4</string>
 						<reference key="IBUIFont" ref="474397617"/>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 460}</string>
+				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
+				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
 					<reference key="NSCustomColorSpace" ref="480663006"/>
 				</object>
+				<reference key="IBUISimulatedStatusBarMetrics" ref="1020859856"/>
+				<reference key="IBUISimulatedDestinationMetrics" ref="690614464"/>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 		</object>
@@ -445,8 +481,8 @@ dC4</string>
 						<reference key="object" ref="85376307"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="679712269"/>
 							<reference ref="475030795"/>
+							<reference ref="679712269"/>
 							<reference ref="705287090"/>
 						</object>
 						<reference key="parent" ref="0"/>
