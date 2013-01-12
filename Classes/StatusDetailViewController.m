@@ -85,7 +85,7 @@
 -(void)layout{
     commentLoading.hidden=YES;
 	[mainImageView setImageWithURL:status.mediumURL placeholderImage:[status cachedImageOfSize:StatusImageSizeThumb]];
-    
+    textLabel.frame=CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000);
     textLabel.text=status.caption;
 	
 	for(Attribute *thisAttribute in status.attributes){
