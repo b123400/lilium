@@ -174,12 +174,19 @@ static float pressShiftFactor=0.2;
     return YES;
 }
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
-    if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]){
+    if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]&&gestureRecognizer.view==self.view){
         NSLog(@"%@",NSStringFromCGPoint([gestureRecognizer locationInView:self.view]));
         if([gestureRecognizer locationInView:self.view].y>=self.view.frame.size.height-30){
             return true;
         }
         return false;
+    }
+    if([gestureRecognizer isKindOfClass:[UIPinchGestureRecognizer class]]&&gestureRecognizer.view==self.view){
+        if([[self topViewController] respondsToSelector:@selector(shouldPopByPinch)]){
+            if(![(id)[self topViewController]shouldPopByPinch]){
+                return false;
+            }
+        }
     }
     return true;
 }
@@ -427,15 +434,15 @@ static float pressShiftFactor=0.2;
 	}
     return topController;
 }
--(UIViewController*)popToViewController:(UIViewController *)viewController animated:(BOOL)animated{
-	if([[self viewControllers]count]<=1)return [self topViewController];
+-(NSArray*)popToViewController:(UIViewController *)viewController animated:(BOOL)animated{
+	if([[self viewControllers]count]<=1)return [NSArray arrayWithObject:[self topViewController]];
 	if(viewController){
 		nextController=viewController;
 	}else{
 		nextController=[[self viewControllers] objectAtIndex:[[self viewControllers] count]-2];
 	}
 	if(!animated){
-		[super popToViewController:nextController animated:animated];
+		return [super popToViewController:nextController animated:animated];
 	}
 	
 	isAnimating=YES;
@@ -473,7 +480,7 @@ static float pressShiftFactor=0.2;
 	}
 	maxDelay+=animationDuration;
 	[self performSelector:@selector(popOutToViewController:) withObject:nextController afterDelay:maxDelay];
-    return [self topViewController];
+    return @[[self topViewController]];
 }
 
 -(void)zoomOutHide:(UIView*)theView{

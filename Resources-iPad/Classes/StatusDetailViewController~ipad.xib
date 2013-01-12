@@ -86,7 +86,6 @@
 												<reference key="NSNextKeyView" ref="456411537"/>
 												<bool key="IBUIClipsSubviews">YES</bool>
 												<int key="IBUIContentMode">2</int>
-												<bool key="IBUIUserInteractionEnabled">NO</bool>
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 											</object>
 											<object class="IBUIActivityIndicatorView" id="456411537">
@@ -118,6 +117,7 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="277732939"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIAutoresizesSubviews">NO</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<bool key="IBUIAlwaysBounceVertical">YES</bool>

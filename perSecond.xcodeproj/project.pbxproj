@@ -173,6 +173,7 @@
 		CFD7850416A083050018976E /* WelcomePinchViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD7850316A083050018976E /* WelcomePinchViewController~ipad.xib */; };
 		CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
+		CFEBE5ED16A11D86000EAEF3 /* BRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEBE5EC16A11D86000EAEF3 /* BRImageViewController.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
 		CFF818F113C07E4000C37DD8 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF818F013C07E4000C37DD8 /* Checkmark@2x.png */; };
 		CFF818F313C07E5400C37DD8 /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF818F213C07E5400C37DD8 /* Checkmark.png */; };
@@ -516,6 +517,8 @@
 		CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelationshipRequest.m; sourceTree = "<group>"; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
 		CFE97F83151A2CF700187398 /* Attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attribute.m; sourceTree = "<group>"; };
+		CFEBE5EB16A11D86000EAEF3 /* BRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BRImageViewController.h; path = Classes/BRImageViewController.h; sourceTree = "<group>"; };
+		CFEBE5EC16A11D86000EAEF3 /* BRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BRImageViewController.m; path = Classes/BRImageViewController.m; sourceTree = "<group>"; };
 		CFF72992151B531700540795 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
 		CFF72993151B531700540795 /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
 		CFF72995151B542400540795 /* CommentRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentRequest.h; sourceTree = "<group>"; };
@@ -662,6 +665,7 @@
 				CF6E671613E9A0D8005E4674 /* SDWebImage */,
 				CF2D0ECE1413B3A800E173DC /* OHAttributedLabel */,
 				CFFCD98D1695894A006DC49B /* TestFlight */,
+				CFEBE5EE16A11D8C000EAEF3 /* BRImageViewController */,
 				28A0AAE50D9B0CCF005BE974 /* perSecond_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -1249,6 +1253,15 @@
 			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
+		CFEBE5EE16A11D8C000EAEF3 /* BRImageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CFEBE5EB16A11D86000EAEF3 /* BRImageViewController.h */,
+				CFEBE5EC16A11D86000EAEF3 /* BRImageViewController.m */,
+			);
+			name = BRImageViewController;
+			sourceTree = "<group>";
+		};
 		CFF818ED13C07E3700C37DD8 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -1683,6 +1696,7 @@
 				CFFCD9CF16963873006DC49B /* NSString+EscapePercentage.m in Sources */,
 				CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */,
 				CFD783D3169CB3970018976E /* StatusUserView.m in Sources */,
+				CFEBE5ED16A11D86000EAEF3 /* BRImageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

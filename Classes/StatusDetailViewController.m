@@ -13,6 +13,7 @@
 #import "UserViewController.h"
 #import "UIImage-Tint.h"
 #import "UIImageView+WebCache.h"
+#import "BRImageViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface StatusDetailViewController ()
@@ -21,6 +22,7 @@
 -(void)layout;
 -(void)didRefreshedImage;
 -(void)userViewTapped;
+-(void)imageTapped:(UITapGestureRecognizer*)gestureGecognizer;
 
 @end
 
@@ -85,6 +87,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(didRefreshedImage) name:SDWebCacheDidLoadedImageForImageViewNotification
                                               object:mainImageView];
+    [mainImageView addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapped:)] autorelease]];
     [self loadResources];
     [self layout];
 }
@@ -281,6 +284,14 @@
                 }];
             }
         }
+    }
+}
+-(void)imageTapped:(UITapGestureRecognizer*)gestureGecognizer{
+    if(gestureGecognizer.state==UIGestureRecognizerStateEnded){
+        BRImageViewController *imageController=[[BRImageViewController alloc] initWithImageURL:status.fullURL placeHolder:mainImageView.image];
+        imageController.initialFrame=[mainImageView.superview convertRect:mainImageView.frame toView:self.view];
+        [self.navigationController pushViewController:imageController animated:NO];
+        [imageController release];
     }
 }
 #pragma mark table view
