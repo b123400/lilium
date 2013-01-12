@@ -17,7 +17,9 @@
 
 @interface StatusDetailViewController ()
 
+-(void)loadResources;
 -(void)layout;
+-(void)didRefreshedImage;
 -(void)userViewTapped;
 
 @end
@@ -80,11 +82,28 @@
         commentComposeView.autoresizingMask=UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth;
         commentComposeView.textField.delegate=self;
     }
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(didRefreshedImage) name:SDWebCacheDidLoadedImageForImageViewNotification
+                                              object:mainImageView];
+    [self loadResources];
     [self layout];
+}
+-(void)loadResources{
+    [mainImageView setImageWithURL:status.mediumURL placeholderImage:[status cachedImageOfSize:StatusImageSizeThumb]];
+    [status getCommentsAndReturnTo:self withSelector:@selector(didReceiveComments:)];
 }
 -(void)layout{
     commentLoading.hidden=YES;
-	[mainImageView setImageWithURL:status.mediumURL placeholderImage:[status cachedImageOfSize:StatusImageSizeThumb]];
+	
+    if(mainImageView.image){
+        CGSize size=mainImageView.image.size;
+        float height=size.height*(mainImageView.frame.size.width/size.width);
+        height=MAX(height, mainImageView.frame.size.width);
+        CGRect frame=mainImageView.frame;
+        frame.size.height=height;
+        mainImageView.frame=frame;
+    }
+    
     textLabel.frame=CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000);
     textLabel.text=status.caption;
 	
@@ -124,7 +143,6 @@
     imageWrapperScrollView.contentInset=UIEdgeInsetsMake(0, 0, 54, 0);
     
     [self refreshLikeButton];
-    [status getCommentsAndReturnTo:self withSelector:@selector(didReceiveComments:)];
 }
 -(void)didReceiveComments:(NSArray*)comments{
 	[commentTableView reloadData];
@@ -135,6 +153,11 @@
     }else{
         [likeButton setImage:[[UIImage imageNamed:@"heart.png"] tintedImageUsingColor:[UIColor colorWithRed:101/255.0 green:156/255.0 blue:60/255.0 alpha:1.0]] forState:UIControlStateNormal];
     }
+}
+-(void)didRefreshedImage{
+    [UIView animateWithDuration:0.1 animations:^{
+        [self layout];
+    }];
 }
 #pragma mark user interaction
 - (IBAction)likeButtonClicked:(id)sender {
@@ -221,6 +244,7 @@
                     if(finished){
                         [status release];
                         status=[prevStatus retain];
+                        [self loadResources];
                         [self layout];
                     }
                     imageWrapperScrollView.layer.transform=CATransform3DMakeTranslation(0, -300, 0);
@@ -232,7 +256,8 @@
                     }];
                 }];
             }
-        }else if(scrollView.contentOffset.y>scrollView.contentSize.height-scrollView.frame.size.height+60){
+        }else if((scrollView.contentSize.height>=scrollView.frame.size.height&&scrollView.contentOffset.y>scrollView.contentSize.height-scrollView.frame.size.height+60)||
+                 (scrollView.contentSize.height<scrollView.frame.size.height&&scrollView.contentOffset.y>60)){
             //next
             Status *nextStatus=[delegate nextImageForStatusViewController:self currentStatus:status];
             if(nextStatus){
@@ -243,6 +268,7 @@
                     if(finished){
                         [status release];
                         status=[nextStatus retain];
+                        [self loadResources];
                         [self layout];
                     }
                     imageWrapperScrollView.layer.transform=CATransform3DMakeTranslation(0, 300, 0);
