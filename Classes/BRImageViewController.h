@@ -13,6 +13,7 @@
     NSURL *url;
     UIImage *placeHolderImage;
     CGRect initialFrame;
+    CGRect finalFrame;
     
     UIImageView *imageView;
     UIScrollView *scrollView;
@@ -22,6 +23,7 @@
 @property (nonatomic,retain)    UIImageView *imageView;
 @property (nonatomic,retain)    UIScrollView *scrollView;
 @property (nonatomic,assign)    CGRect initialFrame;
+@property (nonatomic,assign)    CGRect finalFrame;
 
 -(id)initWithImage:(UIImage*)image;
 -(id)initWithImageURL:(NSURL*)url;

@@ -18,7 +18,7 @@
 @end
 
 @implementation BRImageViewController
-@synthesize imageView,scrollView,initialFrame;
+@synthesize imageView,scrollView,initialFrame,finalFrame;
 
 -(id)initWithImage:(UIImage*)_image{
     image=[_image retain];
@@ -37,6 +37,7 @@
 }
 -(id)init{
     initialFrame=CGRectZero;
+    finalFrame=CGRectZero;
     lastPinchedScale=-1;
     return [super init];
 }
@@ -65,13 +66,20 @@
     self.scrollView.maximumZoomScale=3.0;
     self.scrollView.multipleTouchEnabled=YES;
     self.scrollView.userInteractionEnabled=YES;
+
     UIPinchGestureRecognizer *gestureRecognizer=[[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinched:)] autorelease];
     gestureRecognizer.delegate=self;
     [self.scrollView addGestureRecognizer:gestureRecognizer];
+    
+    UITapGestureRecognizer *doubleTap=[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleTapped:)]autorelease];
+    doubleTap.numberOfTapsRequired=2;
+    [self.scrollView addGestureRecognizer:doubleTap];
+    
     [self.view addSubview:self.scrollView];
     
     self.imageView=[[[UIImageView alloc]initWithFrame:self.scrollView.frame]autorelease];
     self.imageView.contentMode=UIViewContentModeScaleAspectFill;
+    self.imageView.userInteractionEnabled=NO;
     if(image){
         self.imageView.image=image;
     }else if(url&&placeHolderImage){
@@ -111,7 +119,8 @@
 }
 -(void)layout{
     if(self.imageView.image){
-        self.scrollView.maximumZoomScale=1.0;
+        self.scrollView.maximumZoomScale=2.0;
+        self.scrollView.minimumZoomScale=1.0;
         self.scrollView.zoomScale=1.0;
         
         float widthPercentage=self.scrollView.frame.size.width/self.imageView.image.size.width;
@@ -119,9 +128,13 @@
         float percentage=MIN(widthPercentage, heightPercentage);
         
         self.imageView.frame=CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
-        self.scrollView.minimumZoomScale=percentage;
         self.scrollView.contentSize=self.imageView.frame.size;
         [self refreshContentInset];
+        if(percentage>1.0){
+            //the image is smaller than screen size, scale it to match the screen
+            self.scrollView.maximumZoomScale=percentage*2;
+        }
+        self.scrollView.minimumZoomScale=percentage;
         self.scrollView.zoomScale=percentage;
     }
 }
@@ -152,7 +165,6 @@
     return YES;
 }
 -(void)pinched:(UIPinchGestureRecognizer*)gestureRecognizer{
-    NSLog(@"zoom %f min %f",self.scrollView.zoomScale,self.scrollView.minimumZoomScale);
     if(gestureRecognizer.state==UIGestureRecognizerStateBegan||gestureRecognizer.state==UIGestureRecognizerStateCancelled){
         lastPinchedScale=-1;
     }else if(gestureRecognizer.state==UIGestureRecognizerStateChanged) {
@@ -170,6 +182,9 @@
             scrollView.bouncesZoom=NO;
             [scrollView removeFromSuperview];
             [UIView animateWithDuration:0.1 animations:^{
+                if(!CGRectEqualToRect(finalFrame, CGRectZero)){
+                    initialFrame=finalFrame;
+                }
                 tempImageView.frame=initialFrame;
             } completion:^(BOOL finished) {
                 if(finished){
@@ -180,6 +195,16 @@
             }];
         }
         lastPinchedScale=-1;
+    }
+}
+-(void)doubleTapped:(UITapGestureRecognizer*)gestureGecognizer{
+    if(gestureGecognizer.state==UIGestureRecognizerStateEnded){
+        if(self.scrollView.zoomScale<(self.scrollView.minimumZoomScale+self.scrollView.maximumZoomScale)/2){
+            CGPoint point=[gestureGecognizer locationInView:self.scrollView];
+            [self.scrollView zoomToRect:CGRectMake(point.x, point.y, 1, 1) animated:YES];
+        }else{
+            [self.scrollView zoomToRect:CGRectMake(0, 0, self.scrollView.contentSize.width, self.scrollView.contentSize.height) animated:YES];
+        }
     }
 }
 - (void)didReceiveMemoryWarning

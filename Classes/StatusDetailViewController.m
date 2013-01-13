@@ -88,6 +88,7 @@
                                             selector:@selector(didRefreshedImage) name:SDWebCacheDidLoadedImageForImageViewNotification
                                               object:mainImageView];
     [mainImageView addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapped:)] autorelease]];
+    [mainImageView addGestureRecognizer:[[[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(imagePinched:)]autorelease]];
     [self loadResources];
     [self layout];
 }
@@ -286,12 +287,46 @@
         }
     }
 }
--(void)imageTapped:(UITapGestureRecognizer*)gestureGecognizer{
-    if(gestureGecognizer.state==UIGestureRecognizerStateEnded){
+-(void)imageTapped:(UITapGestureRecognizer*)gestureRecognizer{
+    if(gestureRecognizer.state==UIGestureRecognizerStateEnded){
         BRImageViewController *imageController=[[BRImageViewController alloc] initWithImageURL:status.fullURL placeHolder:mainImageView.image];
         imageController.initialFrame=[mainImageView.superview convertRect:mainImageView.frame toView:self.view];
         [self.navigationController pushViewController:imageController animated:NO];
         [imageController release];
+    }
+}
+-(void)imagePinched:(UIPinchGestureRecognizer*)gestureRecognizer{
+    if(gestureRecognizer.state==UIGestureRecognizerStateBegan){
+        CGPoint point=[gestureRecognizer locationInView:mainImageView];
+        NSLog(@"point %@",NSStringFromCGPoint(point));
+        CGPoint anchor=CGPointMake(point.x/mainImageView.frame.size.width, point.y/mainImageView.frame.size.height);
+        NSLog(@"%@", NSStringFromCGPoint(anchor));
+        mainImageView.layer.anchorPoint=anchor;
+        mainImageView.center=[gestureRecognizer locationInView:mainImageView.superview];
+    }else if(gestureRecognizer.state==UIGestureRecognizerStateChanged){
+        if(gestureRecognizer.scale>1.0){
+            mainImageView.layer.transform=CATransform3DMakeScale(gestureRecognizer.scale, gestureRecognizer.scale, 1.0);
+        }
+    }else if(gestureRecognizer.state==UIGestureRecognizerStateEnded||gestureRecognizer.state==UIGestureRecognizerStateCancelled){
+        if(gestureRecognizer.scale<1.0){
+            [UIView animateWithDuration:0.1 animations:^{
+                mainImageView.layer.transform=CATransform3DIdentity;
+            }];
+        }else{
+            BRImageViewController *imageController=[[BRImageViewController alloc] initWithImageURL:status.fullURL placeHolder:mainImageView.image];
+            imageController.initialFrame=[mainImageView.superview convertRect:mainImageView.frame toView:self.view];
+            [self.navigationController pushViewController:imageController animated:NO];
+            
+            CATransform3D transform=mainImageView.layer.transform;
+            mainImageView.layer.transform=CATransform3DIdentity;
+            imageController.finalFrame=[mainImageView.superview convertRect:mainImageView.frame toView:self.view];
+            [imageController release];
+            
+            mainImageView.layer.transform=transform;
+            [UIView animateWithDuration:0.1 animations:^{
+                mainImageView.layer.transform=CATransform3DIdentity;
+            }];
+        }
     }
 }
 #pragma mark table view
