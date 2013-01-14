@@ -172,6 +172,8 @@
 		CFD7850216A082640018976E /* UserViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD784BF169CF9A30018976E /* UserViewController~ipad.xib */; };
 		CFD7850416A083050018976E /* WelcomePinchViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD7850316A083050018976E /* WelcomePinchViewController~ipad.xib */; };
 		CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */; };
+		CFE7B9AA16A2A2BA00AD98CB /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE7B9A816A2A2BA00AD98CB /* SettingViewController.m */; };
+		CFE7B9AB16A2A2BA00AD98CB /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE7B9A916A2A2BA00AD98CB /* SettingViewController.xib */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
 		CFEBE5ED16A11D86000EAEF3 /* BRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEBE5EC16A11D86000EAEF3 /* BRImageViewController.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
@@ -515,6 +517,9 @@
 		CFD7850316A083050018976E /* WelcomePinchViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "WelcomePinchViewController~ipad.xib"; path = "Resources-iPad/Classes/WelcomePinchViewController~ipad.xib"; sourceTree = "<group>"; };
 		CFD9DD4B1699FCE50067D127 /* RelationshipRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelationshipRequest.h; sourceTree = "<group>"; };
 		CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelationshipRequest.m; sourceTree = "<group>"; };
+		CFE7B9A716A2A2BA00AD98CB /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		CFE7B9A816A2A2BA00AD98CB /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		CFE7B9A916A2A2BA00AD98CB /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
 		CFE97F83151A2CF700187398 /* Attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attribute.m; sourceTree = "<group>"; };
 		CFEBE5EB16A11D86000EAEF3 /* BRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BRImageViewController.h; path = Classes/BRImageViewController.h; sourceTree = "<group>"; };
@@ -619,6 +624,9 @@
 				CFCE0D1F1673E3E800C10953 /* UserViewController.h */,
 				CFCE0D201673E3E800C10953 /* UserViewController.m */,
 				CFCE0D211673E3E800C10953 /* UserViewController.xib */,
+				CFE7B9A716A2A2BA00AD98CB /* SettingViewController.h */,
+				CFE7B9A816A2A2BA00AD98CB /* SettingViewController.m */,
+				CFE7B9A916A2A2BA00AD98CB /* SettingViewController.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1566,6 +1574,7 @@
 				CFD7850116A082640018976E /* StatusDetailViewController~ipad.xib in Resources */,
 				CFD7850216A082640018976E /* UserViewController~ipad.xib in Resources */,
 				CFD7850416A083050018976E /* WelcomePinchViewController~ipad.xib in Resources */,
+				CFE7B9AB16A2A2BA00AD98CB /* SettingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1697,6 +1706,7 @@
 				CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */,
 				CFD783D3169CB3970018976E /* StatusUserView.m in Sources */,
 				CFEBE5ED16A11D86000EAEF3 /* BRImageViewController.m in Sources */,
+				CFE7B9AA16A2A2BA00AD98CB /* SettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
