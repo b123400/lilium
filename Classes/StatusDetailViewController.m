@@ -144,7 +144,7 @@
     
     [self.view insertSubview:commentComposeView aboveSubview:mainScrollView];
     commentTableView.contentInset=UIEdgeInsetsMake(0, 0, 44, 0);
-    imageWrapperScrollView.contentInset=UIEdgeInsetsMake(0, 0, 54, 0);
+    imageWrapperScrollView.contentInset=UIEdgeInsetsMake(0, 0, 44, 0);
     
     [self refreshLikeButton];
 }

@@ -13,6 +13,9 @@
 
 -(void)didRefreshedImage;
 -(void)refreshContentInset;
+-(void)dismiss;
+-(void)singleTapped:(UITapGestureRecognizer*)gestureRecognizer;
+-(void)doubleTapped:(UITapGestureRecognizer*)gestureRecognizer;
 -(void)pinched:(UIPinchGestureRecognizer*)gestureRecognizer;
 
 @end
@@ -74,6 +77,11 @@
     UITapGestureRecognizer *doubleTap=[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleTapped:)]autorelease];
     doubleTap.numberOfTapsRequired=2;
     [self.scrollView addGestureRecognizer:doubleTap];
+    
+    UITapGestureRecognizer *singleTap=[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapped:)]autorelease];
+    singleTap.numberOfTapsRequired=1;
+    [singleTap requireGestureRecognizerToFail:doubleTap];
+    [self.scrollView addGestureRecognizer:singleTap];
     
     [self.view addSubview:self.scrollView];
     
@@ -145,6 +153,30 @@
     if(y<0)y=0;
     self.scrollView.contentInset=UIEdgeInsetsMake(y, x, y, x);
 }
+-(void)dismiss{
+    CGRect frame=[self.scrollView convertRect:self.imageView.frame toView:self.view];
+    UIImageView *tempImageView=[[[UIImageView alloc]initWithFrame:frame]autorelease];
+    tempImageView.backgroundColor=[UIColor clearColor];
+    tempImageView.contentMode=UIViewContentModeScaleAspectFill;
+    tempImageView.image=self.imageView.image;
+    [self.view addSubview:tempImageView];
+    self.imageView.hidden=YES;
+    scrollView.scrollEnabled=NO;
+    scrollView.bouncesZoom=NO;
+    [scrollView removeFromSuperview];
+    [UIView animateWithDuration:0.1 animations:^{
+        if(!CGRectEqualToRect(finalFrame, CGRectZero)){
+            initialFrame=finalFrame;
+        }
+        tempImageView.frame=initialFrame;
+    } completion:^(BOOL finished) {
+        if(finished){
+            [tempImageView removeFromSuperview];
+            [self retain];
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+    }];
+}
 -(void)didRefreshedImage{
     [self layout];
 }
@@ -171,36 +203,22 @@
         lastPinchedScale=self.scrollView.zoomScale;
     }else if(gestureRecognizer.state==UIGestureRecognizerStateEnded){
         if(lastPinchedScale<self.scrollView.minimumZoomScale&&lastPinchedScale!=-1){
-            CGRect frame=[self.scrollView convertRect:self.imageView.frame toView:self.view];
-            UIImageView *tempImageView=[[[UIImageView alloc]initWithFrame:frame]autorelease];
-            tempImageView.backgroundColor=[UIColor clearColor];
-            tempImageView.contentMode=UIViewContentModeScaleAspectFill;
-            tempImageView.image=self.imageView.image;
-            [self.view addSubview:tempImageView];
-            self.imageView.hidden=YES;
-            scrollView.scrollEnabled=NO;
-            scrollView.bouncesZoom=NO;
-            [scrollView removeFromSuperview];
-            [UIView animateWithDuration:0.1 animations:^{
-                if(!CGRectEqualToRect(finalFrame, CGRectZero)){
-                    initialFrame=finalFrame;
-                }
-                tempImageView.frame=initialFrame;
-            } completion:^(BOOL finished) {
-                if(finished){
-                    [tempImageView removeFromSuperview];
-                    [self retain];
-                    [self.navigationController popViewControllerAnimated:NO];
-                }
-            }];
+            [self dismiss];
         }
         lastPinchedScale=-1;
     }
 }
--(void)doubleTapped:(UITapGestureRecognizer*)gestureGecognizer{
-    if(gestureGecognizer.state==UIGestureRecognizerStateEnded){
+-(void)singleTapped:(UITapGestureRecognizer*)gestureRecognizer{
+    if(gestureRecognizer.state==UIGestureRecognizerStateEnded){
+        if(self.scrollView.zoomScale==self.scrollView.minimumZoomScale){
+            [self dismiss];
+        }
+    }
+}
+-(void)doubleTapped:(UITapGestureRecognizer*)gestureRecognizer{
+    if(gestureRecognizer.state==UIGestureRecognizerStateEnded){
         if(self.scrollView.zoomScale<(self.scrollView.minimumZoomScale+self.scrollView.maximumZoomScale)/2){
-            CGPoint point=[gestureGecognizer locationInView:self.scrollView];
+            CGPoint point=[gestureRecognizer locationInView:self.scrollView];
             [self.scrollView zoomToRect:CGRectMake(point.x, point.y, 1, 1) animated:YES];
         }else{
             [self.scrollView zoomToRect:CGRectMake(0, 0, self.scrollView.contentSize.width, self.scrollView.contentSize.height) animated:YES];
