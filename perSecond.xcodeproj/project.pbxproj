@@ -15,6 +15,9 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		CF02E15A1693657E007913D9 /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02E1561693657E007913D9 /* heart.png */; };
 		CF02E15B1693657E007913D9 /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02E1571693657E007913D9 /* heart@2x.png */; };
+		CF1D482616A4FD2A00694224 /* MultipleChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1D482416A4FD2A00694224 /* MultipleChoiceViewController.m */; };
+		CF1D482716A4FD2A00694224 /* MultipleChoiceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1D482516A4FD2A00694224 /* MultipleChoiceViewController.xib */; };
+		CF1D482A16A4FDD200694224 /* Choice.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1D482916A4FDD200694224 /* Choice.m */; };
 		CF261DCE13D4AA6200D3F844 /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = CF261DCD13D4AA6200D3F844 /* Status.m */; };
 		CF261DD313D4B37400D3F844 /* loggedInCover.png in Resources */ = {isa = PBXBuildFile; fileRef = CF261DD113D4B37400D3F844 /* loggedInCover.png */; };
 		CF261DD413D4B37400D3F844 /* loggedInCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF261DD213D4B37400D3F844 /* loggedInCover@2x.png */; };
@@ -229,6 +232,11 @@
 		8D1107310486CEB800E47090 /* perSecond-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "perSecond-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		CF02E1561693657E007913D9 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
 		CF02E1571693657E007913D9 /* heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@2x.png"; sourceTree = "<group>"; };
+		CF1D482316A4FD2A00694224 /* MultipleChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceViewController.h; sourceTree = "<group>"; };
+		CF1D482416A4FD2A00694224 /* MultipleChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleChoiceViewController.m; sourceTree = "<group>"; };
+		CF1D482516A4FD2A00694224 /* MultipleChoiceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MultipleChoiceViewController.xib; sourceTree = "<group>"; };
+		CF1D482816A4FDD200694224 /* Choice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Choice.h; sourceTree = "<group>"; };
+		CF1D482916A4FDD200694224 /* Choice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Choice.m; sourceTree = "<group>"; };
 		CF261DCC13D4AA6200D3F844 /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		CF261DCD13D4AA6200D3F844 /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		CF261DD113D4B37400D3F844 /* loggedInCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loggedInCover.png; path = Images/loggedInCover.png; sourceTree = "<group>"; };
@@ -624,9 +632,7 @@
 				CFCE0D1F1673E3E800C10953 /* UserViewController.h */,
 				CFCE0D201673E3E800C10953 /* UserViewController.m */,
 				CFCE0D211673E3E800C10953 /* UserViewController.xib */,
-				CFE7B9A716A2A2BA00AD98CB /* SettingViewController.h */,
-				CFE7B9A816A2A2BA00AD98CB /* SettingViewController.m */,
-				CFE7B9A916A2A2BA00AD98CB /* SettingViewController.xib */,
+				CF1D481D16A4F87600694224 /* Settings */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -723,6 +729,21 @@
 				CF2D0E531412CC0D00E173DC /* CoreText.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CF1D481D16A4F87600694224 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CFE7B9A716A2A2BA00AD98CB /* SettingViewController.h */,
+				CFE7B9A816A2A2BA00AD98CB /* SettingViewController.m */,
+				CFE7B9A916A2A2BA00AD98CB /* SettingViewController.xib */,
+				CF1D482316A4FD2A00694224 /* MultipleChoiceViewController.h */,
+				CF1D482416A4FD2A00694224 /* MultipleChoiceViewController.m */,
+				CF1D482516A4FD2A00694224 /* MultipleChoiceViewController.xib */,
+				CF1D482816A4FDD200694224 /* Choice.h */,
+				CF1D482916A4FDD200694224 /* Choice.m */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		CF2D0ECE1413B3A800E173DC /* OHAttributedLabel */ = {
@@ -1575,6 +1596,7 @@
 				CFD7850216A082640018976E /* UserViewController~ipad.xib in Resources */,
 				CFD7850416A083050018976E /* WelcomePinchViewController~ipad.xib in Resources */,
 				CFE7B9AB16A2A2BA00AD98CB /* SettingViewController.xib in Resources */,
+				CF1D482716A4FD2A00694224 /* MultipleChoiceViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1707,6 +1729,8 @@
 				CFD783D3169CB3970018976E /* StatusUserView.m in Sources */,
 				CFEBE5ED16A11D86000EAEF3 /* BRImageViewController.m in Sources */,
 				CFE7B9AA16A2A2BA00AD98CB /* SettingViewController.m in Sources */,
+				CF1D482616A4FD2A00694224 /* MultipleChoiceViewController.m in Sources */,
+				CF1D482A16A4FDD200694224 /* Choice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

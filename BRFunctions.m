@@ -17,7 +17,7 @@
 +(void)requestFinished:(UserRequest*)request didReceivedTwitterUser:(User*)user;
 +(void)requestFinished:(UserRequest*)request didReceivedFacebookUser:(User*)user;
 +(void)requestFinished:(UserRequest*)request didReceivedInstagramUser:(User*)user;
-+(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSArray*)users;
++(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSMutableArray*)users;
 
 @end
 
@@ -32,7 +32,7 @@ static User *instagramUser=nil;
 static BRFunctions *sharedObject=nil;
 static BRFlickrEngine *sharedFlickr = nil;
 static BRTumblrEngine *sharedTumblr = nil;
-static NSArray *tumblrUsers=nil;
+static NSMutableArray *tumblrUsers=nil;
 
 #pragma mark -
 #pragma mark Twitter
@@ -230,7 +230,7 @@ static NSArray *tumblrUsers=nil;
 		sharedTumblr.accessToken=token;
 	}
 }
-+(NSArray*)tumblrUsers{
++(NSMutableArray*)tumblrUsers{
     return tumblrUsers;
 }
 +(BOOL)didLoggedInTumblr{
@@ -247,7 +247,7 @@ static NSArray *tumblrUsers=nil;
     }
     [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:tumblrSaveKey];
 }
-+(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSArray*)users{
++(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSMutableArray*)users{
     if(tumblrUsers){
         [tumblrUsers release];
         tumblrUsers=nil;

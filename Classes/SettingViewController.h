@@ -11,5 +11,8 @@
 @interface SettingViewController : UIViewController{
     
 }
+- (IBAction)tumblrReblogButtonPressed:(id)sender;
+- (IBAction)autoReloadPressed:(id)sender;
+- (IBAction)clearCachePressed:(id)sender;
 
 @end

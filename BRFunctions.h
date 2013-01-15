@@ -36,6 +36,8 @@
 #define tumblrAPISecret  @"rAHBEhunBoJO2rKuHQzvAaNKkGsFETOPx6hsoYTI3cgbmGKsXi"
 #define tumblrSaveKey @"TumblrAccessToken"
 
+#define refreshIntervalKey @"refreshIntervalKey"
+
 @interface BRFunctions : NSObject <FBSessionDelegate> {
 	
 }
@@ -65,7 +67,7 @@
 
 +(BRTumblrEngine*)sharedTumblr;
 +(void)saveTumblrToken:(OAToken*)token;
-+(NSArray*)tumblrUsers;
++(NSMutableArray*)tumblrUsers;
 +(BOOL)didLoggedInTumblr;
 +(void)logoutTumblr;
 
