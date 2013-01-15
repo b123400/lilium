@@ -482,11 +482,14 @@ static StatusFetcher* sharedFetcher=nil;
 	NSArray *photos=[[data objectForKey:@"photos"] objectForKey:@"photo"];
 	for(NSDictionary *photo in photos){
 		Status *thisStatus=[[[Status alloc]init]autorelease];
-		thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"m"];
-		//thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil]; <--retina
-		thisStatus.mediumURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil];
-		//thisStatus.meduimURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"b"]; <--retina
-		thisStatus.fullURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"o"];
+		if([UIScreen mainScreen].scale==2.0){
+            thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil];
+            thisStatus.mediumURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"b"];
+        }else{
+            thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"m"];
+            thisStatus.mediumURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil];
+		}
+        thisStatus.fullURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"o"];
 		thisStatus.webURL=[BRFlickrEngine webPageURLFromDictionary:photo];
 		thisStatus.caption=[photo objectForKey:@"title"];
         
@@ -600,10 +603,13 @@ static StatusFetcher* sharedFetcher=nil;
 	NSArray *photos=[data objectForKey:@"data"];
 	for(NSDictionary *photo in photos){
 		Status *thisStatus=[[[Status alloc]init]autorelease];
-		thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"thumbnail"] objectForKey:@"url"]];
-		//thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"low_resolution"] objectForKey:@"url"]]; <--retina
-		thisStatus.mediumURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"low_resolution"] objectForKey:@"url"]];
-		//thisStatus.meduimURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]; <--retina
+        if([UIScreen mainScreen].scale==1.0){
+            thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"thumbnail"] objectForKey:@"url"]];
+            thisStatus.mediumURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"low_resolution"] objectForKey:@"url"]];
+        }else{
+            thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"low_resolution"] objectForKey:@"url"]];
+            thisStatus.mediumURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]];
+        }
 		thisStatus.fullURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]];
 		if([photo objectForKey:@"link"]&&[photo objectForKey:@"link"]!=[NSNull null]){
 			thisStatus.webURL=[NSURL URLWithString:[photo objectForKey:@"link"]];
@@ -755,13 +761,13 @@ static StatusFetcher* sharedFetcher=nil;
 				}else if([[size objectForKey:@"width"]intValue]==400){
 					thisStatus.mediumURL=[NSURL URLWithString:[size objectForKey:@"url"]];
 				}
-				/*retina
-				if([[size objectForKey:@"width"] intValue]==400){
-					thisStatus.thumbURL=[NSURL URLWithString:[size objectForKey:@"url"]];
-				}else if([[size objectForKey:@"width"]intValue]==500){
-					thisStatus.meduimURL=[NSURL URLWithString:[size objectForKey:@"url"]];
-				}
-				 */
+				if([UIScreen mainScreen].scale==2.0){
+                    if([[size objectForKey:@"width"] intValue]==400){
+                        thisStatus.thumbURL=[NSURL URLWithString:[size objectForKey:@"url"]];
+                    }else if([[size objectForKey:@"width"]intValue]==500){
+                        thisStatus.mediumURL=[NSURL URLWithString:[size objectForKey:@"url"]];
+                    }
+                }
 			}
 			if(thisStatus.thumbURL&&thisStatus.mediumURL){
 				thisStatus.fullURL=[NSURL URLWithString:[[sizes objectAtIndex:0]objectForKey:@"url"]];
@@ -976,10 +982,13 @@ static StatusFetcher* sharedFetcher=nil;
                     thisStatus.caption=[[tweet objectForKey:@"text"] stringByReplacingOccurrencesOfString:[media objectForKey:@"url"] withString:@""];
                     thisStatus.user=[self twitterUserFromDict:[tweet objectForKey:@"user"]];
                     
-                    thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:thumb",[media objectForKey:@"media_url"]]];
-                    //thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:small",[media objectForKey:@"media_url"]]] <--retina
-                    thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:medium",[media objectForKey:@"media_url"]]];
-                    //thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:large",[media objectForKey:@"media_url"]]]
+                    if([UIScreen mainScreen].scale==1.0){
+                        thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:thumb",[media objectForKey:@"media_url"]]];
+                        thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:medium",[media objectForKey:@"media_url"]]];
+                    }else{
+                        thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:small",[media objectForKey:@"media_url"]]];
+                        thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:large",[media objectForKey:@"media_url"]]];
+                    }
                     thisStatus.fullURL=[NSURL URLWithString:[media objectForKey:@"media_url"]];
                     
                     [thisStatus setLiked:[[tweet objectForKey:@"favorited"]intValue]==1 sync:NO];
@@ -1055,10 +1064,13 @@ static StatusFetcher* sharedFetcher=nil;
 					
 					thisStatus.user=[self twitterUserFromDict:[tweet objectForKey:@"user"]];
 					
-					thisStatus.thumbURL=thumbURL;
-					//thisStatus.thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeMedium]; <--retina
-					thisStatus.mediumURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeMedium];
-					//thisStatus.meduimURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeLarge]; <--retina
+                    if([UIScreen mainScreen].scale==1.0){
+                        thisStatus.thumbURL=thumbURL;
+                        thisStatus.mediumURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeMedium];
+                    }else{
+                        thisStatus.thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeMedium];
+                        thisStatus.mediumURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeLarge];
+                    }
 					thisStatus.fullURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeFull];
 					
 					[thisStatus setLiked:[[tweet objectForKey:@"favorited"]intValue]==1 sync:NO];

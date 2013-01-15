@@ -26,7 +26,7 @@
 }
 */
 -(id)init{
-	statuses=[[[TimelineManager sharedManager] lastestStatuses:99] mutableCopy];
+	statuses=[[[TimelineManager sharedManager] latestStatuses:99] mutableCopy];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidFinishedPreloadThumbImage:) name:TimelineManagerDidPrefectchThumbNotification object:nil];
 	return [super initWithNibName:@"TimelineViewController" bundle:nil];
 }
@@ -47,7 +47,7 @@
 }
 -(void)timelineManagerDidFinishedPreloadThumbImage:(NSNotification*)notification{
     if(statuses)[statuses release];
-    statuses=[[[TimelineManager sharedManager] lastestStatuses:99] mutableCopy];
+    statuses=[[[TimelineManager sharedManager] latestStatuses:99] mutableCopy];
     [gridView reloadDataWithAnimation:YES];
 }
 -(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{

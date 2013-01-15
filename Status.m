@@ -10,21 +10,63 @@
 #import "StatusFetcher.h"
 #import "SDImageCache.h"
 #import "Comment.h"
+#import "Attribute.h"
 
 @implementation Status
 @synthesize thumbURL,mediumURL,fullURL,webURL,caption,user,statusID,liked,date,captionColor,attributes,comments;
 
--(NSDictionary*)dictionaryRepresentation{
++(Status*)statusWithDictionary:(NSDictionary*)dict{
+    Status *newStatus=[[[Status alloc] init]autorelease];
+    newStatus.user=[User userWithDictionary:[dict objectForKey:@"user"]];
+    
+    if([dict objectForKey:@"thumb"])newStatus.thumbURL=[NSURL URLWithString:[dict objectForKey:@"thumb"]];
+    if([dict objectForKey:@"medium"])newStatus.mediumURL=[NSURL URLWithString:[dict objectForKey:@"medium"]];
+    if([dict objectForKey:@"full"])newStatus.fullURL=[NSURL URLWithString:[dict objectForKey:@"full"]];
+    if([dict objectForKey:@"web"])newStatus.webURL=[NSURL URLWithString:[dict objectForKey:@"web"]];
+    if([dict objectForKey:@"caption"])newStatus.caption=[dict objectForKey:@"caption"];
+    if([dict objectForKey:@"statusID"])newStatus.statusID=[dict objectForKey:@"statusID"];
+    if([dict objectForKey:@"date"])newStatus.date=[dict objectForKey:@"date"];
+    if([dict objectForKey:@"comments"]){
+        NSMutableArray *_comments=[NSMutableArray array];
+        for(NSDictionary *thisDict in [dict objectForKey:@"comments"]){
+            [_comments addObject:[Comment commentFromDictionary:thisDict]];
+        }
+        newStatus.comments=_comments;
+    }
+    if([dict objectForKey:@"attributes"]){
+        NSMutableArray *_attributes=[NSMutableArray array];
+        for(NSDictionary *thisDict in [dict objectForKey:@"attributes"]){
+            [_attributes addObject:[Attribute attributeFromDictionary:thisDict]];
+        }
+        newStatus.attributes=_attributes;
+    }
+    if([dict objectForKey:@"liked"])[newStatus setLiked:[[dict objectForKey:@"liked"]boolValue] sync:NO];
+
+    return newStatus;
+}
+-(NSMutableDictionary*)dictionaryRepresentation{
 	NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-	//[dict setObject:[NSNumber numberWithInt:source] forKey:@"source"];
-	if(thumbURL)[dict setObject:thumbURL forKey:@"thumb"];
-	if(meduimURL)[dict setObject:meduimURL forKey:@"medium"];
-	if(fullURL)[dict setObject:fullURL forKey:@"full"];
-	if(webURL)[dict setObject:webURL forKey:@"web"];
+    [dict setObject:[user dictionaryRepresentation] forKey:@"user"];
+	if(thumbURL)[dict setObject:[thumbURL absoluteString] forKey:@"thumb"];
+	if(mediumURL)[dict setObject:[mediumURL absoluteString] forKey:@"medium"];
+	if(fullURL)[dict setObject:[fullURL absoluteString] forKey:@"full"];
+	if(webURL)[dict setObject:[webURL absoluteString] forKey:@"web"];
 	if(caption)[dict setObject:caption forKey:@"caption"];
-	//Attribute+Account+comments?
 	if(statusID)[dict setObject:statusID forKey:@"statusID"];
 	if(date)[dict setObject:date forKey:@"date"];
+
+    NSMutableArray *commentsArray=[NSMutableArray array];
+    for(Comment *thisComment in comments){
+        [commentsArray addObject:[thisComment dictionaryRepresentation]];
+    }
+    [dict setObject:commentsArray forKey:@"comments"];
+    
+    NSMutableArray *attributesArray=[NSMutableArray array];
+    for(Attribute *thisAttribute in attributesArray){
+        [attributesArray addObject:[thisAttribute dictionaryRepresentation]];
+    }
+    [dict setObject:attributesArray forKey:@"attributes"];
+    
 	[dict setObject:[NSNumber numberWithBool:liked] forKey:@"liked"];
 	return dict;
 }

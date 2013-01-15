@@ -23,6 +23,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [TestFlight takeOff:@"02c4122f796fe828e4bdabd359ef6ae9_NzU4NDIwMTItMTItMjkgMTM6MzM6NDkuMTc1MDYy"];
     [BRFunctions loadAccounts];
+    [[TimelineManager sharedManager]loadRecentStatuses];
     [[TimelineManager sharedManager] sync];
     // Override point for customization after application launch.
     
@@ -39,6 +40,7 @@
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+    [[TimelineManager sharedManager] saveRecentStatuses];
     /*
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
