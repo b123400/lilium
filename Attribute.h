@@ -15,4 +15,7 @@
 @property (retain,nonatomic)	NSURL *url;
 @property (assign,nonatomic) NSRange range;
 
++(Attribute*)attributeFromDictionary:(NSDictionary*)dict;
+-(NSDictionary*)dictionaryRepresentation;
+
 @end

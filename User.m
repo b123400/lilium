@@ -122,6 +122,10 @@
 }
 #pragma mark -
 +(User*)userWithDictionary:(NSDictionary*)dict{
+    NSString *dictClass=[dict objectForKey:@"class"];
+    if(dictClass&&![dictClass isEqualToString:NSStringFromClass([self class])]){
+        return [NSClassFromString(dictClass) userWithDictionary:dict];
+    }
     StatusSourceType type=[[dict objectForKey:@"type"] intValue];
     User *thisUser=[User userWithType:type userID:[dict objectForKey:@"userID"]];
     thisUser.displayName=[dict objectForKey:@"displayName"];
@@ -136,6 +140,7 @@
     if(self.username)[dict setObject:self.username forKey:@"username"];
     if(self.profilePicture)[dict setObject:self.profilePicture.absoluteString forKey:@"profilePicture"];
     [dict setObject:[NSNumber numberWithInt:self.type] forKey:@"type"];
+    [dict setObject:NSStringFromClass([self class]) forKey:@"class"];
     return dict;
 }
 
