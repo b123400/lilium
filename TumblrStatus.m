@@ -11,4 +11,10 @@
 @implementation TumblrStatus
 @synthesize reblogKey;
 
+-(NSMutableDictionary*)dictionaryRepresentation{
+    NSMutableDictionary *dict=[super dictionaryRepresentation];
+    [dict setObject:reblogKey forKey:@"reblogKey"];
+    return dict;
+}
+
 @end

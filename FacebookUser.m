@@ -31,13 +31,4 @@
     return [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture",self.userID]];
 }
 
-+(FacebookUser*)userWithDictionary:(NSDictionary*)dict{
-    User *thisUser=[super userWithDictionary:dict];
-    if([thisUser isKindOfClass:[FacebookUser class]])return (FacebookUser*)thisUser;
-    FacebookUser *newUser=[FacebookUser userWithUserID:thisUser.userID];
-    newUser.username=thisUser.username;
-    newUser.displayName=thisUser.displayName;
-    return newUser;
-}
-
 @end
