@@ -71,6 +71,7 @@
 +(BOOL)didLoggedInTumblr;
 +(void)logoutTumblr;
 
++(void)saveAccounts;
 +(void)loadAccounts;
 
 

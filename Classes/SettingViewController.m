@@ -11,8 +11,11 @@
 #import "BRCircleAlert.h"
 #import "MultipleChoiceViewController.h"
 #import "TumblrUser.h"
+#import "TimelineManager.h"
 
 @interface SettingViewController ()
+
+-(void)refreshAutoReloadIntervalButton;
 
 @end
 
@@ -35,6 +38,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self refreshAutoReloadIntervalButton];
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,9 +48,11 @@
 }
 
 - (void)dealloc {
+    [_autoReloadButton release];
     [super dealloc];
 }
 - (void)viewDidUnload {
+    [self setAutoReloadButton:nil];
     [super viewDidUnload];
 }
 
@@ -68,6 +74,7 @@
             [choices addObject:[Choice choiceWithText:thisUser.displayName detailText:thisUser.userID action:^{
                 [[BRFunctions tumblrUsers]removeObject:thisUser];
                 [[BRFunctions tumblrUsers]insertObject:thisUser atIndex:0];
+                [BRFunctions saveAccounts];
             }]];
         }
         MultipleChoiceViewController *controller=[MultipleChoiceViewController controllerWithChoices:choices];
@@ -82,19 +89,32 @@
     [choices addObject:[Choice choiceWithText:@"1 minute" action:^{
         [[NSUserDefaults standardUserDefaults] setObject:@1 forKey:refreshIntervalKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        [[TimelineManager sharedManager] resetTimer];
+        [self refreshAutoReloadIntervalButton];
     }]];
-    NSArray *intervals=@[@2,@3,@5,@20,@15];
+    NSArray *intervals=@[@2,@3,@5,@10,@15];
     for(NSNumber *interval in intervals){
         [choices addObject:[Choice choiceWithText:[NSString stringWithFormat:@"%@ minutes",interval] action:^{
             [[NSUserDefaults standardUserDefaults] setObject:interval forKey:refreshIntervalKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [[TimelineManager sharedManager] resetTimer];
+            [self refreshAutoReloadIntervalButton];
         }]];
     }
     MultipleChoiceViewController *controller=[MultipleChoiceViewController controllerWithChoices:choices];
     controller.title=@"Refresh rate";
     [self.navigationController pushViewController:controller animated:YES];
 }
-
+-(void)refreshAutoReloadIntervalButton{
+    int interval=2;
+    NSNumber *savedInterval=[[NSUserDefaults standardUserDefaults] objectForKey:refreshIntervalKey];
+    if(savedInterval)interval=[savedInterval intValue];
+    NSString *unit=@"minutes";
+    if(interval==1){
+        unit=@"minute";
+    }
+    [self.autoReloadButton setTitle:[NSString stringWithFormat:@"Auto Reload:\n%d %@",interval,unit] forState:UIControlStateNormal];
+}
 - (IBAction)clearCachePressed:(id)sender {
 }
 @end

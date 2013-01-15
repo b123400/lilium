@@ -118,6 +118,12 @@
 		CF8100BF13C4BFD100A68CB9 /* FlickrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8100BD13C4BFD100A68CB9 /* FlickrLoginViewController.m */; };
 		CF8100C013C4BFD100A68CB9 /* FlickrLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8100BE13C4BFD100A68CB9 /* FlickrLoginViewController.xib */; };
 		CF8100C313C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8100C213C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m */; };
+		CF88E07616A5D88E006415DF /* MultipleChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07116A5D88E006415DF /* MultipleChoiceViewController.m */; };
+		CF88E07716A5D88E006415DF /* MultipleChoiceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF88E07216A5D88E006415DF /* MultipleChoiceViewController.xib */; };
+		CF88E07816A5D88E006415DF /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07416A5D88E006415DF /* SettingViewController.m */; };
+		CF88E07916A5D88E006415DF /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF88E07516A5D88E006415DF /* SettingViewController.xib */; };
+		CF88E07D16A5D8C5006415DF /* BRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07C16A5D8C5006415DF /* BRImageViewController.m */; };
+		CF88E08016A5D90A006415DF /* Choice.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07F16A5D90A006415DF /* Choice.m */; };
 		CF8B6CF1151BAA91007798CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8B6CF0151BAA91007798CE /* User.m */; };
 		CF8B6CF4151BB76C007798CE /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8B6CF3151BB76C007798CE /* Comment.m */; };
 		CF8C6D9313C0AD4500C013B0 /* InstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6D9113C0AD4500C013B0 /* InstagramLoginViewController.m */; };
@@ -408,6 +414,16 @@
 		CF8100BE13C4BFD100A68CB9 /* FlickrLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlickrLoginViewController.xib; sourceTree = "<group>"; };
 		CF8100C113C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRFlickrOAuthTokenGetter.h; sourceTree = "<group>"; };
 		CF8100C213C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRFlickrOAuthTokenGetter.m; sourceTree = "<group>"; };
+		CF88E07016A5D88E006415DF /* MultipleChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceViewController.h; sourceTree = "<group>"; };
+		CF88E07116A5D88E006415DF /* MultipleChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleChoiceViewController.m; sourceTree = "<group>"; };
+		CF88E07216A5D88E006415DF /* MultipleChoiceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MultipleChoiceViewController.xib; sourceTree = "<group>"; };
+		CF88E07316A5D88E006415DF /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		CF88E07416A5D88E006415DF /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		CF88E07516A5D88E006415DF /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
+		CF88E07B16A5D8C5006415DF /* BRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BRImageViewController.h; path = Classes/BRImageViewController.h; sourceTree = "<group>"; };
+		CF88E07C16A5D8C5006415DF /* BRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BRImageViewController.m; path = Classes/BRImageViewController.m; sourceTree = "<group>"; };
+		CF88E07E16A5D90A006415DF /* Choice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Choice.h; sourceTree = "<group>"; };
+		CF88E07F16A5D90A006415DF /* Choice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Choice.m; sourceTree = "<group>"; };
 		CF8B6CEF151BAA91007798CE /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		CF8B6CF0151BAA91007798CE /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		CF8B6CF2151BB76C007798CE /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
@@ -591,6 +607,7 @@
 				CFCE0D1F1673E3E800C10953 /* UserViewController.h */,
 				CFCE0D201673E3E800C10953 /* UserViewController.m */,
 				CFCE0D211673E3E800C10953 /* UserViewController.xib */,
+				CF88E06F16A5D855006415DF /* Settings */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -619,6 +636,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CF88E07A16A5D8AD006415DF /* BRImageViewController */,
 				CFFCD98C16958791006DC49B /* OAConsumer */,
 				CF42E0051690D0EC009FB526 /* BRCircleAlertView */,
 				CFCDCBD313D8763900E268E8 /* ASIHTTPRequest */,
@@ -1043,6 +1061,30 @@
 				CFFCD9CE16963873006DC49B /* NSString+EscapePercentage.m */,
 			);
 			name = "Categories+Subclass";
+			sourceTree = "<group>";
+		};
+		CF88E06F16A5D855006415DF /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CF88E07E16A5D90A006415DF /* Choice.h */,
+				CF88E07F16A5D90A006415DF /* Choice.m */,
+				CF88E07016A5D88E006415DF /* MultipleChoiceViewController.h */,
+				CF88E07116A5D88E006415DF /* MultipleChoiceViewController.m */,
+				CF88E07216A5D88E006415DF /* MultipleChoiceViewController.xib */,
+				CF88E07316A5D88E006415DF /* SettingViewController.h */,
+				CF88E07416A5D88E006415DF /* SettingViewController.m */,
+				CF88E07516A5D88E006415DF /* SettingViewController.xib */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		CF88E07A16A5D8AD006415DF /* BRImageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CF88E07B16A5D8C5006415DF /* BRImageViewController.h */,
+				CF88E07C16A5D8C5006415DF /* BRImageViewController.m */,
+			);
+			name = BRImageViewController;
 			sourceTree = "<group>";
 		};
 		CFABC4FD13DA6F0E00B827DA /* BRTwitterEngine */ = {
@@ -1495,6 +1537,8 @@
 				CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */,
 				CF02E15A1693657E007913D9 /* heart.png in Resources */,
 				CF02E15B1693657E007913D9 /* heart@2x.png in Resources */,
+				CF88E07716A5D88E006415DF /* MultipleChoiceViewController.xib in Resources */,
+				CF88E07916A5D88E006415DF /* SettingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1625,6 +1669,10 @@
 				CFFCD9CF16963873006DC49B /* NSString+EscapePercentage.m in Sources */,
 				CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */,
 				CFD783D3169CB3970018976E /* StatusUserView.m in Sources */,
+				CF88E07616A5D88E006415DF /* MultipleChoiceViewController.m in Sources */,
+				CF88E07816A5D88E006415DF /* SettingViewController.m in Sources */,
+				CF88E07D16A5D8C5006415DF /* BRImageViewController.m in Sources */,
+				CF88E08016A5D90A006415DF /* Choice.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 //
 
 #import "MultipleChoiceViewController.h"
+#import "NichijyouNavigationController.h"
 
 @interface MultipleChoiceViewController ()
 
@@ -58,6 +59,21 @@
     [self setTableView:nil];
     [self setTitleLabel:nil];
     [super viewDidUnload];
+}
+-(BOOL)shouldWaitForViewToLoadBeforePush{
+	return	 YES;
+}
+-(void)tableViewDidReloadedData:(UITableView*)sender{
+    if(!pushed){
+        pushed=YES;
+        [(NichijyouNavigationController*)self.navigationController viewCanBePushed:self];
+    }
+}
+-(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
+    NSMutableArray *views=[NSMutableArray arrayWithArray:self.view.subviews];
+    [views addObjectsFromArray: self.tableView.visibleCells];
+    [views removeObject:self.tableView];
+    return views;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];

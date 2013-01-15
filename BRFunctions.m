@@ -12,8 +12,6 @@
 
 @interface BRFunctions ()
 
-+(void)saveAccounts;
-
 +(void)requestFinished:(UserRequest*)request didReceivedTwitterUser:(User*)user;
 +(void)requestFinished:(UserRequest*)request didReceivedFacebookUser:(User*)user;
 +(void)requestFinished:(UserRequest*)request didReceivedInstagramUser:(User*)user;
@@ -264,7 +262,7 @@ static NSMutableArray *tumblrUsers=nil;
     }
     if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]){
         if(facebookUser)[facebookUser release];
-        facebookUser=[[FacebookUser userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]] retain];
+        facebookUser=(FacebookUser*)[[FacebookUser userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]] retain];
     }
     if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeInstagram]]){
         if(instagramUser)[instagramUser release];

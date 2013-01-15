@@ -11,6 +11,8 @@
 
 @interface MultipleChoiceViewController : UIViewController{
     NSArray *choices;
+    
+    BOOL pushed;
 }
 @property (retain, nonatomic) IBOutlet UILabel *titleLabel;
 @property (retain, nonatomic) IBOutlet UITableView *tableView;

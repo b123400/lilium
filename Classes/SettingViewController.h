@@ -11,6 +11,8 @@
 @interface SettingViewController : UIViewController{
     
 }
+@property (retain, nonatomic) IBOutlet UIButton *autoReloadButton;
+
 - (IBAction)tumblrReblogButtonPressed:(id)sender;
 - (IBAction)autoReloadPressed:(id)sender;
 - (IBAction)clearCachePressed:(id)sender;
