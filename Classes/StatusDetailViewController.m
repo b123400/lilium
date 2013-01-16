@@ -298,9 +298,7 @@
 -(void)imagePinched:(UIPinchGestureRecognizer*)gestureRecognizer{
     if(gestureRecognizer.state==UIGestureRecognizerStateBegan){
         CGPoint point=[gestureRecognizer locationInView:mainImageView];
-        NSLog(@"point %@",NSStringFromCGPoint(point));
         CGPoint anchor=CGPointMake(point.x/mainImageView.frame.size.width, point.y/mainImageView.frame.size.height);
-        NSLog(@"%@", NSStringFromCGPoint(anchor));
         mainImageView.layer.anchorPoint=anchor;
         mainImageView.center=[gestureRecognizer locationInView:mainImageView.superview];
     }else if(gestureRecognizer.state==UIGestureRecognizerStateChanged){
