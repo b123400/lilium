@@ -51,6 +51,7 @@
 +(FacebookUser*)facebookUser;
 +(void)setFacebookCurrentUserID:(NSString*)userID;
 +(BOOL)isFacebookLoggedIn:(BOOL)authIfNotLoggedIn;
++(void)logoutFacebook;
 
 +(BRInstagramEngine*)sharedInstagram;
 +(void)saveInstagramToken:(NSString*)token;
@@ -70,7 +71,7 @@
 +(void)logoutTumblr;
 
 +(void)loadAccounts;
-
++(void)saveAccounts;
 
 +(BRFunctions*)sharedObject;
 
