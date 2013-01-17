@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 #import "BRGridView.h"
+#import "StatusDetailViewController.h"
 
-@interface UserViewController : UIViewController{
+@interface UserViewController : UIViewController <StatusDetailViewControllerDelegate>{
     BOOL pushed;
 
     User *user;

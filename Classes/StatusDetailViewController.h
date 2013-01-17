@@ -14,7 +14,7 @@
 #import "Attribute.h"
 
 @protocol StatusDetailViewControllerDelegate <NSObject>
-
+@optional
 -(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus;
 -(Status*)previousImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus;
 

@@ -47,6 +47,7 @@
 #pragma mark - delegates
 -(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
     int index=[statuses indexOfObject:currentStatus];
+    if(index==NSNotFound)return nil;
     index++;
     if(index<statuses.count){
         return [statuses objectAtIndex:index];
@@ -55,6 +56,7 @@
 }
 -(Status*)previousImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
     int index=[statuses indexOfObject:currentStatus];
+    if(index==NSNotFound)return nil;
     index--;
     if(index>=0){
         return [statuses objectAtIndex:index];

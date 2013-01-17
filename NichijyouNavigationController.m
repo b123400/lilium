@@ -175,7 +175,6 @@ static float pressShiftFactor=0.2;
 }
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]&&gestureRecognizer.view==self.view){
-        NSLog(@"%@",NSStringFromCGPoint([gestureRecognizer locationInView:self.view]));
         if([gestureRecognizer locationInView:self.view].y>=self.view.frame.size.height-30){
             return true;
         }

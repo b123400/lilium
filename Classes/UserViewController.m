@@ -11,7 +11,6 @@
 #import "SquareCell.h"
 #import "UIView+Interaction.h"
 #import "StatusFetcher.h"
-#import "StatusDetailViewController.h"
 #import "NichijyouNavigationController.h"
 
 @interface UserViewController ()
@@ -52,7 +51,6 @@
 -(void)dealloc{
     if(user)[user release];
     gridView.delegate=nil;
-    //[statuses release];
     [usernameLabel release];
     [actionView release];
     [followButton release];
@@ -177,8 +175,23 @@
 - (void)gridView:(id)gridView didSelectCell:(BRGridViewCell*)cell AtIndexPath:(NSIndexPath *)indexPath{
     Status *thisStatus=[user.statuses objectAtIndex:indexPath.row];
 	StatusDetailViewController *detailViewController=[[StatusDetailViewController alloc]initWithStatus:thisStatus];
+    detailViewController.delegate=self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 	[detailViewController release];
+}
+#pragma mark - detail view delegate
+-(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
+    NSArray *statuses=user.statuses;
+    if(currentStatus==[statuses lastObject])return nil;
+    int index=[statuses indexOfObject:currentStatus];
+    if(index==NSNotFound)return nil;
+    return [statuses objectAtIndex:index+1];
+}
+-(Status*)previousImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
+    NSArray *statuses=user.statuses;
+    int index=[statuses indexOfObject:currentStatus];
+    if(index==NSNotFound||index==0)return nil;
+    return [statuses objectAtIndex:index-1];
 }
 
 - (void)viewDidUnload {
