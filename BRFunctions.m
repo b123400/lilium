@@ -10,6 +10,7 @@
 #import "StatusFetcher.h"
 #import "TumblrUser.h"
 #import "TimelineManager.h"
+#import "UIApplication+Frame.h"
 
 @interface BRFunctions ()
 
@@ -386,5 +387,19 @@ static NSArray *tumblrUsers=nil;
 	}
 	return imageQueue;
 }
-
++(CGSize)gridViewCellMargin{
+    UIEdgeInsets contentIndent=[BRFunctions gridViewIndent];
+    float margin=([UIApplication currentFrame].size.height-contentIndent.top-contentIndent.bottom)/11;
+    return CGSizeMake(margin, margin);
+}
++(UIEdgeInsets)gridViewIndent{
+    return UIEdgeInsetsMake(10, 10, 10, 10);
+}
++(float)gridViewCellToMarginRatio{
+    return 3;
+}
++(CGSize)gridViewCellSize{
+    CGSize cellSize=[BRFunctions gridViewCellMargin];
+    return CGSizeMake(cellSize.width*[BRFunctions gridViewCellToMarginRatio],cellSize.height*[BRFunctions gridViewCellToMarginRatio]);
+}
 @end

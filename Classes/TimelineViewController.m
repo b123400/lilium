@@ -12,6 +12,7 @@
 #import "UIView+Interaction.h"
 #import "StatusDetailViewController.h"
 #import "UIApplication+Frame.h"
+#import "BRFunctions.h"
 
 @implementation TimelineViewController
 
@@ -34,12 +35,10 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	gridView.contentIndent=UIEdgeInsetsMake(10, 10, 10, 10);
-    float margin=([UIApplication currentFrame].size.height-gridView.contentIndent.top-gridView.contentIndent.bottom)/11;
-    float cellToMarginRatio=3;
-    gridView.cellMargin=CGSizeMake(margin, margin);
-	gridView.cellSize=CGSizeMake(margin*cellToMarginRatio, margin*cellToMarginRatio);
-	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+margin)/(margin+gridView.cellSize.height));
+	gridView.contentIndent=[BRFunctions gridViewIndent];
+    gridView.cellMargin=[BRFunctions gridViewCellMargin];
+	gridView.cellSize=[BRFunctions gridViewCellSize];
+	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+gridView.cellMargin.height)/(gridView.cellMargin.height+gridView.cellSize.height));
 	gridView.alwaysBounceVertical=YES;
 	gridView.alwaysBounceHorizontal=YES;
 	gridView.showsHorizontalScrollIndicator=NO;

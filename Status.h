@@ -13,6 +13,8 @@
 #define StatusDidPreloadedImageNotification @"StatusDidPreloadedImageNotification"
 #define StatusDidSentCommentNotification @"StatusDidSentCommentNotification"
 
+#define gridViewSideLength 
+
 typedef enum StatusImageSize {
     StatusImageSizeThumb       = 0,
     StatusImageSizeMedium   =1,
