@@ -10,7 +10,6 @@
 #import "TimelineManager.h"
 #import "SquareCell.h"
 #import "UIView+Interaction.h"
-#import "StatusDetailViewController.h"
 #import "UIApplication+Frame.h"
 #import "BRFunctions.h"
 
@@ -45,6 +44,25 @@
 	gridView.showsVerticalScrollIndicator=NO;
     [super viewDidLoad];
 }
+#pragma mark - delegates
+-(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
+    int index=[statuses indexOfObject:currentStatus];
+    if(index==NSNotFound)return nil;
+    index++;
+    if(index<statuses.count){
+        return [statuses objectAtIndex:index];
+    }
+    return nil;
+}
+-(Status*)previousImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
+    int index=[statuses indexOfObject:currentStatus];
+    if(index==NSNotFound)return nil;
+    index--;
+    if(index>=0){
+        return [statuses objectAtIndex:index];
+    }
+    return nil;
+}
 -(void)timelineManagerDidFinishedPreloadThumbImage:(NSNotification*)notification{
     if(statuses)[statuses release];
     statuses=[[[TimelineManager sharedManager] latestStatuses:99] mutableCopy];
@@ -74,6 +92,7 @@
 		pushed=YES;
 	}
 }
+#pragma mark - grid view
 - (BRGridViewCell *)gridView:(BRGridView*)_gridView cellAtIndexPath:(NSIndexPath *)indexPath{
 	SquareCell *cell=(SquareCell*)[gridView dequeueReusableCellWithIdentifier:@"cell"];
 	if(!cell){
@@ -94,6 +113,7 @@
 - (void)gridView:(id)gridView didSelectCell:(BRGridViewCell*)cell AtIndexPath:(NSIndexPath *)indexPath{
 	Status *thisStatus=[statuses objectAtIndex:indexPath.row];
 	StatusDetailViewController *detailViewController=[[StatusDetailViewController alloc]initWithStatus:thisStatus];
+    detailViewController.delegate=self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 	[detailViewController release];
 }
@@ -106,7 +126,7 @@
 */
 
 
-
+#pragma mark -
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];

@@ -5,12 +5,12 @@
 //  Created by b123400 on 9/12/12.
 //
 //
+#import <QuartzCore/QuartzCore.h>
 #import "UIApplication+Frame.h"
 #import "UserViewController.h"
 #import "SquareCell.h"
 #import "UIView+Interaction.h"
 #import "StatusFetcher.h"
-#import "StatusDetailViewController.h"
 #import "NichijyouNavigationController.h"
 
 @interface UserViewController ()
@@ -51,7 +51,6 @@
 -(void)dealloc{
     if(user)[user release];
     gridView.delegate=nil;
-    //[statuses release];
     [usernameLabel release];
     [actionView release];
     [followButton release];
@@ -83,7 +82,8 @@
 }
 -(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
     NSMutableArray *views=[[[NSMutableArray alloc] initWithArray:[gridView subviews]] autorelease];
-    [views addObject:actionView];
+    [views addObjectsFromArray:actionView.subviews];
+    [views removeObject:actionView];
 	return views;
 }
 -(BOOL)shouldWaitForViewToLoadBeforePush{
@@ -91,6 +91,7 @@
 }
 #pragma mark action view
 -(void)layoutActionView{
+    actionView.layer.transform=CATransform3DIdentity;
     usernameLabel.text=[NSString stringWithFormat:@"%@@%@",user.username,[Status sourceName:user.type]];
     [usernameLabel sizeToFit];
     CGRect frame=usernameLabel.frame;
@@ -115,7 +116,14 @@
     if(!followButton.hidden){
         frame.size.width=followButton.frame.size.width+followButton.frame.origin.x;
     }
+    frame.origin.y=gridView.frame.size.height-gridView.contentIndent.bottom;
+    frame.origin.x=10;
     actionView.frame=frame;
+    
+    actionView.center=CGPointMake(10, frame.origin.y);
+    CGPoint anchor=CGPointMake(0, 0);
+    actionView.layer.anchorPoint=anchor;
+    actionView.layer.transform=CATransform3DMakeRotation(-M_PI_2, 0, 0, 1);
 }
 - (IBAction)followButtonPressed:(id)sender {
     if(user.relationship==UserRelationshipFollowing){
@@ -168,8 +176,23 @@
 - (void)gridView:(id)gridView didSelectCell:(BRGridViewCell*)cell AtIndexPath:(NSIndexPath *)indexPath{
     Status *thisStatus=[user.statuses objectAtIndex:indexPath.row];
 	StatusDetailViewController *detailViewController=[[StatusDetailViewController alloc]initWithStatus:thisStatus];
+    detailViewController.delegate=self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 	[detailViewController release];
+}
+#pragma mark - detail view delegate
+-(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
+    NSArray *statuses=user.statuses;
+    if(currentStatus==[statuses lastObject])return nil;
+    int index=[statuses indexOfObject:currentStatus];
+    if(index==NSNotFound)return nil;
+    return [statuses objectAtIndex:index+1];
+}
+-(Status*)previousImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
+    NSArray *statuses=user.statuses;
+    int index=[statuses indexOfObject:currentStatus];
+    if(index==NSNotFound||index==0)return nil;
+    return [statuses objectAtIndex:index-1];
 }
 
 - (void)viewDidUnload {
