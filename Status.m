@@ -11,6 +11,9 @@
 #import "SDImageCache.h"
 #import "Comment.h"
 #import "Attribute.h"
+#import "UIColor-Expanded.h"
+#import "UIImage+averageColor.h"
+#include <dispatch/dispatch.h>
 
 @implementation Status
 @synthesize thumbURL,mediumURL,fullURL,webURL,caption,user,statusID,liked,date,captionColor,attributes,comments;
@@ -26,6 +29,7 @@
     if([dict objectForKey:@"caption"])newStatus.caption=[dict objectForKey:@"caption"];
     if([dict objectForKey:@"statusID"])newStatus.statusID=[dict objectForKey:@"statusID"];
     if([dict objectForKey:@"date"])newStatus.date=[dict objectForKey:@"date"];
+    if([dict objectForKey:@"captionColor"])newStatus.captionColor=[UIColor colorWithString:[dict objectForKey:@"captionColor"]];
     if([dict objectForKey:@"comments"]){
         NSMutableArray *_comments=[NSMutableArray array];
         for(NSDictionary *thisDict in [dict objectForKey:@"comments"]){
@@ -54,6 +58,7 @@
 	if(caption)[dict setObject:caption forKey:@"caption"];
 	if(statusID)[dict setObject:statusID forKey:@"statusID"];
 	if(date)[dict setObject:date forKey:@"date"];
+    if(captionColor)[dict setObject:[captionColor stringFromColor] forKey:@"captionColor"];
 
     NSMutableArray *commentsArray=[NSMutableArray array];
     for(Comment *thisComment in comments){
@@ -72,7 +77,7 @@
 }
 #pragma mark - image
 -(void)prefetechThumb{
-	if(thumbURL){
+	if(thumbURL&&!self.isImagePreloaded){
 		[[SDWebImageManager sharedManager] downloadWithURL:thumbURL delegate:self retryFailed:NO lowPriority:YES];
 	}
 }
@@ -87,7 +92,44 @@
     return nil;
 }
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image{
-    [[NSNotificationCenter defaultCenter]postNotificationName:StatusDidPreloadedImageNotification object:self userInfo:nil];
+    if(!self.captionColor){
+        dispatch_queue_t gQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(gQueue, ^{
+            CGSize cellSize=[BRFunctions gridViewCellSize];
+            float heightScale=cellSize.height/image.size.height;
+            float widthScale=cellSize.width/image.size.width;
+            
+            float x=0;
+            float y=0;
+            float width=100;
+            float height=100;
+            if(heightScale>widthScale){
+                float scaledWidth=heightScale*image.size.width;
+                x=(scaledWidth-cellSize.width)/2.0/heightScale;
+                y=image.size.height*(1-30/cellSize.height);
+                height=30/heightScale;
+                width=cellSize.width/heightScale;
+            }else{
+                float scaledHeight=widthScale*image.size.height;
+                x=0;
+                y=(scaledHeight-cellSize.height)/2.0/widthScale+image.size.height*(1-30/cellSize.height);
+                width=cellSize.width/widthScale;
+                height=30/widthScale;
+            }
+            CGImageRef imageRef=CGImageCreateWithImageInRect([image CGImage], CGRectMake(x, y, width, height));
+            
+            UIImage *viewImage = [UIImage imageWithCGImage:imageRef];
+            CGImageRelease(imageRef);
+            
+            UIColor *averageColor=[viewImage getDominantColor];
+            self.captionColor=averageColor;
+            
+            //imageView.image=viewImage;
+            
+            UIGraphicsEndImageContext();
+        });
+       [[NSNotificationCenter defaultCenter]postNotificationName:StatusDidPreloadedImageNotification object:self userInfo:nil];
+    }
 }
 -(BOOL)isImagePreloaded{
     if([[SDImageCache sharedImageCache] imageFromKey:thumbURL.absoluteString fromDisk:NO]){

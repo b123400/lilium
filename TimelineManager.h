@@ -13,6 +13,7 @@
 #define TimelineManagerDidRefreshNotification @"TimelineManagerDidRefresh"
 #define TimelineManagerDidLoadedOlderStatusNotification @"TimelineManagerDidLoadedOlderStatusNotification"
 #define TimelineManagerDidPrefectchThumbNotification @"TimelineManagerDidPrefectchThumbNotification"
+#define TimelineManagerDidDeletedStatusesNotification @"TimelineManagerDidDeletedStatusesNotification"
 
 @interface TimelineManager : NSObject {
 	NSTimer *timer;
@@ -30,6 +31,8 @@
 
 -(NSArray*)latestStatuses:(int)count;
 -(NSArray*)statusesAfter:(Status*)aStatus count:(int)count;
+
+-(void)removeAllStatusWithSource:(StatusSourceType)source;
 
 -(void)saveRecentStatuses;
 -(void)loadRecentStatuses;

@@ -61,12 +61,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    gridView.contentIndent=UIEdgeInsetsMake(10, 60, 10, 10);
-    float margin=(gridView.frame.size.height-gridView.contentIndent.top-gridView.contentIndent.bottom)/11;
-    float cellToMarginRatio=3;
-    gridView.cellMargin=CGSizeMake(margin, margin);
-	gridView.cellSize=CGSizeMake(margin*cellToMarginRatio, margin*cellToMarginRatio);
-	gridView.numOfRow=floor((gridView.frame.size.height-(gridView.contentIndent.top+gridView.contentIndent.bottom)+margin)/(margin+gridView.cellSize.height));
+	gridView.contentIndent=[BRFunctions gridViewIndent];
+    gridView.cellMargin=[BRFunctions gridViewCellMargin];
+	gridView.cellSize=[BRFunctions gridViewCellSize];
+	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+gridView.cellMargin.height)/(gridView.cellMargin.height+gridView.cellSize.height));
 	gridView.alwaysBounceVertical=YES;
 	gridView.alwaysBounceHorizontal=YES;
 	gridView.showsHorizontalScrollIndicator=NO;
@@ -139,6 +137,9 @@
 -(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
     if(error){
         NSLog(@"%@",[error description]);
+    }
+    for(Status *thisStatus in _statuses){
+        [thisStatus prefetechThumb];
     }
     if([gridView numberOfCellInSection:0]!=user.statuses.count){
         [gridView reloadDataWithAnimation:YES];

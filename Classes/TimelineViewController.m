@@ -11,6 +11,7 @@
 #import "SquareCell.h"
 #import "UIView+Interaction.h"
 #import "UIApplication+Frame.h"
+#import "BRFunctions.h"
 #import "SVProgressHUD.h"
 
 @implementation TimelineViewController
@@ -30,17 +31,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidFinishedPreloadThumbImage:) name:TimelineManagerDidPrefectchThumbNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidLoadedNewerStatuses:) name:TimelineManagerDidRefreshNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidLoadedOlderStatuses:) name:TimelineManagerDidLoadedOlderStatusNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidRemovedStatuses:) name:TimelineManagerDidDeletedStatusesNotification object:nil];
 	return [super initWithNibName:@"TimelineViewController" bundle:nil];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	gridView.contentIndent=UIEdgeInsetsMake(10, 10, 10, 100);
-    float margin=([UIApplication currentFrame].size.height-gridView.contentIndent.top-gridView.contentIndent.bottom)/11;
-    float cellToMarginRatio=3;
-    gridView.cellMargin=CGSizeMake(margin, margin);
-	gridView.cellSize=CGSizeMake(margin*cellToMarginRatio, margin*cellToMarginRatio);
-	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+margin)/(margin+gridView.cellSize.height));
+	gridView.contentIndent=[BRFunctions gridViewIndent];
+    gridView.cellMargin=[BRFunctions gridViewCellMargin];
+	gridView.cellSize=[BRFunctions gridViewCellSize];
+	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+gridView.cellMargin.height)/(gridView.cellMargin.height+gridView.cellSize.height));
 	gridView.alwaysBounceVertical=YES;
 	gridView.alwaysBounceHorizontal=YES;
 	gridView.showsHorizontalScrollIndicator=NO;
@@ -72,6 +72,15 @@
     if(!_statuses.count)return;
     [statuses insertObjects:notification.object atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
     [gridView reloadDataWithAnimation:YES];
+}
+-(void)timelineManagerDidRemovedStatuses:(NSNotification*)notification{
+    NSArray *removedStatuses=notification.object;
+    [statuses filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        Status *thisStatus=evaluatedObject;
+        if([removedStatuses indexOfObject:thisStatus]==NSNotFound)return YES;
+        return NO;
+    }]];
+    [gridView reloadData];
 }
 -(void)timelineManagerDidFinishedPreloadThumbImage:(NSNotification*)notification{
 //    if(statuses)[statuses release];

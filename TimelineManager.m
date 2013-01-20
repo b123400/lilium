@@ -78,6 +78,19 @@ static TimelineManager *sharedManager=nil;
 	}
 	return [statuses objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexOfStatus+1, count)]];
 }
+
+-(void)removeAllStatusWithSource:(StatusSourceType)source{
+    NSArray *statusesToRemove=[statuses filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        Status *thisStatus=evaluatedObject;
+        if(thisStatus.user.type==source){
+            return YES;
+        }
+        return NO;
+    }]];
+    [statuses removeObjectsInArray:statusesToRemove];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidDeletedStatusesNotification object:statusesToRemove];
+}
+
 -(void)saveRecentStatuses{
     NSArray *recentStatuses=[self latestStatuses:30];
     NSMutableArray *statusDicts=[NSMutableArray array];

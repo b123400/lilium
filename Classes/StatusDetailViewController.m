@@ -134,7 +134,7 @@
     [userView addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userViewTapped)] autorelease]];
     
     imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, userView.frame.size.height+userView.frame.origin.y);
-	mainScrollView.contentSize=CGSizeMake(commentTableView.frame.origin.x+commentTableView.frame.size.width, commentTableView.frame.origin.y+commentTableView.frame.size.height);
+	mainScrollView.contentSize=CGSizeMake(commentTableView.frame.origin.x+commentTableView.frame.size.width, 1);
     
     
     commentComposeView.frame=CGRectMake(10, mainScrollView.frame.size.height-commentComposeView.frame.size.height, mainScrollView.frame.size.width-20, commentComposeView.frame.size.height);
