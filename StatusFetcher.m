@@ -482,7 +482,10 @@ static StatusFetcher* sharedFetcher=nil;
 	NSArray *photos=[[data objectForKey:@"photos"] objectForKey:@"photo"];
 	for(NSDictionary *photo in photos){
 		Status *thisStatus=[[[Status alloc]init]autorelease];
-		if([UIScreen mainScreen].scale==2.0){
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+            thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil];
+            thisStatus.mediumURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"o"];
+        }else if([UIScreen mainScreen].scale==2.0){
             thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil];
             thisStatus.mediumURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"b"];
         }else{
@@ -603,7 +606,10 @@ static StatusFetcher* sharedFetcher=nil;
 	NSArray *photos=[data objectForKey:@"data"];
 	for(NSDictionary *photo in photos){
 		Status *thisStatus=[[[Status alloc]init]autorelease];
-        if([UIScreen mainScreen].scale==1.0){
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+            thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]];
+            thisStatus.mediumURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]];
+        }else if([UIScreen mainScreen].scale==1.0){
             thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"thumbnail"] objectForKey:@"url"]];
             thisStatus.mediumURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"low_resolution"] objectForKey:@"url"]];
         }else{
@@ -771,6 +777,9 @@ static StatusFetcher* sharedFetcher=nil;
 			}
 			if(thisStatus.thumbURL&&thisStatus.mediumURL){
 				thisStatus.fullURL=[NSURL URLWithString:[[sizes objectAtIndex:0]objectForKey:@"url"]];
+                if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                    thisStatus.thumbURL=thisStatus.mediumURL=thisStatus.fullURL;
+                }
 				thisStatus.webURL=[NSURL URLWithString:[post objectForKey:@"post_url"]];
 				if([post objectForKey:@"caption"]&&[post objectForKey:@"caption"]!=[NSNull null]&&![[post objectForKey:@"caption"] isEqualToString:@""]){
 					
@@ -982,7 +991,10 @@ static StatusFetcher* sharedFetcher=nil;
                     thisStatus.caption=[[tweet objectForKey:@"text"] stringByReplacingOccurrencesOfString:[media objectForKey:@"url"] withString:@""];
                     thisStatus.user=[self twitterUserFromDict:[tweet objectForKey:@"user"]];
                     
-                    if([UIScreen mainScreen].scale==1.0){
+                    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                        thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:large",[media objectForKey:@"media_url"]]];
+                        thisStatus.mediumURL=[NSURL URLWithString:[media objectForKey:@"media_url"]];
+                    }else if([UIScreen mainScreen].scale==1.0){
                         thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:thumb",[media objectForKey:@"media_url"]]];
                         thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:medium",[media objectForKey:@"media_url"]]];
                     }else{
@@ -1063,8 +1075,10 @@ static StatusFetcher* sharedFetcher=nil;
 					thisStatus.caption=[[tweet objectForKey:@"text"] stringByReplacingOccurrencesOfString:thisUrl withString:@""];
 					
 					thisStatus.user=[self twitterUserFromDict:[tweet objectForKey:@"user"]];
-					
-                    if([UIScreen mainScreen].scale==1.0){
+					if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                        thisStatus.thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeLarge];
+                        thisStatus.mediumURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeFull];
+                    }else if([UIScreen mainScreen].scale==1.0){
                         thisStatus.thumbURL=thumbURL;
                         thisStatus.mediumURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeMedium];
                     }else{
@@ -1191,6 +1205,14 @@ static StatusFetcher* sharedFetcher=nil;
 				newStatus.mediumURL=[NSURL URLWithString:mediumString];
 				newStatus.fullURL=[NSURL URLWithString:fullString];
 			}
+            if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                newStatus.thumbURL=[NSURL URLWithString:mediumString];
+				newStatus.mediumURL=[NSURL URLWithString:fullString];
+				newStatus.fullURL=[NSURL URLWithString:fullString];
+            }else if([[UIScreen mainScreen]scale]==2.0){
+                newStatus.thumbURL=[NSURL URLWithString:mediumString];
+				newStatus.mediumURL=[NSURL URLWithString:mediumString];
+            }
 			newStatus.webURL=[NSURL URLWithString:[dict	objectForKey:@"link"]];
 			
 			if([dict objectForKey:@"message"])newStatus.caption=[dict objectForKey:@"message"];
