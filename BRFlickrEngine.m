@@ -110,7 +110,7 @@
 -(NSString*)getContactsPhotos{
 	return [self performRequestWithMethod:@"flickr.photos.getContactsPhotos" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
 																						 @"1",@"include_self",
-																						 @"count",@"30",nil]];
+																						 @"count",@"50",nil]];
 }
 -(NSString*)getPhotosOfUser:(NSString*)userID minDate:(NSDate*)minDate maxDate:(NSDate*)maxDate page:(int)page{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];

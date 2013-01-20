@@ -26,7 +26,7 @@
 }
 */
 -(id)init{
-	statuses=[[[TimelineManager sharedManager] latestStatuses:99] mutableCopy];
+	statuses=[[[TimelineManager sharedManager] latestStatuses:30] mutableCopy];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidFinishedPreloadThumbImage:) name:TimelineManagerDidPrefectchThumbNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidLoadedNewerStatuses:) name:TimelineManagerDidRefreshNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidLoadedOlderStatuses:) name:TimelineManagerDidLoadedOlderStatusNotification object:nil];
