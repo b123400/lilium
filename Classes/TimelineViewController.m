@@ -37,7 +37,7 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	gridView.contentIndent=[BRFunctions gridViewIndent];
+	gridView.contentIndent=UIEdgeInsetsMake(10, 10, 10, 80);
     gridView.cellMargin=[BRFunctions gridViewCellMargin];
 	gridView.cellSize=[BRFunctions gridViewCellSize];
 	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+gridView.cellMargin.height)/(gridView.cellMargin.height+gridView.cellSize.height));

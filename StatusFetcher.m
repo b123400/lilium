@@ -187,7 +187,7 @@ static StatusFetcher* sharedFetcher=nil;
                     error=[NSError errorWithDomain:@"net.b123400.lilium" code:10 userInfo:[NSDictionary dictionaryWithObject:errorMessage forKey:NSLocalizedDescriptionKey]];
                 }
 				//Three arugments: request, statuses, error
-                NSMethodSignature * mySignature = [TimelineManager
+                NSMethodSignature * mySignature = [[request.delegate class]
                                                    instanceMethodSignatureForSelector:request.selector];
                 NSInvocation * myInvocation = [NSInvocation
                                                invocationWithMethodSignature:mySignature];

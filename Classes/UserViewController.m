@@ -61,7 +61,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-	gridView.contentIndent=[BRFunctions gridViewIndent];
+	gridView.contentIndent=UIEdgeInsetsMake(10, 80, 10, 10);
     gridView.cellMargin=[BRFunctions gridViewCellMargin];
 	gridView.cellSize=[BRFunctions gridViewCellSize];
 	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+gridView.cellMargin.height)/(gridView.cellMargin.height+gridView.cellSize.height));
