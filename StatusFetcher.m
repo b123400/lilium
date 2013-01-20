@@ -160,6 +160,7 @@ static StatusFetcher* sharedFetcher=nil;
             }
         }
     }
+    [self refreshTempStatusForRequest:request];
 }
 -(void)refreshTempStatusForRequest:(StatusesRequest*)request{
 	if(request.twitterStatus!=StatusFetchingStatusLoading&&

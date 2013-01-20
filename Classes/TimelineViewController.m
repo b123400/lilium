@@ -11,6 +11,7 @@
 #import "SquareCell.h"
 #import "UIView+Interaction.h"
 #import "UIApplication+Frame.h"
+#import "SVProgressHUD.h"
 
 @implementation TimelineViewController
 
@@ -27,12 +28,14 @@
 -(id)init{
 	statuses=[[[TimelineManager sharedManager] latestStatuses:99] mutableCopy];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidFinishedPreloadThumbImage:) name:TimelineManagerDidPrefectchThumbNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidLoadedNewerStatuses:) name:TimelineManagerDidRefreshNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidLoadedOlderStatuses:) name:TimelineManagerDidLoadedOlderStatusNotification object:nil];
 	return [super initWithNibName:@"TimelineViewController" bundle:nil];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	gridView.contentIndent=UIEdgeInsetsMake(10, 10, 10, 10);
+	gridView.contentIndent=UIEdgeInsetsMake(10, 10, 10, 100);
     float margin=([UIApplication currentFrame].size.height-gridView.contentIndent.top-gridView.contentIndent.bottom)/11;
     float cellToMarginRatio=3;
     gridView.cellMargin=CGSizeMake(margin, margin);
@@ -63,10 +66,24 @@
     }
     return nil;
 }
--(void)timelineManagerDidFinishedPreloadThumbImage:(NSNotification*)notification{
-    if(statuses)[statuses release];
-    statuses=[[[TimelineManager sharedManager] latestStatuses:99] mutableCopy];
+-(void)timelineManagerDidLoadedNewerStatuses:(NSNotification*)notification{
+    [SVProgressHUD dismiss];
+    NSArray *_statuses=notification.object;
+    if(!_statuses.count)return;
+    [statuses insertObjects:notification.object atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
     [gridView reloadDataWithAnimation:YES];
+}
+-(void)timelineManagerDidFinishedPreloadThumbImage:(NSNotification*)notification{
+//    if(statuses)[statuses release];
+//    statuses=[[[TimelineManager sharedManager] latestStatuses:99] mutableCopy];
+//    [gridView reloadDataWithAnimation:YES];
+}
+-(void)timelineManagerDidLoadedOlderStatuses:(NSNotification*)notification{
+    [SVProgressHUD dismiss];
+    NSArray *_statuses=notification.object;
+    if(!_statuses.count)return;
+    [statuses addObjectsFromArray:_statuses];
+    [gridView reloadDataWithAnimation:NO];
 }
 -(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
 	return [gridView subviews];
@@ -108,6 +125,14 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 	[detailViewController release];
 }
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if(scrollView.contentOffset.x>scrollView.contentSize.width-scrollView.frame.size.width-gridView.contentIndent.right){
+        [self loadOlderStatuses];
+    }else if(scrollView.contentOffset.x<0){
+        [[TimelineManager sharedManager] sync];
+        [SVProgressHUD show];
+    }
+}
 /*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -115,8 +140,17 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
-
-
+#pragma mark - actions
+-(void)loadOlderStatuses{
+    int count=30;
+    NSArray *newStatuses=[[TimelineManager sharedManager] statusesAfter:statuses.lastObject count:count];
+    if(newStatuses.count<count){
+        //is loading from internet
+        [SVProgressHUD show];
+    }
+    [statuses addObjectsFromArray:newStatuses];
+    [gridView reloadData];
+}
 #pragma mark -
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

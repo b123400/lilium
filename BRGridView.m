@@ -17,7 +17,7 @@
 @end
 
 @implementation BRGridView
-@synthesize delegate,numOfRow,contentIndent,cellSize,cellMargin;
+@synthesize numOfRow,contentIndent,cellSize,cellMargin;
 
 - (id)initWithFrame:(CGRect)frame {
     
@@ -49,7 +49,7 @@
 	float totalContentWidth=contentIndent.left;
 	//float drawingX=contentIndent.width;
 	
-	int numOfSection=[delegate numberOfSectionsInGridView:self];
+	int numOfSection=[self.delegate numberOfSectionsInGridView:self];
 	float widthOfGapBetweenSection=40.0;
 	
 	if(frameOfSections){
@@ -64,7 +64,7 @@
 	for(int i=0;i<numOfSection;i++){
 		CGRect thisSectionFrame=CGRectMake(totalContentWidth, contentIndent.top, 0, 0);
 		
-		int numOfCellInThisSection=[delegate gridView:self numberOfCellsInSection:i];
+		int numOfCellInThisSection=[self.delegate gridView:self numberOfCellsInSection:i];
 		int numOfColumns=ceil(numOfCellInThisSection/(numOfRow/1.0f));
 		float widthOfThisSection=numOfColumns*(cellSize.width+cellMargin.width)-(numOfCellInThisSection==0?0:cellMargin.width);
 		totalContentWidth+=widthOfThisSection+widthOfGapBetweenSection;
@@ -87,7 +87,7 @@
 		}*/
 		[numOfCellInSections addObject:[NSNumber numberWithInt:numOfCellInThisSection]];
 	}
-	
+	totalContentWidth+=contentIndent.right;
 	self.contentSize=CGSizeMake(totalContentWidth, self.frame.size.height);
 	[self drawCurrentContent];
     if(animated){
@@ -116,14 +116,14 @@
             }];
         }];
     }
-	if(delegate){
-		if([(id)delegate respondsToSelector:@selector(gridViewDidFinishedLoading:)]){
-			[delegate gridViewDidFinishedLoading:self];
+	if(self.delegate){
+		if([self.delegate respondsToSelector:@selector(gridViewDidFinishedLoading:)]){
+			[self.delegate gridViewDidFinishedLoading:self];
 		}
 	}
 }
 -(void)drawCurrentContent{
-	if(!delegate)return;
+	if(!self.delegate)return;
 	for(int i=0;i<[frameOfSections count];i++){
 		CGRect sectionFrame=[[frameOfSections objectAtIndex:i] CGRectValue];
 		if(self.contentOffset.x+self.frame.size.width>sectionFrame.origin.x&&self.contentOffset.x<sectionFrame.size.width+sectionFrame.origin.x){
@@ -158,7 +158,7 @@
 					}
 				}
 				if(!cellExistsAtIndexPath){
-					BRGridViewCell *cell=[delegate gridView:self cellAtIndexPath:indexPath];
+					BRGridViewCell *cell=[self.delegate gridView:self cellAtIndexPath:indexPath];
 					cell.gridView=self;
 					cell.indexPath=indexPath;
 					[self addSubview:cell];
@@ -216,8 +216,8 @@
 	}
 }
 -(void)cellTapped:(BRGridViewCell*)sender{
-	if(delegate&&[(id)delegate respondsToSelector:@selector(gridView:didSelectCell:AtIndexPath:)]){
-		[delegate gridView:self didSelectCell:sender AtIndexPath:sender.indexPath];
+	if(self.delegate&&[self.delegate respondsToSelector:@selector(gridView:didSelectCell:AtIndexPath:)]){
+		[self.delegate gridView:self didSelectCell:sender AtIndexPath:sender.indexPath];
 	}
 }
 

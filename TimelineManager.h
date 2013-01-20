@@ -11,6 +11,7 @@
 #import "StatusesRequest.h"
 
 #define TimelineManagerDidRefreshNotification @"TimelineManagerDidRefresh"
+#define TimelineManagerDidLoadedOlderStatusNotification @"TimelineManagerDidLoadedOlderStatusNotification"
 #define TimelineManagerDidPrefectchThumbNotification @"TimelineManagerDidPrefectchThumbNotification"
 
 @interface TimelineManager : NSObject {

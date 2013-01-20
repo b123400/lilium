@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BRGridViewCell.h"
 
-@protocol BRGridViewDelegate
+@protocol BRGridViewDelegate <UIScrollViewDelegate>
 
 - (BRGridViewCell *)gridView:(id)gridView cellAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)gridView:(id)gridView numberOfCellsInSection:(NSInteger)section;
@@ -34,7 +34,7 @@
 	NSMutableArray *cells;
 	NSMutableDictionary *cellsIndex;
 	
-	IBOutlet id <BRGridViewDelegate> delegate;
+//	IBOutlet id <BRGridViewDelegate> delegate;
 }
 @property (assign,nonatomic) IBOutlet id delegate;
 @property (assign) int numOfRow;

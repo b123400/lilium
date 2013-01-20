@@ -12,7 +12,8 @@
 
 @interface TimelineManager ()
 
--(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
+-(void)loadNewerRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
+-(void)loadOlderRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 
 -(NSArray*)referenceStatuses:(StatusRequestDirection)direction;
 -(Status*)firstStatusCachedWithSource:(StatusSourceType)source direction:(BOOL)isForward;
@@ -45,7 +46,7 @@ static TimelineManager *sharedManager=nil;
 	if(loadNewerRequest)return;
 	loadNewerRequest=[[StatusesRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
 	loadNewerRequest.delegate=self;
-    loadNewerRequest.selector=@selector(requestFinished:withStatuses:withError:);
+    loadNewerRequest.selector=@selector(loadNewerRequestFinished:withStatuses:withError:);
 	loadNewerRequest.direction=StatusRequestDirectionNewer;
 	loadNewerRequest.referenceStatuses=[self referenceStatuses:loadNewerRequest.direction];
 	[[StatusFetcher sharedFetcher] getStatusesForRequest:loadNewerRequest];
@@ -54,7 +55,7 @@ static TimelineManager *sharedManager=nil;
 	if(loadOlderRequest)return;
 	loadOlderRequest=[[StatusesRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
 	loadOlderRequest.delegate=self;
-    loadNewerRequest.selector=@selector(requestFinished:withStatuses:withError:);
+    loadOlderRequest.selector=@selector(loadOlderRequestFinished:withStatuses:withError:);
 	loadOlderRequest.direction=StatusRequestDirectionOlder;
 	loadOlderRequest.referenceStatuses=[self referenceStatuses:loadOlderRequest.direction];
 	loadOlderRequest.tumblrOffset=[self tumblrOffset];
@@ -93,22 +94,29 @@ static TimelineManager *sharedManager=nil;
     }
 }
 #pragma mark -
--(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
+-(void)loadNewerRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
 	NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
 	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
-	if(request==loadNewerRequest){
-		[statuses insertObjects:_statuses atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
-		[loadNewerRequest release];
-		loadNewerRequest=nil;
-	}else if(request==loadOlderRequest){
-		[statuses addObjectsFromArray:_statuses];
-		[loadOlderRequest release];
-		loadOlderRequest=nil;
-	}
+    
+    [statuses insertObjects:_statuses atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
+    [loadNewerRequest release];
+    loadNewerRequest=nil;
 	for(Status *thisStatus in _statuses){
 		[thisStatus prefetechThumb];
 	}
-    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidRefreshNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidRefreshNotification object:_statuses];
+}
+-(void)loadOlderRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
+    NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
+	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+    
+    [statuses addObjectsFromArray:_statuses];
+    [loadOlderRequest release];
+    loadOlderRequest=nil;
+    for(Status *thisStatus in _statuses){
+		[thisStatus prefetechThumb];
+	}
+    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidLoadedOlderStatusNotification object:_statuses];
 }
 -(void)statusDidPreloadedThumbImage:(NSNotification*)notification{
     for(Status *status in statuses){
