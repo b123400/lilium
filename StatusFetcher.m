@@ -244,7 +244,7 @@ static StatusFetcher* sharedFetcher=nil;
 			break;
         }
         case StatusSourceTypeTwitter:{
-            NSString *requestID=[[BRFunctions sharedTwitter]sendTweet:[NSString stringWithFormat:@"@%@ %@",request.targetStatus.user.username,request.submitCommentString] inReplyToStatusWithID:request.targetStatus.statusID];
+            NSString *requestID=[[BRFunctions sharedTwitter]sendTweet:request.submitCommentString inReplyToStatusWithID:request.targetStatus.statusID];
             [requestsByID setObject:request forKey:requestID];
             break;
         }
