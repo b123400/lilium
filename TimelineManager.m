@@ -92,6 +92,9 @@ static TimelineManager *sharedManager=nil;
         [statuses addObject:[Status statusWithDictionary:thisDict]];
     }
 }
+-(void)clearRecentStatuses{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"recentStatuses"];
+}
 -(void)resetTimer{
     if(timer){
         [timer invalidate];

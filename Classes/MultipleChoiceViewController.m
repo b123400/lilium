@@ -8,6 +8,7 @@
 
 #import "MultipleChoiceViewController.h"
 #import "NichijyouNavigationController.h"
+#import "MultipleChoiceCell.h"
 
 @interface MultipleChoiceViewController ()
 
@@ -78,15 +79,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     if(!cell){
-        cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
-        cell.textLabel.font=[UIFont fontWithName:@"Heiti TC" size:cell.textLabel.font.pointSize];
+        cell=[[[MultipleChoiceCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"] autorelease];
+        cell.textLabel.font=[UIFont fontWithName:@"Heiti TC" size:17];
+        cell.textLabel.textAlignment=NSTextAlignmentCenter;
+        cell.detailTextLabel.textAlignment=NSTextAlignmentCenter;
     }
     Choice *thisChoice=[choices objectAtIndex:indexPath.row];
     cell.textLabel.text=thisChoice.text;
     cell.detailTextLabel.text=thisChoice.detailText;
     return cell;
 }
-
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return choices.count;
 }

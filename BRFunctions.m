@@ -227,6 +227,7 @@ static NSMutableArray *tumblrUsers=nil;
 	if(sharedTumblr){
 		sharedTumblr.accessToken=token;
 	}
+    [BRFunctions loadAccounts];
 }
 +(NSMutableArray*)tumblrUsers{
     return tumblrUsers;

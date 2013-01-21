@@ -12,6 +12,7 @@
 #import "MultipleChoiceViewController.h"
 #import "TumblrUser.h"
 #import "TimelineManager.h"
+#import "SDImageCache.h"
 
 @interface SettingViewController ()
 
@@ -116,5 +117,10 @@
     [self.autoReloadButton setTitle:[NSString stringWithFormat:@"Auto Reload:\n%d %@",interval,unit] forState:UIControlStateNormal];
 }
 - (IBAction)clearCachePressed:(id)sender {
+    [[SDImageCache sharedImageCache] clearDisk];
+    [[TimelineManager sharedManager] clearRecentStatuses];
+    BRCircleAlert *alert=[BRCircleAlert alertWithText:@"Cache cleared"];
+    [alert setColor:[UIColor colorWithRed:83/255. green:169/255. blue:37/255. alpha:1]];
+    [alert show];
 }
 @end
