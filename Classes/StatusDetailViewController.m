@@ -15,6 +15,7 @@
 #import "UIImageView+WebCache.h"
 #import "BRImageViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SVProgressHUD.h"
 
 @interface StatusDetailViewController ()
 
@@ -163,10 +164,47 @@
         [self layout];
     }];
 }
-#pragma mark user interaction
+#pragma mark - user interaction
 - (IBAction)likeButtonClicked:(id)sender {
     status.liked=!status.liked;
     [self refreshLikeButton];
+}
+
+- (IBAction)actionButtonClicked:(id)sender {
+    UIActionSheet *actionSheet= [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"Open in Safari",@"Save image", nil] autorelease];
+    [actionSheet showInView:self.view];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSString *title=[actionSheet buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"Open in Safari"]){
+        [[UIApplication sharedApplication] openURL:status.webURL];
+    }else if([title isEqualToString:@"Save image"]){
+        [SVProgressHUD show];
+        [SVProgressHUD setStatus:@"Downloading"];
+        [[SDWebImageManager sharedManager] downloadWithURL:status.fullURL delegate:self];
+    }
+}
+- (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image{
+    [SVProgressHUD setStatus:@"Saving"];
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+- (void)webImageManager:(SDWebImageManager *)imageManager didFailWithError:(NSError *)error{
+    [SVProgressHUD dismissWithError:@"Cannot download image"];
+}
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error
+  contextInfo:(void *)contextInfo
+{
+    // Was there an error?
+    if (error != NULL)
+    {
+        // Show error message...
+        [SVProgressHUD dismissWithError:@"Failed"];
+    }
+    else  // No errors
+    {
+        // Show message image successfully saved
+        [SVProgressHUD dismissWithSuccess:@"Saved"];
+    }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [commentComposeView.textField resignFirstResponder];
