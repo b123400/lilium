@@ -172,7 +172,18 @@
 }
 */
 - (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
+    NSIndexPath *currentIndexPath=nil;
+    for(BRGridViewCell *cell in gridView.cells){
+        if(!currentIndexPath||(cell.indexPath.section==currentIndexPath.section&&cell.indexPath.row<currentIndexPath.row)||cell.indexPath.section<currentIndexPath.section){
+            if([cell.superview convertRect:cell.frame toView:self.view].origin.x>0){
+                currentIndexPath=cell.indexPath;
+            }
+        }
+    }
     [self layout];
+    if(currentIndexPath){
+        [gridView scrollToCellAtIndexPath:currentIndexPath animated:YES];
+    }
 }
 -(void) willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation duration: (NSTimeInterval) duration {
     [self updateLayoutForNewOrientation: interfaceOrientation];

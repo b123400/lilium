@@ -17,7 +17,7 @@
 @end
 
 @implementation BRGridView
-@synthesize numOfRow,contentIndent,cellSize,cellMargin,widthOfGapBetweenSection;
+@synthesize numOfRow,contentIndent,cellSize,cellMargin,widthOfGapBetweenSection,cells;
 
 - (id)initWithFrame:(CGRect)frame {
     

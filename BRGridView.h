@@ -43,6 +43,7 @@
 @property (assign) CGSize cellSize;
 @property (assign) CGSize cellMargin;
 @property (assign,nonatomic) float widthOfGapBetweenSection;
+@property (readonly,nonatomic)	NSMutableArray *cells;
 
 -(void)reloadData;
 -(void)reloadDataWithAnimation:(BOOL)animated;
