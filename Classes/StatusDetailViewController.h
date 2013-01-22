@@ -41,6 +41,7 @@
     
     id <StatusDetailViewControllerDelegate> delegate;
 }
+@property (nonatomic,readonly) Status *status;
 @property (nonatomic,assign) id <StatusDetailViewControllerDelegate> delegate;
 -(id)initWithStatus:(Status*)_status;
 

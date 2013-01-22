@@ -21,6 +21,7 @@
 -(void)didStartedPinching;
 -(void)didPinched;
 -(void)didCancelledPinching;
+-(void)willPopOutFromSubviewController:(UIViewController*)controller;
 -(void)poppedOutFromSubviewController;
 
 @end
@@ -33,9 +34,12 @@
 	UIViewController *nextController;
 	BOOL disableFade;
 	BOOL isAnimating;
+    
+    UIGestureRecognizer *pinchGestureRecognizer;
 }
 
 @property (nonatomic,assign) BOOL disableFade;
+@property (nonatomic,retain) UIGestureRecognizer *pinchGestureRecognizer;
 
 -(void)pushViewController:(UIViewController *)viewController atCenter:(CGPoint)center;
 

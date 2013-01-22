@@ -16,6 +16,7 @@
 #import "BRImageViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SVProgressHUD.h"
+#import "NichijyouNavigationController.h"
 
 @interface StatusDetailViewController ()
 
@@ -28,7 +29,7 @@
 @end
 
 @implementation StatusDetailViewController
-@synthesize delegate;
+@synthesize delegate,status;
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -88,8 +89,18 @@
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(didRefreshedImage) name:SDWebCacheDidLoadedImageForImageViewNotification
                                               object:mainImageView];
-    [mainImageView addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapped:)] autorelease]];
-    [mainImageView addGestureRecognizer:[[[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(imagePinched:)]autorelease]];
+    UITapGestureRecognizer *tapRecognizer=[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapped:)] autorelease];
+    tapRecognizer.numberOfTapsRequired=1;
+    tapRecognizer.numberOfTouchesRequired=1;
+    [tapRecognizer requireGestureRecognizerToFail:[(NichijyouNavigationController*)self.navigationController pinchGestureRecognizer]];
+    [mainImageView addGestureRecognizer:tapRecognizer];
+    UIPinchGestureRecognizer *pinchRecognizer=[[[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(imagePinched:)]autorelease];
+    [mainImageView addGestureRecognizer:pinchRecognizer];
+    
+    UIGestureRecognizer *userTap=[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userViewTapped)] autorelease];
+    [userTap requireGestureRecognizerToFail:[(NichijyouNavigationController*)self.navigationController pinchGestureRecognizer]];
+    [userView addGestureRecognizer:userTap];
+    
     [self loadResources];
     [self layout];
 }
@@ -132,7 +143,6 @@
     userView.frame=CGRectMake(imageWrapperView.frame.origin.x, imageWrapperView.frame.origin.y+imageWrapperView.frame.size.height, imageWrapperView.frame.size.width, userView.frame.size.height);
     displayNameLabel.text=status.user.displayName;
     [profileImageView setImageWithURL:status.user.profilePicture];
-    [userView addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userViewTapped)] autorelease]];
     
     imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, userView.frame.size.height+userView.frame.origin.y);
 	mainScrollView.contentSize=CGSizeMake(commentTableView.frame.origin.x+commentTableView.frame.size.width, 1);

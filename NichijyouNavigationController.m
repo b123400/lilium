@@ -42,7 +42,7 @@
 
 
 @implementation NichijyouNavigationController
-@synthesize disableFade;
+@synthesize disableFade,pinchGestureRecognizer;
 
 static float zoomDelayPerPixelFromCenter=1/1100.0;
 static float zoomingFactor=7;
@@ -80,6 +80,7 @@ static float pressShiftFactor=0.2;
 	pinch.delaysTouchesBegan=NO;
 	pinch.delaysTouchesEnded=NO;
 	[self.view addGestureRecognizer:pinch];
+    self.pinchGestureRecognizer=pinch;
 	[pinch release];
     
     UIPanGestureRecognizer *pan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panned:)];
@@ -202,6 +203,7 @@ static float pressShiftFactor=0.2;
 }
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
 	if(!animated){
+        [[self centerPoints] addObject:[NSValue valueWithCGPoint:[self.view.superview convertPoint:self.view.center toView:self.view]]];
 		[super pushViewController:viewController animated:animated];
 		return;
 	}
@@ -441,6 +443,7 @@ static float pressShiftFactor=0.2;
 		nextController=[[self viewControllers] objectAtIndex:[[self viewControllers] count]-2];
 	}
 	if(!animated){
+        [[self centerPoints] removeLastObject];
 		return [super popToViewController:nextController animated:animated];
 	}
 	
@@ -528,6 +531,9 @@ static float pressShiftFactor=0.2;
 			thisView.layer.opacity=1;
 		}
 	}
+    if([viewController respondsToSelector:@selector(willPopOutFromSubviewController:)]){
+        [(id)viewController willPopOutFromSubviewController:[self topViewController]];
+    }
 	[self topViewController].view.userInteractionEnabled=YES;
 	[super popToViewController:viewController animated:NO];
 	[self topViewController].view.userInteractionEnabled=NO;
@@ -680,6 +686,7 @@ static float pressShiftFactor=0.2;
 */
 
 - (void)dealloc {
+    if(self.pinchGestureRecognizer)[self.pinchGestureRecognizer release];
 	if(centerPoints)[centerPoints release];
     [super dealloc];
 }

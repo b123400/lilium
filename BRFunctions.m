@@ -399,6 +399,12 @@ static NSArray *tumblrUsers=nil;
     return 3;
 }
 +(CGSize)gridViewCellSize{
+    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication]statusBarOrientation])){
+        CGRect appFrame=[UIApplication currentFrame];
+        UIEdgeInsets indent=[BRFunctions gridViewIndent];
+        float height=appFrame.size.height-indent.bottom-indent.top;
+        return CGSizeMake(height, height);
+    }
     CGSize cellSize=[BRFunctions gridViewCellMargin];
     return CGSizeMake(cellSize.width*[BRFunctions gridViewCellToMarginRatio],cellSize.height*[BRFunctions gridViewCellToMarginRatio]);
 }
