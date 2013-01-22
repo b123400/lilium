@@ -19,6 +19,9 @@
 -(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 -(void)layoutActionView;
 
+-(void)layoutGridview;
+-(void)layoutGridviewAnimated:(BOOL)animated;
+
 @end
 
 @implementation UserViewController
@@ -61,14 +64,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-	gridView.contentIndent=UIEdgeInsetsMake(10, 80, 10, 10);
-    gridView.cellMargin=[BRFunctions gridViewCellMargin];
-	gridView.cellSize=[BRFunctions gridViewCellSize];
-	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+gridView.cellMargin.height)/(gridView.cellMargin.height+gridView.cellSize.height));
-	gridView.alwaysBounceVertical=YES;
-	gridView.alwaysBounceHorizontal=YES;
-	gridView.showsHorizontalScrollIndicator=NO;
-	gridView.showsVerticalScrollIndicator=NO;
+    [self layoutGridview];
     
     usernameLabel.text=[NSString stringWithFormat:@"%@@%@",user.displayName,[Status sourceName:user.type]];
     [usernameLabel sizeToFit];
@@ -179,6 +175,41 @@
     detailViewController.delegate=self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
 	[detailViewController release];
+}
+-(void)layoutGridview{
+    [self layoutGridviewAnimated:YES];
+}
+-(void)layoutGridviewAnimated:(BOOL)animated{
+    if(!CGSizeEqualToSize(gridView.cellMargin, [BRFunctions gridViewCellMargin])||
+       !CGSizeEqualToSize(gridView.cellSize, [BRFunctions gridViewCellSize])){
+        gridView.contentIndent=UIEdgeInsetsMake(10, 80, 10, 10);
+        gridView.cellMargin=[BRFunctions gridViewCellMargin];
+        gridView.cellSize=[BRFunctions gridViewCellSize];
+        gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+gridView.cellMargin.height)/(gridView.cellMargin.height+gridView.cellSize.height));
+        gridView.alwaysBounceVertical=YES;
+        gridView.alwaysBounceHorizontal=YES;
+        gridView.showsHorizontalScrollIndicator=NO;
+        gridView.showsVerticalScrollIndicator=NO;
+        [gridView reloadDataWithAnimation:animated clearViews:YES];
+    }
+    [self layoutActionView];
+}
+- (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
+    NSIndexPath *currentIndexPath=nil;
+    for(BRGridViewCell *cell in gridView.cells){
+        if(!currentIndexPath||(cell.indexPath.section==currentIndexPath.section&&cell.indexPath.row<currentIndexPath.row)||cell.indexPath.section<currentIndexPath.section){
+            if([cell.superview convertRect:cell.frame toView:self.view].origin.x>0){
+                currentIndexPath=cell.indexPath;
+            }
+        }
+    }
+    [self layoutGridview];
+    if(currentIndexPath){
+        [gridView scrollToCellAtIndexPath:currentIndexPath animated:YES];
+    }
+}
+-(void) willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation duration: (NSTimeInterval) duration {
+    [self updateLayoutForNewOrientation: interfaceOrientation];
 }
 #pragma mark - detail view delegate
 -(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
