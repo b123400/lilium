@@ -164,13 +164,6 @@
         [SVProgressHUD show];
     }
 }
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 - (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
     NSIndexPath *currentIndexPath=nil;
     for(BRGridViewCell *cell in gridView.cells){

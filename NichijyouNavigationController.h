@@ -30,6 +30,7 @@
 @interface NichijyouNavigationController : UINavigationController <NichijyouTransparentViewDelegate,UIGestureRecognizerDelegate> {
 	NSMutableArray *centerPoints;
 	CGPoint lastTouchedPoint;
+    NSMutableDictionary *tempTransfroms;
 	
 	UIViewController *nextController;
 	BOOL disableFade;

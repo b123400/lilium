@@ -13,6 +13,10 @@
 	IBOutlet UIView *initialPinchView;
 	IBOutlet UIView *noAccountView;
 	IBOutlet UIView *mainView;
+    IBOutlet UIButton *timelineButton;
+    IBOutlet UIButton *accountButton;
+    IBOutlet UIButton *settingsButton;
+    IBOutlet UIButton *aboutButton;
 }
 
 -(IBAction)getStartPressed;

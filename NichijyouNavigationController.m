@@ -192,8 +192,14 @@ static float pressShiftFactor=0.2;
 }
 -(void)didTouchedTransparentView:(id)sender atPoint:(CGPoint)point{
 	if(!isAnimating){
-		lastTouchedPoint=[[sender superview] convertPoint:point toView:nil];
+		lastTouchedPoint=[[sender superview] convertPoint:point toView:self.view];
 	}
+}
+- (BOOL)shouldAutorotate {
+    if([[self.viewControllers lastObject] respondsToSelector:@selector(shouldAutorotate)]){
+        return [[self.viewControllers lastObject]shouldAutorotate];
+    }
+    return YES;
 }
 #pragma mark -
 #pragma mark Push
@@ -203,7 +209,6 @@ static float pressShiftFactor=0.2;
 }
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
 	if(!animated){
-        [[self centerPoints] addObject:[NSValue valueWithCGPoint:[self.view.superview convertPoint:self.view.center toView:self.view]]];
 		[super pushViewController:viewController animated:animated];
 		return;
 	}
@@ -312,7 +317,7 @@ static float pressShiftFactor=0.2;
 }
 -(void)zoomInHide:(UIView*)theView{
 	CGRect absoluteRect=[[theView superview] convertRect:theView.frame toView:self.view];
-	
+    
 	float xDifferent=(absoluteRect.origin.x+absoluteRect.size.width/2-lastTouchedPoint.x)*(zoomingFactor-1);
 	float yDifferent=(absoluteRect.origin.y+absoluteRect.size.height/2-lastTouchedPoint.y)*(zoomingFactor-1);
 	
@@ -443,7 +448,6 @@ static float pressShiftFactor=0.2;
 		nextController=[[self viewControllers] objectAtIndex:[[self viewControllers] count]-2];
 	}
 	if(!animated){
-        [[self centerPoints] removeLastObject];
 		return [super popToViewController:nextController animated:animated];
 	}
 	

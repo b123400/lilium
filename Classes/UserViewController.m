@@ -70,7 +70,10 @@
     [usernameLabel sizeToFit];
     [self layoutActionView];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [self layoutGridview];
+    [super viewWillAppear:animated];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
