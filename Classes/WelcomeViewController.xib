@@ -47,9 +47,9 @@
 						<string key="NSFrame">{{113, 325}, {94, 94}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC41NjUzMDg5MTcyIDAuMzA2NTMyNzk1NiAwLjY4ODc3NTUxMDIAA</bytes>
+						<object class="NSColor" key="IBUIBackgroundColor" id="919121757">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MCAwAA</bytes>
 						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -114,10 +114,7 @@
 						<string key="NSFrame">{{113, 203}, {94, 94}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4xODAwMjA4NzIgMC42ODg3NzU1MTAyIDAuNDMwMDcxNzYzNgA</bytes>
-						</object>
+						<reference key="IBUIBackgroundColor" ref="919121757"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -188,10 +185,7 @@
 						<string key="NSFrame">{{65, 147}, {186, 115}}</string>
 						<reference key="NSSuperview" ref="85376307"/>
 						<reference key="NSWindow"/>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MCAwAA</bytes>
-						</object>
+						<reference key="IBUIBackgroundColor" ref="919121757"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -369,6 +363,38 @@ dC4</string>
 						<reference key="destination" ref="350997264"/>
 					</object>
 					<int key="connectionID">21</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">timelineButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="725267257"/>
+					</object>
+					<int key="connectionID">28</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">accountButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="604249273"/>
+					</object>
+					<int key="connectionID">29</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">settingsButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="108656037"/>
+					</object>
+					<int key="connectionID">30</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">aboutButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="148342442"/>
+					</object>
+					<int key="connectionID">31</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -582,7 +608,7 @@ dC4</string>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">27</int>
+			<int key="maxID">31</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -596,10 +622,12 @@ dC4</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>getStartPressed</string>
 							<string>goAddAccount</string>
+							<string>goSettings:</string>
 							<string>goTimeline</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -611,6 +639,7 @@ dC4</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>getStartPressed</string>
 							<string>goAddAccount</string>
+							<string>goSettings:</string>
 							<string>goTimeline</string>
 						</object>
 						<object class="NSArray" key="dict.values">
@@ -624,6 +653,10 @@ dC4</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">goSettings:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">goTimeline</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -633,27 +666,47 @@ dC4</string>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>aboutButton</string>
+							<string>accountButton</string>
 							<string>initialPinchView</string>
 							<string>mainView</string>
 							<string>noAccountView</string>
+							<string>settingsButton</string>
+							<string>timelineButton</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIButton</string>
+							<string>UIButton</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UIView</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>aboutButton</string>
+							<string>accountButton</string>
 							<string>initialPinchView</string>
 							<string>mainView</string>
 							<string>noAccountView</string>
+							<string>settingsButton</string>
+							<string>timelineButton</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">aboutButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">accountButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">initialPinchView</string>
 								<string key="candidateClassName">UIView</string>
@@ -665,6 +718,14 @@ dC4</string>
 							<object class="IBToOneOutletInfo">
 								<string key="name">noAccountView</string>
 								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">settingsButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">timelineButton</string>
+								<string key="candidateClassName">UIButton</string>
 							</object>
 						</object>
 					</object>

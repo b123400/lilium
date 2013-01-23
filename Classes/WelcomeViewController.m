@@ -105,11 +105,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [self updateLayoutForNewOrientation: [[UIDevice currentDevice] orientation]];
 }
--(void)pushInAnimationDidFinished{
-    [UIView animateWithDuration:0.2 animations:^{
-        [self updateLayoutForNewOrientation: [[UIDevice currentDevice] orientation]];
-    }];
-}
+
 - (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
     if(self.view==mainView){
         switch (orientation) {

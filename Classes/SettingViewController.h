@@ -12,6 +12,8 @@
     
 }
 @property (retain, nonatomic) IBOutlet UIButton *autoReloadButton;
+@property (retain, nonatomic) IBOutlet UIButton *tumblrReblogButton;
+@property (retain, nonatomic) IBOutlet UIButton *clearCacheButton;
 
 - (IBAction)tumblrReblogButtonPressed:(id)sender;
 - (IBAction)autoReloadPressed:(id)sender;
