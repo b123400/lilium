@@ -32,7 +32,7 @@ static TimelineManager *sharedManager=nil;
 }
 -(id)init{
 	statuses=[[NSMutableArray alloc] init];
-	timer=[[NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(autoSyncByTimer:) userInfo:nil repeats:YES] retain];
+	[self resetTimer];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusDidPreloadedThumbImage:) name:StatusDidPreloadedImageNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sync) name:AccountsDidUpdatedNotification object:nil];
 	return [super init];
@@ -105,6 +105,20 @@ static TimelineManager *sharedManager=nil;
     for(NSDictionary *thisDict in statusDicts){
         [statuses addObject:[Status statusWithDictionary:thisDict]];
     }
+}
+-(void)clearRecentStatuses{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"recentStatuses"];
+}
+-(void)resetTimer{
+    if(timer){
+        [timer invalidate];
+        [timer release];
+        timer=nil;
+    }
+    int interval=2;
+    NSNumber *savedInterval=[[NSUserDefaults standardUserDefaults] objectForKey:refreshIntervalKey];
+    if(savedInterval)interval=[savedInterval intValue];
+    timer=[[NSTimer scheduledTimerWithTimeInterval:60*interval target:self selector:@selector(autoSyncByTimer:) userInfo:nil repeats:YES] retain];
 }
 #pragma mark -
 -(void)loadNewerRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
@@ -202,7 +216,11 @@ static TimelineManager *sharedManager=nil;
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[statuses release];
-	[timer release];
+    if(timer){
+        [timer invalidate];
+        [timer release];
+        timer=nil;
+    }
 	[super dealloc];
 }
 

@@ -13,6 +13,7 @@
 #import "BRCircleAlert.h"
 #import "UIApplication+Frame.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SettingViewController.h"
 
 @implementation WelcomeViewController
 
@@ -76,6 +77,12 @@
 	AccountsViewController *accountController=[[AccountsViewController alloc]init];
 	[self.navigationController pushViewController:accountController animated:YES];
 	[accountController release];
+}
+
+- (IBAction)goSettings:(id)sender {
+    SettingViewController *settingViewController=[[SettingViewController alloc]init];
+    [self.navigationController pushViewController:settingViewController animated:YES];
+    [settingViewController release];
 }
 
 -(void)poppedOutFromSubviewController{

@@ -17,6 +17,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SVProgressHUD.h"
 #import "NichijyouNavigationController.h"
+#import "BRCircleAlert.h"
 
 @interface StatusDetailViewController ()
 
@@ -218,6 +219,21 @@
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [commentComposeView.textField resignFirstResponder];
+}
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    if(status.user.type==StatusSourceTypeTwitter&&[textField.text isEqualToString:@""]){
+        BRCircleAlertButton *replyButton=[BRCircleAlertButton buttonWithAction:^{
+            commentComposeView.textField.text=[NSString stringWithFormat:@"@%@ ",status.user.username];
+        }];
+        [replyButton setTitle:@"reply" forState:UIControlStateNormal];
+        BRCircleAlertButton *retweetButton=[BRCircleAlertButton buttonWithAction:^{
+            commentComposeView.textField.text=[NSString stringWithFormat:@" RT %@:%@",status.user.username,status.caption];
+            commentComposeView.textField.selectedTextRange=[commentComposeView.textField textRangeFromPosition:[commentComposeView.textField beginningOfDocument] toPosition:[commentComposeView.textField beginningOfDocument]];
+        }];
+        [retweetButton setTitle:@"RT" forState:UIControlStateNormal];
+        BRCircleAlert *alert=[BRCircleAlert alertWithText:@"reply or retweet?" buttons:@[replyButton,retweetButton]];
+        [alert show];
+    }
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [status submitComment:textField.text];

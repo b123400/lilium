@@ -36,5 +36,7 @@
 
 -(void)saveRecentStatuses;
 -(void)loadRecentStatuses;
+-(void)clearRecentStatuses;
+-(void)resetTimer;
 
 @end
