@@ -218,8 +218,17 @@ static StatusFetcher* sharedFetcher=nil;
                     }
                 }
                 if(servicesWithError.count){
-                    NSString *errorMessage=[servicesWithError componentsJoinedByString:@","];
-                    errorMessage=[NSString stringWithFormat:@"Failed to load from the following service:%@",errorMessage];
+                    NSString *errorMessage=nil;
+                    if(request.type!=StatusRequestTypeTimeline&&servicesWithError.count==1){
+                        for(NSNumber *thisSource in services){
+                            if([request errorForSource:thisSource.intValue]){
+                                errorMessage=[[request errorForSource:thisSource.intValue] localizedDescription];
+                            }
+                        }
+                    }else{
+                        errorMessage=[servicesWithError componentsJoinedByString:@","];
+                        errorMessage=[NSString stringWithFormat:@"Failed to load from the following service:%@",errorMessage];
+                    }
                     error=[NSError errorWithDomain:@"net.b123400.lilium" code:10 userInfo:[NSDictionary dictionaryWithObject:errorMessage forKey:NSLocalizedDescriptionKey]];
                 }
 				//Three arugments: request, statuses, error

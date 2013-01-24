@@ -115,7 +115,11 @@
 		return;
 	}
     if(request.responseStatusCode>=400){
-        error=[NSError errorWithDomain:@"net.b123400.engine.tumblr" code:request.responseStatusCode userInfo:nil];
+        NSMutableDictionary *userInfo=[NSMutableDictionary dictionary];
+        if(request.responseStatusCode==400){
+            [userInfo setObject:@"You are not allowed to view this user's photos." forKey:NSLocalizedDescriptionKey];
+        }
+        error=[NSError errorWithDomain:@"net.b123400.engine.instagram" code:request.responseStatusCode userInfo:userInfo];
         [self failedWithError:error forRequestIdentifier:[request identifier]];
         return;
     }
