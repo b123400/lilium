@@ -87,15 +87,15 @@
 
 -(void)poppedOutFromSubviewController{
 	[self refreshView];
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
+    
 }
-
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 - (BOOL)shouldAutorotate {
-    UIInterfaceOrientation orientation = [[UIDevice currentDevice] orientation];
-    return [self shouldAutorotateToInterfaceOrientation:orientation];
+    return YES;
 }
 - (NSUInteger)supportedInterfaceOrientations
 {
@@ -103,6 +103,7 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 -(void)viewWillAppear:(BOOL)animated{
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
     [self updateLayoutForNewOrientation: [[UIDevice currentDevice] orientation]];
 }
 

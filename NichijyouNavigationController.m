@@ -201,6 +201,13 @@ static float pressShiftFactor=0.2;
     }
     return YES;
 }
+- (NSUInteger)supportedInterfaceOrientations
+{
+    if([[self.viewControllers lastObject] respondsToSelector:@selector(supportedInterfaceOrientations)]){
+        return [[self.viewControllers lastObject] supportedInterfaceOrientations];
+    }
+    return [super supportedInterfaceOrientations];
+}
 #pragma mark -
 #pragma mark Push
 -(void)viewCanBePushed:(UIViewController*)controller{
