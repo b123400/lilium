@@ -568,9 +568,18 @@ static StatusFetcher* sharedFetcher=nil;
 }
 -(void)instagramEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
 	if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
-		NSArray *dicts=[data objectForKey:@"data"];
-		NSArray *comments=[self instagramCommentsFromDicts:dicts];
-		[self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
+        CommentRequest *request=[requestsByID objectForKey:identifier];
+        NSMutableArray *comments=[NSMutableArray array];
+        if([data objectForKey:@"data"]){
+            NSArray *dicts=@[];
+            if([[data objectForKey:@"data"] isKindOfClass:[NSArray class]]){
+                dicts=[data objectForKey:@"data"];
+            }else if([[data objectForKey:@"data"]isKindOfClass:[NSMutableDictionary class]]){
+                dicts=@[[data objectForKey:@"data"]];
+            }
+            [comments addObjectsFromArray:[self instagramCommentsFromDicts:dicts]];
+        }
+		[self didReceivedComments:comments forRequest:request];
 		return;
 	}
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
