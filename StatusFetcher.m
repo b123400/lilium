@@ -179,15 +179,15 @@ static StatusFetcher* sharedFetcher=nil;
                     break;
                 }
                 case StatusSourceTypeFacebook:{
-                                        FBRequest *fbRequest=nil;
+                    FBRequest *fbRequest=nil;
                     if(!referenceStatus){
-                        [[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo",thisUser.userID] andDelegate:self];
+                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo",thisUser.userID] andDelegate:self];
                     }else if(request.direction==StatusRequestDirectionNewer){
-                        [[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&since=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
+                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&since=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
                     }else if(request.direction==StatusRequestDirectionOlder){
-                        [[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&until=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
+                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&until=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
                     }
-[requestsByID setObject:request forKey:[fbRequest identifier]];
+                    [requestsByID setObject:request forKey:[fbRequest identifier]];
                     request.facebookStatus=StatusFetchingStatusLoading;
                     break;
                 }
