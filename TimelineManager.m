@@ -12,7 +12,8 @@
 
 @interface TimelineManager ()
 
--(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
+-(void)loadNewerRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
+-(void)loadOlderRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 
 -(NSArray*)referenceStatuses:(StatusRequestDirection)direction;
 -(Status*)firstStatusCachedWithSource:(StatusSourceType)source direction:(BOOL)isForward;
@@ -31,7 +32,7 @@ static TimelineManager *sharedManager=nil;
 }
 -(id)init{
 	statuses=[[NSMutableArray alloc] init];
-	timer=[[NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(autoSyncByTimer:) userInfo:nil repeats:YES] retain];
+	[self resetTimer];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusDidPreloadedThumbImage:) name:StatusDidPreloadedImageNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sync) name:AccountsDidUpdatedNotification object:nil];
 	return [super init];
@@ -45,7 +46,7 @@ static TimelineManager *sharedManager=nil;
 	if(loadNewerRequest)return;
 	loadNewerRequest=[[StatusesRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
 	loadNewerRequest.delegate=self;
-    loadNewerRequest.selector=@selector(requestFinished:withStatuses:withError:);
+    loadNewerRequest.selector=@selector(loadNewerRequestFinished:withStatuses:withError:);
 	loadNewerRequest.direction=StatusRequestDirectionNewer;
 	loadNewerRequest.referenceStatuses=[self referenceStatuses:loadNewerRequest.direction];
 	[[StatusFetcher sharedFetcher] getStatusesForRequest:loadNewerRequest];
@@ -54,14 +55,14 @@ static TimelineManager *sharedManager=nil;
 	if(loadOlderRequest)return;
 	loadOlderRequest=[[StatusesRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
 	loadOlderRequest.delegate=self;
-    loadNewerRequest.selector=@selector(requestFinished:withStatuses:withError:);
+    loadOlderRequest.selector=@selector(loadOlderRequestFinished:withStatuses:withError:);
 	loadOlderRequest.direction=StatusRequestDirectionOlder;
 	loadOlderRequest.referenceStatuses=[self referenceStatuses:loadOlderRequest.direction];
 	loadOlderRequest.tumblrOffset=[self tumblrOffset];
 	[[StatusFetcher sharedFetcher] getStatusesForRequest:loadOlderRequest];
 }
 
--(NSArray*)lastestStatuses:(int)count{
+-(NSArray*)latestStatuses:(int)count{
 	if([statuses count]<=count){
 		return [[statuses copy] autorelease];
 	}
@@ -77,23 +78,72 @@ static TimelineManager *sharedManager=nil;
 	}
 	return [statuses objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexOfStatus+1, count)]];
 }
+
+-(void)removeAllStatusWithSource:(StatusSourceType)source{
+    NSArray *statusesToRemove=[statuses filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        Status *thisStatus=evaluatedObject;
+        if(thisStatus.user.type==source){
+            return YES;
+        }
+        return NO;
+    }]];
+    [statuses removeObjectsInArray:statusesToRemove];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidDeletedStatusesNotification object:statusesToRemove];
+}
+
+-(void)saveRecentStatuses{
+    NSArray *recentStatuses=[self latestStatuses:30];
+    NSMutableArray *statusDicts=[NSMutableArray array];
+    for(Status *thisStatus in recentStatuses){
+        [statusDicts addObject:[thisStatus dictionaryRepresentation]];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:statusDicts forKey:@"recentStatuses"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+-(void)loadRecentStatuses{
+    NSArray *statusDicts=[[NSUserDefaults standardUserDefaults] objectForKey:@"recentStatuses"];
+    for(NSDictionary *thisDict in statusDicts){
+        [statuses addObject:[Status statusWithDictionary:thisDict]];
+    }
+}
+-(void)clearRecentStatuses{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"recentStatuses"];
+}
+-(void)resetTimer{
+    if(timer){
+        [timer invalidate];
+        [timer release];
+        timer=nil;
+    }
+    int interval=2;
+    NSNumber *savedInterval=[[NSUserDefaults standardUserDefaults] objectForKey:refreshIntervalKey];
+    if(savedInterval)interval=[savedInterval intValue];
+    timer=[[NSTimer scheduledTimerWithTimeInterval:60*interval target:self selector:@selector(autoSyncByTimer:) userInfo:nil repeats:YES] retain];
+}
 #pragma mark -
--(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
+-(void)loadNewerRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
 	NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
 	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
-	if(request==loadNewerRequest){
-		[statuses insertObjects:_statuses atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
-		[loadNewerRequest release];
-		loadNewerRequest=nil;
-	}else if(request==loadOlderRequest){
-		[statuses addObjectsFromArray:_statuses];
-		[loadOlderRequest release];
-		loadOlderRequest=nil;
-	}
+    
+    [statuses insertObjects:_statuses atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
+    [loadNewerRequest release];
+    loadNewerRequest=nil;
 	for(Status *thisStatus in _statuses){
 		[thisStatus prefetechThumb];
 	}
-    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidRefreshNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidRefreshNotification object:_statuses];
+}
+-(void)loadOlderRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
+    NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
+	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+    
+    [statuses addObjectsFromArray:_statuses];
+    [loadOlderRequest release];
+    loadOlderRequest=nil;
+    for(Status *thisStatus in _statuses){
+		[thisStatus prefetechThumb];
+	}
+    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidLoadedOlderStatusNotification object:_statuses];
 }
 -(void)statusDidPreloadedThumbImage:(NSNotification*)notification{
     for(Status *status in statuses){
@@ -166,7 +216,11 @@ static TimelineManager *sharedManager=nil;
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[statuses release];
-	[timer release];
+    if(timer){
+        [timer invalidate];
+        [timer release];
+        timer=nil;
+    }
 	[super dealloc];
 }
 

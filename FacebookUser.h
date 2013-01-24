@@ -13,6 +13,4 @@
 +(FacebookUser*)userWithUserID:(NSString*)userID;
 +(FacebookUser*)userWithUserID:(NSString*)userID autoCreate:(BOOL)autoCreate;
 
-+(FacebookUser*)userWithDictionary:(NSDictionary*)dict;
-
 @end

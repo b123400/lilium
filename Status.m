@@ -10,27 +10,74 @@
 #import "StatusFetcher.h"
 #import "SDImageCache.h"
 #import "Comment.h"
+#import "Attribute.h"
+#import "UIColor-Expanded.h"
+#import "UIImage+averageColor.h"
+#include <dispatch/dispatch.h>
 
 @implementation Status
 @synthesize thumbURL,mediumURL,fullURL,webURL,caption,user,statusID,liked,date,captionColor,attributes,comments;
 
--(NSDictionary*)dictionaryRepresentation{
++(Status*)statusWithDictionary:(NSDictionary*)dict{
+    Status *newStatus=[[[Status alloc] init]autorelease];
+    newStatus.user=[User userWithDictionary:[dict objectForKey:@"user"]];
+    
+    if([dict objectForKey:@"thumb"])newStatus.thumbURL=[NSURL URLWithString:[dict objectForKey:@"thumb"]];
+    if([dict objectForKey:@"medium"])newStatus.mediumURL=[NSURL URLWithString:[dict objectForKey:@"medium"]];
+    if([dict objectForKey:@"full"])newStatus.fullURL=[NSURL URLWithString:[dict objectForKey:@"full"]];
+    if([dict objectForKey:@"web"])newStatus.webURL=[NSURL URLWithString:[dict objectForKey:@"web"]];
+    if([dict objectForKey:@"caption"])newStatus.caption=[dict objectForKey:@"caption"];
+    if([dict objectForKey:@"statusID"])newStatus.statusID=[dict objectForKey:@"statusID"];
+    if([dict objectForKey:@"date"])newStatus.date=[dict objectForKey:@"date"];
+    if([dict objectForKey:@"captionColor"])newStatus.captionColor=[UIColor colorWithString:[dict objectForKey:@"captionColor"]];
+    if([dict objectForKey:@"comments"]){
+        NSMutableArray *_comments=[NSMutableArray array];
+        for(NSDictionary *thisDict in [dict objectForKey:@"comments"]){
+            [_comments addObject:[Comment commentFromDictionary:thisDict]];
+        }
+        newStatus.comments=_comments;
+    }
+    if([dict objectForKey:@"attributes"]){
+        NSMutableArray *_attributes=[NSMutableArray array];
+        for(NSDictionary *thisDict in [dict objectForKey:@"attributes"]){
+            [_attributes addObject:[Attribute attributeFromDictionary:thisDict]];
+        }
+        newStatus.attributes=_attributes;
+    }
+    if([dict objectForKey:@"liked"])[newStatus setLiked:[[dict objectForKey:@"liked"]boolValue] sync:NO];
+
+    return newStatus;
+}
+-(NSMutableDictionary*)dictionaryRepresentation{
 	NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-	//[dict setObject:[NSNumber numberWithInt:source] forKey:@"source"];
-	if(thumbURL)[dict setObject:thumbURL forKey:@"thumb"];
-	if(meduimURL)[dict setObject:meduimURL forKey:@"medium"];
-	if(fullURL)[dict setObject:fullURL forKey:@"full"];
-	if(webURL)[dict setObject:webURL forKey:@"web"];
+    [dict setObject:[user dictionaryRepresentation] forKey:@"user"];
+	if(thumbURL)[dict setObject:[thumbURL absoluteString] forKey:@"thumb"];
+	if(mediumURL)[dict setObject:[mediumURL absoluteString] forKey:@"medium"];
+	if(fullURL)[dict setObject:[fullURL absoluteString] forKey:@"full"];
+	if(webURL)[dict setObject:[webURL absoluteString] forKey:@"web"];
 	if(caption)[dict setObject:caption forKey:@"caption"];
-	//Attribute+Account+comments?
 	if(statusID)[dict setObject:statusID forKey:@"statusID"];
 	if(date)[dict setObject:date forKey:@"date"];
+    if(captionColor)[dict setObject:[captionColor stringFromColor] forKey:@"captionColor"];
+
+    NSMutableArray *commentsArray=[NSMutableArray array];
+    for(Comment *thisComment in comments){
+        [commentsArray addObject:[thisComment dictionaryRepresentation]];
+    }
+    [dict setObject:commentsArray forKey:@"comments"];
+    
+    NSMutableArray *attributesArray=[NSMutableArray array];
+    for(Attribute *thisAttribute in attributesArray){
+        [attributesArray addObject:[thisAttribute dictionaryRepresentation]];
+    }
+    [dict setObject:attributesArray forKey:@"attributes"];
+    
 	[dict setObject:[NSNumber numberWithBool:liked] forKey:@"liked"];
 	return dict;
 }
 #pragma mark - image
 -(void)prefetechThumb{
-	if(thumbURL){
+	if(thumbURL&&!self.isImagePreloaded){
 		[[SDWebImageManager sharedManager] downloadWithURL:thumbURL delegate:self retryFailed:NO lowPriority:YES];
 	}
 }
@@ -45,7 +92,44 @@
     return nil;
 }
 - (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image{
-    [[NSNotificationCenter defaultCenter]postNotificationName:StatusDidPreloadedImageNotification object:self userInfo:nil];
+    if(!self.captionColor){
+        dispatch_queue_t gQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(gQueue, ^{
+            CGSize cellSize=[BRFunctions gridViewCellSize];
+            float heightScale=cellSize.height/image.size.height;
+            float widthScale=cellSize.width/image.size.width;
+            
+            float x=0;
+            float y=0;
+            float width=100;
+            float height=100;
+            if(heightScale>widthScale){
+                float scaledWidth=heightScale*image.size.width;
+                x=(scaledWidth-cellSize.width)/2.0/heightScale;
+                y=image.size.height*(1-30/cellSize.height);
+                height=30/heightScale;
+                width=cellSize.width/heightScale;
+            }else{
+                float scaledHeight=widthScale*image.size.height;
+                x=0;
+                y=(scaledHeight-cellSize.height)/2.0/widthScale+image.size.height*(1-30/cellSize.height);
+                width=cellSize.width/widthScale;
+                height=30/widthScale;
+            }
+            CGImageRef imageRef=CGImageCreateWithImageInRect([image CGImage], CGRectMake(x, y, width, height));
+            
+            UIImage *viewImage = [UIImage imageWithCGImage:imageRef];
+            CGImageRelease(imageRef);
+            
+            UIColor *averageColor=[viewImage getDominantColor];
+            self.captionColor=averageColor;
+            
+            //imageView.image=viewImage;
+            
+            UIGraphicsEndImageContext();
+        });
+       [[NSNotificationCenter defaultCenter]postNotificationName:StatusDidPreloadedImageNotification object:self userInfo:nil];
+    }
 }
 -(BOOL)isImagePreloaded{
     if([[SDImageCache sharedImageCache] imageFromKey:thumbURL.absoluteString fromDisk:NO]){

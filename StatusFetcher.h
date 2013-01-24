@@ -13,6 +13,7 @@
 #import "LikeRequest.h"
 #import "UserRequest.h"
 #import "BRFunctions.h"
+#import "RelationshipRequest.h"
 
 @protocol StatusFetcherDelegate
 
@@ -42,5 +43,7 @@
 -(void)sendCommentForRequest:(CommentRequest*)request;
 -(void)likeStatusForRequest:(LikeRequest*)request;
 -(void)getUserForRequest:(UserRequest*)request;
+-(void)getUserRelationship:(RelationshipRequest*)request;
+-(void)followsUser:(RelationshipRequest*)request;
 
 @end

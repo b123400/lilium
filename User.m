@@ -11,9 +11,17 @@
 #import "TumblrUser.h"
 #import "Status.h"
 #import "StatusFetcher.h"
+#import "RelationshipRequest.h"
+
+@interface User ()
+
+-(void)requestFinished:(RelationshipRequest*)request withRelationship:(UserRelationship)_relationship;
+-(void)followRequestFinished:(RelationshipRequest*)request;
+
+@end
 
 @implementation User
-@synthesize displayName,userID,type,profilePicture,username;
+@synthesize displayName,userID,type,profilePicture,username,relationship;
 
 +(NSMutableArray*)allUsers{
     static NSMutableArray *allUsers;
@@ -76,8 +84,48 @@
     me.displayName=@"me";
     return me;
 }
-
+-(NSString*)displayName{
+    if(displayName)return displayName;
+    if(username)return username;
+    if(userID)return userID;
+    return nil;
+}
+-(void)setRelationship:(UserRelationship)_relationship{
+    [self setRelationship:_relationship sync:YES];
+}
+-(void)setRelationship:(UserRelationship)_relationship sync:(BOOL)sync{
+    if(relationship!=_relationship){
+        relationship=_relationship;
+        if(sync&&(relationship==UserRelationshipFollowing||relationship==UserRelationshipNotFollowing)){
+            RelationshipRequest *request=[[[RelationshipRequest alloc]init]autorelease];
+            request.targetUser=self;
+            request.targetRelationship=relationship;
+            request.delegate=self;
+            request.selector=@selector(followRequestFinished:);
+            [[StatusFetcher sharedFetcher]followsUser:request];
+        }
+    }
+}
+#pragma mark -
+-(void)getRelationshipAndReturnTo:(id)target withSelector:(SEL)selector{
+    RelationshipRequest *request=[[[RelationshipRequest alloc] init]autorelease];
+    request.targetUser=self;
+    request.delegate=target;
+    request.selector=selector;
+    [[StatusFetcher sharedFetcher] getUserRelationship:request];
+}
+-(void)requestFinished:(RelationshipRequest*)request withRelationship:(UserRelationship)_relationship{
+    [self setRelationship:_relationship sync:NO];
+}
+-(void)followRequestFinished:(RelationshipRequest*)request{
+    
+}
+#pragma mark -
 +(User*)userWithDictionary:(NSDictionary*)dict{
+    NSString *dictClass=[dict objectForKey:@"class"];
+    if(dictClass&&![dictClass isEqualToString:NSStringFromClass([self class])]){
+        return [NSClassFromString(dictClass) userWithDictionary:dict];
+    }
     StatusSourceType type=[[dict objectForKey:@"type"] intValue];
     User *thisUser=[User userWithType:type userID:[dict objectForKey:@"userID"]];
     thisUser.displayName=[dict objectForKey:@"displayName"];
@@ -92,6 +140,7 @@
     if(self.username)[dict setObject:self.username forKey:@"username"];
     if(self.profilePicture)[dict setObject:self.profilePicture.absoluteString forKey:@"profilePicture"];
     [dict setObject:[NSNumber numberWithInt:self.type] forKey:@"type"];
+    [dict setObject:NSStringFromClass([self class]) forKey:@"class"];
     return dict;
 }
 

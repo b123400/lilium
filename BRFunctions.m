@@ -10,15 +10,15 @@
 #import "StatusFetcher.h"
 #import "TumblrUser.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "TimelineManager.h"
+#import "UIApplication+Frame.h"
 
 @interface BRFunctions ()
-
-+(void)saveAccounts;
 
 +(void)requestFinished:(UserRequest*)request didReceivedTwitterUser:(User*)user;
 +(void)requestFinished:(UserRequest*)request didReceivedFacebookUser:(User*)user;
 +(void)requestFinished:(UserRequest*)request didReceivedInstagramUser:(User*)user;
-+(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSArray*)users;
++(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSMutableArray*)users;
 
 @end
 
@@ -33,7 +33,7 @@ static User *instagramUser=nil;
 static BRFunctions *sharedObject=nil;
 static BRFlickrEngine *sharedFlickr = nil;
 static BRTumblrEngine *sharedTumblr = nil;
-static NSArray *tumblrUsers=nil;
+static NSMutableArray *tumblrUsers=nil;
 
 #pragma mark -
 #pragma mark Twitter
@@ -71,7 +71,12 @@ static NSArray *tumblrUsers=nil;
         [sharedTwitter release];
         sharedTwitter=nil;
     }
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if(twitterUser){
+        [twitterUser release];
+        twitterUser=nil;
+    }
+    [BRFunctions saveAccounts];
+    [[TimelineManager sharedManager]removeAllStatusWithSource:StatusSourceTypeTwitter];
 }
 +(void)requestFinished:(UserRequest*)request didReceivedTwitterUser:(User*)user{
     if(twitterUser)[twitterUser release];
@@ -123,6 +128,21 @@ static NSArray *tumblrUsers=nil;
     facebookUser=[user retain];
     [BRFunctions saveAccounts];
 }
++(void)logoutFacebook{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"FBAccessTokenKey"];
+    [defaults removeObjectForKey:@"FBExpirationDateKey"];
+    if(sharedFacebook){
+        [sharedFacebook release];
+        sharedFacebook=nil;
+    }
+    if(facebookUser){
+        [facebookUser release];
+        facebookUser=nil;
+    }
+    [self saveAccounts];
+    [[TimelineManager sharedManager]removeAllStatusWithSource:StatusSourceTypeFacebook];
+}
 - (void)fbDidNotLogin:(BOOL)cancelled{
 	[[NSNotificationCenter defaultCenter] postNotificationName:facebookDidNotLoginNotification	object:nil];
 }
@@ -134,7 +154,7 @@ static NSArray *tumblrUsers=nil;
 +(BRInstagramEngine*)sharedInstagram{
 	if(!sharedInstagram){
 		sharedInstagram=[[BRInstagramEngine alloc]initWithClientID:instagramClientID secret:instagramClientSecret];
-		sharedInstagram.scope=@"likes+comments";
+		sharedInstagram.scope=@"likes+comments+relationships";
 		sharedInstagram.redirectUri=[NSURL URLWithString:@"persecond://authed"];
 		
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -152,6 +172,10 @@ static NSArray *tumblrUsers=nil;
 	if(sharedInstagram){
 		[sharedInstagram setAccessToken:token];
 	}
+    if(instagramUser){
+        [instagramUser release];
+        instagramUser=nil;
+    }
     [BRFunctions loadAccounts];
 }
 +(User*)instagramUser{
@@ -173,12 +197,17 @@ static NSArray *tumblrUsers=nil;
 +(void)logoutInstagram{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:instagramSaveKey];
-    [defaults synchronize];
-	
+    
 	if(sharedInstagram){
         [sharedInstagram release];
         sharedInstagram=nil;
 	}
+    if(instagramUser){
+        [instagramUser release];
+        instagramUser=nil;
+    }
+    [BRFunctions saveAccounts];
+    [[TimelineManager sharedManager]removeAllStatusWithSource:StatusSourceTypeInstagram];
 }
 #pragma mark -
 #pragma mark Flickr
@@ -211,7 +240,8 @@ static NSArray *tumblrUsers=nil;
         sharedFlickr=nil;
     }
     [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:flickrSaveKey];
-    [[NSUserDefaults standardUserDefaults]synchronize];
+    [BRFunctions saveAccounts];
+    [[TimelineManager sharedManager]removeAllStatusWithSource:StatusSourceTypeFlickr];
 }
 #pragma mark -
 #pragma mark tumblr
@@ -230,8 +260,9 @@ static NSArray *tumblrUsers=nil;
 	if(sharedTumblr){
 		sharedTumblr.accessToken=token;
 	}
+    [BRFunctions loadAccounts];
 }
-+(NSArray*)tumblrUsers{
++(NSMutableArray*)tumblrUsers{
     return tumblrUsers;
 }
 +(BOOL)didLoggedInTumblr{
@@ -246,9 +277,15 @@ static NSArray *tumblrUsers=nil;
         [sharedTumblr release];
         sharedTumblr=nil;
     }
+    if(tumblrUsers){
+        [tumblrUsers release];
+        tumblrUsers=nil;
+    }
     [OAToken removeFromUserDefaultsWithServiceProviderName:nil prefix:tumblrSaveKey];
+    [BRFunctions saveAccounts];
+    [[TimelineManager sharedManager]removeAllStatusWithSource:StatusSourceTypeTumblr];
 }
-+(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSArray*)users{
++(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSMutableArray*)users{
     if(tumblrUsers){
         [tumblrUsers release];
         tumblrUsers=nil;
@@ -265,7 +302,7 @@ static NSArray *tumblrUsers=nil;
     }
     if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]){
         if(facebookUser)[facebookUser release];
-        facebookUser=[[FacebookUser userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]] retain];
+        facebookUser=(FacebookUser*)[[FacebookUser userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]] retain];
     }
     if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeInstagram]]){
         if(instagramUser)[instagramUser release];
@@ -375,4 +412,19 @@ static NSArray *tumblrUsers=nil;
     AudioServicesPlaySystemSound(audioEffect);
 }
 
++(CGSize)gridViewCellMargin{
+    UIEdgeInsets contentIndent=[BRFunctions gridViewIndent];
+    float margin=([UIApplication currentFrame].size.height-contentIndent.top-contentIndent.bottom)/11;
+    return CGSizeMake(margin, margin);
+}
++(UIEdgeInsets)gridViewIndent{
+    return UIEdgeInsetsMake(10, 10, 10, 10);
+}
++(float)gridViewCellToMarginRatio{
+    return 3;
+}
++(CGSize)gridViewCellSize{
+    CGSize cellSize=[BRFunctions gridViewCellMargin];
+    return CGSizeMake(cellSize.width*[BRFunctions gridViewCellToMarginRatio],cellSize.height*[BRFunctions gridViewCellToMarginRatio]);
+}
 @end

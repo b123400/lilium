@@ -36,6 +36,8 @@
 #define tumblrAPISecret  @"rAHBEhunBoJO2rKuHQzvAaNKkGsFETOPx6hsoYTI3cgbmGKsXi"
 #define tumblrSaveKey @"TumblrAccessToken"
 
+#define refreshIntervalKey @"refreshIntervalKey"
+
 @interface BRFunctions : NSObject <FBSessionDelegate> {
 	
 }
@@ -51,6 +53,7 @@
 +(FacebookUser*)facebookUser;
 +(void)setFacebookCurrentUserID:(NSString*)userID;
 +(BOOL)isFacebookLoggedIn:(BOOL)authIfNotLoggedIn;
++(void)logoutFacebook;
 
 +(BRInstagramEngine*)sharedInstagram;
 +(void)saveInstagramToken:(NSString*)token;
@@ -65,12 +68,13 @@
 
 +(BRTumblrEngine*)sharedTumblr;
 +(void)saveTumblrToken:(OAToken*)token;
-+(NSArray*)tumblrUsers;
++(NSMutableArray*)tumblrUsers;
 +(BOOL)didLoggedInTumblr;
 +(void)logoutTumblr;
 
++(void)saveAccounts;
 +(void)loadAccounts;
-
++(void)saveAccounts;
 
 +(BRFunctions*)sharedObject;
 
@@ -78,5 +82,10 @@
 + (NSString *)applicationDocumentsDirectory;
 +(dispatch_queue_t)imageQueue;
 +(void)playSound:(NSString*)filename;
+
++(CGSize)gridViewCellMargin;
++(UIEdgeInsets)gridViewIndent;
++(float)gridViewCellToMarginRatio;
++(CGSize)gridViewCellSize;
 
 @end

@@ -18,4 +18,7 @@
 @property (nonatomic,retain)User *user;
 @property (nonatomic,retain)NSString *text;
 
++(Comment*)commentFromDictionary:(NSDictionary*)dictionary;
+-(NSDictionary*)dictionaryRepresentation;
+
 @end

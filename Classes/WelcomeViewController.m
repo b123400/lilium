@@ -11,6 +11,7 @@
 #import "AccountsViewController.h"
 #import "TimelineViewController.h"
 #import "BRCircleAlert.h"
+#import "SettingViewController.h"
 
 @implementation WelcomeViewController
 
@@ -87,6 +88,12 @@
     [loadingAlert dismissWithClickedButtonIndex:0 animated:YES];
     [loadingAlert release];
     loadingAlert=nil;
+}
+
+- (IBAction)goSettings:(id)sender {
+    SettingViewController *settingViewController=[[SettingViewController alloc]init];
+    [self.navigationController pushViewController:settingViewController animated:YES];
+    [settingViewController release];
 }
 
 -(void)poppedOutFromSubviewController{

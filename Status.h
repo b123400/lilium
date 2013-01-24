@@ -13,6 +13,8 @@
 #define StatusDidPreloadedImageNotification @"StatusDidPreloadedImageNotification"
 #define StatusDidSentCommentNotification @"StatusDidSentCommentNotification"
 
+#define gridViewSideLength 
+
 typedef enum StatusImageSize {
     StatusImageSizeThumb       = 0,
     StatusImageSizeMedium   =1,
@@ -21,7 +23,7 @@ typedef enum StatusImageSize {
 
 @interface Status : NSObject <SDWebImageManagerDelegate> {
 	NSURL *thumbURL;
-	NSURL *meduimURL;
+	NSURL *mediumURL;
 	NSURL *fullURL;
 	NSURL *webURL;
 	
@@ -69,6 +71,7 @@ typedef enum StatusImageSize {
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector;
 -(void)getCommentsAndReturnTo:(id)target withSelector:(SEL)selector cached:(BOOL)cached;
 
--(NSDictionary*)dictionaryRepresentation;
++(Status*)statusWithDictionary:(NSDictionary*)dict;
+-(NSMutableDictionary*)dictionaryRepresentation;
 
 @end

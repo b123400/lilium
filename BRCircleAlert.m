@@ -20,6 +20,7 @@
 
 -(void)layout;
 
+-(void)pinched:(UIGestureRecognizer*)recognizer;
 -(void)buttonPressed:(BRCircleAlertButton*)sender;
 
 @end
@@ -52,8 +53,16 @@
         textView.textColor=[UIColor whiteColor];
         textView.backgroundColor=[UIColor clearColor];
         textView.textAlignment=NSTextAlignmentCenter;
+        textView.editable=NO;
         [self addSubview:textView];
         textView.text=_text;
+        
+        UIPinchGestureRecognizer *pinch=[[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinched:)];
+        pinch.delaysTouchesBegan=NO;
+        pinch.delaysTouchesEnded=NO;
+        [self addGestureRecognizer:pinch];
+        [pinch release];
+
     }
     return self;
 }
@@ -61,6 +70,9 @@
     [textView removeFromSuperview];
     [textView release];
     [super dealloc];
+}
++(BRCircleAlert*)alertWithText:(NSString*)_text{
+    return [BRCircleAlert alertWithText:_text buttons:@[[BRCircleAlertButton tickButtonWithAction:^{}]]];
 }
 +(BRCircleAlert*)alertWithText:(NSString*)_text buttons:(NSArray*)_buttons{
     return [BRCircleAlert alertWithText:_text color:[UIColor colorWithRed:1.0 green:63/255. blue:93/255. alpha:1.0] buttons:_buttons];
@@ -129,6 +141,21 @@
 -(void)buttonPressed:(BRCircleAlertButton*)sender{
     sender.action();
     [self dismiss];
+}
+-(void)pinched:(UIPinchGestureRecognizer*)gestureRecognizer{
+    float scale=gestureRecognizer.scale;
+    if(gestureRecognizer.state==UIGestureRecognizerStateChanged){
+        if(scale>1)scale=1+(scale-1)/2;
+        self.layer.transform=CATransform3DMakeScale(scale, scale, 1.0);
+    }else if(gestureRecognizer.state==UIGestureRecognizerStateEnded||gestureRecognizer.state==UIGestureRecognizerStateCancelled){
+        if(scale<0.7){
+            [self dismiss];
+        }else{
+            [UIView animateWithDuration:0.1 animations:^{
+                self.layer.transform=CATransform3DMakeScale(1.0, 1.0, 1.0);
+            } completion:^(BOOL finished) {}];
+        }
+    }
 }
 #pragma mark -
 -(CGSize)sizeForTextWithWidth:(float)width{

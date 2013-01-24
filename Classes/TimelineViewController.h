@@ -8,13 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "BRGridView.h"
+#import "StatusDetailViewController.h"
 
-@interface TimelineViewController : UIViewController {
+@interface TimelineViewController : UIViewController <StatusDetailViewControllerDelegate> {
 	BOOL pushed;
 	
 	IBOutlet BRGridView *gridView;
 	
 	NSMutableArray *statuses;
 }
+
+-(void)loadOlderStatuses;
 
 @end

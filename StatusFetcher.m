@@ -33,7 +33,7 @@
 
 -(void)didReceivedComments:(NSArray*)comments forRequest:(CommentRequest*)request;
 -(void)didFinishedLikeRequestWithIdentifier:(NSString*)identifier;
-
+-(void)didFollowedUserWithRequest:(RelationshipRequest*)request;
 @end
 
 @implementation StatusFetcher
@@ -160,6 +160,7 @@ static StatusFetcher* sharedFetcher=nil;
             }
         }
     }
+    [self refreshTempStatusForRequest:request];
 }
 -(void)refreshTempStatusForRequest:(StatusesRequest*)request{
 	if(request.twitterStatus!=StatusFetchingStatusLoading&&
@@ -186,7 +187,7 @@ static StatusFetcher* sharedFetcher=nil;
                     error=[NSError errorWithDomain:@"net.b123400.lilium" code:10 userInfo:[NSDictionary dictionaryWithObject:errorMessage forKey:NSLocalizedDescriptionKey]];
                 }
 				//Three arugments: request, statuses, error
-                NSMethodSignature * mySignature = [TimelineManager
+                NSMethodSignature * mySignature = [[request.delegate class]
                                                    instanceMethodSignatureForSelector:request.selector];
                 NSInvocation * myInvocation = [NSInvocation
                                                invocationWithMethodSignature:mySignature];
@@ -243,7 +244,7 @@ static StatusFetcher* sharedFetcher=nil;
 			break;
         }
         case StatusSourceTypeTwitter:{
-            NSString *requestID=[[BRFunctions sharedTwitter]sendTweet:[NSString stringWithFormat:@"@%@ %@",request.targetStatus.user.username,request.submitCommentString] inReplyToStatusWithID:request.targetStatus.statusID];
+            NSString *requestID=[[BRFunctions sharedTwitter]sendTweet:request.submitCommentString inReplyToStatusWithID:request.targetStatus.statusID];
             [requestsByID setObject:request forKey:requestID];
             break;
         }
@@ -381,6 +382,65 @@ static StatusFetcher* sharedFetcher=nil;
     }
     [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
 }
+#pragma mark - relationship
+-(void)getUserRelationship:(RelationshipRequest*)request{
+    StatusSourceType type=request.targetUser.type;
+	switch (type) {
+		case StatusSourceTypeInstagram:{
+            NSString *requestID=[[BRFunctions sharedInstagram]getRelationshipWithUser:request.targetUser.userID];
+			[requestsByID setObject:request forKey:requestID];
+            break;
+        }
+        case StatusSourceTypeTwitter:{
+            NSString *requestID=[[BRFunctions sharedTwitter]getRelationshipWithUser:request.targetUser.userID];
+			[requestsByID setObject:request forKey:requestID];
+            break;
+        }
+            default:
+            break;
+    }
+}
+-(void)followsUser:(RelationshipRequest*)request{
+    StatusSourceType type=request.targetUser.type;
+	switch (type) {
+		case StatusSourceTypeInstagram:{
+            NSString *requestID;
+            if(request.targetRelationship==UserRelationshipNotFollowing){
+                requestID=[[BRFunctions sharedInstagram]unfollowUserWithUserID:request.targetUser.userID];
+            }else{
+                requestID=[[BRFunctions sharedInstagram]followUserWithUserID:request.targetUser.userID];
+            }
+			[requestsByID setObject:request forKey:requestID];
+            break;
+        }
+        case StatusSourceTypeTwitter:{
+            NSString *requestID;
+            if(request.targetRelationship==UserRelationshipNotFollowing){
+                requestID=[[BRFunctions sharedTwitter]unfollowUserWithUserID:request.targetUser.userID];
+            }else{
+                requestID=[[BRFunctions sharedTwitter]followUserWithUserID:request.targetUser.userID];
+            }
+			[requestsByID setObject:request forKey:requestID];
+            break;
+        }
+        default:
+            break;
+    }
+}
+-(void)request:(RelationshipRequest*)request finishedWithUserRelationship:(UserRelationship)relationship{
+    [request.targetUser setRelationship:relationship sync:NO];
+    if(request.delegate&&[request.delegate respondsToSelector:request.selector]){
+        [request.delegate performSelector:request.selector withObject:request];
+    }
+    [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
+}
+-(void)didFollowedUserWithRequest:(RelationshipRequest*)request{
+    [request.targetUser setRelationship:request.targetRelationship sync:NO];
+    if(request.delegate&&[request.delegate respondsToSelector:request.selector]){
+        [request.delegate performSelector:request.selector withObject:request];
+    }
+    [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
+}
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
     User *newUser=[User userWithType:StatusSourceTypeFlickr userID:[dict objectForKey:@"author"]];
@@ -423,11 +483,17 @@ static StatusFetcher* sharedFetcher=nil;
 	NSArray *photos=[[data objectForKey:@"photos"] objectForKey:@"photo"];
 	for(NSDictionary *photo in photos){
 		Status *thisStatus=[[[Status alloc]init]autorelease];
-		thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"m"];
-		//thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil]; <--retina
-		thisStatus.mediumURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil];
-		//thisStatus.meduimURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"b"]; <--retina
-		thisStatus.fullURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"o"];
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+            thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil];
+            thisStatus.mediumURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"o"];
+        }else if([UIScreen mainScreen].scale==2.0){
+            thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil];
+            thisStatus.mediumURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"b"];
+        }else{
+            thisStatus.thumbURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"m"];
+            thisStatus.mediumURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:nil];
+		}
+        thisStatus.fullURL=[BRFlickrEngine photoSourceURLFromDictionary:photo size:@"o"];
 		thisStatus.webURL=[BRFlickrEngine webPageURLFromDictionary:photo];
 		thisStatus.caption=[photo objectForKey:@"title"];
         
@@ -490,6 +556,9 @@ static StatusFetcher* sharedFetcher=nil;
 }
 -(User*)instagramUserFromDict:(NSDictionary*)dictionary{
     User *thisUser=[User userWithType:StatusSourceTypeInstagram userID:[dictionary objectForKey:@"id"]];;
+    if(thisUser.relationship!=UserRelationshipFollowing&&thisUser.relationship!=UserRelationshipNotFollowing){
+        thisUser.relationship=UserRelationshipUnknown;
+    }
     thisUser.displayName=[dictionary objectForKey:@"full_name"];
     thisUser.username=[dictionary objectForKey:@"username"];
     if([dictionary objectForKey:@"profile_picture"]){
@@ -512,6 +581,25 @@ static StatusFetcher* sharedFetcher=nil;
         [self didReceivedUser:[self instagramUserFromDict:[data objectForKey:@"data"]] forRequest:[requestsByID objectForKey:identifier]];
         return;
     }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[RelationshipRequest class]]){
+        RelationshipRequest *request=[requestsByID objectForKey:identifier];
+        if(request.targetRelationship==UserRelationshipFollowing||request.targetRelationship==UserRelationshipNotFollowing){
+            if(request.targetRelationship==UserRelationshipNotFollowing||request.targetRelationship==UserRelationshipFollowing){
+                [self didFollowedUserWithRequest:request];
+                return;
+            }
+            return;
+        }
+        UserRelationship relationship=UserRelationshipNotFollowing;
+        if([data isKindOfClass:[NSDictionary class]]&&[[data objectForKey:@"data"] isKindOfClass:[NSDictionary class]]){
+            NSString *followingStatus=[[data objectForKey:@"data"] objectForKey:@"outgoing_status"];
+            if(followingStatus&&[followingStatus isEqualToString:@"follows"]){
+                relationship=UserRelationshipFollowing;
+            }
+        }
+        [self request:request finishedWithUserRelationship:relationship];
+        return;
+    }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.instagramStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
@@ -519,10 +607,16 @@ static StatusFetcher* sharedFetcher=nil;
 	NSArray *photos=[data objectForKey:@"data"];
 	for(NSDictionary *photo in photos){
 		Status *thisStatus=[[[Status alloc]init]autorelease];
-		thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"thumbnail"] objectForKey:@"url"]];
-		//thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"low_resolution"] objectForKey:@"url"]]; <--retina
-		thisStatus.mediumURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"low_resolution"] objectForKey:@"url"]];
-		//thisStatus.meduimURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]]; <--retina
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+            thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]];
+            thisStatus.mediumURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]];
+        }else if([UIScreen mainScreen].scale==1.0){
+            thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"thumbnail"] objectForKey:@"url"]];
+            thisStatus.mediumURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"low_resolution"] objectForKey:@"url"]];
+        }else{
+            thisStatus.thumbURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"low_resolution"] objectForKey:@"url"]];
+            thisStatus.mediumURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]];
+        }
 		thisStatus.fullURL=[NSURL URLWithString:[[[photo objectForKey:@"images"] objectForKey:@"standard_resolution"] objectForKey:@"url"]];
 		if([photo objectForKey:@"link"]&&[photo objectForKey:@"link"]!=[NSNull null]){
 			thisStatus.webURL=[NSURL URLWithString:[photo objectForKey:@"link"]];
@@ -674,16 +768,19 @@ static StatusFetcher* sharedFetcher=nil;
 				}else if([[size objectForKey:@"width"]intValue]==400){
 					thisStatus.mediumURL=[NSURL URLWithString:[size objectForKey:@"url"]];
 				}
-				/*retina
-				if([[size objectForKey:@"width"] intValue]==400){
-					thisStatus.thumbURL=[NSURL URLWithString:[size objectForKey:@"url"]];
-				}else if([[size objectForKey:@"width"]intValue]==500){
-					thisStatus.meduimURL=[NSURL URLWithString:[size objectForKey:@"url"]];
-				}
-				 */
+				if([UIScreen mainScreen].scale==2.0){
+                    if([[size objectForKey:@"width"] intValue]==400){
+                        thisStatus.thumbURL=[NSURL URLWithString:[size objectForKey:@"url"]];
+                    }else if([[size objectForKey:@"width"]intValue]==500){
+                        thisStatus.mediumURL=[NSURL URLWithString:[size objectForKey:@"url"]];
+                    }
+                }
 			}
 			if(thisStatus.thumbURL&&thisStatus.mediumURL){
 				thisStatus.fullURL=[NSURL URLWithString:[[sizes objectAtIndex:0]objectForKey:@"url"]];
+                if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                    thisStatus.thumbURL=thisStatus.mediumURL=thisStatus.fullURL;
+                }
 				thisStatus.webURL=[NSURL URLWithString:[post objectForKey:@"post_url"]];
 				if([post objectForKey:@"caption"]&&[post objectForKey:@"caption"]!=[NSNull null]&&![[post objectForKey:@"caption"] isEqualToString:@""]){
 					
@@ -775,9 +872,20 @@ static StatusFetcher* sharedFetcher=nil;
 #pragma mark twitter
 -(User*)twitterUserFromDict:(NSDictionary*)dict{
     User *thisUser=[User userWithType:StatusSourceTypeTwitter userID:[dict objectForKey:@"id_str"]];
+    if(thisUser.relationship!=UserRelationshipFollowing&&thisUser.relationship!=UserRelationshipNotFollowing){
+        thisUser.relationship=UserRelationshipUnknown;
+    }
     thisUser.username=[dict objectForKey:@"screen_name"];
     thisUser.profilePicture=[NSURL URLWithString:[dict objectForKey:@"profile_image_url"]];
     thisUser.displayName=[dict objectForKey:@"name"];
+    if([dict objectForKey:@"following"]&&![[dict objectForKey:@"following"] isKindOfClass:[NSNull class]]){
+        BOOL isFollowing=[[dict objectForKey:@"following"] boolValue];
+        if(isFollowing){
+            [thisUser setRelationship:UserRelationshipFollowing sync:NO];
+        }else{
+            [thisUser setRelationship:UserRelationshipNotFollowing sync:NO];
+        }
+    }
     return thisUser;
 }
 -(Comment*)twitterCommentFromDict:(NSDictionary*)dict{
@@ -841,6 +949,26 @@ static StatusFetcher* sharedFetcher=nil;
         [self didReceivedUser:[self twitterUserFromDict:data] forRequest:[requestsByID objectForKey:identifier]];
         return;
     }
+    if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[RelationshipRequest class]]){
+        RelationshipRequest *request=[requestsByID objectForKey:identifier];
+        if(request.targetRelationship==UserRelationshipNotFollowing||request.targetRelationship==UserRelationshipFollowing){
+            [self didFollowedUserWithRequest:request];
+            return;
+        }
+        UserRelationship relationship=UserRelationshipNotFollowing;
+        if([data isKindOfClass:[NSArray class]]&&[data count]){
+            NSDictionary *thisDict=[data objectAtIndex:0];
+            if([thisDict isKindOfClass:[NSDictionary class]]&&[[thisDict objectForKey:@"connections"] isKindOfClass:[NSArray class]]){
+                for(NSString *connection in [thisDict objectForKey:@"connections"]){
+                    if([connection isEqualToString:@"following"]){
+                        relationship=UserRelationshipFollowing;
+                    }
+                }
+            }
+        }
+        [self request:request finishedWithUserRelationship:relationship];
+        return;
+    }
 	StatusesRequest *request=[requestsByID objectForKey:identifier];
 	request.twitterStatus=StatusFetchingStatusFinished;
 	NSMutableArray *_statuses=[tempStatuses objectForKey:request];
@@ -864,10 +992,16 @@ static StatusFetcher* sharedFetcher=nil;
                     thisStatus.caption=[[tweet objectForKey:@"text"] stringByReplacingOccurrencesOfString:[media objectForKey:@"url"] withString:@""];
                     thisStatus.user=[self twitterUserFromDict:[tweet objectForKey:@"user"]];
                     
-                    thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:thumb",[media objectForKey:@"media_url"]]];
-                    //thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:small",[media objectForKey:@"media_url"]]] <--retina
-                    thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:medium",[media objectForKey:@"media_url"]]];
-                    //thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:large",[media objectForKey:@"media_url"]]]
+                    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                        thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:large",[media objectForKey:@"media_url"]]];
+                        thisStatus.mediumURL=[NSURL URLWithString:[media objectForKey:@"media_url"]];
+                    }else if([UIScreen mainScreen].scale==1.0){
+                        thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:thumb",[media objectForKey:@"media_url"]]];
+                        thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:medium",[media objectForKey:@"media_url"]]];
+                    }else{
+                        thisStatus.thumbURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:small",[media objectForKey:@"media_url"]]];
+                        thisStatus.mediumURL=[NSURL URLWithString:[NSString stringWithFormat:@"%@:large",[media objectForKey:@"media_url"]]];
+                    }
                     thisStatus.fullURL=[NSURL URLWithString:[media objectForKey:@"media_url"]];
                     
                     [thisStatus setLiked:[[tweet objectForKey:@"favorited"]intValue]==1 sync:NO];
@@ -942,11 +1076,16 @@ static StatusFetcher* sharedFetcher=nil;
 					thisStatus.caption=[[tweet objectForKey:@"text"] stringByReplacingOccurrencesOfString:thisUrl withString:@""];
 					
 					thisStatus.user=[self twitterUserFromDict:[tweet objectForKey:@"user"]];
-					
-					thisStatus.thumbURL=thumbURL;
-					//thisStatus.thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeMedium]; <--retina
-					thisStatus.mediumURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeMedium];
-					//thisStatus.meduimURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeLarge]; <--retina
+					if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                        thisStatus.thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeLarge];
+                        thisStatus.mediumURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeFull];
+                    }else if([UIScreen mainScreen].scale==1.0){
+                        thisStatus.thumbURL=thumbURL;
+                        thisStatus.mediumURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeMedium];
+                    }else{
+                        thisStatus.thumbURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeMedium];
+                        thisStatus.mediumURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl]  size:BRImageSizeLarge];
+                    }
 					thisStatus.fullURL=[BRTwitterEngine rawImageURLFromURL:[NSURL URLWithString:thisUrl] size:BRImageSizeFull];
 					
 					[thisStatus setLiked:[[tweet objectForKey:@"favorited"]intValue]==1 sync:NO];
@@ -1067,6 +1206,14 @@ static StatusFetcher* sharedFetcher=nil;
 				newStatus.mediumURL=[NSURL URLWithString:mediumString];
 				newStatus.fullURL=[NSURL URLWithString:fullString];
 			}
+            if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                newStatus.thumbURL=[NSURL URLWithString:mediumString];
+				newStatus.mediumURL=[NSURL URLWithString:fullString];
+				newStatus.fullURL=[NSURL URLWithString:fullString];
+            }else if([[UIScreen mainScreen]scale]==2.0){
+                newStatus.thumbURL=[NSURL URLWithString:mediumString];
+				newStatus.mediumURL=[NSURL URLWithString:mediumString];
+            }
 			newStatus.webURL=[NSURL URLWithString:[dict	objectForKey:@"link"]];
 			
 			if([dict objectForKey:@"message"])newStatus.caption=[dict objectForKey:@"message"];
