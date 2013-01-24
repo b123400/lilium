@@ -120,7 +120,7 @@
         frame.size.height=height;
         mainImageView.frame=frame;
     }
-    
+    textLabel.hidden=YES;
     textLabel.frame=CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000);
     textLabel.text=status.caption;
 	
@@ -132,6 +132,7 @@
 	CGRect frame=textLabel.frame;
 	frame.size=[textLabel sizeThatFits:textLabel.frame.size];
 	textLabel.frame=frame;
+    textLabel.hidden=NO;
 	
 	frame=imageWrapperView.frame;
 	frame.size.height=textLabel.frame.size.height+textLabel.frame.origin.y+5;
@@ -146,6 +147,7 @@
     [profileImageView setImageWithURL:status.user.profilePicture];
     
     imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, userView.frame.size.height+userView.frame.origin.y);
+    commentTableView.frame=CGRectMake(imageWrapperScrollView.frame.origin.x+imageWrapperScrollView.frame.size.width, 0, commentTableView.frame.size.width, mainScrollView.frame.size.height);
 	mainScrollView.contentSize=CGSizeMake(commentTableView.frame.origin.x+commentTableView.frame.size.width, 1);
     
     
@@ -431,14 +433,13 @@
     [views addObject:commentComposeView];
 	return views;
 }
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
+- (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
+    [self layout];
+}
+-(void) willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation duration: (NSTimeInterval) duration {
+    [self updateLayoutForNewOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+}
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
