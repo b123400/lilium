@@ -12,9 +12,13 @@
 #import "UIView+Interaction.h"
 #import "StatusFetcher.h"
 #import "NichijyouNavigationController.h"
+#import "SVProgressHUD.h"
+#import "BRCircleAlert.h"
 
 @interface UserViewController ()
 
+-(void)loadNewerStatuses;
+-(void)loadOlderStatuses;
 -(void)didGetUserRelationship:(User*)thisUser;
 -(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 -(void)layoutActionView;
@@ -30,11 +34,7 @@
     user=[_user retain];
     
     //statuses=[[NSMutableArray alloc] init];
-    StatusesRequest *request=[[[StatusesRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
-    request.referenceUsers=[NSMutableArray arrayWithObject:user];
-    request.selector=@selector(requestFinished:withStatuses:withError:);
-    request.delegate=self;
-    [[StatusFetcher sharedFetcher] getStatusesForRequest:request];
+    [self loadNewerStatuses];
     
     if(user.relationship==UserRelationshipUnknown){
         [user getRelationshipAndReturnTo:self withSelector:@selector(didGetUserRelationship:)];
@@ -133,9 +133,53 @@
     [self layoutActionView];
 }
 #pragma mark - load things
--(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
+-(void)loadNewerStatuses{
+    if(isLoadingNewerStatus)return;
+    isLoadingNewerStatus=YES;
+    [SVProgressHUD show];
+    StatusesRequest *request=[[[StatusesRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
+    request.direction=StatusRequestDirectionNewer;
+    request.referenceUsers=[NSMutableArray arrayWithObject:user];
+    if([user.statuses count]){
+        request.referenceStatuses=@[[user.statuses objectAtIndex:0]];
+    }
+    request.selector=@selector(requestFinished:withStatuses:withError:);
+    request.delegate=self;
+    [[StatusFetcher sharedFetcher] getStatusesForRequest:request];
+}
+-(void)loadOlderStatuses{
+    if(isLoadingOlderStatus)return;
+    isLoadingOlderStatus=YES;
+    [SVProgressHUD show];
+    StatusesRequest *request=[[[StatusesRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
+    request.referenceUsers=[NSMutableArray arrayWithObject:user];
+    request.direction=StatusRequestDirectionOlder;
+    if(user.type!=StatusSourceTypeTumblr){
+        request.referenceStatuses=@[[user.statuses lastObject]];
+    }else{
+        request.referenceStatuses=user.statuses;
+    }
+    request.selector=@selector(requestFinished:withStatuses:withError:);
+    request.delegate=self;
+    [[StatusFetcher sharedFetcher] getStatusesForRequest:request];
+}
+-(void)requestFinished:(StatusesRequest*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
+    if(request.direction==StatusRequestDirectionNewer){
+        isLoadingNewerStatus=NO;
+    }else if(request.direction==StatusRequestDirectionOlder){
+        isLoadingOlderStatus=NO;
+    }
+    if(!isLoadingNewerStatus&&!isLoadingOlderStatus){
+        [SVProgressHUD dismiss];
+    }
+
     if(error){
-        NSLog(@"%@",[error description]);
+        BRCircleAlert *alert=[BRCircleAlert alertWithText:[error localizedDescription] buttons:@[[BRCircleAlertButton tickButtonWithAction:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        }]]];
+        [alert show];
+        return;
+
     }
     for(Status *thisStatus in _statuses){
         [thisStatus prefetechThumb];
@@ -214,6 +258,14 @@
 -(void) willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation duration: (NSTimeInterval) duration {
     [self updateLayoutForNewOrientation: interfaceOrientation];
 }
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if(scrollView.contentOffset.x>scrollView.contentSize.width-scrollView.frame.size.width-gridView.contentIndent.right){
+        [self loadOlderStatuses];
+    }else if(scrollView.contentOffset.x<0){
+        [self loadNewerStatuses];
+    }
+}
+
 #pragma mark - detail view delegate
 -(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
     NSArray *statuses=user.statuses;

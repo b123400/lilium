@@ -22,6 +22,9 @@
     IBOutlet UILabel *usernameLabel;
     IBOutlet UIView *actionView;
     IBOutlet UIButton *followButton;
+
+    BOOL isLoadingNewerStatus;
+    BOOL isLoadingOlderStatus;
 }
 
 -(id)initWithUser:(User*)_user;

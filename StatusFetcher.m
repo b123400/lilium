@@ -125,33 +125,69 @@ static StatusFetcher* sharedFetcher=nil;
 		}
 	}else if(request.type==StatusRequestTypeSolo){
         for(User *thisUser in request.referenceUsers){
+            Status *referenceStatus=[self firstStatusWithSource:thisUser.type inArray:request.referenceStatuses];
             switch (thisUser.type) {
                 case StatusSourceTypeInstagram:{
-                    NSString *requestID=[[BRFunctions sharedInstagram] getUserFeedWithUserID:thisUser.userID minID:nil maxID:nil];
-                    [requestsByID setObject:request forKey:requestID];
-                    request.instagramStatus=StatusFetchingStatusLoading;
+                    NSString *requestID=nil;
+                    if(!referenceStatus){
+                        requestID=[[BRFunctions sharedInstagram] getUserFeedWithUserID:thisUser.userID minID:nil maxID:nil];
+                    }else if(request.direction==StatusRequestDirectionNewer){
+                        requestID=[[BRFunctions sharedInstagram] getUserFeedWithUserID:thisUser.userID minID:referenceStatus.statusID maxID:nil];
+                    }else if(request.direction==StatusRequestDirectionOlder){
+                        requestID=[[BRFunctions sharedInstagram] getUserFeedWithUserID:thisUser.userID minID:nil maxID:referenceStatus.statusID];
+                    }
+                    if(requestID){
+                        [requestsByID setObject:request forKey:requestID];
+                        request.instagramStatus=StatusFetchingStatusLoading;
+                    }
+
                     break;
                 }
                 case StatusSourceTypeTwitter:{
-                    NSString *requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:nil maxID:nil];
-                    [requestsByID setObject:request forKey:requestID];
-                    request.twitterStatus=StatusFetchingStatusLoading;
+                                        NSString *requestID=nil;
+                    if(!referenceStatus){
+                        requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:nil maxID:nil];
+                    }else if(request.direction==StatusRequestDirectionNewer){
+                        requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:referenceStatus.statusID maxID:nil];
+                    }else if(request.direction==StatusRequestDirectionOlder){
+                        requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:nil maxID:referenceStatus.statusID];
+                    }
+                    if(requestID){
+                        [requestsByID setObject:request forKey:requestID];
+                        request.twitterStatus=StatusFetchingStatusLoading;
+                    }
+
                     break;
                 }
                 case StatusSourceTypeFlickr:{
-                    NSString *requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:nil page:0];
+                                        NSString *requestID=nil;
+                    if(!referenceStatus){
+                        requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:nil page:0];
+                    }else if(request.direction==StatusRequestDirectionNewer){
+                        requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:referenceStatus.date maxDate:nil page:0];
+                    }else if(request.direction==StatusRequestDirectionOlder){
+                        requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:referenceStatus.date page:0];
+                    }
+
                     [requestsByID setObject:request forKey:requestID];
                     request.flickrStatus=StatusFetchingStatusLoading;
                 }
                 case StatusSourceTypeTumblr:{
-                    NSString *requestID=[[BRFunctions sharedTumblr]getPostsWithBaseHostname:thisUser.userID offset:0];
+                    NSString *requestID=[[BRFunctions sharedTumblr]getPostsWithBaseHostname:thisUser.userID offset:request.referenceStatuses.count];
                     [requestsByID setObject:request forKey:requestID];
                     request.tumblrStatus=StatusFetchingStatusLoading;
                     break;
                 }
                 case StatusSourceTypeFacebook:{
-                    FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo",thisUser.userID] andDelegate:self];
-                    [requestsByID setObject:request forKey:[fbRequest identifier]];
+                                        FBRequest *fbRequest=nil;
+                    if(!referenceStatus){
+                        [[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo",thisUser.userID] andDelegate:self];
+                    }else if(request.direction==StatusRequestDirectionNewer){
+                        [[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&since=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
+                    }else if(request.direction==StatusRequestDirectionOlder){
+                        [[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&until=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
+                    }
+[requestsByID setObject:request forKey:[fbRequest identifier]];
                     request.facebookStatus=StatusFetchingStatusLoading;
                     break;
                 }

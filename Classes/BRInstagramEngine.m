@@ -152,10 +152,10 @@
 -(NSString*)getUserFeedWithUserID:(NSString*)userID minID:(NSString*)minID maxID:(NSString*)maxID{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
     if(minID){
-        [params setObject:minID forKey:@"MIN_ID"];
+        [params setObject:minID forKey:@"min_id"];
     }
     if(maxID){
-        [params setObject:maxID forKey:@"MAX_ID"];
+        [params setObject:maxID forKey:@"max_id"];
     }
     return [self performRequestWithPath:[NSString stringWithFormat:@"users/%@/media/recent",userID] parameters:params];
 }
