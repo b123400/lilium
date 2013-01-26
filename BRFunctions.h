@@ -82,6 +82,7 @@
 
 +(dispatch_queue_t)imageQueue;
 
++(int)gridViewNumOfRow;
 +(CGSize)gridViewCellMargin;
 +(UIEdgeInsets)gridViewIndent;
 +(float)gridViewCellToMarginRatio;

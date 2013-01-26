@@ -232,7 +232,7 @@
         gridView.contentIndent=UIEdgeInsetsMake(10, 80, 10, 10);
         gridView.cellMargin=[BRFunctions gridViewCellMargin];
         gridView.cellSize=[BRFunctions gridViewCellSize];
-        gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+gridView.cellMargin.height)/(gridView.cellMargin.height+gridView.cellSize.height));
+        gridView.numOfRow=[BRFunctions gridViewNumOfRow];
         gridView.alwaysBounceVertical=YES;
         gridView.alwaysBounceHorizontal=YES;
         gridView.showsHorizontalScrollIndicator=NO;

@@ -20,6 +20,18 @@
 		CF261DD313D4B37400D3F844 /* loggedInCover.png in Resources */ = {isa = PBXBuildFile; fileRef = CF261DD113D4B37400D3F844 /* loggedInCover.png */; };
 		CF261DD413D4B37400D3F844 /* loggedInCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF261DD213D4B37400D3F844 /* loggedInCover@2x.png */; };
 		CF261E1913D4E01300D3F844 /* StatusFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = CF261E1813D4E01300D3F844 /* StatusFetcher.m */; };
+		CF2C2DEB16B2DB5A00EF1593 /* AccountsViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DDF16B2DB5A00EF1593 /* AccountsViewController~ipad.xib */; };
+		CF2C2DEC16B2DB5A00EF1593 /* BRInstagramLoginViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE016B2DB5A00EF1593 /* BRInstagramLoginViewController~ipad.xib */; };
+		CF2C2DED16B2DB5A00EF1593 /* BRTumblrLoginViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE116B2DB5A00EF1593 /* BRTumblrLoginViewController~ipad.xib */; };
+		CF2C2DEE16B2DB5A00EF1593 /* FacebookLoginController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE216B2DB5A00EF1593 /* FacebookLoginController~ipad.xib */; };
+		CF2C2DEF16B2DB5A00EF1593 /* FlickrLoginViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE316B2DB5A00EF1593 /* FlickrLoginViewController~ipad.xib */; };
+		CF2C2DF016B2DB5A00EF1593 /* StatusDetailViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE416B2DB5A00EF1593 /* StatusDetailViewController~ipad.xib */; };
+		CF2C2DF116B2DB5A00EF1593 /* TimelineViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE516B2DB5A00EF1593 /* TimelineViewController~ipad.xib */; };
+		CF2C2DF216B2DB5A00EF1593 /* TwitterLoginController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE616B2DB5A00EF1593 /* TwitterLoginController~ipad.xib */; };
+		CF2C2DF316B2DB5A00EF1593 /* UserViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE716B2DB5A00EF1593 /* UserViewController~ipad.xib */; };
+		CF2C2DF416B2DB5A00EF1593 /* WelcomePinchViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE816B2DB5A00EF1593 /* WelcomePinchViewController~ipad.xib */; };
+		CF2C2DF516B2DB5A00EF1593 /* WelcomeViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE916B2DB5A00EF1593 /* WelcomeViewController~ipad.xib */; };
+		CF2C2DF616B2DB5A00EF1593 /* MainWindow~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DEA16B2DB5A00EF1593 /* MainWindow~ipad.xib */; };
 		CF2D0E541412CC0D00E173DC /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2D0E531412CC0D00E173DC /* CoreText.framework */; };
 		CF2D0ED81413B3C100E173DC /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2D0ED51413B3C100E173DC /* NSAttributedString+Attributes.m */; };
 		CF2D0ED91413B3C100E173DC /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2D0ED71413B3C100E173DC /* OHAttributedLabel.m */; };
@@ -229,6 +241,18 @@
 		CF261DD213D4B37400D3F844 /* loggedInCover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "loggedInCover@2x.png"; path = "Images/loggedInCover@2x.png"; sourceTree = "<group>"; };
 		CF261E1713D4E01300D3F844 /* StatusFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusFetcher.h; sourceTree = "<group>"; };
 		CF261E1813D4E01300D3F844 /* StatusFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusFetcher.m; sourceTree = "<group>"; };
+		CF2C2DDF16B2DB5A00EF1593 /* AccountsViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AccountsViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE016B2DB5A00EF1593 /* BRInstagramLoginViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "BRInstagramLoginViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE116B2DB5A00EF1593 /* BRTumblrLoginViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "BRTumblrLoginViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE216B2DB5A00EF1593 /* FacebookLoginController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "FacebookLoginController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE316B2DB5A00EF1593 /* FlickrLoginViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "FlickrLoginViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE416B2DB5A00EF1593 /* StatusDetailViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "StatusDetailViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE516B2DB5A00EF1593 /* TimelineViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "TimelineViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE616B2DB5A00EF1593 /* TwitterLoginController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "TwitterLoginController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE716B2DB5A00EF1593 /* UserViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "UserViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE816B2DB5A00EF1593 /* WelcomePinchViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WelcomePinchViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DE916B2DB5A00EF1593 /* WelcomeViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WelcomeViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF2C2DEA16B2DB5A00EF1593 /* MainWindow~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow~ipad.xib"; sourceTree = "<group>"; };
 		CF2D0E531412CC0D00E173DC /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		CF2D0ED41413B3C100E173DC /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Attributes.h"; sourceTree = "<group>"; };
 		CF2D0ED51413B3C100E173DC /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Attributes.m"; sourceTree = "<group>"; };
@@ -630,6 +654,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				CF2C2DDD16B2DB5A00EF1593 /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -705,6 +730,33 @@
 				CF2D0E531412CC0D00E173DC /* CoreText.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CF2C2DDD16B2DB5A00EF1593 /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				CF2C2DDE16B2DB5A00EF1593 /* Classes */,
+				CF2C2DEA16B2DB5A00EF1593 /* MainWindow~ipad.xib */,
+			);
+			path = "Resources-iPad";
+			sourceTree = "<group>";
+		};
+		CF2C2DDE16B2DB5A00EF1593 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CF2C2DDF16B2DB5A00EF1593 /* AccountsViewController~ipad.xib */,
+				CF2C2DE016B2DB5A00EF1593 /* BRInstagramLoginViewController~ipad.xib */,
+				CF2C2DE116B2DB5A00EF1593 /* BRTumblrLoginViewController~ipad.xib */,
+				CF2C2DE216B2DB5A00EF1593 /* FacebookLoginController~ipad.xib */,
+				CF2C2DE316B2DB5A00EF1593 /* FlickrLoginViewController~ipad.xib */,
+				CF2C2DE416B2DB5A00EF1593 /* StatusDetailViewController~ipad.xib */,
+				CF2C2DE516B2DB5A00EF1593 /* TimelineViewController~ipad.xib */,
+				CF2C2DE616B2DB5A00EF1593 /* TwitterLoginController~ipad.xib */,
+				CF2C2DE716B2DB5A00EF1593 /* UserViewController~ipad.xib */,
+				CF2C2DE816B2DB5A00EF1593 /* WelcomePinchViewController~ipad.xib */,
+				CF2C2DE916B2DB5A00EF1593 /* WelcomeViewController~ipad.xib */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		CF2D0ECE1413B3A800E173DC /* OHAttributedLabel */ = {
@@ -1544,6 +1596,18 @@
 				CF02E15B1693657E007913D9 /* heart@2x.png in Resources */,
 				CF88E07716A5D88E006415DF /* MultipleChoiceViewController.xib in Resources */,
 				CF88E07916A5D88E006415DF /* SettingViewController.xib in Resources */,
+				CF2C2DEB16B2DB5A00EF1593 /* AccountsViewController~ipad.xib in Resources */,
+				CF2C2DEC16B2DB5A00EF1593 /* BRInstagramLoginViewController~ipad.xib in Resources */,
+				CF2C2DED16B2DB5A00EF1593 /* BRTumblrLoginViewController~ipad.xib in Resources */,
+				CF2C2DEE16B2DB5A00EF1593 /* FacebookLoginController~ipad.xib in Resources */,
+				CF2C2DEF16B2DB5A00EF1593 /* FlickrLoginViewController~ipad.xib in Resources */,
+				CF2C2DF016B2DB5A00EF1593 /* StatusDetailViewController~ipad.xib in Resources */,
+				CF2C2DF116B2DB5A00EF1593 /* TimelineViewController~ipad.xib in Resources */,
+				CF2C2DF216B2DB5A00EF1593 /* TwitterLoginController~ipad.xib in Resources */,
+				CF2C2DF316B2DB5A00EF1593 /* UserViewController~ipad.xib in Resources */,
+				CF2C2DF416B2DB5A00EF1593 /* WelcomePinchViewController~ipad.xib in Resources */,
+				CF2C2DF516B2DB5A00EF1593 /* WelcomeViewController~ipad.xib in Resources */,
+				CF2C2DF616B2DB5A00EF1593 /* MainWindow~ipad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
