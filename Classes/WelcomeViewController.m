@@ -14,6 +14,8 @@
 #import "UIApplication+Frame.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SettingViewController.h"
+#import "TimelineManager.h"
+#import "UIButton+WebCache.h"
 
 @implementation WelcomeViewController
 
@@ -54,8 +56,20 @@
 	}else{
 		self.view=mainView;
 	}
+    
+    Status *randomStatus=[[TimelineManager sharedManager]randomStatus];
+    timelineButton.delegate=self;
+    [timelineButton setImageWithURL:randomStatus.thumbURL];
+    [timelineButton addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goTimeline)] autorelease]];
+    timelineButton.textLabel.text=@"Timeline";
 }
-
+-(void)titleButtonDidFinishedAnimation:(id)button{
+    Status *randomStatus=[[TimelineManager sharedManager]randomStatus];
+    [timelineButton setImageWithURL:randomStatus.thumbURL];
+}
+-(void)pushInAnimationDidFinished{
+    [timelineButton startAnimation];
+}
 -(void)getStartPressed{
 	WelcomePinchViewController *pinch=[[WelcomePinchViewController alloc]init];
 	pinch.delegate=self;
@@ -111,19 +125,22 @@
     if(self.view==mainView){
         switch (orientation) {
             case UIInterfaceOrientationLandscapeLeft:{
-                timelineButton.imageView.layer.transform=
+                timelineButton.backgroundImageView.layer.transform=
+                timelineButton.textLabel.layer.transform=
                 accountButton.imageView.layer.transform=
                 settingsButton.imageView.layer.transform=CATransform3DMakeRotation(-M_PI_2, 0, 0, 1);
             }
                 break;
             case UIInterfaceOrientationLandscapeRight:{
-                timelineButton.imageView.layer.transform=
+                timelineButton.backgroundImageView.layer.transform=
+                timelineButton.textLabel.layer.transform=
                 accountButton.imageView.layer.transform=
                 settingsButton.imageView.layer.transform=CATransform3DMakeRotation(M_PI_2, 0, 0, 1);
             }
                 break;
             case UIInterfaceOrientationPortrait:{
-                timelineButton.imageView.layer.transform=
+                timelineButton.backgroundImageView.layer.transform=
+                timelineButton.textLabel.layer.transform=
                 accountButton.imageView.layer.transform=
                 settingsButton.imageView.layer.transform=CATransform3DIdentity;
             }

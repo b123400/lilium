@@ -78,7 +78,10 @@ static TimelineManager *sharedManager=nil;
 	}
 	return [statuses objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexOfStatus+1, count)]];
 }
-
+-(Status*)randomStatus{
+    if(!statuses.count)return nil;
+    return [statuses objectAtIndex:arc4random()%statuses.count];
+}
 -(void)removeAllStatusWithSource:(StatusSourceType)source{
     NSArray *statusesToRemove=[statuses filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         Status *thisStatus=evaluatedObject;
