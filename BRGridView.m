@@ -102,7 +102,7 @@
     if(animated){
         //animation
         float zoomingFactor=3;
-        SecondOrderResponseEvaluator *evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
+        SecondOrderResponseEvaluator *evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.54] autorelease];
         AccelerationAnimation *animationh =[AccelerationAnimation
                                             animationWithKeyPath:@"transform"
                                             startZoomValue:1/zoomingFactor
@@ -112,8 +112,13 @@
         animationh.removedOnCompletion=YES;
         animationh.duration=0.5;
         
+        float eachDelay=0.05;
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+            eachDelay=0.01;
+        }
+        
         [cells enumerateObjectsUsingBlock:^(BRGridViewCell *cell, NSUInteger idx, BOOL *stop) {
-            float delay=idx*0.05;
+            float delay=idx*eachDelay;
             animationh.beginTime=CACurrentMediaTime()+delay;
             [[cell layer] addAnimation:animationh forKey:@"grid_transform"];
             

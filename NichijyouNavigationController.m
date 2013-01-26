@@ -372,8 +372,12 @@ static float pressShiftFactor=0.2;
 	
 	CGPoint targetPosition=lastTouchedPoint;
 	
-	SecondOrderResponseEvaluator *evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
-	
+	SecondOrderResponseEvaluator *evaluator=nil;
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
+        evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
+	}else{
+        evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.54] autorelease];
+    }
 	AccelerationAnimation *animation =[AccelerationAnimation
 									   animationWithKeyPath:@"position.y"
 									   startValue:targetPosition.y
@@ -603,7 +607,12 @@ static float pressShiftFactor=0.2;
 	CALayer *layer=theView.layer;
 	CGPoint targetPosition=CGPointMake(layer.position.x+xDifferent, layer.position.y+yDifferent);
 	
-	SecondOrderResponseEvaluator *evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
+    SecondOrderResponseEvaluator *evaluator=nil;
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
+        evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
+	}else{
+        evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.54] autorelease];
+    }
 	
 	AccelerationAnimation *animation =[AccelerationAnimation
 									   animationWithKeyPath:@"position.y"
@@ -679,6 +688,9 @@ static float pressShiftFactor=0.2;
 	CGRect absoluteRect=[[theView superview] convertRect:theView.frame toView:self.view];
 	CGPoint viewCenterPoint=CGPointMake(absoluteRect.origin.x+absoluteRect.size.width/2, absoluteRect.origin.y+absoluteRect.size.height/2);
 	float distance=(float)sqrt(pow(viewCenterPoint.x-point.x,2)+pow(viewCenterPoint.y-point.y, 2));
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+        distance/=2;
+    }
 	return zoomDelayPerPixelFromCenter*distance;
 }
 
