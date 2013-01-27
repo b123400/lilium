@@ -175,11 +175,12 @@
 
     if(error){
         BRCircleAlert *alert=[BRCircleAlert alertWithText:[error localizedDescription] buttons:@[[BRCircleAlertButton tickButtonWithAction:^{
-            [self.navigationController popViewControllerAnimated:YES];
+            if(!user.statuses.count){
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }]]];
         [alert show];
         return;
-
     }
     for(Status *thisStatus in _statuses){
         [thisStatus prefetechThumb];
