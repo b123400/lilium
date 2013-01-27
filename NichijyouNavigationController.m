@@ -42,7 +42,7 @@
 
 
 @implementation NichijyouNavigationController
-@synthesize disableFade;
+@synthesize disableFade,pinchGestureRecognizer;
 
 static float zoomDelayPerPixelFromCenter=1/1100.0;
 static float zoomingFactor=7;
@@ -80,6 +80,7 @@ static float pressShiftFactor=0.2;
 	pinch.delaysTouchesBegan=NO;
 	pinch.delaysTouchesEnded=NO;
 	[self.view addGestureRecognizer:pinch];
+    self.pinchGestureRecognizer=pinch;
 	[pinch release];
     
     UIPanGestureRecognizer *pan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panned:)];
@@ -191,8 +192,21 @@ static float pressShiftFactor=0.2;
 }
 -(void)didTouchedTransparentView:(id)sender atPoint:(CGPoint)point{
 	if(!isAnimating){
-		lastTouchedPoint=[[sender superview] convertPoint:point toView:nil];
+		lastTouchedPoint=[[sender superview] convertPoint:point toView:self.view];
 	}
+}
+- (BOOL)shouldAutorotate {
+    if([[self.viewControllers lastObject] respondsToSelector:@selector(shouldAutorotate)]){
+        return [[self.viewControllers lastObject]shouldAutorotate];
+    }
+    return YES;
+}
+- (NSUInteger)supportedInterfaceOrientations
+{
+    if([[self.viewControllers lastObject] respondsToSelector:@selector(supportedInterfaceOrientations)]){
+        return [[self.viewControllers lastObject] supportedInterfaceOrientations];
+    }
+    return [super supportedInterfaceOrientations];
 }
 #pragma mark -
 #pragma mark Push
@@ -310,7 +324,7 @@ static float pressShiftFactor=0.2;
 }
 -(void)zoomInHide:(UIView*)theView{
 	CGRect absoluteRect=[[theView superview] convertRect:theView.frame toView:self.view];
-	
+    
 	float xDifferent=(absoluteRect.origin.x+absoluteRect.size.width/2-lastTouchedPoint.x)*(zoomingFactor-1);
 	float yDifferent=(absoluteRect.origin.y+absoluteRect.size.height/2-lastTouchedPoint.y)*(zoomingFactor-1);
 	
@@ -358,8 +372,12 @@ static float pressShiftFactor=0.2;
 	
 	CGPoint targetPosition=lastTouchedPoint;
 	
-	SecondOrderResponseEvaluator *evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
-	
+	SecondOrderResponseEvaluator *evaluator=nil;
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
+        evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
+	}else{
+        evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.54] autorelease];
+    }
 	AccelerationAnimation *animation =[AccelerationAnimation
 									   animationWithKeyPath:@"position.y"
 									   startValue:targetPosition.y
@@ -528,6 +546,9 @@ static float pressShiftFactor=0.2;
 			thisView.layer.opacity=1;
 		}
 	}
+    if([viewController respondsToSelector:@selector(willPopOutFromSubviewController:)]){
+        [(id)viewController willPopOutFromSubviewController:[self topViewController]];
+    }
 	[self topViewController].view.userInteractionEnabled=YES;
 	[super popToViewController:viewController animated:NO];
 	[self topViewController].view.userInteractionEnabled=NO;
@@ -586,7 +607,12 @@ static float pressShiftFactor=0.2;
 	CALayer *layer=theView.layer;
 	CGPoint targetPosition=CGPointMake(layer.position.x+xDifferent, layer.position.y+yDifferent);
 	
-	SecondOrderResponseEvaluator *evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
+    SecondOrderResponseEvaluator *evaluator=nil;
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
+        evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
+	}else{
+        evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.54] autorelease];
+    }
 	
 	AccelerationAnimation *animation =[AccelerationAnimation
 									   animationWithKeyPath:@"position.y"
@@ -662,6 +688,9 @@ static float pressShiftFactor=0.2;
 	CGRect absoluteRect=[[theView superview] convertRect:theView.frame toView:self.view];
 	CGPoint viewCenterPoint=CGPointMake(absoluteRect.origin.x+absoluteRect.size.width/2, absoluteRect.origin.y+absoluteRect.size.height/2);
 	float distance=(float)sqrt(pow(viewCenterPoint.x-point.x,2)+pow(viewCenterPoint.y-point.y, 2));
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+        distance/=2;
+    }
 	return zoomDelayPerPixelFromCenter*distance;
 }
 
@@ -680,6 +709,7 @@ static float pressShiftFactor=0.2;
 */
 
 - (void)dealloc {
+    if(self.pinchGestureRecognizer)[self.pinchGestureRecognizer release];
 	if(centerPoints)[centerPoints release];
     [super dealloc];
 }

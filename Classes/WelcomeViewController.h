@@ -7,12 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TitleButton.h"
 
-
-@interface WelcomeViewController : UIViewController {
+@interface WelcomeViewController : UIViewController <TitleButtonDelegate> {
 	IBOutlet UIView *initialPinchView;
 	IBOutlet UIView *noAccountView;
 	IBOutlet UIView *mainView;
+    IBOutlet TitleButton *timelineButton;
+    IBOutlet UIButton *accountButton;
+    IBOutlet UIButton *settingsButton;
+    IBOutlet UIButton *aboutButton;
 }
 
 -(IBAction)getStartPressed;
@@ -20,5 +24,6 @@
 
 -(IBAction)goTimeline;
 -(IBAction)goAddAccount;
+- (IBAction)goSettings:(id)sender;
 
 @end

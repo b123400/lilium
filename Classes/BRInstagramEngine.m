@@ -115,7 +115,11 @@
 		return;
 	}
     if(request.responseStatusCode>=400){
-        error=[NSError errorWithDomain:@"net.b123400.engine.tumblr" code:request.responseStatusCode userInfo:nil];
+        NSMutableDictionary *userInfo=[NSMutableDictionary dictionary];
+        if(request.responseStatusCode==400){
+            [userInfo setObject:@"You are not allowed to view this user's photos." forKey:NSLocalizedDescriptionKey];
+        }
+        error=[NSError errorWithDomain:@"net.b123400.engine.instagram" code:request.responseStatusCode userInfo:userInfo];
         [self failedWithError:error forRequestIdentifier:[request identifier]];
         return;
     }
@@ -152,10 +156,10 @@
 -(NSString*)getUserFeedWithUserID:(NSString*)userID minID:(NSString*)minID maxID:(NSString*)maxID{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
     if(minID){
-        [params setObject:minID forKey:@"MIN_ID"];
+        [params setObject:minID forKey:@"min_id"];
     }
     if(maxID){
-        [params setObject:maxID forKey:@"MAX_ID"];
+        [params setObject:maxID forKey:@"max_id"];
     }
     return [self performRequestWithPath:[NSString stringWithFormat:@"users/%@/media/recent",userID] parameters:params];
 }

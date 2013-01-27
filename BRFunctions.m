@@ -17,7 +17,7 @@
 +(void)requestFinished:(UserRequest*)request didReceivedTwitterUser:(User*)user;
 +(void)requestFinished:(UserRequest*)request didReceivedFacebookUser:(User*)user;
 +(void)requestFinished:(UserRequest*)request didReceivedInstagramUser:(User*)user;
-+(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSArray*)users;
++(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSMutableArray*)users;
 
 @end
 
@@ -32,7 +32,7 @@ static User *instagramUser=nil;
 static BRFunctions *sharedObject=nil;
 static BRFlickrEngine *sharedFlickr = nil;
 static BRTumblrEngine *sharedTumblr = nil;
-static NSArray *tumblrUsers=nil;
+static NSMutableArray *tumblrUsers=nil;
 
 #pragma mark -
 #pragma mark Twitter
@@ -259,8 +259,9 @@ static NSArray *tumblrUsers=nil;
 	if(sharedTumblr){
 		sharedTumblr.accessToken=token;
 	}
+    [BRFunctions loadAccounts];
 }
-+(NSArray*)tumblrUsers{
++(NSMutableArray*)tumblrUsers{
     return tumblrUsers;
 }
 +(BOOL)didLoggedInTumblr{
@@ -283,7 +284,7 @@ static NSArray *tumblrUsers=nil;
     [BRFunctions saveAccounts];
     [[TimelineManager sharedManager]removeAllStatusWithSource:StatusSourceTypeTumblr];
 }
-+(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSArray*)users{
++(void)requestFinished:(UserRequest*)request didReceivedTumblrUsers:(NSMutableArray*)users{
     if(tumblrUsers){
         [tumblrUsers release];
         tumblrUsers=nil;
@@ -300,7 +301,7 @@ static NSArray *tumblrUsers=nil;
     }
     if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]){
         if(facebookUser)[facebookUser release];
-        facebookUser=[[FacebookUser userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]] retain];
+        facebookUser=(FacebookUser*)[[FacebookUser userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]] retain];
     }
     if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeInstagram]]){
         if(instagramUser)[instagramUser release];
@@ -387,9 +388,28 @@ static NSArray *tumblrUsers=nil;
 	}
 	return imageQueue;
 }
++(int)gridViewNumOfRow{
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
+        if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication]statusBarOrientation])){
+            return 1;
+        }
+        return 3;
+    }else{
+        if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication]statusBarOrientation])){
+            return 2;
+        }else{
+            return 5;
+        }
+    }
+    return 3;
+}
 +(CGSize)gridViewCellMargin{
+    float numOfFloat=3;
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+        numOfFloat=5;
+    }
     UIEdgeInsets contentIndent=[BRFunctions gridViewIndent];
-    float margin=([UIApplication currentFrame].size.height-contentIndent.top-contentIndent.bottom)/11;
+    float margin=([UIApplication currentFrame].size.height-contentIndent.top-contentIndent.bottom)/(([BRFunctions gridViewCellToMarginRatio]+1)*numOfFloat-1);
     return CGSizeMake(margin, margin);
 }
 +(UIEdgeInsets)gridViewIndent{
@@ -399,6 +419,21 @@ static NSArray *tumblrUsers=nil;
     return 3;
 }
 +(CGSize)gridViewCellSize{
+    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication]statusBarOrientation])){
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
+            CGRect appFrame=[UIApplication currentFrame];
+            UIEdgeInsets indent=[BRFunctions gridViewIndent];
+            float height=appFrame.size.height-indent.bottom-indent.top;
+            return CGSizeMake(height, height);
+        }else{
+            CGRect appFrame=[UIApplication currentFrame];
+            UIEdgeInsets indent=[BRFunctions gridViewIndent];
+            float height=appFrame.size.height-indent.bottom-indent.top;
+            CGSize margin=[BRFunctions gridViewCellMargin];
+            height=(height+margin.height)/[BRFunctions gridViewNumOfRow]-margin.height;
+            return CGSizeMake(height, height);
+        }
+    }
     CGSize cellSize=[BRFunctions gridViewCellMargin];
     return CGSizeMake(cellSize.width*[BRFunctions gridViewCellToMarginRatio],cellSize.height*[BRFunctions gridViewCellToMarginRatio]);
 }

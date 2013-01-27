@@ -12,12 +12,19 @@
 #import "UIView+Interaction.h"
 #import "StatusFetcher.h"
 #import "NichijyouNavigationController.h"
+#import "SVProgressHUD.h"
+#import "BRCircleAlert.h"
 
 @interface UserViewController ()
 
+-(void)loadNewerStatuses;
+-(void)loadOlderStatuses;
 -(void)didGetUserRelationship:(User*)thisUser;
 -(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 -(void)layoutActionView;
+
+-(void)layoutGridview;
+-(void)layoutGridviewAnimated:(BOOL)animated;
 
 @end
 
@@ -27,11 +34,7 @@
     user=[_user retain];
     
     //statuses=[[NSMutableArray alloc] init];
-    StatusesRequest *request=[[[StatusesRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
-    request.referenceUsers=[NSMutableArray arrayWithObject:user];
-    request.selector=@selector(requestFinished:withStatuses:withError:);
-    request.delegate=self;
-    [[StatusFetcher sharedFetcher] getStatusesForRequest:request];
+    [self loadNewerStatuses];
     
     if(user.relationship==UserRelationshipUnknown){
         [user getRelationshipAndReturnTo:self withSelector:@selector(didGetUserRelationship:)];
@@ -61,20 +64,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-	gridView.contentIndent=[BRFunctions gridViewIndent];
-    gridView.cellMargin=[BRFunctions gridViewCellMargin];
-	gridView.cellSize=[BRFunctions gridViewCellSize];
-	gridView.numOfRow=floor(([UIApplication currentFrame].size.height-(gridView.contentIndent.bottom+gridView.contentIndent.top)+gridView.cellMargin.height)/(gridView.cellMargin.height+gridView.cellSize.height));
-	gridView.alwaysBounceVertical=YES;
-	gridView.alwaysBounceHorizontal=YES;
-	gridView.showsHorizontalScrollIndicator=NO;
-	gridView.showsVerticalScrollIndicator=NO;
+    [self layoutGridview];
     
     usernameLabel.text=[NSString stringWithFormat:@"%@@%@",user.displayName,[Status sourceName:user.type]];
     [usernameLabel sizeToFit];
     [self layoutActionView];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [self layoutGridview];
+    [super viewWillAppear:animated];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -134,9 +133,53 @@
     [self layoutActionView];
 }
 #pragma mark - load things
--(void)requestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
+-(void)loadNewerStatuses{
+    if(isLoadingNewerStatus)return;
+    isLoadingNewerStatus=YES;
+    [SVProgressHUD show];
+    StatusesRequest *request=[[[StatusesRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
+    request.direction=StatusRequestDirectionNewer;
+    request.referenceUsers=[NSMutableArray arrayWithObject:user];
+    if([user.statuses count]){
+        request.referenceStatuses=@[[user.statuses objectAtIndex:0]];
+    }
+    request.selector=@selector(requestFinished:withStatuses:withError:);
+    request.delegate=self;
+    [[StatusFetcher sharedFetcher] getStatusesForRequest:request];
+}
+-(void)loadOlderStatuses{
+    if(isLoadingOlderStatus)return;
+    isLoadingOlderStatus=YES;
+    [SVProgressHUD show];
+    StatusesRequest *request=[[[StatusesRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
+    request.referenceUsers=[NSMutableArray arrayWithObject:user];
+    request.direction=StatusRequestDirectionOlder;
+    if(user.type!=StatusSourceTypeTumblr){
+        request.referenceStatuses=@[[user.statuses lastObject]];
+    }else{
+        request.referenceStatuses=user.statuses;
+    }
+    request.selector=@selector(requestFinished:withStatuses:withError:);
+    request.delegate=self;
+    [[StatusFetcher sharedFetcher] getStatusesForRequest:request];
+}
+-(void)requestFinished:(StatusesRequest*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
+    if(request.direction==StatusRequestDirectionNewer){
+        isLoadingNewerStatus=NO;
+    }else if(request.direction==StatusRequestDirectionOlder){
+        isLoadingOlderStatus=NO;
+    }
+    if(!isLoadingNewerStatus&&!isLoadingOlderStatus){
+        [SVProgressHUD dismiss];
+    }
+
     if(error){
-        NSLog(@"%@",[error description]);
+        BRCircleAlert *alert=[BRCircleAlert alertWithText:[error localizedDescription] buttons:@[[BRCircleAlertButton tickButtonWithAction:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        }]]];
+        [alert show];
+        return;
+
     }
     for(Status *thisStatus in _statuses){
         [thisStatus prefetechThumb];
@@ -180,6 +223,49 @@
 	[self.navigationController pushViewController:detailViewController animated:YES];
 	[detailViewController release];
 }
+-(void)layoutGridview{
+    [self layoutGridviewAnimated:YES];
+}
+-(void)layoutGridviewAnimated:(BOOL)animated{
+    if(!CGSizeEqualToSize(gridView.cellMargin, [BRFunctions gridViewCellMargin])||
+       !CGSizeEqualToSize(gridView.cellSize, [BRFunctions gridViewCellSize])){
+        gridView.contentIndent=UIEdgeInsetsMake(10, 80, 10, 10);
+        gridView.cellMargin=[BRFunctions gridViewCellMargin];
+        gridView.cellSize=[BRFunctions gridViewCellSize];
+        gridView.numOfRow=[BRFunctions gridViewNumOfRow];
+        gridView.alwaysBounceVertical=YES;
+        gridView.alwaysBounceHorizontal=YES;
+        gridView.showsHorizontalScrollIndicator=NO;
+        gridView.showsVerticalScrollIndicator=NO;
+        [gridView reloadDataWithAnimation:animated clearViews:YES];
+    }
+    [self layoutActionView];
+}
+- (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
+    NSIndexPath *currentIndexPath=nil;
+    for(BRGridViewCell *cell in gridView.cells){
+        if(!currentIndexPath||(cell.indexPath.section==currentIndexPath.section&&cell.indexPath.row<currentIndexPath.row)||cell.indexPath.section<currentIndexPath.section){
+            if([cell.superview convertRect:cell.frame toView:self.view].origin.x>0){
+                currentIndexPath=cell.indexPath;
+            }
+        }
+    }
+    [self layoutGridview];
+    if(currentIndexPath){
+        [gridView scrollToCellAtIndexPath:currentIndexPath animated:YES];
+    }
+}
+-(void) willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation duration: (NSTimeInterval) duration {
+    [self updateLayoutForNewOrientation: interfaceOrientation];
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if(scrollView.contentOffset.x>scrollView.contentSize.width-scrollView.frame.size.width-gridView.contentIndent.right){
+        [self loadOlderStatuses];
+    }else if(scrollView.contentOffset.x<0){
+        [self loadNewerStatuses];
+    }
+}
+
 #pragma mark - detail view delegate
 -(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
     NSArray *statuses=user.statuses;

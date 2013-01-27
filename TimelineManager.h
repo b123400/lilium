@@ -11,6 +11,7 @@
 #import "StatusesRequest.h"
 
 #define TimelineManagerDidRefreshNotification @"TimelineManagerDidRefresh"
+#define TimelineManagerDidLoadedOlderStatusNotification @"TimelineManagerDidLoadedOlderStatusNotification"
 #define TimelineManagerDidPrefectchThumbNotification @"TimelineManagerDidPrefectchThumbNotification"
 #define TimelineManagerDidDeletedStatusesNotification @"TimelineManagerDidDeletedStatusesNotification"
 
@@ -30,10 +31,13 @@
 
 -(NSArray*)latestStatuses:(int)count;
 -(NSArray*)statusesAfter:(Status*)aStatus count:(int)count;
+-(Status*)randomStatus;
 
 -(void)removeAllStatusWithSource:(StatusSourceType)source;
 
 -(void)saveRecentStatuses;
 -(void)loadRecentStatuses;
+-(void)clearRecentStatuses;
+-(void)resetTimer;
 
 @end

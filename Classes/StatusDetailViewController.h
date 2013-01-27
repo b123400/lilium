@@ -12,6 +12,8 @@
 #import "CommentComposeView.h"
 #import "OHAttributedLabel.h"
 #import "Attribute.h"
+#import "SDWebImageManager.h"
+#import "OLImageView.h"
 
 @protocol StatusDetailViewControllerDelegate <NSObject>
 @optional
@@ -20,10 +22,10 @@
 
 @end
 
-@interface StatusDetailViewController : UIViewController <UITextFieldDelegate> {
+@interface StatusDetailViewController : UIViewController <UITextFieldDelegate,UIActionSheetDelegate,SDWebImageManagerDelegate> {
 	IBOutlet UIView *imageWrapperView;
     OHAttributedLabel *textLabel;
-	IBOutlet UIImageView *mainImageView;
+	IBOutlet OLImageView *mainImageView;
 	IBOutlet UIActivityIndicatorView *commentLoading;
 	IBOutlet UITableView *commentTableView;
 	IBOutlet UIScrollView *mainScrollView;
@@ -40,10 +42,12 @@
     
     id <StatusDetailViewControllerDelegate> delegate;
 }
+@property (nonatomic,readonly) Status *status;
 @property (nonatomic,assign) id <StatusDetailViewControllerDelegate> delegate;
 -(id)initWithStatus:(Status*)_status;
 
 -(void)refreshLikeButton;
 - (IBAction)likeButtonClicked:(id)sender;
+- (IBAction)actionButtonClicked:(id)sender;
 
 @end

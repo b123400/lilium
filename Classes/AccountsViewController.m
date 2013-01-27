@@ -13,6 +13,7 @@
 #import "UIView+Interaction.h"
 #import "UIControl+Interaction.h"
 #import "BRCircleAlert.h"
+#import <QuartzCore/QuartzCore.h>
 
 #import "Status.h"
 
@@ -30,6 +31,8 @@
 */
 -(id)init{
 	tickImageViews=[[NSMutableArray alloc]init];
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter]     addObserver:self selector:@selector(orientationChanged:)     name:UIDeviceOrientationDidChangeNotification     object:[UIDevice currentDevice]];
 	return [self initWithNibName:@"AccountsViewController" bundle:nil];
 }
 
@@ -175,18 +178,61 @@
 	((UIImageView*)[tickImageViews objectAtIndex:StatusSourceTypeFlickr]).hidden=![BRFunctions didLoggedInFlickr];
 	((UIImageView*)[tickImageViews objectAtIndex:StatusSourceTypeTumblr]).hidden=![BRFunctions didLoggedInTumblr];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [self updateLayoutForNewOrientation: [[UIDevice currentDevice]orientation]];
+}
+- (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
+    switch (orientation) {
+        case UIInterfaceOrientationLandscapeLeft:{
+            twitterButton.imageView.layer.transform=
+            facebookButton.imageView.layer.transform=
+            instagramButton.imageView.layer.transform=
+            flickrButton.imageView.layer.transform=
+            tumblrButton.imageView.layer.transform=CATransform3DMakeRotation(-M_PI_2, 0, 0, 1);
+        }
+            break;
+        case UIInterfaceOrientationLandscapeRight:{
+            twitterButton.imageView.layer.transform=
+            facebookButton.imageView.layer.transform=
+            instagramButton.imageView.layer.transform=
+            flickrButton.imageView.layer.transform=
+            tumblrButton.imageView.layer.transform=CATransform3DMakeRotation(M_PI_2, 0, 0, 1);
+        }
+            break;
+        case UIInterfaceOrientationPortrait:{
+            twitterButton.imageView.layer.transform=
+            facebookButton.imageView.layer.transform=
+            instagramButton.imageView.layer.transform=
+            flickrButton.imageView.layer.transform=
+            tumblrButton.imageView.layer.transform=CATransform3DIdentity;
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+- (void) orientationChanged:(NSNotification *)note{
+    [UIView animateWithDuration:0.2 animations:^{
+        [self updateLayoutForNewOrientation:[(UIDevice*)note.object orientation]];
+    }];
+}
 -(void)poppedOutFromSubviewController{
 	[self refreshLoginStatus];
     [[NSNotificationCenter defaultCenter] postNotificationName:AccountsDidUpdatedNotification object:nil];
 }
-/*
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-*/
-
+- (BOOL)shouldAutorotate {
+    UIInterfaceOrientation orientation = [[UIDevice currentDevice] orientation];
+    return [self shouldAutorotateToInterfaceOrientation:orientation];
+}
+- (NSUInteger)supportedInterfaceOrientations
+{
+    //decide number of origination tob supported by Viewcontroller.
+    return UIInterfaceOrientationMaskPortrait;
+}
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -203,6 +249,7 @@
 
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 

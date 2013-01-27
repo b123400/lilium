@@ -18,4 +18,6 @@
 	NSMutableArray *statuses;
 }
 
+-(void)loadOlderStatuses;
+
 @end

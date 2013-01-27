@@ -35,15 +35,15 @@
     // Drawing code.
 }
 */
-- (void)didMoveToWindow{
+- (void)didMoveToSuperview{
 	if(gridView){
-		if(self.window){
+		if(self.superview){
 			[gridView cellDidMovedToWindow:self];
 		}else{
 			[gridView cellDidRemovedFromWindow:self];
 		}
 	}
-	[super didMoveToWindow];
+	[super didMoveToSuperview];
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
 	[gridView cellTapped:self];

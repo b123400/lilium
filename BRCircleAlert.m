@@ -70,6 +70,9 @@
     [textView release];
     [super dealloc];
 }
++(BRCircleAlert*)alertWithText:(NSString*)_text{
+    return [BRCircleAlert alertWithText:_text buttons:@[[BRCircleAlertButton tickButtonWithAction:^{}]]];
+}
 +(BRCircleAlert*)alertWithText:(NSString*)_text buttons:(NSArray*)_buttons{
     return [BRCircleAlert alertWithText:_text color:[UIColor colorWithRed:1.0 green:63/255. blue:93/255. alpha:1.0] buttons:_buttons];
 }
