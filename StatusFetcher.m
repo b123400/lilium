@@ -486,6 +486,22 @@ static StatusFetcher* sharedFetcher=nil;
     }
     [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
 }
+#pragma mark - Cancel
+-(void)cancelRequest:(Request*)request{
+    request.delegate=nil;
+    NSArray *allKeys=[requestsByID allKeysForObject:request];
+    [requestsByID removeObjectsForKeys:allKeys];
+}
+-(void)cancelRequestsWithDelegate:(id)delegate{
+    NSArray *allKeys=[requestsByID allKeys];
+    for(int i=0;i<allKeys.count;i++){
+        Request *thisRequest=[requestsByID objectForKey:[allKeys objectAtIndex:i]];
+        if(thisRequest.delegate==delegate){
+            thisRequest.delegate=nil;
+            [requestsByID removeObjectForKey:[allKeys objectAtIndex:i]];
+        }
+    }
+}
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
     User *newUser=[User userWithType:StatusSourceTypeFlickr userID:[dict objectForKey:@"author"]];
@@ -501,6 +517,7 @@ static StatusFetcher* sharedFetcher=nil;
     return newComment;
 }
 -(void)flickrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if ([[requestsByID objectForKey:identifier]isKindOfClass:[CommentRequest class]]) {
         NSMutableArray *comments=[NSMutableArray array];
         if([data objectForKey:@"comments"]&&[[data objectForKey:@"comments"] objectForKey:@"comment"]){
@@ -567,6 +584,7 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)flickrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.flickrStatus=StatusFetchingStatusError;
@@ -612,6 +630,7 @@ static StatusFetcher* sharedFetcher=nil;
     return thisUser;
 }
 -(void)instagramEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
 	if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
         CommentRequest *request=[requestsByID objectForKey:identifier];
         NSMutableArray *comments=[NSMutableArray array];
@@ -730,6 +749,7 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)instagramEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.instagramStatus=StatusFetchingStatusError;
@@ -765,6 +785,7 @@ static StatusFetcher* sharedFetcher=nil;
     return newComment;
 }
 -(void)tumblrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
         [self didFinishedLikeRequestWithIdentifier:identifier];
         return;
@@ -908,6 +929,7 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)tumblrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.tumblrStatus=StatusFetchingStatusError;
@@ -954,6 +976,7 @@ static StatusFetcher* sharedFetcher=nil;
     return comment;
 }
 -(void)twitterEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
         //comments received
         /*
@@ -1159,6 +1182,7 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)twitterEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.twitterStatus=StatusFetchingStatusError;
@@ -1194,6 +1218,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 - (void)request:(FBRequest *)fbRequest didLoad:(id)result{
 	NSString *identifier=[fbRequest identifier];
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
         CommentRequest *request=[requestsByID objectForKey:identifier];
         NSMutableArray *comments=[NSMutableArray array];
@@ -1317,6 +1342,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 - (void)request:(FBRequest *)fbRequest didFailWithError:(NSError *)error{
 	NSString *identifier=[fbRequest identifier];
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.facebookStatus=StatusFetchingStatusError;

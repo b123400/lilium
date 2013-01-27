@@ -169,15 +169,6 @@
     }else if(request.direction==StatusRequestDirectionOlder){
         isLoadingOlderStatus=NO;
     }
-    if(!isLoadingNewerStatus&&!isLoadingOlderStatus){
-        if(user.statuses.count){
-            [SVProgressHUD dismiss];
-        }else{
-            [SVProgressHUD dismissWithError:@"No photo found"];
-            [self.navigationController popViewControllerAnimated:YES];
-            return;
-        }
-    }
 
     if(error){
         BRCircleAlert *alert=[BRCircleAlert alertWithText:[error localizedDescription] buttons:@[[BRCircleAlertButton tickButtonWithAction:^{
@@ -186,7 +177,17 @@
             }
         }]]];
         [alert show];
+        [SVProgressHUD dismiss];
         return;
+    }
+    if(!isLoadingNewerStatus&&!isLoadingOlderStatus){
+        if(user.statuses.count){
+            [SVProgressHUD dismiss];
+        }else{
+            [SVProgressHUD dismissWithError:@"No photo found"];
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
     }
     for(Status *thisStatus in _statuses){
         [thisStatus prefetechThumb];

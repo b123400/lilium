@@ -12,6 +12,7 @@
 
 @interface TimelineManager ()
 
+-(void)loadLatestRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 -(void)loadNewerRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 -(void)loadOlderRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 
@@ -43,7 +44,22 @@ static TimelineManager *sharedManager=nil;
 }
 
 -(void)sync{
-	if(loadNewerRequest)return;
+	if(loadLatestRequest)return;
+	loadLatestRequest=[[StatusesRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
+	loadLatestRequest.delegate=self;
+    loadLatestRequest.selector=@selector(loadLatestRequestFinished:withStatuses:withError:);
+	loadLatestRequest.direction=StatusRequestDirectionNewer;
+	[[StatusFetcher sharedFetcher] getStatusesForRequest:loadLatestRequest];
+}
+-(void)cancelCurrentSync{
+    if(loadLatestRequest){
+        [[StatusFetcher sharedFetcher]cancelRequest:loadLatestRequest];
+        [loadLatestRequest release];
+        loadLatestRequest=nil;
+    }
+}
+-(void)getNewerStatuses{
+    if(loadNewerRequest)return;
 	loadNewerRequest=[[StatusesRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
 	loadNewerRequest.delegate=self;
     loadNewerRequest.selector=@selector(loadNewerRequestFinished:withStatuses:withError:);
@@ -124,6 +140,18 @@ static TimelineManager *sharedManager=nil;
     timer=[[NSTimer scheduledTimerWithTimeInterval:60*interval target:self selector:@selector(autoSyncByTimer:) userInfo:nil repeats:YES] retain];
 }
 #pragma mark -
+-(void)loadLatestRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
+	NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
+	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+    
+    [statuses insertObjects:_statuses atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
+    [loadLatestRequest release];
+    loadLatestRequest=nil;
+	for(Status *thisStatus in _statuses){
+		[thisStatus prefetechThumb];
+	}
+    [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidRefreshNotification object:_statuses];
+}
 -(void)loadNewerRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
 	NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
 	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];

@@ -160,7 +160,7 @@
     if(scrollView.contentOffset.x>scrollView.contentSize.width-scrollView.frame.size.width-gridView.contentIndent.right){
         [self loadOlderStatuses];
     }else if(scrollView.contentOffset.x<-40){
-        [[TimelineManager sharedManager] sync];
+        [[TimelineManager sharedManager] getNewerStatuses];
         [SVProgressHUD show];
     }
 }
