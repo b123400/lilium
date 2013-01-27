@@ -170,7 +170,13 @@
         isLoadingOlderStatus=NO;
     }
     if(!isLoadingNewerStatus&&!isLoadingOlderStatus){
-        [SVProgressHUD dismiss];
+        if(user.statuses.count){
+            [SVProgressHUD dismiss];
+        }else{
+            [SVProgressHUD dismissWithError:@"No photo found"];
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
+        }
     }
 
     if(error){

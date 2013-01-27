@@ -84,7 +84,7 @@
     NSArray *_statuses=notification.object;
     if(!_statuses.count)return;
     [statuses insertObjects:notification.object atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
-    [gridView reloadDataWithAnimation:YES];
+    [gridView reloadDataWithAnimation:YES clearViews:YES];
 }
 -(void)timelineManagerDidRemovedStatuses:(NSNotification*)notification{
     NSArray *removedStatuses=notification.object;
