@@ -52,6 +52,7 @@
     return self;
 }
 -(void)dealloc{
+    [[StatusFetcher sharedFetcher] cancelRequestsWithDelegate:self];
     if(user)[user release];
     gridView.delegate=nil;
     [usernameLabel release];

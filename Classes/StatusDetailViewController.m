@@ -18,6 +18,7 @@
 #import "SVProgressHUD.h"
 #import "NichijyouNavigationController.h"
 #import "BRCircleAlert.h"
+#import "StatusFetcher.h"
 
 @interface StatusDetailViewController ()
 
@@ -468,6 +469,7 @@
 
 
 - (void)dealloc {
+    [[StatusFetcher sharedFetcher] cancelRequestsWithDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[status release];
 	[imageWrapperScrollView release];
