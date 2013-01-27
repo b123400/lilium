@@ -12,6 +12,8 @@
 
 @interface TimelineManager ()
 
+-(void)accountUpdated;
+
 -(void)loadLatestRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 -(void)loadNewerRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
 -(void)loadOlderRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error;
@@ -35,14 +37,17 @@ static TimelineManager *sharedManager=nil;
 	statuses=[[NSMutableArray alloc] init];
 	[self resetTimer];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusDidPreloadedThumbImage:) name:StatusDidPreloadedImageNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sync) name:AccountsDidUpdatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountUpdated) name:AccountsDidUpdatedNotification object:nil];
 	return [super init];
 }
 #pragma mark -
 -(void)autoSyncByTimer:(NSTimer*)_timer{
 	[self sync];
 }
-
+-(void)accountUpdated{
+    [self cancelCurrentSync];
+    [self sync];
+}
 -(void)sync{
 	if(loadLatestRequest)return;
 	loadLatestRequest=[[StatusesRequest requestWithRequestType:StatusRequestTypeTimeline] retain];
