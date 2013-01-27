@@ -18,7 +18,7 @@
 -(id)initWithReuseIdentifier:(NSString*)identifier{
 	self=[super initWithReuseIdentifier:identifier];
 	self.clipsToBounds=YES;
-	imageView=[[UIImageView alloc]init];
+	imageView=[[OLImageView alloc]init];
 	[self addSubview:imageView];
 	
 	coverView=[[UIImageView alloc]init];
@@ -105,7 +105,7 @@
 				UIColor *averageColor=[viewImage getDominantColor];
 				
 				
-				//imageView.image=viewImage;
+				imageView.image=displayImage;
 				
 				UIGraphicsEndImageContext();
 				

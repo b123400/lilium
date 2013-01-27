@@ -85,7 +85,7 @@
     
     [self.view addSubview:self.scrollView];
     
-    self.imageView=[[[UIImageView alloc]initWithFrame:self.scrollView.frame]autorelease];
+    self.imageView=[[[OLImageView alloc]initWithFrame:self.scrollView.frame]autorelease];
     self.imageView.contentMode=UIViewContentModeScaleAspectFill;
     self.imageView.userInteractionEnabled=NO;
     if(image){

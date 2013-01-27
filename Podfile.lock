@@ -1,0 +1,17 @@
+
+PODS:
+- AFNetworking (1.1.0)
+- OLImageView (1.0.0):
+  - OLImageView/AFNetworking (= 1.0.0)
+- OLImageView/AFNetworking (1.0.0):
+  - AFNetworking
+
+DEPENDENCIES:
+- OLImageView
+
+SPEC CHECKSUMS:
+  AFNetworking: 761a418233d280c1e0580bcb76ff9cb4c3073d17
+  OLImageView: 3f82b8a3efcc0668bcc0dea34ac63faad020971a
+  OLImageView/AFNetworking: 3f82b8a3efcc0668bcc0dea34ac63faad020971a
+
+COCOAPODS: 0.16.0.rc3

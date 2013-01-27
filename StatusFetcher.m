@@ -830,80 +830,78 @@ static StatusFetcher* sharedFetcher=nil;
                     }
                 }
 			}
-			if(thisStatus.thumbURL&&thisStatus.mediumURL){
-				thisStatus.fullURL=[NSURL URLWithString:[[sizes objectAtIndex:0]objectForKey:@"url"]];
-                if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
-                    thisStatus.thumbURL=thisStatus.mediumURL=thisStatus.fullURL;
-                }
-				thisStatus.webURL=[NSURL URLWithString:[post objectForKey:@"post_url"]];
-				if([post objectForKey:@"caption"]&&[post objectForKey:@"caption"]!=[NSNull null]&&![[post objectForKey:@"caption"] isEqualToString:@""]){
-					
-					NSString *caption=[post objectForKey:@"caption"];
-					
-					NSString *regex=@"</?(\\w+((\\s+\\w+(\\s*=\\s*(?:\".*?\"|\'.*?\'|[^\'\">\\s]+))?)+\\s*|\\s*)/?)>";
-					NSArray *components=[caption arrayOfCaptureComponentsMatchedByRegex:regex];
-					for(NSArray *component in components){
-						NSString *thisTag=[component objectAtIndex:1];
-						NSString *thisElement=[[thisTag componentsSeparatedByString:@" "] objectAtIndex:0];
-						if(![thisElement isEqualToString:@"a"]){
-							caption=[caption stringByReplacingOccurrencesOfString:[component objectAtIndex:0] withString:@""];
-						}
-					}
-					
-					regex=@"<[^>]*a[^>]*href=[\"|\']([^\'\"]*)[\"|\'][^>]*>([^<]*)</[\\s]*a[^>|\\s]*>";
-					components=[caption arrayOfCaptureComponentsMatchedByRegex:regex];
-					NSLog(@"%@",[components description]);
-					NSMutableArray *attributes=[NSMutableArray array];
-					for(int i=0;i<[components count];i++){
-						NSArray *thisLink=[components objectAtIndex:i];
-						NSString *wholeLink=[thisLink objectAtIndex:0];
-						NSURL *thisURL=[NSURL URLWithString:[thisLink objectAtIndex:1]];
-						NSString *thisText=[thisLink objectAtIndex:2];
-						
-						NSRange linkRange=[caption rangeOfString:wholeLink];
-						
-						Attribute *thisAttribute=[[[Attribute alloc] init]autorelease];
-						thisAttribute.url=thisURL;
-						thisAttribute.range=NSMakeRange(linkRange.location, thisText.length);
-						[attributes addObject:thisAttribute];
-						
-						caption=[NSString stringWithFormat:@"%@%@%@",[caption substringToIndex:linkRange.location],thisText,[caption substringFromIndex:linkRange.location+linkRange.length]];
-					}
-					
-					thisStatus.attributes=attributes;
-					thisStatus.caption=caption;
-				}
-                TumblrUser *thisUser=[TumblrUser userWithBlogName:[post objectForKey:@"blog_name"] anyUrl:[post objectForKey:@"post_url"]];
-				thisStatus.user=thisUser;
-				
-				thisStatus.statusID=[NSString stringWithFormat:@"%@",[post objectForKey:@"id"]];
-				
-				thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[post objectForKey:@"timestamp"]doubleValue]];
-                thisStatus.reblogKey=[post objectForKey:@"reblog_key"];
-                [thisStatus setLiked:[[post objectForKey:@"liked"] boolValue] sync:NO];
-				
-                //Comment
-                NSMutableArray *comments=[NSMutableArray array];
-                for(NSDictionary *commentDict in [post objectForKey:@"notes"]){
-                    [comments addObject:[self tumblrCommentFromNotesDict:commentDict]];
-                }
-                thisStatus.comments=comments;
+            thisStatus.fullURL=[NSURL URLWithString:[[sizes objectAtIndex:0]objectForKey:@"url"]];
+            if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                thisStatus.thumbURL=thisStatus.mediumURL=thisStatus.fullURL;
+            }
+            thisStatus.webURL=[NSURL URLWithString:[post objectForKey:@"post_url"]];
+            if([post objectForKey:@"caption"]&&[post objectForKey:@"caption"]!=[NSNull null]&&![[post objectForKey:@"caption"] isEqualToString:@""]){
                 
-				if(![self didCachedStatus:thisStatus inArray:_statuses]){
-					if(request.delegate){
-						if([request.delegate respondsToSelector:@selector(needThisStatus:)]){
-							if([request.delegate needThisStatus:thisStatus]){
-								[_statuses addObject:thisStatus];
-							}
-						}else{
-							[_statuses addObject:thisStatus];
-						}
-					}
-				}
-				if(![self didCachedStatus:thisStatus inArray:allStatuses]){
-					[allStatuses addObject:thisStatus];
-				}
-			}
+                NSString *caption=[post objectForKey:@"caption"];
+                
+                NSString *regex=@"</?(\\w+((\\s+\\w+(\\s*=\\s*(?:\".*?\"|\'.*?\'|[^\'\">\\s]+))?)+\\s*|\\s*)/?)>";
+                NSArray *components=[caption arrayOfCaptureComponentsMatchedByRegex:regex];
+                for(NSArray *component in components){
+                    NSString *thisTag=[component objectAtIndex:1];
+                    NSString *thisElement=[[thisTag componentsSeparatedByString:@" "] objectAtIndex:0];
+                    if(![thisElement isEqualToString:@"a"]){
+                        caption=[caption stringByReplacingOccurrencesOfString:[component objectAtIndex:0] withString:@""];
+                    }
+                }
+                
+                regex=@"<[^>]*a[^>]*href=[\"|\']([^\'\"]*)[\"|\'][^>]*>([^<]*)</[\\s]*a[^>|\\s]*>";
+                components=[caption arrayOfCaptureComponentsMatchedByRegex:regex];
+                NSLog(@"%@",[components description]);
+                NSMutableArray *attributes=[NSMutableArray array];
+                for(int i=0;i<[components count];i++){
+                    NSArray *thisLink=[components objectAtIndex:i];
+                    NSString *wholeLink=[thisLink objectAtIndex:0];
+                    NSURL *thisURL=[NSURL URLWithString:[thisLink objectAtIndex:1]];
+                    NSString *thisText=[thisLink objectAtIndex:2];
+                    
+                    NSRange linkRange=[caption rangeOfString:wholeLink];
+                    
+                    Attribute *thisAttribute=[[[Attribute alloc] init]autorelease];
+                    thisAttribute.url=thisURL;
+                    thisAttribute.range=NSMakeRange(linkRange.location, thisText.length);
+                    [attributes addObject:thisAttribute];
+                    
+                    caption=[NSString stringWithFormat:@"%@%@%@",[caption substringToIndex:linkRange.location],thisText,[caption substringFromIndex:linkRange.location+linkRange.length]];
+                }
+                
+                thisStatus.attributes=attributes;
+                thisStatus.caption=caption;
+            }
+            TumblrUser *thisUser=[TumblrUser userWithBlogName:[post objectForKey:@"blog_name"] anyUrl:[post objectForKey:@"post_url"]];
+            thisStatus.user=thisUser;
+            
+            thisStatus.statusID=[NSString stringWithFormat:@"%@",[post objectForKey:@"id"]];
+            
+            thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[post objectForKey:@"timestamp"]doubleValue]];
+            thisStatus.reblogKey=[post objectForKey:@"reblog_key"];
+            [thisStatus setLiked:[[post objectForKey:@"liked"] boolValue] sync:NO];
+            
+            //Comment
+            NSMutableArray *comments=[NSMutableArray array];
+            for(NSDictionary *commentDict in [post objectForKey:@"notes"]){
+                [comments addObject:[self tumblrCommentFromNotesDict:commentDict]];
+            }
+            thisStatus.comments=comments;
+            
+            if(![self didCachedStatus:thisStatus inArray:_statuses]){
+                if(request.delegate){
+                    if([request.delegate respondsToSelector:@selector(needThisStatus:)]){
+                        if([request.delegate needThisStatus:thisStatus]){
+                            [_statuses addObject:thisStatus];
+                        }
+                    }else{
+                        [_statuses addObject:thisStatus];
+                    }
+                }
+            }
+            if(![self didCachedStatus:thisStatus inArray:allStatuses]){
+                [allStatuses addObject:thisStatus];
+            }
 		}
 	}
 	[self refreshTempStatusForRequest:request];

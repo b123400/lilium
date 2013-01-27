@@ -11,6 +11,9 @@
 #import "BRFunctions.h"
 #import "TimelineManager.h"
 
+#import "OLImage.h"
+#import "OLImageView.h"
+
 @implementation perSecondAppDelegate
 
 @synthesize window;

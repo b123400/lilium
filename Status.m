@@ -193,6 +193,15 @@
 -(void)commentRequestFinished:(CommentRequest*)request{
     [[NSNotificationCenter defaultCenter] postNotificationName:StatusDidSentCommentNotification object:self];
 }
+#pragma mark - getter
+-(NSURL*)thumbURL{
+    if(!thumbURL)return self.mediumURL;
+    return thumbURL;
+}
+-(NSURL*)mediumURL{
+    if(!mediumURL)return self.fullURL;
+    return mediumURL;
+}
 #pragma mark - util
 +(NSArray*)allSources{
     return @[

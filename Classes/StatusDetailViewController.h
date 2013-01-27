@@ -13,6 +13,7 @@
 #import "OHAttributedLabel.h"
 #import "Attribute.h"
 #import "SDWebImageManager.h"
+#import "OLImageView.h"
 
 @protocol StatusDetailViewControllerDelegate <NSObject>
 @optional
@@ -24,7 +25,7 @@
 @interface StatusDetailViewController : UIViewController <UITextFieldDelegate,UIActionSheetDelegate,SDWebImageManagerDelegate> {
 	IBOutlet UIView *imageWrapperView;
     OHAttributedLabel *textLabel;
-	IBOutlet UIImageView *mainImageView;
+	IBOutlet OLImageView *mainImageView;
 	IBOutlet UIActivityIndicatorView *commentLoading;
 	IBOutlet UITableView *commentTableView;
 	IBOutlet UIScrollView *mainScrollView;
