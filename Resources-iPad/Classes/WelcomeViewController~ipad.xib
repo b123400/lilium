@@ -201,7 +201,7 @@
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="85376307">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">319</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -213,7 +213,6 @@
 						</object>
 						<string key="NSFrame">{{173, 316}, {404, 240}}</string>
 						<reference key="NSSuperview" ref="85376307"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="475030795"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
@@ -226,7 +225,6 @@
 						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{282, 378}, {186, 115}}</string>
 						<reference key="NSSuperview" ref="85376307"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="705287090"/>
 						<reference key="IBUIBackgroundColor" ref="34745135"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -260,7 +258,6 @@ dC4</string>
 						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{447, 522}, {143, 36}}</string>
 						<reference key="NSSuperview" ref="85376307"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -282,8 +279,6 @@ dC4</string>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="679712269"/>
 				<reference key="IBUIBackgroundColor" ref="217494548"/>
 				<reference key="IBUISimulatedStatusBarMetrics" ref="1020859856"/>
@@ -291,7 +286,7 @@ dC4</string>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="350997264">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -300,7 +295,6 @@ dC4</string>
 						<int key="NSvFlags">319</int>
 						<string key="NSFrame">{{81, 176}, {600, 207}}</string>
 						<reference key="NSSuperview" ref="350997264"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="818240571"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">2</int>
@@ -313,7 +307,6 @@ dC4</string>
 						<int key="NSvFlags">319</int>
 						<string key="NSFrame">{{146, 222}, {470, 109}}</string>
 						<reference key="NSSuperview" ref="350997264"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="826077773"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -349,7 +342,6 @@ dC4</string>
 						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{251, 517}, {250, 55}}</string>
 						<reference key="NSSuperview" ref="350997264"/>
-						<reference key="NSWindow"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4zMjU5MTk0NzUxIDAuNjY0MTY4NjQ4MSAwLjE0NTMwMjMzMjUAA</bytes>
@@ -367,8 +359,6 @@ dC4</string>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="952489587"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -472,6 +462,15 @@ dC4</string>
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">24</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">goIntroducation:</string>
+						<reference key="source" ref="148342442"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">35</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -671,19 +670,11 @@ dC4</string>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">34</int>
+			<int key="maxID">35</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBPartialClassDescription">
-					<string key="className">TitleButton</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/TitleButton.h</string>
-					</object>
-				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">WelcomeViewController</string>
 					<string key="superclassName">UIViewController</string>
@@ -693,11 +684,13 @@ dC4</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>getStartPressed</string>
 							<string>goAddAccount</string>
+							<string>goIntroducation:</string>
 							<string>goSettings:</string>
 							<string>goTimeline</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -710,6 +703,7 @@ dC4</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>getStartPressed</string>
 							<string>goAddAccount</string>
+							<string>goIntroducation:</string>
 							<string>goSettings:</string>
 							<string>goTimeline</string>
 						</object>
@@ -721,6 +715,10 @@ dC4</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">goAddAccount</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">goIntroducation:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
