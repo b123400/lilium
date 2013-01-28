@@ -11,6 +11,7 @@
 #import "BRFunctions.h"
 
 static const char *reactionKey = "touchReaction";
+static const char *soundKey = "touchKey";
 
 @implementation UIView (Interaction)
 
@@ -66,7 +67,9 @@ static const char *reactionKey = "touchReaction";
 	
 	self.layer.edgeAntialiasingMask = kCALayerLeftEdge | kCALayerRightEdge | kCALayerBottomEdge | kCALayerTopEdge;
 	//self.layer.zPosition=10000;
-    [BRFunctions playSound:@"click"];
+    if(self.soundEnabled){
+        [BRFunctions playSound:@"click"];
+    }
 }
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
 	[super touchesMoved:touches withEvent:event];
@@ -91,6 +94,15 @@ static const char *reactionKey = "touchReaction";
 }
 -(void)setTouchReactionEnabled:(BOOL)enabled{
 	objc_setAssociatedObject(self, reactionKey, [NSNumber numberWithBool:enabled], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(BOOL)soundEnabled{
+	NSNumber *enabled=objc_getAssociatedObject(self, soundKey);
+    if(!enabled)return YES;
+	return [enabled boolValue];
+}
+-(void)setSoundEnabled:(BOOL)enabled{
+	objc_setAssociatedObject(self, soundKey, [NSNumber numberWithBool:enabled], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

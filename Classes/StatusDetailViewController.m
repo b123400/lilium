@@ -20,6 +20,7 @@
 #import "NichijyouNavigationController.h"
 #import "BRCircleAlert.h"
 #import "StatusFetcher.h"
+#import "UIView+Interaction.h"
 
 @interface StatusDetailViewController ()
 
@@ -103,6 +104,8 @@
     UIGestureRecognizer *userTap=[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userViewTapped)] autorelease];
     [userTap requireGestureRecognizerToFail:[(NichijyouNavigationController*)self.navigationController pinchGestureRecognizer]];
     [userView addGestureRecognizer:userTap];
+    
+    [likeButton setSoundEnabled:NO];
     
     [self loadResources];
     [self layout];

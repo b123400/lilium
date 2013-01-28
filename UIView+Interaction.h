@@ -19,4 +19,8 @@
 -(BOOL)touchReactionEnabled;
 -(void)setTouchReactionEnabled:(BOOL)enabled;
 
+
+-(BOOL)soundEnabled;
+-(void)setSoundEnabled:(BOOL)enabled;
+
 @end
