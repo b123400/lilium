@@ -34,7 +34,7 @@
     user=[_user retain];
     
     //statuses=[[NSMutableArray alloc] init];
-    [self loadNewerStatuses];
+    [self loadOlderStatuses];
     
     if(user.relationship==UserRelationshipUnknown){
         [user getRelationshipAndReturnTo:self withSelector:@selector(didGetUserRelationship:)];
