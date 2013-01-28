@@ -106,6 +106,10 @@
     [self loadResources];
     [self layout];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self layout];
+}
 -(void)loadResources{
     [mainImageView setImageWithURL:status.mediumURL placeholderImage:[status cachedImageOfSize:StatusImageSizeThumb]];
     [status getCommentsAndReturnTo:self withSelector:@selector(didReceiveComments:)];

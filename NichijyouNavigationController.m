@@ -92,6 +92,11 @@ static float pressShiftFactor=0.2;
 }
 
 -(void)popWithScale:(float)scale andState:(UIGestureRecognizerState)state{
+    if([[self topViewController] respondsToSelector:@selector(shouldPopByPinch)]){
+        if(![(id)[self topViewController]shouldPopByPinch]){
+            return;
+        }
+    }
     if(state==UIGestureRecognizerStateBegan){
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NichijyouNavigationControllerDelegateDidStartedPinchNotification" object:nil];
         if([[self topViewController] respondsToSelector:@selector(didStartedPinching)]){
@@ -138,11 +143,6 @@ static float pressShiftFactor=0.2;
 					return;
 				}
 				if(isAnimating)return;
-				if([[self topViewController] respondsToSelector:@selector(shouldPopByPinch)]){
-					if(![(id)[self topViewController]shouldPopByPinch]){
-						return;
-					}
-				}
 				if([[self topViewController] respondsToSelector:@selector(didPinched)]){
 					[(id)[self topViewController]didPinched];
 				}
@@ -176,7 +176,7 @@ static float pressShiftFactor=0.2;
 }
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]&&gestureRecognizer.view==self.view){
-        if([gestureRecognizer locationInView:self.view].y>=self.view.frame.size.height-30){
+        if([gestureRecognizer locationInView:self.view].y>=[UIApplication currentFrame].size.height-30){
             return true;
         }
         return false;
