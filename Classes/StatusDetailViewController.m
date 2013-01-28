@@ -166,6 +166,7 @@
     imageWrapperScrollView.contentInset=UIEdgeInsetsMake(0, 0, 44, 0);
     
     [self refreshLikeButton];
+    [actionButton setImage:[[UIImage imageNamed:@"actionbutton.png"] tintedImageUsingColor:[UIColor colorWithRed:101/255.0 green:156/255.0 blue:60/255.0 alpha:1.0]] forState:UIControlStateNormal];
 }
 -(void)didReceiveComments:(NSArray*)comments{
 	[commentTableView reloadData];
@@ -466,6 +467,8 @@
     profileImageView = nil;
     [displayNameLabel release];
     displayNameLabel = nil;
+    [actionButton release];
+    actionButton = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -481,6 +484,7 @@
     [userView release];
     [profileImageView release];
     [displayNameLabel release];
+    [actionButton release];
     [super dealloc];
 }
 
