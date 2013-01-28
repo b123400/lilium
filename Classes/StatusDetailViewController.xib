@@ -51,11 +51,10 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUITableView" id="677030972">
 								<reference key="NSNextResponder" ref="932773485"/>
-								<int key="NSvFlags">292</int>
+								<int key="NSvFlags">276</int>
 								<string key="NSFrame">{{311, 0}, {310, 460}}</string>
 								<reference key="NSSuperview" ref="932773485"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<object class="NSColor" key="IBUIBackgroundColor" id="426779822">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
@@ -644,7 +643,7 @@
 							<string>UIScrollView</string>
 							<string>UIView</string>
 							<string>UIButton</string>
-							<string>UIImageView</string>
+							<string>OLImageView</string>
 							<string>UIScrollView</string>
 							<string>UIImageView</string>
 							<string>UIView</string>
@@ -693,7 +692,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mainImageView</string>
-								<string key="candidateClassName">UIImageView</string>
+								<string key="candidateClassName">OLImageView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mainScrollView</string>

@@ -38,6 +38,7 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    getStartedButton.layer.zPosition=1000;
 	[self refreshView];
     [super viewDidLoad];
 }
@@ -69,6 +70,9 @@
 }
 -(void)pushInAnimationDidFinished{
     [timelineButton startAnimation];
+}
+-(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
+    return @[timelineButton,accountButton,settingsButton,aboutButton];
 }
 -(void)getStartPressed{
 	WelcomePinchViewController *pinch=[[WelcomePinchViewController alloc]init];
@@ -106,6 +110,7 @@
 }
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)return YES;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 - (BOOL)shouldAutorotate {
@@ -114,6 +119,9 @@
 - (NSUInteger)supportedInterfaceOrientations
 {
     //decide number of origination tob supported by Viewcontroller.
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+        return UIInterfaceOrientationMaskAll;
+    }
     return UIInterfaceOrientationMaskPortrait;
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -123,9 +131,9 @@
 
 - (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
     if(self.view==mainView){
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)return;
         switch (orientation) {
             case UIInterfaceOrientationLandscapeLeft:{
-                timelineButton.backgroundImageView.layer.transform=
                 timelineButton.textLabel.layer.transform=
                 accountButton.imageView.layer.transform=
                 settingsButton.imageView.layer.transform=CATransform3DMakeRotation(-M_PI_2, 0, 0, 1);
@@ -172,6 +180,8 @@
     settingsButton = nil;
     [aboutButton release];
     aboutButton = nil;
+    [getStartedButton release];
+    getStartedButton = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -184,6 +194,7 @@
     [accountButton release];
     [settingsButton release];
     [aboutButton release];
+    [getStartedButton release];
     [super dealloc];
 }
 

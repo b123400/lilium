@@ -10,6 +10,7 @@
 
 @interface SettingViewController : UIViewController{
     
+    IBOutlet UILabel *titleLabel;
 }
 @property (retain, nonatomic) IBOutlet UIButton *autoReloadButton;
 @property (retain, nonatomic) IBOutlet UIButton *tumblrReblogButton;

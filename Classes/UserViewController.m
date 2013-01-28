@@ -93,6 +93,7 @@
 -(void)layoutActionView{
     actionView.layer.transform=CATransform3DIdentity;
     usernameLabel.text=[NSString stringWithFormat:@"%@@%@",user.username,[Status sourceName:user.type]];
+    usernameLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:usernameLabel.font.pointSize];
     [usernameLabel sizeToFit];
     CGRect frame=usernameLabel.frame;
     frame.origin.y=(usernameLabel.superview.frame.size.height-usernameLabel.frame.size.height)/2;
@@ -101,6 +102,7 @@
     frame=followButton.frame;
     frame.origin.x=usernameLabel.frame.origin.x+usernameLabel.frame.size.width+10;
     followButton.frame=frame;
+    followButton.titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:followButton.titleLabel.font.pointSize];
     if(user.relationship==UserRelationshipUnknown||user.relationship==UserRelationshipNotAvailable){
         followButton.hidden=YES;
     }else{

@@ -11,6 +11,7 @@
 
 @interface WelcomeViewController : UIViewController <TitleButtonDelegate> {
 	IBOutlet UIView *initialPinchView;
+    IBOutlet UIButton *getStartedButton;
 	IBOutlet UIView *noAccountView;
 	IBOutlet UIView *mainView;
     IBOutlet TitleButton *timelineButton;

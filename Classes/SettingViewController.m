@@ -43,6 +43,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self refreshAutoReloadIntervalButton];
+    titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:titleLabel.font.pointSize];
+    self.tumblrReblogButton.titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:17];
+    self.autoReloadButton.titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:17];
+    self.clearCacheButton.titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:17];
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,12 +60,15 @@
     [_autoReloadButton release];
     [_tumblrReblogButton release];
     [_clearCacheButton release];
+    [titleLabel release];
     [super dealloc];
 }
 - (void)viewDidUnload {
     [self setAutoReloadButton:nil];
     [self setTumblrReblogButton:nil];
     [self setClearCacheButton:nil];
+    [titleLabel release];
+    titleLabel = nil;
     [super viewDidUnload];
 }
 -(void)viewWillAppear:(BOOL)animated{

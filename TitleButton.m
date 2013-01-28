@@ -47,11 +47,11 @@
     
     self.autoresizesSubviews=YES;
     self.textLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    self.textLabel.font=[UIFont fontWithName:@"Heiti TC" size:18];
     self.textLabel.textColor=[UIColor whiteColor];
     self.textLabel.autoresizingMask=UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     self.textLabel.backgroundColor=[UIColor colorWithWhite:0.0 alpha:0.2];
     self.textLabel.textAlignment=NSTextAlignmentCenter;
+    self.textLabel.font=[UIFont fontWithName:@"QuicksandBold-Regular" size:18];
     [self addSubview:self.textLabel];
     
     self.backgroundImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
@@ -69,6 +69,7 @@
     [self layoutWithAnimation:YES];
 }
 -(void)layoutWithAnimation:(BOOL)animated{
+    float animationDuration=15;
     float widthScale=self.frame.size.width/self.backgroundImageView.image.size.width;
     float heightScale=self.frame.size.height/self.backgroundImageView.image.size.height;
     if(self.backgroundImageView.image.size.width==0||self.backgroundImageView.image.size.height==0){
@@ -78,7 +79,7 @@
     if(widthScale<heightScale){
         CGSize targetSize=CGSizeMake(self.backgroundImageView.image.size.width*heightScale, self.frame.size.height);
         self.backgroundImageView.frame=CGRectMake(0, 0, targetSize.width, targetSize.height);
-        [UIView animateWithDuration:5.0 animations:^{
+        [UIView animateWithDuration:animationDuration animations:^{
             self.backgroundImageView.frame=CGRectMake(self.frame.size.width-targetSize.width, 0, self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height);
         } completion:^(BOOL finished) {
             if(finished){
@@ -90,7 +91,7 @@
     }else if(widthScale>heightScale){
         CGSize targetSize=CGSizeMake(self.frame.size.width, self.backgroundImageView.image.size.height*widthScale);
         self.backgroundImageView.frame=CGRectMake(0, 0, targetSize.width, targetSize.height);
-        [UIView animateWithDuration:5.0 animations:^{
+        [UIView animateWithDuration:animationDuration animations:^{
             self.backgroundImageView.frame=CGRectMake(0, self.frame.size.height-self.backgroundImageView.frame.size.height, self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height);
         } completion:^(BOOL finished) {
             if(finished){

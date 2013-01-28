@@ -165,7 +165,7 @@
 				break;
 		}
 	}
-	
+	[titleLabel setFont:[UIFont fontWithName:@"QuicksandBook-Regular" size:titleLabel.font.pointSize]];
 	[self refreshLoginStatus];
 	
     [super viewDidLoad];
@@ -242,6 +242,8 @@
 
 - (void)viewDidUnload {
 	[tickImageViews removeAllObjects];
+    [titleLabel release];
+    titleLabel = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -250,6 +252,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [titleLabel release];
     [super dealloc];
 }
 
