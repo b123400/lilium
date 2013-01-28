@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.SystemVersion">12C3012</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1187.34</string>
 		<string key="IBDocument.HIToolboxVersion">625.00</string>
@@ -55,6 +55,7 @@
 								<string key="NSFrame">{{624, 0}, {533, 1004}}</string>
 								<reference key="NSSuperview" ref="932773485"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<object class="NSColor" key="IBUIBackgroundColor" id="426779822">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
@@ -69,7 +70,7 @@
 							</object>
 							<object class="IBUIScrollView" id="62095936">
 								<reference key="NSNextResponder" ref="932773485"/>
-								<int key="NSvFlags">274</int>
+								<int key="NSvFlags">272</int>
 								<object class="NSMutableArray" key="NSSubviews">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="IBUIView" id="277732939">
@@ -117,7 +118,6 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="277732939"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIAutoresizesSubviews">NO</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<bool key="IBUIAlwaysBounceVertical">YES</bool>
@@ -167,7 +167,7 @@
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="567111808">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -176,7 +176,6 @@
 						<int key="NSvFlags">289</int>
 						<string key="NSFrame">{{275, 6}, {25, 21}}</string>
 						<reference key="NSSuperview" ref="567111808"/>
-						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -210,7 +209,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{0, 13}, {29, 29}}</string>
 						<reference key="NSSuperview" ref="567111808"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="411914471"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -221,7 +219,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{34, 13}, {238, 29}}</string>
 						<reference key="NSSuperview" ref="567111808"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="53202222"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -250,8 +247,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{300, 62}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="764269994"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
@@ -518,6 +513,7 @@
 					<string>29.IBPluginDependency</string>
 					<string>4.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
+					<string>7.CustomClassName</string>
 					<string>7.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
 				</object>
@@ -537,6 +533,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>OLImageView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
@@ -559,17 +556,46 @@
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
+					<string key="className">OLImageView</string>
+					<string key="superclassName">UIImageView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OLImageView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">StatusDetailViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">likeButtonClicked:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>actionButtonClicked:</string>
+							<string>likeButtonClicked:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">likeButtonClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">likeButtonClicked:</string>
-							<string key="candidateClassName">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>actionButtonClicked:</string>
+							<string>likeButtonClicked:</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">actionButtonClicked:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">likeButtonClicked:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
@@ -595,7 +621,7 @@
 							<string>UIScrollView</string>
 							<string>UIView</string>
 							<string>UIButton</string>
-							<string>UIImageView</string>
+							<string>OLImageView</string>
 							<string>UIScrollView</string>
 							<string>UIImageView</string>
 							<string>UIView</string>
@@ -644,7 +670,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mainImageView</string>
-								<string key="candidateClassName">UIImageView</string>
+								<string key="candidateClassName">OLImageView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mainScrollView</string>

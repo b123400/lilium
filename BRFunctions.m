@@ -412,9 +412,28 @@ static NSMutableArray *tumblrUsers=nil;
     AudioServicesPlaySystemSound(audioEffect);
 }
 
++(int)gridViewNumOfRow{
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
+        if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication]statusBarOrientation])){
+            return 1;
+        }
+        return 3;
+    }else{
+        if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication]statusBarOrientation])){
+            return 2;
+        }else{
+            return 5;
+        }
+    }
+    return 3;
+}
 +(CGSize)gridViewCellMargin{
+    float numOfFloat=3;
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+        numOfFloat=5;
+    }
     UIEdgeInsets contentIndent=[BRFunctions gridViewIndent];
-    float margin=([UIApplication currentFrame].size.height-contentIndent.top-contentIndent.bottom)/11;
+    float margin=([UIApplication currentFrame].size.height-contentIndent.top-contentIndent.bottom)/(([BRFunctions gridViewCellToMarginRatio]+1)*numOfFloat-1);
     return CGSizeMake(margin, margin);
 }
 +(UIEdgeInsets)gridViewIndent{
@@ -424,6 +443,21 @@ static NSMutableArray *tumblrUsers=nil;
     return 3;
 }
 +(CGSize)gridViewCellSize{
+    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication]statusBarOrientation])){
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone){
+            CGRect appFrame=[UIApplication currentFrame];
+            UIEdgeInsets indent=[BRFunctions gridViewIndent];
+            float height=appFrame.size.height-indent.bottom-indent.top;
+            return CGSizeMake(height, height);
+        }else{
+            CGRect appFrame=[UIApplication currentFrame];
+            UIEdgeInsets indent=[BRFunctions gridViewIndent];
+            float height=appFrame.size.height-indent.bottom-indent.top;
+            CGSize margin=[BRFunctions gridViewCellMargin];
+            height=(height+margin.height)/[BRFunctions gridViewNumOfRow]-margin.height;
+            return CGSizeMake(height, height);
+        }
+    }
     CGSize cellSize=[BRFunctions gridViewCellMargin];
     return CGSizeMake(cellSize.width*[BRFunctions gridViewCellToMarginRatio],cellSize.height*[BRFunctions gridViewCellToMarginRatio]);
 }

@@ -18,7 +18,7 @@
 -(id)initWithReuseIdentifier:(NSString*)identifier{
 	self=[super initWithReuseIdentifier:identifier];
 	self.clipsToBounds=YES;
-	imageView=[[UIImageView alloc]init];
+	imageView=[[OLImageView alloc]init];
 	[self addSubview:imageView];
 	
 	coverView=[[UIImageView alloc]init];
@@ -30,7 +30,7 @@
 	captionView.backgroundColor=[UIColor clearColor];
 	[self addSubview:captionView];
 	
-	captionImageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"imageCoverCaption.png"]];
+	captionImageView=[[UIImageView alloc]initWithImage:[[UIImage imageNamed:@"imageCoverCaption.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 60, 0, 0)]];
 	captionImageView.backgroundColor=[UIColor clearColor];
 	[captionView addSubview:captionImageView];
 	
@@ -105,7 +105,7 @@
 				UIColor *averageColor=[viewImage getDominantColor];
 				
 				
-				//imageView.image=viewImage;
+				imageView.image=displayImage;
 				
 				UIGraphicsEndImageContext();
 				
@@ -120,7 +120,7 @@
 				coverView.backgroundColor=[UIColor clearColor];
 				coverView.layer.opacity=dimAlpha;
 				
-				captionLabel.frame=CGRectMake(-5, 0, 200, 30);
+				captionLabel.frame=CGRectMake(-5, 0, self.frame.size.width+60, 30);
 				captionLabel.font=[UIFont boldSystemFontOfSize:30];
 				
 				captionImageView.hidden=YES;
@@ -128,11 +128,12 @@
 				coverView.backgroundColor=[UIColor blackColor];
 				coverView.layer.opacity=0.05;
 				
-				captionLabel.frame=CGRectMake(38, 7, 200, 20);
+				captionLabel.frame=CGRectMake(38, 7, self.frame.size.width+60, 20);
 				captionLabel.font=[UIFont boldSystemFontOfSize:18];
 				
 				captionImageView.hidden=NO;
-				captionImageView.image=[captionImageView.image tintedImageUsingColor:[captionColor inverseColor]];
+				captionImageView.image=[[captionImageView.image tintedImageUsingColor:[captionColor inverseColor]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 60, 0, 0)];
+                
 				
 				CGRect imageFrame=captionView.frame;
 				imageFrame.origin.y+=imageFrame.size.height;

@@ -27,6 +27,7 @@
 	CGSize cellSize;
 	int numOfRow;
 	CGSize cellMargin;
+    float widthOfGapBetweenSection;
 	
 	NSMutableArray *frameOfSections;
 	NSMutableArray *numOfCellInSections;
@@ -41,11 +42,15 @@
 @property (assign) UIEdgeInsets contentIndent;
 @property (assign) CGSize cellSize;
 @property (assign) CGSize cellMargin;
+@property (assign,nonatomic) float widthOfGapBetweenSection;
+@property (readonly,nonatomic)	NSMutableArray *cells;
 
 -(void)reloadData;
 -(void)reloadDataWithAnimation:(BOOL)animated;
+-(void)reloadDataWithAnimation:(BOOL)animated clearViews:(BOOL)clear;
 - (id)dequeueReusableCellWithIdentifier:(NSString *)identifier;
 
 -(int)numberOfCellInSection:(int)section;
+-(void)scrollToCellAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated;
 
 @end

@@ -83,6 +83,7 @@
 +(dispatch_queue_t)imageQueue;
 +(void)playSound:(NSString*)filename;
 
++(int)gridViewNumOfRow;
 +(CGSize)gridViewCellMargin;
 +(UIEdgeInsets)gridViewIndent;
 +(float)gridViewCellToMarginRatio;

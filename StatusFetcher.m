@@ -125,32 +125,68 @@ static StatusFetcher* sharedFetcher=nil;
 		}
 	}else if(request.type==StatusRequestTypeSolo){
         for(User *thisUser in request.referenceUsers){
+            Status *referenceStatus=[self firstStatusWithSource:thisUser.type inArray:request.referenceStatuses];
             switch (thisUser.type) {
                 case StatusSourceTypeInstagram:{
-                    NSString *requestID=[[BRFunctions sharedInstagram] getUserFeedWithUserID:thisUser.userID minID:nil maxID:nil];
-                    [requestsByID setObject:request forKey:requestID];
-                    request.instagramStatus=StatusFetchingStatusLoading;
+                    NSString *requestID=nil;
+                    if(!referenceStatus){
+                        requestID=[[BRFunctions sharedInstagram] getUserFeedWithUserID:thisUser.userID minID:nil maxID:nil];
+                    }else if(request.direction==StatusRequestDirectionNewer){
+                        requestID=[[BRFunctions sharedInstagram] getUserFeedWithUserID:thisUser.userID minID:referenceStatus.statusID maxID:nil];
+                    }else if(request.direction==StatusRequestDirectionOlder){
+                        requestID=[[BRFunctions sharedInstagram] getUserFeedWithUserID:thisUser.userID minID:nil maxID:referenceStatus.statusID];
+                    }
+                    if(requestID){
+                        [requestsByID setObject:request forKey:requestID];
+                        request.instagramStatus=StatusFetchingStatusLoading;
+                    }
+
                     break;
                 }
                 case StatusSourceTypeTwitter:{
-                    NSString *requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:nil maxID:nil];
-                    [requestsByID setObject:request forKey:requestID];
-                    request.twitterStatus=StatusFetchingStatusLoading;
+                                        NSString *requestID=nil;
+                    if(!referenceStatus){
+                        requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:nil maxID:nil];
+                    }else if(request.direction==StatusRequestDirectionNewer){
+                        requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:referenceStatus.statusID maxID:nil];
+                    }else if(request.direction==StatusRequestDirectionOlder){
+                        requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:nil maxID:referenceStatus.statusID];
+                    }
+                    if(requestID){
+                        [requestsByID setObject:request forKey:requestID];
+                        request.twitterStatus=StatusFetchingStatusLoading;
+                    }
+
                     break;
                 }
                 case StatusSourceTypeFlickr:{
-                    NSString *requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:nil page:0];
+                                        NSString *requestID=nil;
+                    if(!referenceStatus){
+                        requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:nil page:0];
+                    }else if(request.direction==StatusRequestDirectionNewer){
+                        requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:referenceStatus.date maxDate:nil page:0];
+                    }else if(request.direction==StatusRequestDirectionOlder){
+                        requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:referenceStatus.date page:0];
+                    }
+
                     [requestsByID setObject:request forKey:requestID];
                     request.flickrStatus=StatusFetchingStatusLoading;
                 }
                 case StatusSourceTypeTumblr:{
-                    NSString *requestID=[[BRFunctions sharedTumblr]getPostsWithBaseHostname:thisUser.userID offset:0];
+                    NSString *requestID=[[BRFunctions sharedTumblr]getPostsWithBaseHostname:thisUser.userID offset:request.referenceStatuses.count];
                     [requestsByID setObject:request forKey:requestID];
                     request.tumblrStatus=StatusFetchingStatusLoading;
                     break;
                 }
                 case StatusSourceTypeFacebook:{
-                    FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo",thisUser.userID] andDelegate:self];
+                    FBRequest *fbRequest=nil;
+                    if(!referenceStatus){
+                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo",thisUser.userID] andDelegate:self];
+                    }else if(request.direction==StatusRequestDirectionNewer){
+                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&since=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
+                    }else if(request.direction==StatusRequestDirectionOlder){
+                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&until=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
+                    }
                     [requestsByID setObject:request forKey:[fbRequest identifier]];
                     request.facebookStatus=StatusFetchingStatusLoading;
                     break;
@@ -182,8 +218,17 @@ static StatusFetcher* sharedFetcher=nil;
                     }
                 }
                 if(servicesWithError.count){
-                    NSString *errorMessage=[servicesWithError componentsJoinedByString:@","];
-                    errorMessage=[NSString stringWithFormat:@"Failed to load from the following service:%@",errorMessage];
+                    NSString *errorMessage=nil;
+                    if(request.type!=StatusRequestTypeTimeline&&servicesWithError.count==1){
+                        for(NSNumber *thisSource in services){
+                            if([request errorForSource:thisSource.intValue]){
+                                errorMessage=[[request errorForSource:thisSource.intValue] localizedDescription];
+                            }
+                        }
+                    }else{
+                        errorMessage=[servicesWithError componentsJoinedByString:@","];
+                        errorMessage=[NSString stringWithFormat:@"Failed to load from the following service:%@",errorMessage];
+                    }
                     error=[NSError errorWithDomain:@"net.b123400.lilium" code:10 userInfo:[NSDictionary dictionaryWithObject:errorMessage forKey:NSLocalizedDescriptionKey]];
                 }
 				//Three arugments: request, statuses, error
@@ -441,6 +486,22 @@ static StatusFetcher* sharedFetcher=nil;
     }
     [requestsByID removeObjectsForKeys:[requestsByID allKeysForObject:request]];
 }
+#pragma mark - Cancel
+-(void)cancelRequest:(Request*)request{
+    request.delegate=nil;
+    NSArray *allKeys=[requestsByID allKeysForObject:request];
+    [requestsByID removeObjectsForKeys:allKeys];
+}
+-(void)cancelRequestsWithDelegate:(id)delegate{
+    NSArray *allKeys=[requestsByID allKeys];
+    for(int i=0;i<allKeys.count;i++){
+        Request *thisRequest=[requestsByID objectForKey:[allKeys objectAtIndex:i]];
+        if(thisRequest.delegate==delegate){
+            thisRequest.delegate=nil;
+            [requestsByID removeObjectForKey:[allKeys objectAtIndex:i]];
+        }
+    }
+}
 #pragma mark - Flickr
 -(Comment*)flickrCommentFromDict:(NSDictionary*)dict{
     User *newUser=[User userWithType:StatusSourceTypeFlickr userID:[dict objectForKey:@"author"]];
@@ -456,6 +517,7 @@ static StatusFetcher* sharedFetcher=nil;
     return newComment;
 }
 -(void)flickrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if ([[requestsByID objectForKey:identifier]isKindOfClass:[CommentRequest class]]) {
         NSMutableArray *comments=[NSMutableArray array];
         if([data objectForKey:@"comments"]&&[[data objectForKey:@"comments"] objectForKey:@"comment"]){
@@ -522,6 +584,7 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)flickrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.flickrStatus=StatusFetchingStatusError;
@@ -567,10 +630,20 @@ static StatusFetcher* sharedFetcher=nil;
     return thisUser;
 }
 -(void)instagramEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
 	if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
-		NSArray *dicts=[data objectForKey:@"data"];
-		NSArray *comments=[self instagramCommentsFromDicts:dicts];
-		[self didReceivedComments:comments forRequest:[requestsByID objectForKey:identifier]];
+        CommentRequest *request=[requestsByID objectForKey:identifier];
+        NSMutableArray *comments=[NSMutableArray array];
+        if([data objectForKey:@"data"]){
+            NSArray *dicts=@[];
+            if([[data objectForKey:@"data"] isKindOfClass:[NSArray class]]){
+                dicts=[data objectForKey:@"data"];
+            }else if([[data objectForKey:@"data"]isKindOfClass:[NSMutableDictionary class]]){
+                dicts=@[[data objectForKey:@"data"]];
+            }
+            [comments addObjectsFromArray:[self instagramCommentsFromDicts:dicts]];
+        }
+		[self didReceivedComments:comments forRequest:request];
 		return;
 	}
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
@@ -676,6 +749,7 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)instagramEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.instagramStatus=StatusFetchingStatusError;
@@ -711,6 +785,7 @@ static StatusFetcher* sharedFetcher=nil;
     return newComment;
 }
 -(void)tumblrEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[LikeRequest class]]){
         [self didFinishedLikeRequestWithIdentifier:identifier];
         return;
@@ -776,86 +851,85 @@ static StatusFetcher* sharedFetcher=nil;
                     }
                 }
 			}
-			if(thisStatus.thumbURL&&thisStatus.mediumURL){
-				thisStatus.fullURL=[NSURL URLWithString:[[sizes objectAtIndex:0]objectForKey:@"url"]];
-                if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
-                    thisStatus.thumbURL=thisStatus.mediumURL=thisStatus.fullURL;
-                }
-				thisStatus.webURL=[NSURL URLWithString:[post objectForKey:@"post_url"]];
-				if([post objectForKey:@"caption"]&&[post objectForKey:@"caption"]!=[NSNull null]&&![[post objectForKey:@"caption"] isEqualToString:@""]){
-					
-					NSString *caption=[post objectForKey:@"caption"];
-					
-					NSString *regex=@"</?(\\w+((\\s+\\w+(\\s*=\\s*(?:\".*?\"|\'.*?\'|[^\'\">\\s]+))?)+\\s*|\\s*)/?)>";
-					NSArray *components=[caption arrayOfCaptureComponentsMatchedByRegex:regex];
-					for(NSArray *component in components){
-						NSString *thisTag=[component objectAtIndex:1];
-						NSString *thisElement=[[thisTag componentsSeparatedByString:@" "] objectAtIndex:0];
-						if(![thisElement isEqualToString:@"a"]){
-							caption=[caption stringByReplacingOccurrencesOfString:[component objectAtIndex:0] withString:@""];
-						}
-					}
-					
-					regex=@"<[^>]*a[^>]*href=[\"|\']([^\'\"]*)[\"|\'][^>]*>([^<]*)</[\\s]*a[^>|\\s]*>";
-					components=[caption arrayOfCaptureComponentsMatchedByRegex:regex];
-					NSLog(@"%@",[components description]);
-					NSMutableArray *attributes=[NSMutableArray array];
-					for(int i=0;i<[components count];i++){
-						NSArray *thisLink=[components objectAtIndex:i];
-						NSString *wholeLink=[thisLink objectAtIndex:0];
-						NSURL *thisURL=[NSURL URLWithString:[thisLink objectAtIndex:1]];
-						NSString *thisText=[thisLink objectAtIndex:2];
-						
-						NSRange linkRange=[caption rangeOfString:wholeLink];
-						
-						Attribute *thisAttribute=[[[Attribute alloc] init]autorelease];
-						thisAttribute.url=thisURL;
-						thisAttribute.range=NSMakeRange(linkRange.location, thisText.length);
-						[attributes addObject:thisAttribute];
-						
-						caption=[NSString stringWithFormat:@"%@%@%@",[caption substringToIndex:linkRange.location],thisText,[caption substringFromIndex:linkRange.location+linkRange.length]];
-					}
-					
-					thisStatus.attributes=attributes;
-					thisStatus.caption=caption;
-				}
-                TumblrUser *thisUser=[TumblrUser userWithBlogName:[post objectForKey:@"blog_name"] anyUrl:[post objectForKey:@"post_url"]];
-				thisStatus.user=thisUser;
-				
-				thisStatus.statusID=[NSString stringWithFormat:@"%@",[post objectForKey:@"id"]];
-				
-				thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[post objectForKey:@"timestamp"]doubleValue]];
-                thisStatus.reblogKey=[post objectForKey:@"reblog_key"];
-                [thisStatus setLiked:[[post objectForKey:@"liked"] boolValue] sync:NO];
-				
-                //Comment
-                NSMutableArray *comments=[NSMutableArray array];
-                for(NSDictionary *commentDict in [post objectForKey:@"notes"]){
-                    [comments addObject:[self tumblrCommentFromNotesDict:commentDict]];
-                }
-                thisStatus.comments=comments;
+            thisStatus.fullURL=[NSURL URLWithString:[[sizes objectAtIndex:0]objectForKey:@"url"]];
+            if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+                thisStatus.thumbURL=thisStatus.mediumURL=thisStatus.fullURL;
+            }
+            thisStatus.webURL=[NSURL URLWithString:[post objectForKey:@"post_url"]];
+            if([post objectForKey:@"caption"]&&[post objectForKey:@"caption"]!=[NSNull null]&&![[post objectForKey:@"caption"] isEqualToString:@""]){
                 
-				if(![self didCachedStatus:thisStatus inArray:_statuses]){
-					if(request.delegate){
-						if([request.delegate respondsToSelector:@selector(needThisStatus:)]){
-							if([request.delegate needThisStatus:thisStatus]){
-								[_statuses addObject:thisStatus];
-							}
-						}else{
-							[_statuses addObject:thisStatus];
-						}
-					}
-				}
-				if(![self didCachedStatus:thisStatus inArray:allStatuses]){
-					[allStatuses addObject:thisStatus];
-				}
-			}
+                NSString *caption=[post objectForKey:@"caption"];
+                
+                NSString *regex=@"</?(\\w+((\\s+\\w+(\\s*=\\s*(?:\".*?\"|\'.*?\'|[^\'\">\\s]+))?)+\\s*|\\s*)/?)>";
+                NSArray *components=[caption arrayOfCaptureComponentsMatchedByRegex:regex];
+                for(NSArray *component in components){
+                    NSString *thisTag=[component objectAtIndex:1];
+                    NSString *thisElement=[[thisTag componentsSeparatedByString:@" "] objectAtIndex:0];
+                    if(![thisElement isEqualToString:@"a"]){
+                        caption=[caption stringByReplacingOccurrencesOfString:[component objectAtIndex:0] withString:@""];
+                    }
+                }
+                
+                regex=@"<[^>]*a[^>]*href=[\"|\']([^\'\"]*)[\"|\'][^>]*>([^<]*)</[\\s]*a[^>|\\s]*>";
+                components=[caption arrayOfCaptureComponentsMatchedByRegex:regex];
+                NSLog(@"%@",[components description]);
+                NSMutableArray *attributes=[NSMutableArray array];
+                for(int i=0;i<[components count];i++){
+                    NSArray *thisLink=[components objectAtIndex:i];
+                    NSString *wholeLink=[thisLink objectAtIndex:0];
+                    NSURL *thisURL=[NSURL URLWithString:[thisLink objectAtIndex:1]];
+                    NSString *thisText=[thisLink objectAtIndex:2];
+                    
+                    NSRange linkRange=[caption rangeOfString:wholeLink];
+                    
+                    Attribute *thisAttribute=[[[Attribute alloc] init]autorelease];
+                    thisAttribute.url=thisURL;
+                    thisAttribute.range=NSMakeRange(linkRange.location, thisText.length);
+                    [attributes addObject:thisAttribute];
+                    
+                    caption=[NSString stringWithFormat:@"%@%@%@",[caption substringToIndex:linkRange.location],thisText,[caption substringFromIndex:linkRange.location+linkRange.length]];
+                }
+                
+                thisStatus.attributes=attributes;
+                thisStatus.caption=caption;
+            }
+            TumblrUser *thisUser=[TumblrUser userWithBlogName:[post objectForKey:@"blog_name"] anyUrl:[post objectForKey:@"post_url"]];
+            thisStatus.user=thisUser;
+            
+            thisStatus.statusID=[NSString stringWithFormat:@"%@",[post objectForKey:@"id"]];
+            
+            thisStatus.date=[NSDate dateWithTimeIntervalSince1970:[[post objectForKey:@"timestamp"]doubleValue]];
+            thisStatus.reblogKey=[post objectForKey:@"reblog_key"];
+            [thisStatus setLiked:[[post objectForKey:@"liked"] boolValue] sync:NO];
+            
+            //Comment
+            NSMutableArray *comments=[NSMutableArray array];
+            for(NSDictionary *commentDict in [post objectForKey:@"notes"]){
+                [comments addObject:[self tumblrCommentFromNotesDict:commentDict]];
+            }
+            thisStatus.comments=comments;
+            
+            if(![self didCachedStatus:thisStatus inArray:_statuses]){
+                if(request.delegate){
+                    if([request.delegate respondsToSelector:@selector(needThisStatus:)]){
+                        if([request.delegate needThisStatus:thisStatus]){
+                            [_statuses addObject:thisStatus];
+                        }
+                    }else{
+                        [_statuses addObject:thisStatus];
+                    }
+                }
+            }
+            if(![self didCachedStatus:thisStatus inArray:allStatuses]){
+                [allStatuses addObject:thisStatus];
+            }
 		}
 	}
 	[self refreshTempStatusForRequest:request];
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)tumblrEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.tumblrStatus=StatusFetchingStatusError;
@@ -902,6 +976,7 @@ static StatusFetcher* sharedFetcher=nil;
     return comment;
 }
 -(void)twitterEngine:(id)sender didReceivedData:(id)data forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([requestsByID objectForKey:identifier]&&[[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
         //comments received
         /*
@@ -1107,6 +1182,7 @@ static StatusFetcher* sharedFetcher=nil;
 	[requestsByID removeObjectForKey:identifier];
 }
 -(void)twitterEngine:(id)sender didFailed:(NSError*)error forRequestIdentifier:(NSString*)identifier{
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.twitterStatus=StatusFetchingStatusError;
@@ -1142,6 +1218,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 - (void)request:(FBRequest *)fbRequest didLoad:(id)result{
 	NSString *identifier=[fbRequest identifier];
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
         CommentRequest *request=[requestsByID objectForKey:identifier];
         NSMutableArray *comments=[NSMutableArray array];
@@ -1265,6 +1342,7 @@ static StatusFetcher* sharedFetcher=nil;
 }
 - (void)request:(FBRequest *)fbRequest didFailWithError:(NSError *)error{
 	NSString *identifier=[fbRequest identifier];
+    if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){
         StatusesRequest *request=[requestsByID objectForKey:identifier];
         request.facebookStatus=StatusFetchingStatusError;

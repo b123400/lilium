@@ -46,4 +46,7 @@
 -(void)getUserRelationship:(RelationshipRequest*)request;
 -(void)followsUser:(RelationshipRequest*)request;
 
+-(void)cancelRequest:(Request*)request;
+-(void)cancelRequestsWithDelegate:(id)delegate;
+
 @end

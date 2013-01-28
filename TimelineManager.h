@@ -20,6 +20,7 @@
 	
 	NSMutableArray *statuses;
 	
+    StatusesRequest *loadLatestRequest;
 	StatusesRequest *loadNewerRequest;
 	StatusesRequest *loadOlderRequest;
 }
@@ -27,10 +28,13 @@
 +(TimelineManager*)sharedManager;
 
 -(void)sync;
+-(void)cancelCurrentSync;
+-(void)getNewerStatuses;
 -(void)getOlderStatuses;
 
 -(NSArray*)latestStatuses:(int)count;
 -(NSArray*)statusesAfter:(Status*)aStatus count:(int)count;
+-(Status*)randomStatus;
 
 -(void)removeAllStatusWithSource:(StatusSourceType)source;
 

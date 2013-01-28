@@ -42,6 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.titleLabel.text=self.title;
+    self.titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:self.titleLabel.font.pointSize];
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,7 +81,6 @@
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     if(!cell){
         cell=[[[MultipleChoiceCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"] autorelease];
-        cell.textLabel.font=[UIFont fontWithName:@"Heiti TC" size:17];
         cell.textLabel.textAlignment=NSTextAlignmentCenter;
         cell.detailTextLabel.textAlignment=NSTextAlignmentCenter;
     }

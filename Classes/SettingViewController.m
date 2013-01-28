@@ -13,6 +13,7 @@
 #import "TumblrUser.h"
 #import "TimelineManager.h"
 #import "SDImageCache.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface SettingViewController ()
 
@@ -31,6 +32,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter]     addObserver:self selector:@selector(orientationChanged:)     name:UIDeviceOrientationDidChangeNotification     object:[UIDevice currentDevice]];
     }
     return self;
 }
@@ -40,6 +43,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self refreshAutoReloadIntervalButton];
+    titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:titleLabel.font.pointSize];
+    self.tumblrReblogButton.titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:17];
+    self.autoReloadButton.titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:17];
+    self.clearCacheButton.titleLabel.font=[UIFont fontWithName:@"QuicksandBook-Regular" size:17];
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,14 +56,66 @@
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_autoReloadButton release];
+    [_tumblrReblogButton release];
+    [_clearCacheButton release];
+    [titleLabel release];
     [super dealloc];
 }
 - (void)viewDidUnload {
     [self setAutoReloadButton:nil];
+    [self setTumblrReblogButton:nil];
+    [self setClearCacheButton:nil];
+    [titleLabel release];
+    titleLabel = nil;
     [super viewDidUnload];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [self updateLayoutForNewOrientation: [[UIDevice currentDevice]orientation]];
+}
+- (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
+    switch (orientation) {
+        case UIInterfaceOrientationLandscapeLeft:{
+            self.tumblrReblogButton.titleLabel.layer.transform=
+            self.autoReloadButton.titleLabel.layer.transform=
+            self.clearCacheButton.titleLabel.layer.transform=CATransform3DMakeRotation(-M_PI_2, 0, 0, 1);
+        }
+            break;
+        case UIInterfaceOrientationLandscapeRight:{
+            self.tumblrReblogButton.titleLabel.layer.transform=
+            self.autoReloadButton.titleLabel.layer.transform=
+            self.clearCacheButton.titleLabel.layer.transform=CATransform3DMakeRotation(M_PI_2, 0, 0, 1);
+        }
+            break;
+        case UIInterfaceOrientationPortrait:{
+            self.tumblrReblogButton.titleLabel.layer.transform=
+            self.autoReloadButton.titleLabel.layer.transform=
+            self.clearCacheButton.titleLabel.layer.transform=CATransform3DIdentity;
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+- (void) orientationChanged:(NSNotification *)note{
+    [UIView animateWithDuration:0.2 animations:^{
+        [self updateLayoutForNewOrientation:[(UIDevice*)note.object orientation]];
+    }];
+}
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+- (BOOL)shouldAutorotate {
+    UIInterfaceOrientation orientation = [[UIDevice currentDevice] orientation];
+    return [self shouldAutorotateToInterfaceOrientation:orientation];
+}
+- (NSUInteger)supportedInterfaceOrientations
+{
+    //decide number of origination tob supported by Viewcontroller.
+    return UIInterfaceOrientationMaskPortrait;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell"];
     if(!cell){

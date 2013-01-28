@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OLImageView.h"
 
 @interface BRImageViewController : UIViewController <UIScrollViewDelegate,UIGestureRecognizerDelegate>{
     UIImage *image;
@@ -15,7 +16,7 @@
     CGRect initialFrame;
     CGRect finalFrame;
     
-    UIImageView *imageView;
+    OLImageView *imageView;
     UIScrollView *scrollView;
     
     float lastPinchedScale;

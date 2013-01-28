@@ -17,7 +17,7 @@
 @end
 
 @implementation BRGridView
-@synthesize numOfRow,contentIndent,cellSize,cellMargin;
+@synthesize numOfRow,contentIndent,cellSize,cellMargin,widthOfGapBetweenSection,cells;
 
 - (id)initWithFrame:(CGRect)frame {
     
@@ -27,6 +27,7 @@
 		cells=[[NSMutableArray	 alloc]init];
 		cellsIndex=[[NSMutableDictionary alloc]init];
 		self.backgroundColor=[UIColor clearColor];
+        self.widthOfGapBetweenSection=40.0;
 		[self addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
         // Initialization code.
     }
@@ -37,6 +38,7 @@
 	reuseCellIdentifiers=[[NSMutableDictionary alloc]init];
 	cells=[[NSMutableArray	 alloc]init];
 	cellsIndex=[[NSMutableDictionary alloc]init];
+    self.widthOfGapBetweenSection=40.0;
 	[self addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
 	self.backgroundColor=[UIColor clearColor];
 	return self;
@@ -46,11 +48,18 @@
     [self reloadDataWithAnimation:NO];
 }
 -(void)reloadDataWithAnimation:(BOOL)animated{
+    [self reloadDataWithAnimation:animated clearViews:NO];
+}
+-(void)reloadDataWithAnimation:(BOOL)animated clearViews:(BOOL)clear{
+    if(clear){
+        [cells removeAllObjects];
+        [cellsIndex removeAllObjects];
+        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    }
 	float totalContentWidth=contentIndent.left;
 	//float drawingX=contentIndent.width;
 	
 	int numOfSection=[self.delegate numberOfSectionsInGridView:self];
-	float widthOfGapBetweenSection=40.0;
 	
 	if(frameOfSections){
 		[frameOfSections release];
@@ -93,7 +102,7 @@
     if(animated){
         //animation
         float zoomingFactor=3;
-        SecondOrderResponseEvaluator *evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.44] autorelease];
+        SecondOrderResponseEvaluator *evaluator=[[[SecondOrderResponseEvaluator alloc] initWithOmega:14.825 zeta:0.54] autorelease];
         AccelerationAnimation *animationh =[AccelerationAnimation
                                             animationWithKeyPath:@"transform"
                                             startZoomValue:1/zoomingFactor
@@ -103,8 +112,13 @@
         animationh.removedOnCompletion=YES;
         animationh.duration=0.5;
         
+        float eachDelay=0.05;
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+            eachDelay=0.01;
+        }
+        
         [cells enumerateObjectsUsingBlock:^(BRGridViewCell *cell, NSUInteger idx, BOOL *stop) {
-            float delay=idx*0.05;
+            float delay=idx*eachDelay;
             animationh.beginTime=CACurrentMediaTime()+delay;
             [[cell layer] addAnimation:animationh forKey:@"grid_transform"];
             
@@ -126,7 +140,7 @@
 	if(!self.delegate)return;
 	for(int i=0;i<[frameOfSections count];i++){
 		CGRect sectionFrame=[[frameOfSections objectAtIndex:i] CGRectValue];
-		if(self.contentOffset.x+self.frame.size.width>sectionFrame.origin.x&&self.contentOffset.x<sectionFrame.size.width+sectionFrame.origin.x){
+		if(self.contentOffset.x+self.frame.size.width>=sectionFrame.origin.x&&self.contentOffset.x<=sectionFrame.size.width+sectionFrame.origin.x){
 			//section is visible
 			float leftInvisibleWidth=self.contentOffset.x-sectionFrame.origin.x;
 			if(leftInvisibleWidth<0)leftInvisibleWidth=0.0;
@@ -143,7 +157,6 @@
 			int numOfPreRightCell=ceil(preRightWidth/(cellSize.width+cellMargin.width))*numOfRow;
 			if(numOfPreRightCell>numOfCellInThisSection)numOfPreRightCell=numOfCellInThisSection;
 			//int numOfRightInvisibleCell=numOfCellInThisSection-numOfPreRightCell;
-			
 			for(int j=numOfLeftInvisibleCell;j<numOfPreRightCell;j++){
 				int currentColumn=j/numOfRow;
 				int currentRow=j%numOfRow;
@@ -155,6 +168,7 @@
 				for(NSIndexPath *thisIndexPath in cellsIndex){
 					if([thisIndexPath isEqual:indexPath]){
 						cellExistsAtIndexPath=YES;
+                        break;
 					}
 				}
 				if(!cellExistsAtIndexPath){
@@ -225,6 +239,19 @@
 -(int)numberOfCellInSection:(int)section{
     if([numOfCellInSections count]-1<section)return 0;
     return [[numOfCellInSections objectAtIndex:section] intValue];
+}
+-(void)scrollToCellAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated{
+    if([cellsIndex objectForKey:indexPath]){
+        [self scrollRectToVisible:[[cellsIndex objectForKey:indexPath] frame] animated:animated];
+        [self drawCurrentContent];
+        return;
+    }
+    CGRect sectionFrame=[[frameOfSections objectAtIndex:indexPath.section] CGRectValue];
+    float x=floorf(indexPath.row/self.numOfRow)*(self.cellSize.width+self.cellMargin.width);
+    float y=self.contentIndent.top+(indexPath.row%self.numOfRow)*(self.cellSize.height+self.cellMargin.height);
+    
+    [self scrollRectToVisible:CGRectMake(sectionFrame.origin.x+x, y, self.cellSize.width, self.cellSize.height) animated:animated];
+    [self drawCurrentContent];
 }
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"contentOffset"];

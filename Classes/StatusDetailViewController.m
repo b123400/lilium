@@ -16,7 +16,10 @@
 #import "UIImageView+WebCache.h"
 #import "BRImageViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SVProgressHUD.h"
+#import "NichijyouNavigationController.h"
 #import "BRCircleAlert.h"
+#import "StatusFetcher.h"
 
 @interface StatusDetailViewController ()
 
@@ -29,7 +32,7 @@
 @end
 
 @implementation StatusDetailViewController
-@synthesize delegate;
+@synthesize delegate,status;
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -89,9 +92,23 @@
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(didRefreshedImage) name:SDWebCacheDidLoadedImageForImageViewNotification
                                               object:mainImageView];
-    [mainImageView addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapped:)] autorelease]];
-    [mainImageView addGestureRecognizer:[[[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(imagePinched:)]autorelease]];
+    UITapGestureRecognizer *tapRecognizer=[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageTapped:)] autorelease];
+    tapRecognizer.numberOfTapsRequired=1;
+    tapRecognizer.numberOfTouchesRequired=1;
+    [tapRecognizer requireGestureRecognizerToFail:[(NichijyouNavigationController*)self.navigationController pinchGestureRecognizer]];
+    [mainImageView addGestureRecognizer:tapRecognizer];
+    UIPinchGestureRecognizer *pinchRecognizer=[[[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(imagePinched:)]autorelease];
+    [mainImageView addGestureRecognizer:pinchRecognizer];
+    
+    UIGestureRecognizer *userTap=[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userViewTapped)] autorelease];
+    [userTap requireGestureRecognizerToFail:[(NichijyouNavigationController*)self.navigationController pinchGestureRecognizer]];
+    [userView addGestureRecognizer:userTap];
+    
     [self loadResources];
+    [self layout];
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self layout];
 }
 -(void)loadResources{
@@ -109,7 +126,7 @@
         frame.size.height=height;
         mainImageView.frame=frame;
     }
-    
+    textLabel.hidden=YES;
     textLabel.frame=CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000);
     textLabel.text=status.caption;
 	
@@ -121,6 +138,7 @@
 	CGRect frame=textLabel.frame;
 	frame.size=[textLabel sizeThatFits:textLabel.frame.size];
 	textLabel.frame=frame;
+    textLabel.hidden=NO;
 	
 	frame=imageWrapperView.frame;
 	frame.size.height=textLabel.frame.size.height+textLabel.frame.origin.y+5;
@@ -133,9 +151,9 @@
     userView.frame=CGRectMake(imageWrapperView.frame.origin.x, imageWrapperView.frame.origin.y+imageWrapperView.frame.size.height, imageWrapperView.frame.size.width, userView.frame.size.height);
     displayNameLabel.text=status.user.displayName;
     [profileImageView setImageWithURL:status.user.profilePicture];
-    [userView addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(userViewTapped)] autorelease]];
     
     imageWrapperScrollView.contentSize=CGSizeMake(imageWrapperView.frame.size.width, userView.frame.size.height+userView.frame.origin.y);
+    commentTableView.frame=CGRectMake(imageWrapperScrollView.frame.origin.x+imageWrapperScrollView.frame.size.width, 0, commentTableView.frame.size.width, mainScrollView.frame.size.height);
 	mainScrollView.contentSize=CGSizeMake(commentTableView.frame.origin.x+commentTableView.frame.size.width, 1);
     
     
@@ -165,11 +183,48 @@
         [self layout];
     }];
 }
-#pragma mark user interaction
+#pragma mark - user interaction
 - (IBAction)likeButtonClicked:(id)sender {
     [BRFunctions playSound:@"like"];
     status.liked=!status.liked;
     [self refreshLikeButton];
+}
+
+- (IBAction)actionButtonClicked:(id)sender {
+    UIActionSheet *actionSheet= [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"Open in Safari",@"Save image", nil] autorelease];
+    [actionSheet showInView:self.view];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSString *title=[actionSheet buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"Open in Safari"]){
+        [[UIApplication sharedApplication] openURL:status.webURL];
+    }else if([title isEqualToString:@"Save image"]){
+        [SVProgressHUD show];
+        [SVProgressHUD setStatus:@"Downloading"];
+        [[SDWebImageManager sharedManager] downloadWithURL:status.fullURL delegate:self];
+    }
+}
+- (void)webImageManager:(SDWebImageManager *)imageManager didFinishWithImage:(UIImage *)image{
+    [SVProgressHUD setStatus:@"Saving"];
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+- (void)webImageManager:(SDWebImageManager *)imageManager didFailWithError:(NSError *)error{
+    [SVProgressHUD dismissWithError:@"Cannot download image"];
+}
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error
+  contextInfo:(void *)contextInfo
+{
+    // Was there an error?
+    if (error != NULL)
+    {
+        // Show error message...
+        [SVProgressHUD dismissWithError:@"Failed"];
+    }
+    else  // No errors
+    {
+        // Show message image successfully saved
+        [SVProgressHUD dismissWithSuccess:@"Saved"];
+    }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [commentComposeView.textField resignFirstResponder];
@@ -385,14 +440,13 @@
     [views addObject:commentComposeView];
 	return views;
 }
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
+- (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
+    [self layout];
+}
+-(void) willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation duration: (NSTimeInterval) duration {
+    [self updateLayoutForNewOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+}
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -421,6 +475,7 @@
 
 
 - (void)dealloc {
+    [[StatusFetcher sharedFetcher] cancelRequestsWithDelegate:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[status release];
 	[imageWrapperScrollView release];

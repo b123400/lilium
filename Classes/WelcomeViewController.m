@@ -11,7 +11,11 @@
 #import "AccountsViewController.h"
 #import "TimelineViewController.h"
 #import "BRCircleAlert.h"
+#import "UIApplication+Frame.h"
+#import <QuartzCore/QuartzCore.h>
 #import "SettingViewController.h"
+#import "TimelineManager.h"
+#import "UIButton+WebCache.h"
 
 @implementation WelcomeViewController
 
@@ -26,12 +30,15 @@
 }
 */
 -(id)init{
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter]     addObserver:self selector:@selector(orientationChanged:)     name:UIDeviceOrientationDidChangeNotification     object:[UIDevice currentDevice]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView) name:AccountsDidUpdatedNotification object:nil];
 	return [self initWithNibName:@"WelcomeViewController" bundle:nil];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    getStartedButton.layer.zPosition=1000;
 	[self refreshView];
     [super viewDidLoad];
 }
@@ -50,8 +57,23 @@
 	}else{
 		self.view=mainView;
 	}
+    
+    Status *randomStatus=[[TimelineManager sharedManager]randomStatus];
+    timelineButton.delegate=self;
+    [timelineButton setImageWithURL:randomStatus.thumbURL];
+    [timelineButton addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goTimeline)] autorelease]];
+    timelineButton.textLabel.text=@"Timeline";
 }
-
+-(void)titleButtonDidFinishedAnimation:(id)button{
+    Status *randomStatus=[[TimelineManager sharedManager]randomStatus];
+    [timelineButton setImageWithURL:randomStatus.thumbURL];
+}
+-(void)pushInAnimationDidFinished{
+    [timelineButton startAnimation];
+}
+-(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
+    return @[timelineButton,accountButton,settingsButton,aboutButton];
+}
 -(void)getStartPressed{
 	WelcomePinchViewController *pinch=[[WelcomePinchViewController alloc]init];
 	pinch.delegate=self;
@@ -98,14 +120,65 @@
 
 -(void)poppedOutFromSubviewController{
 	[self refreshView];
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
+    
 }
-/*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)return YES;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-*/
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+- (NSUInteger)supportedInterfaceOrientations
+{
+    //decide number of origination tob supported by Viewcontroller.
+    if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+        return UIInterfaceOrientationMaskAll;
+    }
+    return UIInterfaceOrientationMaskPortrait;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
+    [self updateLayoutForNewOrientation: [[UIDevice currentDevice] orientation]];
+}
+
+- (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
+    if(self.view==mainView){
+        if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)return;
+        switch (orientation) {
+            case UIInterfaceOrientationLandscapeLeft:{
+                timelineButton.textLabel.layer.transform=
+                accountButton.imageView.layer.transform=
+                settingsButton.imageView.layer.transform=CATransform3DMakeRotation(-M_PI_2, 0, 0, 1);
+            }
+                break;
+            case UIInterfaceOrientationLandscapeRight:{
+                timelineButton.backgroundImageView.layer.transform=
+                timelineButton.textLabel.layer.transform=
+                accountButton.imageView.layer.transform=
+                settingsButton.imageView.layer.transform=CATransform3DMakeRotation(M_PI_2, 0, 0, 1);
+            }
+                break;
+            case UIInterfaceOrientationPortrait:{
+                timelineButton.backgroundImageView.layer.transform=
+                timelineButton.textLabel.layer.transform=
+                accountButton.imageView.layer.transform=
+                settingsButton.imageView.layer.transform=CATransform3DIdentity;
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+- (void) orientationChanged:(NSNotification *)note{
+    [UIView animateWithDuration:0.2 animations:^{
+        [self updateLayoutForNewOrientation:[(UIDevice*)note.object orientation]];
+    }];
+}
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -114,6 +187,16 @@
 }
 
 - (void)viewDidUnload {
+    [timelineButton release];
+    timelineButton = nil;
+    [accountButton release];
+    accountButton = nil;
+    [settingsButton release];
+    settingsButton = nil;
+    [aboutButton release];
+    aboutButton = nil;
+    [getStartedButton release];
+    getStartedButton = nil;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -122,6 +205,11 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [timelineButton release];
+    [accountButton release];
+    [settingsButton release];
+    [aboutButton release];
+    [getStartedButton release];
     [super dealloc];
 }
 

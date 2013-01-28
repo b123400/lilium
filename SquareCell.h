@@ -10,11 +10,12 @@
 #import "BRGridViewCell.h"
 #import "SDWebImageManager.h"
 #import "Status.h"
+#import "OLImageView.h"
 
 @interface SquareCell : BRGridViewCell <SDWebImageManagerDelegate> {
 	UIImage *displayImage;
 	NSURL *imageURL;
-	UIImageView *imageView;
+	OLImageView *imageView;
 	UIView *captionView;
 	UIImageView *captionImageView;
 	UIImageView *coverView;
