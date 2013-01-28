@@ -86,6 +86,11 @@
 		CF4A290E16B6BA170081E2F7 /* Quicksand_Light_Oblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF4A290716B6BA170081E2F7 /* Quicksand_Light_Oblique.otf */; };
 		CF4A290F16B6BA170081E2F7 /* Quicksand_Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF4A290816B6BA170081E2F7 /* Quicksand_Light.otf */; };
 		CF4A291116B6C9000081E2F7 /* SettingViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4A291016B6C9000081E2F7 /* SettingViewController~ipad.xib */; };
+		CF4A295216B6E3080081E2F7 /* 57.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A294D16B6E3080081E2F7 /* 57.png */; };
+		CF4A295316B6E3080081E2F7 /* 72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A294E16B6E3080081E2F7 /* 72.png */; };
+		CF4A295416B6E3080081E2F7 /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A294F16B6E3080081E2F7 /* 114.png */; };
+		CF4A295516B6E3080081E2F7 /* 144.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A295016B6E3080081E2F7 /* 144.png */; };
+		CF4A295616B6E3080081E2F7 /* 1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A295116B6E3080081E2F7 /* 1024.png */; };
 		CF5399F413CF09B7001E174B /* UIView+Interaction.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5399F313CF09B7001E174B /* UIView+Interaction.m */; };
 		CF57FD6513BF28DC00C184F8 /* TwitterLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FD6313BF28DC00C184F8 /* TwitterLoginController.m */; };
 		CF57FD6613BF28DC00C184F8 /* TwitterLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF57FD6413BF28DC00C184F8 /* TwitterLoginController.xib */; };
@@ -192,6 +197,8 @@
 		CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCE0D211673E3E800C10953 /* UserViewController.xib */; };
 		CFD783D3169CB3970018976E /* StatusUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD783D2169CB3970018976E /* StatusUserView.m */; };
 		CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */; };
+		CFE4EDA816B6EAE900C3B1F3 /* actionbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE4EDA616B6EAE900C3B1F3 /* actionbutton.png */; };
+		CFE4EDA916B6EAE900C3B1F3 /* actionbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE4EDA716B6EAE900C3B1F3 /* actionbutton@2x.png */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
 		CFF818F113C07E4000C37DD8 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF818F013C07E4000C37DD8 /* Checkmark@2x.png */; };
@@ -339,6 +346,11 @@
 		CF4A290716B6BA170081E2F7 /* Quicksand_Light_Oblique.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Quicksand_Light_Oblique.otf; sourceTree = "<group>"; };
 		CF4A290816B6BA170081E2F7 /* Quicksand_Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Quicksand_Light.otf; sourceTree = "<group>"; };
 		CF4A291016B6C9000081E2F7 /* SettingViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SettingViewController~ipad.xib"; sourceTree = "<group>"; };
+		CF4A294D16B6E3080081E2F7 /* 57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 57.png; sourceTree = "<group>"; };
+		CF4A294E16B6E3080081E2F7 /* 72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 72.png; sourceTree = "<group>"; };
+		CF4A294F16B6E3080081E2F7 /* 114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114.png; sourceTree = "<group>"; };
+		CF4A295016B6E3080081E2F7 /* 144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 144.png; sourceTree = "<group>"; };
+		CF4A295116B6E3080081E2F7 /* 1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1024.png; sourceTree = "<group>"; };
 		CF5399F213CF09B7001E174B /* UIView+Interaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Interaction.h"; sourceTree = "<group>"; };
 		CF5399F313CF09B7001E174B /* UIView+Interaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Interaction.m"; sourceTree = "<group>"; };
 		CF57FD6213BF28DC00C184F8 /* TwitterLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterLoginController.h; sourceTree = "<group>"; };
@@ -541,6 +553,8 @@
 		CFD783D2169CB3970018976E /* StatusUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusUserView.m; sourceTree = "<group>"; };
 		CFD9DD4B1699FCE50067D127 /* RelationshipRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelationshipRequest.h; sourceTree = "<group>"; };
 		CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelationshipRequest.m; sourceTree = "<group>"; };
+		CFE4EDA616B6EAE900C3B1F3 /* actionbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = actionbutton.png; sourceTree = "<group>"; };
+		CFE4EDA716B6EAE900C3B1F3 /* actionbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "actionbutton@2x.png"; sourceTree = "<group>"; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
 		CFE97F83151A2CF700187398 /* Attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attribute.m; sourceTree = "<group>"; };
 		CFF72992151B531700540795 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
@@ -1172,6 +1186,13 @@
 		CFF818ED13C07E3700C37DD8 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				CFE4EDA616B6EAE900C3B1F3 /* actionbutton.png */,
+				CFE4EDA716B6EAE900C3B1F3 /* actionbutton@2x.png */,
+				CF4A294D16B6E3080081E2F7 /* 57.png */,
+				CF4A294E16B6E3080081E2F7 /* 72.png */,
+				CF4A294F16B6E3080081E2F7 /* 114.png */,
+				CF4A295016B6E3080081E2F7 /* 144.png */,
+				CF4A295116B6E3080081E2F7 /* 1024.png */,
 				CF02E1561693657E007913D9 /* heart.png */,
 				CF02E1571693657E007913D9 /* heart@2x.png */,
 				CF4309AB13EAEE22007CA113 /* imageCoverAlpha.png */,
@@ -1490,6 +1511,13 @@
 				CF4A290E16B6BA170081E2F7 /* Quicksand_Light_Oblique.otf in Resources */,
 				CF4A290F16B6BA170081E2F7 /* Quicksand_Light.otf in Resources */,
 				CF4A291116B6C9000081E2F7 /* SettingViewController~ipad.xib in Resources */,
+				CF4A295216B6E3080081E2F7 /* 57.png in Resources */,
+				CF4A295316B6E3080081E2F7 /* 72.png in Resources */,
+				CF4A295416B6E3080081E2F7 /* 114.png in Resources */,
+				CF4A295516B6E3080081E2F7 /* 144.png in Resources */,
+				CF4A295616B6E3080081E2F7 /* 1024.png in Resources */,
+				CFE4EDA816B6EAE900C3B1F3 /* actionbutton.png in Resources */,
+				CFE4EDA916B6EAE900C3B1F3 /* actionbutton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

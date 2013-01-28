@@ -32,6 +32,7 @@
 	IBOutlet UIScrollView *imageWrapperScrollView;
     
     IBOutlet UIView *userView;
+    IBOutlet UIButton *actionButton;
     IBOutlet UIButton *likeButton;
     IBOutlet UIImageView *profileImageView;
     IBOutlet UILabel *displayNameLabel;
