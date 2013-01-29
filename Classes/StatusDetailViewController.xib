@@ -100,7 +100,7 @@
 												<bool key="IBUIHidesWhenStopped">NO</bool>
 											</object>
 										</object>
-										<string key="NSFrame">{{10, 14}, {300, 433}}</string>
+										<string key="NSFrame">{{10, 10}, {300, 433}}</string>
 										<reference key="NSSuperview" ref="62095936"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="247660284"/>

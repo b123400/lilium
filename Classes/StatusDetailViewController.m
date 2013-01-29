@@ -235,7 +235,7 @@
         }];
         [replyButton setTitle:@"reply" forState:UIControlStateNormal];
         BRCircleAlertButton *retweetButton=[BRCircleAlertButton buttonWithAction:^{
-            commentComposeView.textField.text=[NSString stringWithFormat:@" RT %@:%@",status.user.username,status.caption];
+            commentComposeView.textField.text=[NSString stringWithFormat:@" RT @%@:%@ %@",status.user.username,status.caption,status.webURL];
             commentComposeView.textField.selectedTextRange=[commentComposeView.textField textRangeFromPosition:[commentComposeView.textField beginningOfDocument] toPosition:[commentComposeView.textField beginningOfDocument]];
         }];
         [retweetButton setTitle:@"RT" forState:UIControlStateNormal];
