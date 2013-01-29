@@ -15,6 +15,7 @@
     BOOL pushed;
 
     User *user;
+    NSArray *statuses;
     BOOL canFollow;
     BOOL isFollowing;
     
@@ -26,6 +27,7 @@
     BOOL isLoadingNewerStatus;
     BOOL isLoadingOlderStatus;
 }
+@property (retain,nonatomic) NSArray *statuses;
 
 -(id)initWithUser:(User*)_user;
 - (IBAction)followButtonPressed:(id)sender;

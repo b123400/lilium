@@ -480,11 +480,17 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[status release];
 	[imageWrapperScrollView release];
+    imageWrapperScrollView=nil;
 	[mainScrollView release];
+    mainImageView=nil;
     [userView release];
+    userView=nil;
     [profileImageView release];
+    profileImageView=nil;
     [displayNameLabel release];
+    displayNameLabel=nil;
     [actionButton release];
+    actionButton=nil;
     [super dealloc];
 }
 

@@ -255,15 +255,18 @@
 }
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"contentOffset"];
-	[cells release];
-	[cellsIndex release];
+	[cells release];cells=nil;
+	[cellsIndex release];cellsIndex=nil;
 	if(numOfCellInSections){
 		[numOfCellInSections release];
+        numOfCellInSections=nil;
 	}
 	if(frameOfSections){
 		[frameOfSections release];
+        frameOfSections=nil;
 	}
 	[reuseCellIdentifiers release];
+    reuseCellIdentifiers=nil;
     [super dealloc];
 }
 

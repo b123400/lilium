@@ -57,6 +57,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	gridView.delegate=nil;
 	[statuses release];
+    statuses=nil;
+    [gridView release];
+    gridView=nil;
     [super dealloc];
 }
 

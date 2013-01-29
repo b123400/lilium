@@ -113,6 +113,7 @@ static TimelineManager *sharedManager=nil;
     }]];
     [statuses removeObjectsInArray:statusesToRemove];
     [[NSNotificationCenter defaultCenter] postNotificationName:TimelineManagerDidDeletedStatusesNotification object:statusesToRemove];
+    [self saveRecentStatuses];
 }
 
 -(void)saveRecentStatuses{

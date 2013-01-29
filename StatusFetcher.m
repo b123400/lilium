@@ -54,7 +54,16 @@ static StatusFetcher* sharedFetcher=nil;
 	}
 	return sharedFetcher;
 }
-
+-(void)freeUnusedStatuses{
+    NSMutableArray *toRemove=[NSMutableArray array];
+    for(Status *thisStatus in allStatuses){
+        if([thisStatus retainCount]==1){
+            [toRemove addObject:thisStatus];
+        }
+    }
+    NSLog(@"free %d statuses",toRemove.count);
+    [allStatuses removeObjectsInArray:toRemove];
+}
 #pragma mark - Timeline
 -(void)getStatusesForRequest:(StatusesRequest*)request{
 	NSMutableArray *newArray=[NSMutableArray array];
@@ -140,11 +149,11 @@ static StatusFetcher* sharedFetcher=nil;
                         [requestsByID setObject:request forKey:requestID];
                         request.instagramStatus=StatusFetchingStatusLoading;
                     }
-
+                    
                     break;
                 }
                 case StatusSourceTypeTwitter:{
-                                        NSString *requestID=nil;
+                    NSString *requestID=nil;
                     if(!referenceStatus){
                         requestID=[[BRFunctions sharedTwitter] getUserTimelineWithUserID:thisUser.userID sinceID:nil maxID:nil];
                     }else if(request.direction==StatusRequestDirectionNewer){
@@ -156,11 +165,11 @@ static StatusFetcher* sharedFetcher=nil;
                         [requestsByID setObject:request forKey:requestID];
                         request.twitterStatus=StatusFetchingStatusLoading;
                     }
-
+                    
                     break;
                 }
                 case StatusSourceTypeFlickr:{
-                                        NSString *requestID=nil;
+                    NSString *requestID=nil;
                     if(!referenceStatus){
                         requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:nil page:0];
                     }else if(request.direction==StatusRequestDirectionNewer){
@@ -168,7 +177,7 @@ static StatusFetcher* sharedFetcher=nil;
                     }else if(request.direction==StatusRequestDirectionOlder){
                         requestID=[[BRFunctions sharedFlickr] getPhotosOfUser:thisUser.userID minDate:nil maxDate:referenceStatus.date page:0];
                     }
-
+                    
                     [requestsByID setObject:request forKey:requestID];
                     request.flickrStatus=StatusFetchingStatusLoading;
                 }
@@ -329,7 +338,7 @@ static StatusFetcher* sharedFetcher=nil;
             FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/likes",request.targetStatus.statusID] andParams:[NSMutableDictionary dictionary] andHttpMethod:request.isLike?@"POST":@"DELETE" andDelegate:self];
 			[requestsByID setObject:request forKey:[fbRequest identifier]];
         }
-        break;
+            break;
         case StatusSourceTypeFlickr:{
             NSString *requestID;
             if(request.isLike){
@@ -412,7 +421,7 @@ static StatusFetcher* sharedFetcher=nil;
             if([request.userID isEqualToString:@"self"]){
                 requestID=[[BRFunctions sharedTumblr]getUserBlogs];
             }else{
-//                requestID=[[BRFunctions sharedTumblr]getUserInfo];
+                //                requestID=[[BRFunctions sharedTumblr]getUserInfo];
             }
             [requestsByID setObject:request forKey:requestID];
             break;
@@ -441,7 +450,7 @@ static StatusFetcher* sharedFetcher=nil;
 			[requestsByID setObject:request forKey:requestID];
             break;
         }
-            default:
+        default:
             break;
     }
 }
@@ -560,7 +569,7 @@ static StatusFetcher* sharedFetcher=nil;
 		thisStatus.caption=[photo objectForKey:@"title"];
         
 		User *thisUser=[User userWithType:StatusSourceTypeFlickr userID:[photo objectForKey:@"owner"]];
-//		thisUser.displayName=;
+        //		thisUser.displayName=;
 		thisUser.username=[photo objectForKey:@"username"];
 		thisStatus.user=thisUser;
 		thisStatus.statusID=[NSString stringWithFormat:@"%@",[photo objectForKey:@"id"]];
@@ -607,7 +616,7 @@ static StatusFetcher* sharedFetcher=nil;
 		thisUser.displayName=[[thisDict objectForKey:@"from"] objectForKey:@"full_name"];
 		thisUser.profilePicture=[NSURL URLWithString:[[thisDict objectForKey:@"from"]objectForKey:@"profile_picture"]];
 		thisUser.username=[[thisDict objectForKey:@"from"]objectForKey:@"username"];
-
+        
 		Comment *thisComment=[[[Comment alloc]init]autorelease];
 		thisComment.user=thisUser;
 		thisComment.text=[thisDict objectForKey:@"text"];
@@ -725,7 +734,7 @@ static StatusFetcher* sharedFetcher=nil;
 					break;
 				}
 			}
-			if(!repeated){		
+			if(!repeated){
 				if(![self didCachedStatus:thisStatus inArray:_statuses]){
 					[_statuses addObject:thisStatus];
 				}
@@ -981,22 +990,22 @@ static StatusFetcher* sharedFetcher=nil;
         //comments received
         /*
          [
-             { //thisDict
-             "groupName": "TweetsWithConversation",
-             "results":  
-                [
-                 { //thisResult
-                 "annotations": {
-                    "ConversationRole": "Ancestor"
-                 },
-                 "kind": "Tweet",
-                 "score": 1,
-                 "value":  {
-                    //tweet dict
-                 }
-                }
-              ]
-            }
+         { //thisDict
+         "groupName": "TweetsWithConversation",
+         "results":
+         [
+         { //thisResult
+         "annotations": {
+         "ConversationRole": "Ancestor"
+         },
+         "kind": "Tweet",
+         "score": 1,
+         "value":  {
+         //tweet dict
+         }
+         }
+         ]
+         }
          ]
          */
         NSMutableArray *comments=[NSMutableArray array];
@@ -1297,7 +1306,7 @@ static StatusFetcher* sharedFetcher=nil;
 			
 			newStatus.user=[self facebookUserFromDict:[dict objectForKey:@"from"]];
 			
-			//2010-12-01T21:35:43+0000  
+			//2010-12-01T21:35:43+0000
 			
 			newStatus.date=[df dateFromString:[dict objectForKey:@"created_time"]];
 			
@@ -1318,7 +1327,7 @@ static StatusFetcher* sharedFetcher=nil;
 			//s = 87*130  // 130*98
 			//q = 180*270 // 180*135 //thumb
 			//b = 480*720 // 720*540 //medium
-			//n = 480*720 // 720*540 
+			//n = 480*720 // 720*540
 			//o = download
 			
 			if(![self didCachedStatus:newStatus inArray:_statuses]){

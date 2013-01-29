@@ -286,6 +286,8 @@
 }
 #pragma mark -
 - (void)dealloc {
+    self.imageURL=nil;
+    self.status=nil;
 	if(timer){
 		[timer release];
 	}

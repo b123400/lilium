@@ -49,4 +49,6 @@
 -(void)cancelRequest:(Request*)request;
 -(void)cancelRequestsWithDelegate:(id)delegate;
 
+-(void)freeUnusedStatuses;
+
 @end

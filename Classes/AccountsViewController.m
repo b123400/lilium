@@ -253,6 +253,11 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [titleLabel release];
+    [twitterButton release];twitterButton=nil;
+    [facebookButton release];facebookButton=nil;
+    [tumblrButton release];tumblrButton=nil;
+    [flickrButton release];flickrButton=nil;
+    [instagramButton release];instagramButton=nil;
     [super dealloc];
 }
 

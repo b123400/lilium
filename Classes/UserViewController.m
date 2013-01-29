@@ -29,11 +29,11 @@
 @end
 
 @implementation UserViewController
+@synthesize statuses;
 
 -(id)initWithUser:(User*)_user{
     user=[_user retain];
-    
-    //statuses=[[NSMutableArray alloc] init];
+    self.statuses=user.statuses;
     [self loadOlderStatuses];
     
     if(user.relationship==UserRelationshipUnknown){
@@ -55,9 +55,15 @@
     [[StatusFetcher sharedFetcher] cancelRequestsWithDelegate:self];
     if(user)[user release];
     gridView.delegate=nil;
+    self.statuses=nil;
     [usernameLabel release];
+    usernameLabel=nil;
     [actionView release];
+    actionView=nil;
     [followButton release];
+    followButton=nil;
+    [gridView release];
+    gridView=nil;
     [super dealloc];
 }
 
@@ -143,8 +149,8 @@
     StatusesRequest *request=[[[StatusesRequest alloc]initWithRequestType:StatusRequestTypeSolo] autorelease];
     request.direction=StatusRequestDirectionNewer;
     request.referenceUsers=[NSMutableArray arrayWithObject:user];
-    if([user.statuses count]){
-        request.referenceStatuses=@[[user.statuses objectAtIndex:0]];
+    if([self.statuses count]){
+        request.referenceStatuses=@[[self.statuses objectAtIndex:0]];
     }
     request.selector=@selector(requestFinished:withStatuses:withError:);
     request.delegate=self;
@@ -158,9 +164,11 @@
     request.referenceUsers=[NSMutableArray arrayWithObject:user];
     request.direction=StatusRequestDirectionOlder;
     if(user.type!=StatusSourceTypeTumblr){
-        request.referenceStatuses=@[[user.statuses lastObject]];
+        if(self.statuses.count){
+            request.referenceStatuses=@[[self.statuses lastObject]];
+        }
     }else{
-        request.referenceStatuses=user.statuses;
+        request.referenceStatuses=self.statuses;
     }
     request.selector=@selector(requestFinished:withStatuses:withError:);
     request.delegate=self;
@@ -172,10 +180,10 @@
     }else if(request.direction==StatusRequestDirectionOlder){
         isLoadingOlderStatus=NO;
     }
-
+    self.statuses=user.statuses;
     if(error){
         BRCircleAlert *alert=[BRCircleAlert alertWithText:[error localizedDescription] buttons:@[[BRCircleAlertButton tickButtonWithAction:^{
-            if(!user.statuses.count){
+            if(!self.statuses.count){
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }]]];
@@ -184,7 +192,7 @@
         return;
     }
     if(!isLoadingNewerStatus&&!isLoadingOlderStatus){
-        if(user.statuses.count){
+        if(self.statuses.count){
             [SVProgressHUD dismiss];
         }else{
             [SVProgressHUD dismissWithError:@"No photo found"];
@@ -195,7 +203,8 @@
     for(Status *thisStatus in _statuses){
         [thisStatus prefetechThumb];
     }
-    if([gridView numberOfCellInSection:0]!=user.statuses.count){
+    
+    if([gridView numberOfCellInSection:0]!=self.statuses.count){
         [gridView reloadDataWithAnimation:YES];
     }
 }
@@ -217,18 +226,18 @@
 		cell.backgroundColor=[UIColor blackColor];
 		[cell setTouchReactionEnabled:YES];
 	}
-	Status *thisStatus=[user.statuses objectAtIndex:indexPath.row];
+	Status *thisStatus=[self.statuses objectAtIndex:indexPath.row];
 	cell.status=thisStatus;
 	return cell;
 }
 - (NSInteger)gridView:(id)gridView numberOfCellsInSection:(NSInteger)section{
-    return [user.statuses count];
+    return [self.statuses count];
 }
 - (NSInteger)numberOfSectionsInGridView:(id)gridView{
     return 1;
 }
 - (void)gridView:(id)gridView didSelectCell:(BRGridViewCell*)cell AtIndexPath:(NSIndexPath *)indexPath{
-    Status *thisStatus=[user.statuses objectAtIndex:indexPath.row];
+    Status *thisStatus=[self.statuses objectAtIndex:indexPath.row];
 	StatusDetailViewController *detailViewController=[[StatusDetailViewController alloc]initWithStatus:thisStatus];
     detailViewController.delegate=self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
@@ -279,17 +288,15 @@
 
 #pragma mark - detail view delegate
 -(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
-    NSArray *statuses=user.statuses;
-    if(currentStatus==[statuses lastObject])return nil;
-    int index=[statuses indexOfObject:currentStatus];
+    if(currentStatus==[self.statuses lastObject])return nil;
+    int index=[self.statuses indexOfObject:currentStatus];
     if(index==NSNotFound)return nil;
-    return [statuses objectAtIndex:index+1];
+    return [self.statuses objectAtIndex:index+1];
 }
 -(Status*)previousImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
-    NSArray *statuses=user.statuses;
-    int index=[statuses indexOfObject:currentStatus];
+    int index=[self.statuses indexOfObject:currentStatus];
     if(index==NSNotFound||index==0)return nil;
-    return [statuses objectAtIndex:index-1];
+    return [self.statuses objectAtIndex:index-1];
 }
 
 - (void)viewDidUnload {

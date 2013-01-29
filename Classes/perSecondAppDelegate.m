@@ -10,9 +10,8 @@
 #import "WelcomeViewController.h"
 #import "BRFunctions.h"
 #import "TimelineManager.h"
-
-#import "OLImage.h"
-#import "OLImageView.h"
+#import "StatusFetcher.h"
+#import "SDImageCache.h"
 
 @implementation perSecondAppDelegate
 
@@ -44,6 +43,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     [[TimelineManager sharedManager] saveRecentStatuses];
+    [[SDImageCache sharedImageCache] clearMemory];
     /*
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -88,6 +88,8 @@
 #pragma mark Memory management
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    [[SDImageCache sharedImageCache] clearMemory];
+    [[StatusFetcher sharedFetcher] freeUnusedStatuses];
     /*
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
      */
