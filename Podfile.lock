@@ -1,16 +1,19 @@
 
 PODS:
 - AFNetworking (1.1.0)
+- OHAttributedLabel (3.3.0)
 - OLImageView (1.0.0):
   - OLImageView/AFNetworking (= 1.0.0)
 - OLImageView/AFNetworking (1.0.0):
   - AFNetworking
 
 DEPENDENCIES:
+- OHAttributedLabel
 - OLImageView
 
 SPEC CHECKSUMS:
   AFNetworking: 761a418233d280c1e0580bcb76ff9cb4c3073d17
+  OHAttributedLabel: ed2e659c01af4c6cdc23909f04ffcdd417d37ae4
   OLImageView: 3f82b8a3efcc0668bcc0dea34ac63faad020971a
   OLImageView/AFNetworking: 3f82b8a3efcc0668bcc0dea34ac63faad020971a
 

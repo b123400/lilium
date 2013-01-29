@@ -26,5 +26,6 @@
 -(IBAction)goTimeline;
 -(IBAction)goAddAccount;
 - (IBAction)goSettings:(id)sender;
+- (IBAction)goAbout:(id)sender;
 
 @end

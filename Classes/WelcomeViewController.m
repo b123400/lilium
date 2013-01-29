@@ -16,6 +16,7 @@
 #import "SettingViewController.h"
 #import "TimelineManager.h"
 #import "UIButton+WebCache.h"
+#import "AboutViewController.h"
 
 @implementation WelcomeViewController
 
@@ -72,7 +73,10 @@
     [timelineButton startAnimation];
 }
 -(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
-    return @[timelineButton,accountButton,settingsButton,aboutButton];
+    if(self.view==mainView){
+        return @[timelineButton,accountButton,settingsButton,aboutButton];
+    }
+    return self.view.subviews;
 }
 -(void)getStartPressed{
 	WelcomePinchViewController *pinch=[[WelcomePinchViewController alloc]init];
@@ -101,6 +105,11 @@
     SettingViewController *settingViewController=[[SettingViewController alloc]init];
     [self.navigationController pushViewController:settingViewController animated:YES];
     [settingViewController release];
+}
+
+- (IBAction)goAbout:(id)sender {
+    AboutViewController *controller=[[[AboutViewController alloc]init] autorelease];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 -(void)poppedOutFromSubviewController{

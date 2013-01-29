@@ -14,6 +14,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		B1856AD003104CE3A2127AFF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C7D929EDBA43E68EBC0D9B /* libPods.a */; };
 		CF02E15A1693657E007913D9 /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02E1561693657E007913D9 /* heart.png */; };
 		CF02E15B1693657E007913D9 /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02E1571693657E007913D9 /* heart@2x.png */; };
 		CF10DA1616B4104200B88991 /* TitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CF10DA1516B4104200B88991 /* TitleButton.m */; };
@@ -37,8 +38,6 @@
 		CF2C2DF516B2DB5A00EF1593 /* WelcomeViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE916B2DB5A00EF1593 /* WelcomeViewController~ipad.xib */; };
 		CF2C2DF616B2DB5A00EF1593 /* MainWindow~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DEA16B2DB5A00EF1593 /* MainWindow~ipad.xib */; };
 		CF2D0E541412CC0D00E173DC /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2D0E531412CC0D00E173DC /* CoreText.framework */; };
-		CF2D0ED81413B3C100E173DC /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2D0ED51413B3C100E173DC /* NSAttributedString+Attributes.m */; };
-		CF2D0ED91413B3C100E173DC /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2D0ED71413B3C100E173DC /* OHAttributedLabel.m */; };
 		CF3125E713BE25580064B7AA /* BRFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3125E613BE25580064B7AA /* BRFunctions.m */; };
 		CF31260313BE4E120064B7AA /* AccountsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF31260113BE4E120064B7AA /* AccountsViewController.m */; };
 		CF31260413BE4E120064B7AA /* AccountsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF31260213BE4E120064B7AA /* AccountsViewController.xib */; };
@@ -162,6 +161,8 @@
 		CF8C6DAD13C0B41F00C013B0 /* BRInstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6DAB13C0B41F00C013B0 /* BRInstagramLoginViewController.m */; };
 		CF8C6DAE13C0B41F00C013B0 /* BRInstagramLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8C6DAC13C0B41F00C013B0 /* BRInstagramLoginViewController.xib */; };
 		CF9DEAD3146D854700FB9519 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */; };
+		CFA9A6A616B7D201006771C2 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA9A6A416B7D201006771C2 /* AboutViewController.m */; };
+		CFA9A6A716B7D201006771C2 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA9A6A516B7D201006771C2 /* AboutViewController.xib */; };
 		CFABC52613DA732500B827DA /* BRTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFABC52513DA732500B827DA /* BRTwitterEngine.m */; };
 		CFADA8241694B94D00A1543F /* TumblrStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFADA8231694B94D00A1543F /* TumblrStatus.m */; };
 		CFBBBE3216726CDF00065DFC /* ReferenceComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3116726CDF00065DFC /* ReferenceComment.m */; };
@@ -250,6 +251,8 @@
 		28A0AAE50D9B0CCF005BE974 /* perSecond_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = perSecond_Prefix.pch; sourceTree = "<group>"; };
 		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		36C7D929EDBA43E68EBC0D9B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		772825D3A12A4240ACF8B146 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* perSecond-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "perSecond-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		B4D70F3FE3C24EE59FC24C6B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC0117B1EF9C4BA4B6C52060 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
@@ -282,10 +285,6 @@
 		CF2C2DE916B2DB5A00EF1593 /* WelcomeViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "WelcomeViewController~ipad.xib"; sourceTree = "<group>"; };
 		CF2C2DEA16B2DB5A00EF1593 /* MainWindow~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainWindow~ipad.xib"; sourceTree = "<group>"; };
 		CF2D0E531412CC0D00E173DC /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		CF2D0ED41413B3C100E173DC /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Attributes.h"; sourceTree = "<group>"; };
-		CF2D0ED51413B3C100E173DC /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Attributes.m"; sourceTree = "<group>"; };
-		CF2D0ED61413B3C100E173DC /* OHAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHAttributedLabel.h; sourceTree = "<group>"; };
-		CF2D0ED71413B3C100E173DC /* OHAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHAttributedLabel.m; sourceTree = "<group>"; };
 		CF3125E513BE25580064B7AA /* BRFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRFunctions.h; sourceTree = "<group>"; };
 		CF3125E613BE25580064B7AA /* BRFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRFunctions.m; sourceTree = "<group>"; };
 		CF31260013BE4E120064B7AA /* AccountsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountsViewController.h; sourceTree = "<group>"; };
@@ -484,6 +483,9 @@
 		CF8C6DAB13C0B41F00C013B0 /* BRInstagramLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BRInstagramLoginViewController.m; path = Classes/BRInstagramLoginViewController.m; sourceTree = "<group>"; };
 		CF8C6DAC13C0B41F00C013B0 /* BRInstagramLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BRInstagramLoginViewController.xib; path = Classes/BRInstagramLoginViewController.xib; sourceTree = "<group>"; };
 		CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		CFA9A6A316B7D201006771C2 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		CFA9A6A416B7D201006771C2 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		CFA9A6A516B7D201006771C2 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		CFABC52413DA732500B827DA /* BRTwitterEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRTwitterEngine.h; sourceTree = "<group>"; };
 		CFABC52513DA732500B827DA /* BRTwitterEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRTwitterEngine.m; sourceTree = "<group>"; };
 		CFADA8221694B94D00A1543F /* TumblrStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TumblrStatus.h; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 				CF2D0E541412CC0D00E173DC /* CoreText.framework in Frameworks */,
 				CFFCD990169589AC006DC49B /* libTestFlight.a in Frameworks */,
 				0F57AE02E42E4EE4B94EFAC2 /* libPods.a in Frameworks */,
+				B1856AD003104CE3A2127AFF /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,6 +662,9 @@
 				CFCE0D1F1673E3E800C10953 /* UserViewController.h */,
 				CFCE0D201673E3E800C10953 /* UserViewController.m */,
 				CFCE0D211673E3E800C10953 /* UserViewController.xib */,
+				CFA9A6A316B7D201006771C2 /* AboutViewController.h */,
+				CFA9A6A416B7D201006771C2 /* AboutViewController.m */,
+				CFA9A6A516B7D201006771C2 /* AboutViewController.xib */,
 				CF88E06F16A5D855006415DF /* Settings */,
 			);
 			path = Classes;
@@ -682,6 +688,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				CC0117B1EF9C4BA4B6C52060 /* Pods.xcconfig */,
+				772825D3A12A4240ACF8B146 /* Pods.xcconfig */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -704,7 +711,6 @@
 				CFF8190013C07EAF00C37DD8 /* SVProgressHUD */,
 				CF6D75E713DF0B4300305FAE /* Regexp */,
 				CF6E671613E9A0D8005E4674 /* SDWebImage */,
-				CF2D0ECE1413B3A800E173DC /* OHAttributedLabel */,
 				CFFCD98D1695894A006DC49B /* TestFlight */,
 				CF10DA1316B4102400B88991 /* Titlebutton */,
 				28A0AAE50D9B0CCF005BE974 /* perSecond_Prefix.pch */,
@@ -758,6 +764,7 @@
 				CFCDCBF713D8769200E268E8 /* MobileCoreServices.framework */,
 				CF2D0E531412CC0D00E173DC /* CoreText.framework */,
 				B4D70F3FE3C24EE59FC24C6B /* libPods.a */,
+				36C7D929EDBA43E68EBC0D9B /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -797,17 +804,6 @@
 				CF4A291016B6C9000081E2F7 /* SettingViewController~ipad.xib */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		CF2D0ECE1413B3A800E173DC /* OHAttributedLabel */ = {
-			isa = PBXGroup;
-			children = (
-				CF2D0ED41413B3C100E173DC /* NSAttributedString+Attributes.h */,
-				CF2D0ED51413B3C100E173DC /* NSAttributedString+Attributes.m */,
-				CF2D0ED61413B3C100E173DC /* OHAttributedLabel.h */,
-				CF2D0ED71413B3C100E173DC /* OHAttributedLabel.m */,
-			);
-			name = OHAttributedLabel;
 			sourceTree = "<group>";
 		};
 		CF42E0051690D0EC009FB526 /* BRCircleAlertView */ = {
@@ -1379,6 +1375,7 @@
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				9124A5BF7B6843349F8E93F1 /* Copy Pods Resources */,
+				064E87E671BC4EAE9D802460 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1518,12 +1515,27 @@
 				CF4A295616B6E3080081E2F7 /* 1024.png in Resources */,
 				CFE4EDA816B6EAE900C3B1F3 /* actionbutton.png in Resources */,
 				CFE4EDA916B6EAE900C3B1F3 /* actionbutton@2x.png in Resources */,
+				CFA9A6A716B7D201006771C2 /* AboutViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		064E87E671BC4EAE9D802460 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+		};
 		9124A5BF7B6843349F8E93F1 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1641,8 +1653,6 @@
 				CF43099713EAE059007CA113 /* UIColor-Expanded.m in Sources */,
 				CF40613E13EC2AF70019767C /* UIImage-Tint.m in Sources */,
 				CF68A19413ECFBF100B9450E /* StatusDetailViewController.m in Sources */,
-				CF2D0ED81413B3C100E173DC /* NSAttributedString+Attributes.m in Sources */,
-				CF2D0ED91413B3C100E173DC /* OHAttributedLabel.m in Sources */,
 				CFE97F84151A2CF800187398 /* Attribute.m in Sources */,
 				CFF72994151B531800540795 /* Request.m in Sources */,
 				CF8B6CF1151BAA91007798CE /* User.m in Sources */,
@@ -1671,6 +1681,7 @@
 				CF1F1F0D16AD84E100366B5E /* MultipleChoiceCell.m in Sources */,
 				CF1E5F3016B3F6C0007F3DBB /* SDImageCache.m in Sources */,
 				CF10DA1616B4104200B88991 /* TitleButton.m in Sources */,
+				CFA9A6A616B7D201006771C2 /* AboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1679,7 +1690,7 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC0117B1EF9C4BA4B6C52060 /* Pods.xcconfig */;
+			baseConfigurationReference = 772825D3A12A4240ACF8B146 /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -1724,7 +1735,7 @@
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC0117B1EF9C4BA4B6C52060 /* Pods.xcconfig */;
+			baseConfigurationReference = 772825D3A12A4240ACF8B146 /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -1844,7 +1855,7 @@
 		};
 		CFFCD99216958BAD006DC49B /* TestFlight */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC0117B1EF9C4BA4B6C52060 /* Pods.xcconfig */;
+			baseConfigurationReference = 772825D3A12A4240ACF8B146 /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
