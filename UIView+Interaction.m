@@ -11,7 +11,6 @@
 #import "BRFunctions.h"
 
 static const char *reactionKey = "touchReaction";
-static const char *soundKey = "touchKey";
 
 @implementation UIView (Interaction)
 

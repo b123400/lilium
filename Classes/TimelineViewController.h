@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "BRGridView.h"
 #import "StatusDetailViewController.h"
+#import "GAITrackedViewController.h"
 
-@interface TimelineViewController : UIViewController <StatusDetailViewControllerDelegate> {
+@interface TimelineViewController : GAITrackedViewController <StatusDetailViewControllerDelegate> {
 	BOOL pushed;
 	
 	IBOutlet BRGridView *gridView;

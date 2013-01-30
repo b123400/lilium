@@ -14,6 +14,7 @@
 #import "Attribute.h"
 #import "SDWebImageManager.h"
 #import "OLImageView.h"
+#import "GAITrackedViewController.h"
 
 @protocol StatusDetailViewControllerDelegate <NSObject>
 @optional
@@ -22,7 +23,7 @@
 
 @end
 
-@interface StatusDetailViewController : UIViewController <UITextFieldDelegate,UIActionSheetDelegate,SDWebImageManagerDelegate> {
+@interface StatusDetailViewController : GAITrackedViewController <UITextFieldDelegate,UIActionSheetDelegate,SDWebImageManagerDelegate> {
 	IBOutlet UIView *imageWrapperView;
     OHAttributedLabel *textLabel;
 	IBOutlet OLImageView *mainImageView;

@@ -12,6 +12,7 @@
 #import "TimelineManager.h"
 #import "StatusFetcher.h"
 #import "SDImageCache.h"
+#import "GAI.h"
 
 @implementation perSecondAppDelegate
 
@@ -23,7 +24,16 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [TestFlight takeOff:@"02c4122f796fe828e4bdabd359ef6ae9_NzU4NDIwMTItMTItMjkgMTM6MzM6NDkuMTc1MDYy"];
+    
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 20;
+    // Optional: set debug to YES for extra debugging information.
+    //[GAI sharedInstance].debug = YES;
+    // Create tracker instance.
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-2207530-10"];
+    
     [BRFunctions loadAccounts];
     [[TimelineManager sharedManager]loadRecentStatuses];
     [[TimelineManager sharedManager] sync];

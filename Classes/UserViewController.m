@@ -70,6 +70,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.trackedViewName=@"user view";
     // Do any additional setup after loading the view from its nib.
     [self layoutGridview];
     
