@@ -42,6 +42,7 @@
     getStartedButton.layer.zPosition=1000;
 	[self refreshView];
     [super viewDidLoad];
+    aboutButton.titleLabel.font=[UIFont fontWithName:@"QuicksandBold-Regular" size:aboutButton.titleLabel.font.pointSize];
 }
 
 -(void)refreshView{
