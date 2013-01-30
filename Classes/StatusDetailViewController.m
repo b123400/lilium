@@ -194,7 +194,12 @@
 
 - (IBAction)actionButtonClicked:(id)sender {
     UIActionSheet *actionSheet= [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"cancel" destructiveButtonTitle:nil otherButtonTitles:@"Open in Safari",@"Save image", nil] autorelease];
-    [actionSheet showInView:self.view];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+    if(UI_USER_INTERFACE_IDIOM()!=UIUserInterfaceIdiomPad){
+        [actionSheet showInView:self.view];
+    }else{
+        [actionSheet showFromRect:actionButton.frame inView:actionButton.superview animated:YES];
+    }
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSString *title=[actionSheet buttonTitleAtIndex:buttonIndex];
