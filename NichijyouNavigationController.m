@@ -462,7 +462,7 @@ static float pressShiftFactor=0.2;
 	if(!animated){
 		return [super popToViewController:nextController animated:animated];
 	}
-	
+	[BRFunctions playSound:@"zoomout"];
 	isAnimating=YES;
 	
 	[self topViewController].view.userInteractionEnabled=NO;
@@ -547,7 +547,6 @@ static float pressShiftFactor=0.2;
 			thisView.layer.opacity=1;
 		}
 	}
-    [BRFunctions playSound:@"zoomout"];
     if([viewController respondsToSelector:@selector(willPopOutFromSubviewController:)]){
         [(id)viewController willPopOutFromSubviewController:[self topViewController]];
     }

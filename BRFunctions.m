@@ -399,7 +399,7 @@ static NSMutableArray *tumblrUsers=nil;
 
 +(void)playSound:(NSString*)filename{
     SystemSoundID audioEffect;
-    NSString *path=[[[BRFunctions applicationDocumentsDirectory] stringByAppendingPathComponent:filename] stringByAppendingPathExtension:@"aif"];
+    NSString *path=[[NSBundle mainBundle] pathForResource:filename ofType:@"aiff"];
     /*
     CFBundleRef mainBundle = CFBundleGetMainBundle();
     CFURLRef soundFileURLRef = CFBundleCopyResourceURL(mainBundle, CFSTR(path), CFSTR("caf"), NULL);
@@ -407,6 +407,7 @@ static NSMutableArray *tumblrUsers=nil;
     AudioServicesCreateSystemSoundID(soundFileURLRef, &soundId);
     AudioServicesPlaySystemSound(soundId);
     CFRelease(soundFileURLRef);*/
+    if(!path)return;
     NSURL *pathURL = [NSURL fileURLWithPath : path];
     AudioServicesCreateSystemSoundID((CFURLRef) pathURL, &audioEffect);
     AudioServicesPlaySystemSound(audioEffect);

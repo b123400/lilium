@@ -105,8 +105,6 @@
     [userTap requireGestureRecognizerToFail:[(NichijyouNavigationController*)self.navigationController pinchGestureRecognizer]];
     [userView addGestureRecognizer:userTap];
     
-    [likeButton setSoundEnabled:NO];
-    
     [self loadResources];
     [self layout];
 }
