@@ -10,6 +10,7 @@
 #import "Evaluate.h"
 #import "AccelerationAnimation.h"
 #import "UIApplication+Frame.h"
+#import "BRFunctions.h"
 
 @interface BRCircleAlert ()
 
@@ -125,6 +126,7 @@
     [self layout];
     
     [self.layer addAnimation:animationh forKey:@"transform"];
+    [BRFunctions playSound:@"alert"];
 }
 -(void)dismiss{
     [UIView animateWithDuration:0.2 animations:^{

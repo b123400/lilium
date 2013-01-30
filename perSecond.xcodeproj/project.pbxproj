@@ -143,6 +143,10 @@
 		CF6E676413E9A0D9005E4674 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674713E9A0D9005E4674 /* SDWebImageManager.m */; };
 		CF6E676513E9A0D9005E4674 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674A13E9A0D9005E4674 /* UIButton+WebCache.m */; };
 		CF6E676613E9A0D9005E4674 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674C13E9A0D9005E4674 /* UIImageView+WebCache.m */; };
+		CF7DFBEB16B94D42000ECA20 /* zoomin.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBE916B94D42000ECA20 /* zoomin.aiff */; };
+		CF7DFBEF16B94FF9000ECA20 /* zoomout.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBEE16B94FF9000ECA20 /* zoomout.aiff */; };
+		CF7DFBF116B95850000ECA20 /* alert.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBF016B95850000ECA20 /* alert.aiff */; };
+		CF7DFBF716B95FC9000ECA20 /* like.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBF616B95FC9000ECA20 /* like.aiff */; };
 		CF81000113C4AE4300A68CB9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF81000013C4AE4300A68CB9 /* CFNetwork.framework */; };
 		CF81009B13C4BC5A00A68CB9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF81009A13C4BC5A00A68CB9 /* SystemConfiguration.framework */; };
 		CF8100BF13C4BFD100A68CB9 /* FlickrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8100BD13C4BFD100A68CB9 /* FlickrLoginViewController.m */; };
@@ -200,6 +204,7 @@
 		CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */; };
 		CFE4EDA816B6EAE900C3B1F3 /* actionbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE4EDA616B6EAE900C3B1F3 /* actionbutton.png */; };
 		CFE4EDA916B6EAE900C3B1F3 /* actionbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE4EDA716B6EAE900C3B1F3 /* actionbutton@2x.png */; };
+		CFD9DD64169A102A0067D127 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD9DD63169A102A0067D127 /* AudioToolbox.framework */; };
 		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
 		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
 		CFF818F113C07E4000C37DD8 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF818F013C07E4000C37DD8 /* Checkmark@2x.png */; };
@@ -454,6 +459,10 @@
 		CF6E674A13E9A0D9005E4674 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WebCache.m"; sourceTree = "<group>"; };
 		CF6E674B13E9A0D9005E4674 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		CF6E674C13E9A0D9005E4674 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
+		CF7DFBE916B94D42000ECA20 /* zoomin.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = zoomin.aiff; sourceTree = "<group>"; };
+		CF7DFBEE16B94FF9000ECA20 /* zoomout.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = zoomout.aiff; sourceTree = "<group>"; };
+		CF7DFBF016B95850000ECA20 /* alert.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = alert.aiff; sourceTree = "<group>"; };
+		CF7DFBF616B95FC9000ECA20 /* like.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = like.aiff; sourceTree = "<group>"; };
 		CF81000013C4AE4300A68CB9 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CF81009A13C4BC5A00A68CB9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CF8100BC13C4BFD100A68CB9 /* FlickrLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrLoginViewController.h; sourceTree = "<group>"; };
@@ -557,6 +566,7 @@
 		CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelationshipRequest.m; sourceTree = "<group>"; };
 		CFE4EDA616B6EAE900C3B1F3 /* actionbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = actionbutton.png; sourceTree = "<group>"; };
 		CFE4EDA716B6EAE900C3B1F3 /* actionbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "actionbutton@2x.png"; sourceTree = "<group>"; };
+		CFD9DD63169A102A0067D127 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CFE97F82151A2CF700187398 /* Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attribute.h; sourceTree = "<group>"; };
 		CFE97F83151A2CF700187398 /* Attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attribute.m; sourceTree = "<group>"; };
 		CFF72992151B531700540795 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
@@ -617,6 +627,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF10DA5B16B47AC600B88991 /* ImageIO.framework in Frameworks */,
+				CFD9DD64169A102A0067D127 /* AudioToolbox.framework in Frameworks */,
 				CF9DEAD3146D854700FB9519 /* libz.1.2.5.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -742,6 +753,7 @@
 				CF6E66B313E969C9005E4674 /* BRGridViewCell.m */,
 				CF6E66EB13E99847005E4674 /* SquareCell.h */,
 				CF6E66EC13E99847005E4674 /* SquareCell.m */,
+				CF7DFBE716B94D2A000ECA20 /* Sound */,
 				CF4A290116B6B9E60081E2F7 /* Font */,
 			);
 			name = Resources;
@@ -750,6 +762,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CFD9DD63169A102A0067D127 /* AudioToolbox.framework */,
+				CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */,
 				CF6D761A13DF28A000305FAE /* libicucore.dylib */,
 				CF81000013C4AE4300A68CB9 /* CFNetwork.framework */,
 				CF57FEEB13BF55B100C184F8 /* libxml2.dylib */,
@@ -993,6 +1007,17 @@
 				CFFCD9CE16963873006DC49B /* NSString+EscapePercentage.m */,
 			);
 			name = "Categories+Subclass";
+			sourceTree = "<group>";
+		};
+		CF7DFBE716B94D2A000ECA20 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				CF7DFBF616B95FC9000ECA20 /* like.aiff */,
+				CF7DFBE916B94D42000ECA20 /* zoomin.aiff */,
+				CF7DFBEE16B94FF9000ECA20 /* zoomout.aiff */,
+				CF7DFBF016B95850000ECA20 /* alert.aiff */,
+			);
+			name = Sound;
 			sourceTree = "<group>";
 		};
 		CF88E06F16A5D855006415DF /* Settings */ = {
@@ -1508,6 +1533,10 @@
 				CF4A290E16B6BA170081E2F7 /* Quicksand_Light_Oblique.otf in Resources */,
 				CF4A290F16B6BA170081E2F7 /* Quicksand_Light.otf in Resources */,
 				CF4A291116B6C9000081E2F7 /* SettingViewController~ipad.xib in Resources */,
+				CF7DFBEB16B94D42000ECA20 /* zoomin.aiff in Resources */,
+				CF7DFBEF16B94FF9000ECA20 /* zoomout.aiff in Resources */,
+				CF7DFBF116B95850000ECA20 /* alert.aiff in Resources */,
+				CF7DFBF716B95FC9000ECA20 /* like.aiff in Resources */,
 				CF4A295216B6E3080081E2F7 /* 57.png in Resources */,
 				CF4A295316B6E3080081E2F7 /* 72.png in Resources */,
 				CF4A295416B6E3080081E2F7 /* 114.png in Resources */,

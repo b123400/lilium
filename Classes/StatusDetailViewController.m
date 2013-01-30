@@ -12,6 +12,7 @@
 #import "CommentTableViewCell.h"
 #import "UserViewController.h"
 #import "UIImage-Tint.h"
+#import "BRFunctions.h"
 #import "UIImageView+WebCache.h"
 #import "BRImageViewController.h"
 #import <QuartzCore/QuartzCore.h>
@@ -19,6 +20,7 @@
 #import "NichijyouNavigationController.h"
 #import "BRCircleAlert.h"
 #import "StatusFetcher.h"
+#import "UIView+Interaction.h"
 
 @interface StatusDetailViewController ()
 
@@ -185,6 +187,7 @@
 }
 #pragma mark - user interaction
 - (IBAction)likeButtonClicked:(id)sender {
+    [BRFunctions playSound:@"like"];
     status.liked=!status.liked;
     [self refreshLikeButton];
 }

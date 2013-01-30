@@ -8,8 +8,10 @@
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 #import "UIView+Interaction.h"
+#import "BRFunctions.h"
 
 static const char *reactionKey = "touchReaction";
+static const char *soundKey = "touchKey";
 
 @implementation UIView (Interaction)
 

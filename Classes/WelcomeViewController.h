@@ -18,6 +18,8 @@
     IBOutlet UIButton *accountButton;
     IBOutlet UIButton *settingsButton;
     IBOutlet UIButton *aboutButton;
+    
+    UIAlertView *loadingAlert;
 }
 
 -(IBAction)getStartPressed;
