@@ -74,7 +74,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.trackedViewName=@"detail view";
+//    self.trackedViewName=@"detail view";
 	
     if(!textLabel){
         textLabel=[[OHAttributedLabel alloc] initWithFrame:CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000)];

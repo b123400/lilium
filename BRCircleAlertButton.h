@@ -12,7 +12,7 @@
     void (^action)(void);
     UIColor *color;
 }
-@property (nonatomic,retain) void (^action)(void);
+@property (nonatomic,copy) void (^action)(void);
 @property (nonatomic,assign) UIColor *color;
 
 +(BRCircleAlertButton*)buttonWithAction:(void (^) (void))_action;

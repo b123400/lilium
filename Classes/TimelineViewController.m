@@ -35,7 +35,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.trackedViewName=@"timeline view";
+//    self.trackedViewName=@"timeline view";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self layout];

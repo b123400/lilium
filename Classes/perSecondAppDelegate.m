@@ -12,7 +12,7 @@
 #import "TimelineManager.h"
 #import "StatusFetcher.h"
 #import "SDImageCache.h"
-#import "GAI.h"
+#import <Crashlytics/Crashlytics.h>
 
 @implementation perSecondAppDelegate
 
@@ -24,15 +24,15 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+    [Crashlytics startWithAPIKey:@"be3de76eb1918a93b4d68a8e87b983750d738aed"];
     // Optional: automatically send uncaught exceptions to Google Analytics.
-    [GAI sharedInstance].trackUncaughtExceptions = YES;
+//    [GAI sharedInstance].trackUncaughtExceptions = YES;
     // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-    [GAI sharedInstance].dispatchInterval = 20;
+//    [GAI sharedInstance].dispatchInterval = 20;
     // Optional: set debug to YES for extra debugging information.
     //[GAI sharedInstance].debug = YES;
     // Create tracker instance.
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-2207530-10"];
+//    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-2207530-10"];
     
     [BRFunctions loadAccounts];
     [[TimelineManager sharedManager]loadRecentStatuses];

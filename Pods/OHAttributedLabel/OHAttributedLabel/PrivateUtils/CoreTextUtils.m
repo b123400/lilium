@@ -31,30 +31,28 @@
 #pragma mark - Text Alignment Convertion
 /////////////////////////////////////////////////////////////////////////////////////
 
-
-CTTextAlignment CTTextAlignmentFromUITextAlignment(UITextAlignment alignment)
+CTTextAlignment CTTextAlignmentFromUITextAlignment(NSUITextAlignment alignment)
 {
-    if (alignment == (UITextAlignment)kCTJustifiedTextAlignment)
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0
+    if (alignment == (NSUITextAlignment)kCTJustifiedTextAlignment)
     {
         /* special OOB value, so test it outside of the switch to avoid warning */
         return kCTJustifiedTextAlignment;
     }
 	switch (alignment)
     {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 60000
 		case UITextAlignmentLeft: return kCTLeftTextAlignment;
 		case UITextAlignmentCenter: return kCTCenterTextAlignment;
 		case UITextAlignmentRight: return kCTRightTextAlignment;
-#else
-		case NSTextAlignmentLeft: return kCTLeftTextAlignment;
-		case NSTextAlignmentCenter: return kCTCenterTextAlignment;
-		case NSTextAlignmentRight: return kCTRightTextAlignment;
-#endif
 		default: return kCTNaturalTextAlignment;
 	}
+#else
+    // Use equivalent Apple provided function
+    return NSTextAlignmentToCTTextAlignment(alignment);
+#endif
 }
 
-CTLineBreakMode CTLineBreakModeFromUILineBreakMode(UILineBreakMode lineBreakMode)
+CTLineBreakMode CTLineBreakModeFromUILineBreakMode(NSUILineBreakMode lineBreakMode)
 {
 	switch (lineBreakMode)
     {
@@ -101,7 +99,7 @@ CGRect CGRectFlipped(CGRect rect, CGRect bounds)
 
 NSRange NSRangeFromCFRange(CFRange range)
 {
-	return NSMakeRange(range.location, range.length);
+	return NSMakeRange((NSUInteger)range.location, (NSUInteger)range.length);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +112,7 @@ CGRect CTLineGetTypographicBoundsAsRect(CTLineRef line, CGPoint lineOrigin)
 	CGFloat ascent = 0;
 	CGFloat descent = 0;
 	CGFloat leading = 0;
-	CGFloat width = CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+	CGFloat width = (CGFloat)CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
 	CGFloat height = ascent + descent;
 	
 	return CGRectMake(lineOrigin.x,
@@ -128,7 +126,7 @@ CGRect CTRunGetTypographicBoundsAsRect(CTRunRef run, CTLineRef line, CGPoint lin
 	CGFloat ascent = 0;
 	CGFloat descent = 0;
 	CGFloat leading = 0;
-	CGFloat width = CTRunGetTypographicBounds(run, CFRangeMake(0, 0), &ascent, &descent, &leading);
+	CGFloat width = (CGFloat)CTRunGetTypographicBounds(run, CFRangeMake(0, 0), &ascent, &descent, &leading);
 	CGFloat height = ascent + descent;
 	
 	CGFloat xOffset = CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL);
@@ -137,6 +135,16 @@ CGRect CTRunGetTypographicBoundsAsRect(CTRunRef run, CTLineRef line, CGPoint lin
 					  lineOrigin.y - descent,
 					  width,
 					  height);
+}
+
+CGRect CTRunGetTypographicBoundsForRangeAsRect(CTRunRef run, CTLineRef line, CGPoint lineOrigin, CFRange range, CGContextRef ctx)
+{
+    CGRect boundsOfRun = CTRunGetTypographicBoundsAsRect(run, line, lineOrigin);
+    CGRect boundsOfImageForRun = CTRunGetImageBounds(run, ctx, range);
+    return CGRectMake(boundsOfRun.origin.x + boundsOfImageForRun.origin.x,
+                      boundsOfRun.origin.y,
+                      boundsOfImageForRun.size.width,
+                      boundsOfRun.size.height);
 }
 
 BOOL CTLineContainsCharactersFromStringRange(CTLineRef line, NSRange range)

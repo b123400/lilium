@@ -1,0 +1,6 @@
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/JXHTTP" "${PODS_ROOT}/Headers/Public/OHAttributedLabel" "${PODS_ROOT}/Headers/Public/OLImageView" "${PODS_ROOT}/Headers/Public/STTwitter" "${PODS_ROOT}/Headers/Public/TMTumblrSDK"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/JXHTTP" -isystem "${PODS_ROOT}/Headers/Public/OHAttributedLabel" -isystem "${PODS_ROOT}/Headers/Public/OLImageView" -isystem "${PODS_ROOT}/Headers/Public/STTwitter" -isystem "${PODS_ROOT}/Headers/Public/TMTumblrSDK"
+OTHER_LDFLAGS = -ObjC -l"Pods-JXHTTP" -l"Pods-OHAttributedLabel" -l"Pods-OLImageView" -l"Pods-STTwitter" -l"Pods-TMTumblrSDK" -framework "Accounts" -framework "CoreGraphics" -framework "CoreText" -framework "Foundation" -framework "ImageIO" -framework "MobileCoreServices" -framework "QuartzCore" -framework "Twitter" -framework "UIKit" -weak_framework "Social" -weak_framework "UIKit"
+OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
+PODS_ROOT = ${SRCROOT}/Pods

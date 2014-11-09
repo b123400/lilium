@@ -10,9 +10,9 @@
 #import "User.h"
 #import "BRGridView.h"
 #import "StatusDetailViewController.h"
-#import "GAITrackedViewController.h"
+//#import "GAITrackedViewController.h"
 
-@interface UserViewController : GAITrackedViewController <StatusDetailViewControllerDelegate>{
+@interface UserViewController : UIViewController <StatusDetailViewControllerDelegate>{
     BOOL pushed;
 
     User *user;

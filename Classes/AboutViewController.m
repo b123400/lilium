@@ -68,6 +68,8 @@
     
     [description appendAttributedString:[NSAttributedString attributedStringWithAttributedString:[OHASBasicMarkupParser attributedStringByProcessingMarkupInString:@"Includes Quicksand by [Andrew Paglinawan](http://www.typophile.com/node/50437), licensed under SIL Open Font License.\n"]]];
     
+    [description appendAttributedString:[NSAttributedString attributedStringWithAttributedString:[OHASBasicMarkupParser attributedStringByProcessingMarkupInString:@"Includes [Google analytics for iOS](https://developers.google.com/analytics/devguides/collection/ios/).\n"]]];
+    
     [description appendAttributedString:[NSAttributedString attributedStringWithAttributedString:[OHASBasicMarkupParser attributedStringByProcessingMarkupInString:@"Sound effects from [freeSFX](http://www.freesfx.co.uk/).\n"]]];
     
     self.descriptionLabel.attributedText=description;

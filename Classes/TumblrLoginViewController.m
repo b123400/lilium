@@ -10,6 +10,7 @@
 #import "TumblrLoginViewController.h"
 #import "BRFunctions.h"
 #import "SVProgressHUD.h"
+#import <TMTumblrSDK/TMAPIClient.h>
 
 @interface BRTumblrLoginViewController ()
 
@@ -35,6 +36,7 @@
     webView.multipleTouchEnabled=NO;
     webView.scrollView.bouncesZoom=NO;
 }
+
 -(void)getAccessTokenFromQuery:(NSString*)query{
 	[SVProgressHUD show];
 	[super getAccessTokenFromQuery:query];
@@ -57,6 +59,10 @@
 	if(webView.loading){
 		[SVProgressHUD show];
 	}
+    
+    [[TMAPIClient sharedInstance] authenticate:@"myapp" callback:^(NSError *error) {
+        // You are now authenticated (if !error)
+    }];
 }
 -(BOOL)shouldPopByPinch{
 	[SVProgressHUD dismiss];

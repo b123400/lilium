@@ -121,8 +121,8 @@
 				coverView.layer.opacity=dimAlpha;
 				
 				captionLabel.frame=CGRectMake(-5, 0, self.frame.size.width+60, 30);
-				//captionLabel.font=[UIFont boldSystemFontOfSize:30];
-                captionLabel.font=[UIFont fontWithName:@"QuicksandBold-Regular" size:30];
+				captionLabel.font=[UIFont boldSystemFontOfSize:30];
+                //captionLabel.font=[UIFont fontWithName:@"QuicksandBold-Regular" size:30];
 				
 				captionImageView.hidden=YES;
 			}else{
@@ -130,8 +130,8 @@
 				coverView.layer.opacity=0.05;
 				
 				captionLabel.frame=CGRectMake(38, 7, self.frame.size.width+60, 20);
-//				captionLabel.font=[UIFont boldSystemFontOfSize:18];
-                captionLabel.font=[UIFont fontWithName:@"QuicksandBold-Regular" size:18];
+				captionLabel.font=[UIFont boldSystemFontOfSize:18];
+                //captionLabel.font=[UIFont fontWithName:@"QuicksandBold-Regular" size:18];
 				
 				captionImageView.hidden=NO;
 				captionImageView.image=[[captionImageView.image tintedImageUsingColor:[captionColor inverseColor]] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 60, 0, 0)];

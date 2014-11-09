@@ -10,4 +10,11 @@
 
 @interface OLImageView : UIImageView
 
+/**
+ The animation runloop mode.
+ 
+ The default mode (NSDefaultRunLoopMode), causes the animation to pauses while it is contained in an actively scrolling `UIScrollView`. Use NSRunLoopCommonModes if you don't want this behavior.
+ */
+@property (nonatomic, copy) NSString *runLoopMode;
+
 @end

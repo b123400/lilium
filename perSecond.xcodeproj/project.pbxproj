@@ -14,7 +14,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
-		B1856AD003104CE3A2127AFF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C7D929EDBA43E68EBC0D9B /* libPods.a */; };
 		CF02E15A1693657E007913D9 /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02E1561693657E007913D9 /* heart.png */; };
 		CF02E15B1693657E007913D9 /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02E1571693657E007913D9 /* heart@2x.png */; };
 		CF10DA1616B4104200B88991 /* TitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CF10DA1516B4104200B88991 /* TitleButton.m */; };
@@ -56,6 +55,7 @@
 		CF4309B013EAEE22007CA113 /* imageCoverAlpha@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4309AC13EAEE22007CA113 /* imageCoverAlpha@2x.png */; };
 		CF4309B113EAEE22007CA113 /* imageCoverCaption.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4309AD13EAEE22007CA113 /* imageCoverCaption.png */; };
 		CF4309B213EAEE22007CA113 /* imageCoverCaption@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4309AE13EAEE22007CA113 /* imageCoverCaption@2x.png */; };
+		CF44D14916CD1B170052388B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF44D14816CD1B170052388B /* Crashlytics.framework */; };
 		CF4775FA13D1C30800FC2D37 /* accountsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4775EE13D1C30700FC2D37 /* accountsButton.png */; };
 		CF4775FB13D1C30800FC2D37 /* accountsButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4775EF13D1C30800FC2D37 /* accountsButton@2x.png */; };
 		CF4775FC13D1C30800FC2D37 /* facebookButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4775F013D1C30800FC2D37 /* facebookButton.png */; };
@@ -147,7 +147,6 @@
 		CF7DFBEF16B94FF9000ECA20 /* zoomout.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBEE16B94FF9000ECA20 /* zoomout.aiff */; };
 		CF7DFBF116B95850000ECA20 /* alert.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBF016B95850000ECA20 /* alert.aiff */; };
 		CF7DFBF716B95FC9000ECA20 /* like.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBF616B95FC9000ECA20 /* like.aiff */; };
-		CF7DFC1416B994BE000ECA20 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7DFC1316B994BE000ECA20 /* libGoogleAnalytics.a */; };
 		CF7DFC1616B994D4000ECA20 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7DFC1516B994D4000ECA20 /* CoreData.framework */; };
 		CF81000113C4AE4300A68CB9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF81000013C4AE4300A68CB9 /* CFNetwork.framework */; };
 		CF81009B13C4BC5A00A68CB9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF81009A13C4BC5A00A68CB9 /* SystemConfiguration.framework */; };
@@ -258,10 +257,10 @@
 		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		36C7D929EDBA43E68EBC0D9B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		772825D3A12A4240ACF8B146 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* perSecond-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "perSecond-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		A4BCCA00847ADCF45776E016 /* Pods.testflight.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.testflight.xcconfig; path = "Pods/Target Support Files/Pods/Pods.testflight.xcconfig"; sourceTree = "<group>"; };
 		B4D70F3FE3C24EE59FC24C6B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC0117B1EF9C4BA4B6C52060 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		BB1832479F4A23BAE35571FA /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		CF02E1561693657E007913D9 /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
 		CF02E1571693657E007913D9 /* heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@2x.png"; sourceTree = "<group>"; };
 		CF10DA1416B4104200B88991 /* TitleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleButton.h; sourceTree = "<group>"; };
@@ -320,6 +319,7 @@
 		CF4309AC13EAEE22007CA113 /* imageCoverAlpha@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "imageCoverAlpha@2x.png"; path = "Images/imageCoverAlpha@2x.png"; sourceTree = "<group>"; };
 		CF4309AD13EAEE22007CA113 /* imageCoverCaption.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = imageCoverCaption.png; path = Images/imageCoverCaption.png; sourceTree = "<group>"; };
 		CF4309AE13EAEE22007CA113 /* imageCoverCaption@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "imageCoverCaption@2x.png"; path = "Images/imageCoverCaption@2x.png"; sourceTree = "<group>"; };
+		CF44D14816CD1B170052388B /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		CF4775EE13D1C30700FC2D37 /* accountsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accountsButton.png; sourceTree = "<group>"; };
 		CF4775EF13D1C30800FC2D37 /* accountsButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accountsButton@2x.png"; sourceTree = "<group>"; };
 		CF4775F013D1C30800FC2D37 /* facebookButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebookButton.png; sourceTree = "<group>"; };
@@ -464,12 +464,6 @@
 		CF7DFBEE16B94FF9000ECA20 /* zoomout.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = zoomout.aiff; sourceTree = "<group>"; };
 		CF7DFBF016B95850000ECA20 /* alert.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = alert.aiff; sourceTree = "<group>"; };
 		CF7DFBF616B95FC9000ECA20 /* like.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = like.aiff; sourceTree = "<group>"; };
-		CF7DFC0E16B994BE000ECA20 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
-		CF7DFC0F16B994BE000ECA20 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
-		CF7DFC1016B994BE000ECA20 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
-		CF7DFC1116B994BE000ECA20 /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransaction.h; sourceTree = "<group>"; };
-		CF7DFC1216B994BE000ECA20 /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
-		CF7DFC1316B994BE000ECA20 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
 		CF7DFC1516B994D4000ECA20 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CF81000013C4AE4300A68CB9 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CF81009A13C4BC5A00A68CB9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -625,6 +619,7 @@
 		CFFE731716680AED00457BD2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CFFE731816680AED00457BD2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		CFFE731916680AED00457BD2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		E90D935B8B094C247C0BF075 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -632,7 +627,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF7DFC1616B994D4000ECA20 /* CoreData.framework in Frameworks */,
 				CF10DA5B16B47AC600B88991 /* ImageIO.framework in Frameworks */,
 				CFD9DD64169A102A0067D127 /* AudioToolbox.framework in Frameworks */,
 				CF9DEAD3146D854700FB9519 /* libz.1.2.5.dylib in Frameworks */,
@@ -646,10 +640,10 @@
 				CF81009B13C4BC5A00A68CB9 /* SystemConfiguration.framework in Frameworks */,
 				CFCDCBF813D8769200E268E8 /* MobileCoreServices.framework in Frameworks */,
 				CF6D761B13DF28A000305FAE /* libicucore.dylib in Frameworks */,
+				CF44D14916CD1B170052388B /* Crashlytics.framework in Frameworks */,
+				CF7DFC1616B994D4000ECA20 /* CoreData.framework in Frameworks */,
 				CF2D0E541412CC0D00E173DC /* CoreText.framework in Frameworks */,
 				0F57AE02E42E4EE4B94EFAC2 /* libPods.a in Frameworks */,
-				B1856AD003104CE3A2127AFF /* libPods.a in Frameworks */,
-				CF7DFC1416B994BE000ECA20 /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,15 +693,13 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				CF7DFC1516B994D4000ECA20 /* CoreData.framework */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				CF2C2DDD16B2DB5A00EF1593 /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				CC0117B1EF9C4BA4B6C52060 /* Pods.xcconfig */,
-				772825D3A12A4240ACF8B146 /* Pods.xcconfig */,
+				844A80AF225CA4532821494E /* Pods */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -731,7 +723,6 @@
 				CF6D75E713DF0B4300305FAE /* Regexp */,
 				CF6E671613E9A0D8005E4674 /* SDWebImage */,
 				CF10DA1316B4102400B88991 /* Titlebutton */,
-				CF7DFC0D16B994A0000ECA20 /* GoogleAnalytics */,
 				28A0AAE50D9B0CCF005BE974 /* perSecond_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -770,8 +761,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF44D14816CD1B170052388B /* Crashlytics.framework */,
+				CF7DFC1516B994D4000ECA20 /* CoreData.framework */,
 				CFD9DD63169A102A0067D127 /* AudioToolbox.framework */,
-				CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */,
 				CF6D761A13DF28A000305FAE /* libicucore.dylib */,
 				CF81000013C4AE4300A68CB9 /* CFNetwork.framework */,
 				CF57FEEB13BF55B100C184F8 /* libxml2.dylib */,
@@ -789,6 +781,16 @@
 				36C7D929EDBA43E68EBC0D9B /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		844A80AF225CA4532821494E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E90D935B8B094C247C0BF075 /* Pods.debug.xcconfig */,
+				A4BCCA00847ADCF45776E016 /* Pods.testflight.xcconfig */,
+				BB1832479F4A23BAE35571FA /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		CF10DA1316B4102400B88991 /* Titlebutton */ = {
@@ -1026,19 +1028,6 @@
 				CF7DFBF016B95850000ECA20 /* alert.aiff */,
 			);
 			name = Sound;
-			sourceTree = "<group>";
-		};
-		CF7DFC0D16B994A0000ECA20 /* GoogleAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-				CF7DFC0E16B994BE000ECA20 /* GAI.h */,
-				CF7DFC0F16B994BE000ECA20 /* GAITrackedViewController.h */,
-				CF7DFC1016B994BE000ECA20 /* GAITracker.h */,
-				CF7DFC1116B994BE000ECA20 /* GAITransaction.h */,
-				CF7DFC1216B994BE000ECA20 /* GAITransactionItem.h */,
-				CF7DFC1316B994BE000ECA20 /* libGoogleAnalytics.a */,
-			);
-			name = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 		CF88E06F16A5D855006415DF /* Settings */ = {
@@ -1413,6 +1402,7 @@
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				9124A5BF7B6843349F8E93F1 /* Copy Pods Resources */,
 				064E87E671BC4EAE9D802460 /* Copy Pods Resources */,
+				CF44D14716CD1ABC0052388B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1429,7 +1419,12 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0610;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = CC63FD9H8S;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "perSecond" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1575,7 +1570,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 		};
 		9124A5BF7B6843349F8E93F1 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1589,7 +1584,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+		};
+		CF44D14716CD1ABC0052388B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run be3de76eb1918a93b4d68a8e87b983750d738aed";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1731,12 +1739,11 @@
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 772825D3A12A4240ACF8B146 /* Pods.xcconfig */;
+			baseConfigurationReference = E90D935B8B094C247C0BF075 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Chan (96BTYNR4S9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Chan (96BTYNR4S9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1767,21 +1774,20 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = perSecond;
-				PROVISIONING_PROFILE = "DCBC0CC8-3398-44EE-9AC1-FF47318F8958";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DCBC0CC8-3398-44EE-9AC1-FF47318F8958";
+				PROVISIONING_PROFILE = "2f8a6a6c-420d-4f54-9540-aa6985fa567f";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2f8a6a6c-420d-4f54-9540-aa6985fa567f";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 772825D3A12A4240ACF8B146 /* Pods.xcconfig */;
+			baseConfigurationReference = BB1832479F4A23BAE35571FA /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KC Chan Co.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KC Chan Co.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1795,6 +1801,7 @@
 					"${PODS_HEADERS_SEARCH_PATHS}",
 				);
 				INFOPLIST_FILE = "perSecond-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1812,10 +1819,11 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = perSecond;
-				PROVISIONING_PROFILE = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
+				PROVISIONING_PROFILE = "2f8a6a6c-420d-4f54-9540-aa6985fa567f";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2f8a6a6c-420d-4f54-9540-aa6985fa567f";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
 		};
@@ -1823,9 +1831,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Chan (96BTYNR4S9)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Chan (96BTYNR4S9)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1837,14 +1844,16 @@
 					"\"$(SRCROOT)/Flickr/Source\"",
 					"${PODS_HEADERS_SEARCH_PATHS}",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
-				PROVISIONING_PROFILE = "DCBC0CC8-3398-44EE-9AC1-FF47318F8958";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DCBC0CC8-3398-44EE-9AC1-FF47318F8958";
+				PROVISIONING_PROFILE = "2f8a6a6c-420d-4f54-9540-aa6985fa567f";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1852,16 +1861,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KC Chan Co.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KC Chan Co.";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
+				PROVISIONING_PROFILE = "2f8a6a6c-420d-4f54-9540-aa6985fa567f";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1869,8 +1879,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KC Chan Co.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KC Chan Co.";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = "";
@@ -1883,25 +1892,25 @@
 					"\"$(SRCROOT)/Flickr/Source\"",
 					"${PODS_HEADERS_SEARCH_PATHS}",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
-				PROVISIONING_PROFILE = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
+				PROVISIONING_PROFILE = "2f8a6a6c-420d-4f54-9540-aa6985fa567f";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = TestFlight;
 		};
 		CFFCD99216958BAD006DC49B /* TestFlight */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 772825D3A12A4240ACF8B146 /* Pods.xcconfig */;
+			baseConfigurationReference = A4BCCA00847ADCF45776E016 /* Pods.testflight.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: KC Chan Co.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: KC Chan Co.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1932,9 +1941,10 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = perSecond;
-				PROVISIONING_PROFILE = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8222E456-B786-4E1B-8F03-33EDD6C344D3";
-				VALID_ARCHS = armv7;
+				PROVISIONING_PROFILE = "2f8a6a6c-420d-4f54-9540-aa6985fa567f";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2f8a6a6c-420d-4f54-9540-aa6985fa567f";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = TestFlight;
 		};
@@ -1949,7 +1959,7 @@
 				1D6058950D05DD3E006BFB54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "perSecond" */ = {
 			isa = XCConfigurationList;
@@ -1959,7 +1969,7 @@
 				C01FCF5008A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

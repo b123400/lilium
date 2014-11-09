@@ -28,12 +28,6 @@
 #import "OHASBasicMarkupParser.h"
 #import "NSAttributedString+Attributes.h"
 
-#if __has_feature(objc_arc)
-#define MRC_AUTORELEASE(x) (x)
-#else
-#define MRC_AUTORELEASE(x) [(x) autorelease]
-#endif
-
 @implementation OHASBasicMarkupParser
 
 +(NSDictionary*)tagMappings
@@ -47,11 +41,11 @@
                 {
                     NSMutableAttributedString* foundString = [[str attributedSubstringFromRange:textRange] mutableCopy];
                     [foundString setTextBold:YES range:NSMakeRange(0,textRange.length)];
-                    return MRC_AUTORELEASE(foundString);
+                    return foundString;
                 } else {
                     return nil;
                 }
-            }, @"\\*(.+?)\\*", /* "*xxx*" = xxx in bold */
+            }, @"\\b\\*(.+?)\\*\\b", /* "*xxx*" on word boundaries = xxx in bold */
             
             ^NSAttributedString*(NSAttributedString* str, NSTextCheckingResult* match)
             {
@@ -60,11 +54,24 @@
                 {
                     NSMutableAttributedString* foundString = [[str attributedSubstringFromRange:textRange] mutableCopy];
                     [foundString setTextIsUnderlined:YES];
-                    return MRC_AUTORELEASE(foundString);
+                    return foundString;
                 } else {
                     return nil;
                 }
-            }, @"_(.+?)_", /* "_xxx_" = xxx in italics */
+            }, @"\\b_(.+?)_\\b", /* "_xxx_" on word boundaries = xxx in underline */
+            
+            ^NSAttributedString*(NSAttributedString* str, NSTextCheckingResult* match)
+            {
+                NSRange textRange = [match rangeAtIndex:1];
+                if (textRange.length>0)
+                {
+                    NSMutableAttributedString* foundString = [[str attributedSubstringFromRange:textRange] mutableCopy];
+                    [foundString setTextItalics:YES range:NSMakeRange(0,foundString.length)];
+                    return foundString;
+                } else {
+                    return nil;
+                }
+            }, @"\\b\\|(.+?)\\|\\b", /* "_xxx_" on word boundaries = xxx in italics */
             
             ^NSAttributedString*(NSAttributedString* str, NSTextCheckingResult* match)
             {
@@ -74,11 +81,11 @@
                     NSMutableAttributedString* foundString = [[str attributedSubstringFromRange:textRange] mutableCopy];
                     CTFontRef font = [str fontAtIndex:textRange.location effectiveRange:NULL];
                     [foundString setFontName:@"Courier" size:CTFontGetSize(font)];
-                    return MRC_AUTORELEASE(foundString);
+                    return foundString;
                 } else {
                     return nil;
                 }
-            }, @"`(.+?)`", /* "`xxx`" = xxx in Courier font */
+            }, @"\\b`(.+?)`\\b", /* "`xxx`" on word boundaries = xxx in Courier font */
             
             ^NSAttributedString*(NSAttributedString* str, NSTextCheckingResult* match)
             {
@@ -90,7 +97,7 @@
                     UIColor* color = OHUIColorFromString(colorName);
                     NSMutableAttributedString* foundString = [[str attributedSubstringFromRange:textRange] mutableCopy];
                     [foundString setTextColor:color];
-                    return MRC_AUTORELEASE(foundString);
+                    return foundString;
                 } else {
                     return nil;
                 }
@@ -105,11 +112,11 @@
                     NSString* linkString = [str attributedSubstringFromRange:linkRange].string;
                     NSMutableAttributedString* foundString = [[str attributedSubstringFromRange:textRange] mutableCopy];
                     [foundString setLink:[NSURL URLWithString:linkString] range:NSMakeRange(0, foundString.length)];
-                    return MRC_AUTORELEASE(foundString);
+                    return foundString;
                 } else {
                     return nil;
                 }
-            }, @"\\[(.+?)\\]\\((.+?)\\)", /* "[text](link)" = add link to text */
+            }, @"\\b\\[(.+?)\\]\\((.+?)\\)\\b", /* "[text](link)" on word boundaries = add link to text */
             
             nil];
 }

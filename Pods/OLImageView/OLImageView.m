@@ -12,102 +12,201 @@
 
 @interface OLImageView ()
 
+@property (nonatomic, strong) OLImage *animatedImage;
+@property (nonatomic, strong) CADisplayLink *displayLink;
+@property (nonatomic) NSTimeInterval accumulator;
 @property (nonatomic) NSUInteger currentFrameIndex;
-@property (nonatomic) NSTimeInterval currentKeyframeElapsedTime;
-@property (nonatomic) OLImage *animatedImage;
-@property (nonatomic, strong) NSTimer *keyFrameTimer;
+@property (nonatomic) NSUInteger loopCountdown;
 
 @end
 
 @implementation OLImageView
 
-@synthesize currentFrameIndex;
+const NSTimeInterval kMaxTimeStep = 1; // note: To avoid spiral-o-death
 
--(id)init
+@synthesize runLoopMode = _runLoopMode;
+@synthesize displayLink = _displayLink;
+
+- (id)init
 {
     self = [super init];
     if (self) {
         self.currentFrameIndex = 0;
-        self.animatedImage = nil;
-        self.keyFrameTimer = nil;
     }
     return self;
 }
 
--(void)setImage:(UIImage *)image
+- (CADisplayLink *)displayLink
 {
-    [self stopAnimating];
-    self.currentFrameIndex = 0;
-    self.animatedImage = nil;
-    
-    if ([image isKindOfClass:[OLImage class]] && image.images) {
-        self.animatedImage = (OLImage *)image;
-        self.layer.contents = (__bridge id)([(UIImage *)[self.animatedImage.images objectAtIndex:0] CGImage]);
-        [self startAnimating];
+    if (self.superview) {
+        if (!_displayLink && self.animatedImage) {
+            _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(changeKeyframe:)];
+            [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:self.runLoopMode];
+        }
     } else {
-        [super setImage:image];
+        [_displayLink invalidate];
+        _displayLink = nil;
+    }
+    return _displayLink;
+}
+
+- (NSString *)runLoopMode
+{
+    return _runLoopMode ?: NSDefaultRunLoopMode;
+}
+
+- (void)setRunLoopMode:(NSString *)runLoopMode
+{
+    if (runLoopMode != _runLoopMode) {
+        [self stopAnimating];
+        
+        NSRunLoop *runloop = [NSRunLoop mainRunLoop];
+        [self.displayLink removeFromRunLoop:runloop forMode:_runLoopMode];
+        [self.displayLink addToRunLoop:runloop forMode:runLoopMode];
+        
+        _runLoopMode = runLoopMode;
+        
+        [self startAnimating];
     }
 }
 
--(BOOL)isAnimating {
-    return (self.keyFrameTimer != nil);
+- (void)setImage:(UIImage *)image
+{
+    if (image == self.image) {
+        return;
+    }
+    
+    [self stopAnimating];
+    
+    self.currentFrameIndex = 0;
+    self.loopCountdown = 0;
+    self.accumulator = 0;
+    
+    if ([image isKindOfClass:[OLImage class]] && image.images) {
+        [super setImage:nil];
+        self.animatedImage = (OLImage *)image;
+        self.loopCountdown = self.animatedImage.loopCount ?: NSUIntegerMax;
+        [self startAnimating];
+    } else {
+        self.animatedImage = nil;
+        [super setImage:image];
+    }
+    [self.layer setNeedsDisplay];
 }
 
--(void)stopAnimating
+- (void)setAnimatedImage:(OLImage *)animatedImage
+{
+    _animatedImage = animatedImage;
+    if (animatedImage == nil) {
+        self.layer.contents = nil;
+    }
+}
+
+- (BOOL)isAnimating
+{
+    return [super isAnimating] || (self.displayLink && !self.displayLink.isPaused);
+}
+
+- (void)stopAnimating
 {
     if (!self.animatedImage) {
         [super stopAnimating];
         return;
     }
     
-    if (self.keyFrameTimer) {
-        [self.keyFrameTimer invalidate];
-        self.keyFrameTimer = nil;
-    }
+    self.loopCountdown = 0;
+    
+    self.displayLink.paused = YES;
 }
 
--(void)startAnimating
-{    
+- (void)startAnimating
+{
     if (!self.animatedImage) {
         [super startAnimating];
         return;
     }
-    if (!self.keyFrameTimer) {
-        self.keyFrameTimer = [NSTimer scheduledTimerWithTimeInterval:0.005 target:self selector:@selector(changeKeyframe) userInfo:nil repeats:YES];
+    
+    if (self.isAnimating) {
+        return;
     }
+    
+    self.loopCountdown = self.animatedImage.loopCount ?: NSUIntegerMax;
+    
+    self.displayLink.paused = NO;
 }
 
-- (void)changeKeyframe
+- (void)changeKeyframe:(CADisplayLink *)displayLink
 {
-    self.currentKeyframeElapsedTime += self.keyFrameTimer.timeInterval;
-    if (self.currentKeyframeElapsedTime >= self.animatedImage.frameDurations[self.currentFrameIndex]) {
-        NSUInteger newIndex = self.currentFrameIndex + 1;
-        if (newIndex >= [self.animatedImage.images count]) {
-            newIndex = 0;
+    if (self.currentFrameIndex >= [self.animatedImage.images count] && [self.animatedImage isPartial]) {
+        return;
+    }
+    self.accumulator += fmin(displayLink.duration, kMaxTimeStep);
+    
+    while (self.accumulator >= self.animatedImage.frameDurations[self.currentFrameIndex]) {
+        self.accumulator -= self.animatedImage.frameDurations[self.currentFrameIndex];
+        if (++self.currentFrameIndex >= [self.animatedImage.images count] && ![self.animatedImage isPartial]) {
+            if (--self.loopCountdown == 0) {
+                [self stopAnimating];
+                return;
+            }
+            self.currentFrameIndex = 0;
         }
-        self.currentFrameIndex = newIndex;
-        self.currentKeyframeElapsedTime = 0.0f;
+        self.currentFrameIndex = MIN(self.currentFrameIndex, [self.animatedImage.images count] - 1);
         [self.layer setNeedsDisplay];
     }
 }
 
-- (void)displayLayer:(CALayer *)layer {
-    layer.contents = (__bridge id)([(UIImage *)[self.animatedImage.images objectAtIndex:self.currentFrameIndex] CGImage]);
+- (void)displayLayer:(CALayer *)layer
+{
+    if (!self.animatedImage || [self.animatedImage.images count] == 0) {
+        return;
+    }
+    layer.contents = (__bridge id)([[self.animatedImage.images objectAtIndex:self.currentFrameIndex] CGImage]);
 }
 
-- (void)didMoveToSuperview {
-    if (!self.superview) {
-        [self stopAnimating];
-    } else {
+- (void)didMoveToWindow
+{
+    [super didMoveToWindow];
+    if (self.window) {
         [self startAnimating];
+    } else {
+       dispatch_async(dispatch_get_main_queue(), ^{
+           if (!self.window) {
+               [self stopAnimating];
+           }
+       });
     }
 }
 
-- (UIImage *)image {
-    if (self.animatedImage != nil) {
-        return self.animatedImage;
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+    if (self.superview) {
+        //Has a superview, make sure it has a displayLink
+        [self displayLink];
+    } else {
+        //Doesn't have superview, let's check later if we need to remove the displayLink
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self displayLink];
+        });
     }
-    return [super image];
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    if (!self.animatedImage) {
+        [super setHighlighted:highlighted];
+    }
+}
+
+- (UIImage *)image
+{
+    return self.animatedImage ?: [super image];
+}
+
+- (CGSize)sizeThatFits:(CGSize)size
+{
+    return self.image.size;
 }
 
 @end
