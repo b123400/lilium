@@ -22,7 +22,7 @@
 
 @synthesize tokenBody, pin, screenName, userID,oauth_token;
 
--(id)initWithHTTPResponseBody:(NSString *)body{
+-(instancetype)initWithHTTPResponseBody:(NSString *)body{
 	self = [super initWithHTTPResponseBody:body];
 	if(self){
 		tokenBody = [body copy];
@@ -30,8 +30,8 @@
 		
 		for (NSString *pair in pairs) {
 			NSArray *elements = [pair componentsSeparatedByString:@"="];
-			if ([[elements objectAtIndex:0] isEqualToString:@"screen_name"]) {
-				screenName = [elements objectAtIndex:1];
+			if ([elements[0] isEqualToString:@"screen_name"]) {
+				screenName = elements[1];
 			}
 		}
 	}
@@ -58,7 +58,7 @@
 -(NSDictionary *)parameters{
 	NSMutableDictionary *params = [[[super parameters] mutableCopy] autorelease];
 	if([self verifier]){
-		[params setObject:[self verifier] forKey:@"oauth_verifier"];
+		params[@"oauth_verifier"] = [self verifier];
 	}
 	return params;
 }

@@ -30,7 +30,7 @@
 }
 @property (retain,nonatomic) NSArray *statuses;
 
--(id)initWithUser:(User*)_user;
+-(instancetype)initWithUser:(User*)_user;
 - (IBAction)followButtonPressed:(id)sender;
 
 @end

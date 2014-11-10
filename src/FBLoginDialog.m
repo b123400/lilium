@@ -27,7 +27,7 @@
 /*
  * initialize the FBLoginDialog with url and parameters
  */
-- (id)initWithURL:(NSString*) loginURL 
+- (instancetype)initWithURL:(NSString*) loginURL 
       loginParams:(NSMutableDictionary*) params 
          delegate:(id <FBLoginDialogDelegate>) delegate{
   

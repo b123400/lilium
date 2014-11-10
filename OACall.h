@@ -42,14 +42,14 @@
 @property(readonly) NSDictionary *files;
 @property(nonatomic, retain) OAServiceTicket *ticket;
 
-- (id)init;
-- (id)initWithURL:(NSURL *)aURL;
-- (id)initWithURL:(NSURL *)aURL method:(NSString *)aMethod;
-- (id)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters;
-- (id)initWithURL:(NSURL *)aURL method:(NSString *)aMethod parameters:(NSArray *)theParameters;
-- (id)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters files:(NSDictionary*)theFiles;
+- (instancetype)init;
+- (instancetype)initWithURL:(NSURL *)aURL;
+- (instancetype)initWithURL:(NSURL *)aURL method:(NSString *)aMethod;
+- (instancetype)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters;
+- (instancetype)initWithURL:(NSURL *)aURL method:(NSString *)aMethod parameters:(NSArray *)theParameters;
+- (instancetype)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters files:(NSDictionary*)theFiles;
 
-- (id)initWithURL:(NSURL *)aURL
+- (instancetype)initWithURL:(NSURL *)aURL
 		   method:(NSString *)aMethod
 	   parameters:(NSArray *)theParameters
 			files:(NSDictionary*)theFiles;

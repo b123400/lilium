@@ -37,7 +37,7 @@ typedef unsigned long long SSTwitterID;
 @property (nonatomic, readonly) SSTwitterID userID;
 
 // the Twitter OAuth implementation sets the oauth_verifier to the PIN
--(NSString *)verifier;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *verifier;
 
 -(BOOL)parseHTTPKey:(NSString *)paramKey value:(id)body;
 

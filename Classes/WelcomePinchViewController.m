@@ -22,7 +22,7 @@
     return self;
 }
 */
--(id)init{
+-(instancetype)init{
 	return [super  initWithNibName:@"WelcomePinchViewController" bundle:nil];
 }
 /*

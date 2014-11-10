@@ -13,7 +13,7 @@
 
 -(NSMutableDictionary*)dictionaryRepresentation{
     NSMutableDictionary *dict=[super dictionaryRepresentation];
-    [dict setObject:reblogKey forKey:@"reblogKey"];
+    dict[@"reblogKey"] = reblogKey;
     return dict;
 }
 

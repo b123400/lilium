@@ -20,6 +20,6 @@
 @property (retain, nonatomic) NSArray *choices;
 
 +(MultipleChoiceViewController*)controllerWithChoices:(NSArray*)choices;
--(id)initWithChoices:(NSArray*)choices;
+-(instancetype)initWithChoices:(NSArray*)choices;
 
 @end

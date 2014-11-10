@@ -41,12 +41,12 @@ NSString *const kJSONDeserializerErrorDomain  = @"CJSONDeserializerErrorDomain";
 
 @synthesize scanner;
 
-+ (id)deserializer
++ (instancetype)deserializer
 {
 return([[[self alloc] init] autorelease]);
 }
 
-- (id)init
+- (instancetype)init
 {
 if ((self = [super init]) != NULL)
     {

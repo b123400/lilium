@@ -20,7 +20,7 @@
 
 -(NSArray*)referenceStatuses:(StatusRequestDirection)direction;
 -(Status*)firstStatusCachedWithSource:(StatusSourceType)source direction:(BOOL)isForward;
--(int)tumblrOffset;
+@property (NS_NONATOMIC_IOSONLY, readonly) int tumblrOffset;
 
 @end
 
@@ -33,7 +33,7 @@ static TimelineManager *sharedManager=nil;
 	}
 	return sharedManager;
 }
--(id)init{
+-(instancetype)init{
 	statuses=[[NSMutableArray alloc] init];
 	[self resetTimer];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusDidPreloadedThumbImage:) name:StatusDidPreloadedImageNotification object:nil];
@@ -101,7 +101,7 @@ static TimelineManager *sharedManager=nil;
 }
 -(Status*)randomStatus{
     if(!statuses.count)return nil;
-    return [statuses objectAtIndex:arc4random()%statuses.count];
+    return statuses[arc4random()%statuses.count];
 }
 -(void)removeAllStatusWithSource:(StatusSourceType)source{
     NSArray *statusesToRemove=[statuses filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
@@ -148,7 +148,7 @@ static TimelineManager *sharedManager=nil;
 #pragma mark -
 -(void)loadLatestRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
 	NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
-	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+	[_statuses sortUsingDescriptors:@[descriptor]];
     
     [statuses insertObjects:_statuses atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
     [loadLatestRequest release];
@@ -160,7 +160,7 @@ static TimelineManager *sharedManager=nil;
 }
 -(void)loadNewerRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
 	NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
-	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+	[_statuses sortUsingDescriptors:@[descriptor]];
     
     [statuses insertObjects:_statuses atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [_statuses count])]];
     [loadNewerRequest release];
@@ -172,7 +172,7 @@ static TimelineManager *sharedManager=nil;
 }
 -(void)loadOlderRequestFinished:(Request*)request withStatuses:(NSMutableArray*)_statuses withError:(NSError*)error{
     NSSortDescriptor *descriptor=[[[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO]autorelease];
-	[_statuses sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+	[_statuses sortUsingDescriptors:@[descriptor]];
     
     [statuses addObjectsFromArray:_statuses];
     [loadOlderRequest release];
@@ -238,7 +238,7 @@ static TimelineManager *sharedManager=nil;
 -(Status*)firstStatusCachedWithSource:(StatusSourceType)source direction:(BOOL)isForward{
 	if(![statuses count])return nil;
 	for(int i=(isForward?0:[statuses count]-1);((isForward&&i<[statuses count])||(!isForward&&i>=0));i+=(isForward?1:-1)){
-		Status *thisStatus=[statuses objectAtIndex:i];
+		Status *thisStatus=statuses[i];
 		if(thisStatus.user.type==source)return thisStatus;
 	}
 	return nil;

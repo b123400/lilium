@@ -12,11 +12,11 @@
 @implementation StatusesRequest
 @synthesize  twitterStatus, facebookStatus, instagramStatus, flickrStatus, tumblrStatus, plurkStatus,referenceStatuses,referenceUsers,direction,tumblrOffset;
 
-+(id)requestWithRequestType:(StatusRequestType)_type{
++(instancetype)requestWithRequestType:(StatusRequestType)_type{
 	return [[[StatusesRequest alloc]initWithRequestType:_type]autorelease];
 }
 
--(id)initWithRequestType:(StatusRequestType)_type{
+-(instancetype)initWithRequestType:(StatusRequestType)_type{
 	type=_type;
     errors=[[NSMutableDictionary alloc] init];
 	return [super init];
@@ -30,10 +30,10 @@
 	return type;
 }
 -(NSError*)errorForSource:(StatusSourceType)source{
-    return [errors objectForKey:[NSNumber numberWithInt:source]];
+    return errors[[NSNumber numberWithInt:source]];
 }
 -(void)setError:(NSError*)error forSource:(StatusSourceType)source{
-    [errors setObject:error forKey:[NSNumber numberWithInt:source]];
+    errors[[NSNumber numberWithInt:source]] = error;
 }
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone{

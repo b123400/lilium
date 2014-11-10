@@ -43,11 +43,11 @@
 }
 
 
-- (id)init;
+- (instancetype)init;
 
-- (id)initWithConsumer:(OAConsumer *)aConsumer token:(OAToken *)aToken oauthBase:(const NSString *)base
+- (instancetype)initWithConsumer:(OAConsumer *)aConsumer token:(OAToken *)aToken oauthBase:(const NSString *)base
 				 realm:(const NSString *)aRealm callback:(const NSString *)aCallback
-			  delegate:(NSObject <OATokenManagerDelegate> *)aDelegate;
+			  delegate:(NSObject <OATokenManagerDelegate> *)aDelegate NS_DESIGNATED_INITIALIZER;
 
 - (void)authorizedToken:(const NSString *)key;
 

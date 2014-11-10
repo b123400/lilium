@@ -18,7 +18,7 @@
 -(void)panned:(UIPanGestureRecognizer*)gestureRecognizer;
 -(void)popWithScale:(float)scale andState:(UIGestureRecognizerState)state;
 
--(NSMutableArray*)centerPoints;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableArray *centerPoints;
 
 //push
 -(void)zoomInHide:(UIView*)theView;
@@ -54,7 +54,7 @@ static float bounceAnimationDuration=1.0;
 static float pressZoomFactor=1.2;
 static float pressShiftFactor=0.2;
 
--(id)initWithCoder:(NSCoder *)aDecoder{
+-(instancetype)initWithCoder:(NSCoder *)aDecoder{
 	lastTouchedPoint=CGPointMake([BRFunctions screenSize].width/2, [BRFunctions screenSize].height/2);
 	return [super initWithCoder:aDecoder];
 }
@@ -104,18 +104,18 @@ static float pressShiftFactor=0.2;
         }
     }else if(state==UIGestureRecognizerStateChanged&&scale<1){
 		if([[self viewControllers]count]<=1)return;
-		if([[[self viewControllers] objectAtIndex:0]class]==[UIViewController class]&&[[self viewControllers]count]==2){
+		if([[self viewControllers][0]class]==[UIViewController class]&&[[self viewControllers]count]==2){
 			return;
 		}
-		UIViewController *targetController=[[self viewControllers] objectAtIndex:[[self viewControllers] count]-2];
+		UIViewController *targetController=[self viewControllers][[[self viewControllers] count]-2];
 		
 		NSArray *viewsToAnimate=[self subviewsToAnimateForViewController:[self topViewController]];
 		
 		int indexOfNextViewController=[[self viewControllers]indexOfObject:targetController];
-		lastTouchedPoint=[((NSValue*)[[self centerPoints] objectAtIndex:indexOfNextViewController]) CGPointValue];
+		lastTouchedPoint=[((NSValue*)[self centerPoints][indexOfNextViewController]) CGPointValue];
 				
 		for(int i=0;i<viewsToAnimate.count;i++){
-            UIView *thisView=[viewsToAnimate objectAtIndex:i];
+            UIView *thisView=viewsToAnimate[i];
 			//thisView.layer.position
 			CGPoint relativeTarget=[self.view convertPoint:lastTouchedPoint toView:thisView.superview];
 			float delay=pow((578-[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint]/zoomDelayPerPixelFromCenter)/500,8)+1.0f;
@@ -139,7 +139,7 @@ static float pressShiftFactor=0.2;
         }
 		if(scale<0.9){
 			if([[self viewControllers] count]>1){
-				if([[[self viewControllers] objectAtIndex:0]class]==[UIViewController class]&&[[self viewControllers]count]==2){
+				if([[self viewControllers][0]class]==[UIViewController class]&&[[self viewControllers]count]==2){
 					return;
 				}
 				if(isAnimating)return;
@@ -152,7 +152,7 @@ static float pressShiftFactor=0.2;
 			NSArray *viewsToAnimate=[self subviewsToAnimateForViewController:[self topViewController]];
 			
 			for(int i=0;i<viewsToAnimate.count;i++){
-                UIView *thisView=[viewsToAnimate objectAtIndex:i];
+                UIView *thisView=viewsToAnimate[i];
 				[UIView animateWithDuration:animationDuration animations:^{
 					CATransform3D transform=CATransform3DMakeTranslation(0, 0, 0);
 					thisView.layer.transform=transform;
@@ -234,21 +234,21 @@ static float pressShiftFactor=0.2;
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
 	for(int i=0;i<viewsToAnimate.count;i++){
-        UIView *thisView=[viewsToAnimate objectAtIndex:i];
+        UIView *thisView=viewsToAnimate[i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
-		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
+		[delayTimes addObject:@(thisDelay)];
 		if(thisDelay<minimumDelay){
 			minimumDelay=thisDelay;
 		}
 	}
 	for(int i=0;i<[delayTimes count];i++){
-		[delayTimes replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:[[delayTimes objectAtIndex:i]floatValue]-minimumDelay]];
+		delayTimes[i] = @([delayTimes[i]floatValue]-minimumDelay);
 	}
 	
 	float maxDelay=0;
 	for (int i=0;i<[viewsToAnimate count];i++) {
-		UIView *thisView = [viewsToAnimate objectAtIndex:i];
-		float thisDelay=[[delayTimes objectAtIndex:i]floatValue];
+		UIView *thisView = viewsToAnimate[i];
+		float thisDelay=[delayTimes[i]floatValue];
 		[self performSelector:@selector(zoomInHide:) withObject:thisView afterDelay:thisDelay];
 		if(!disableFade){
 			if(thisDelay>maxDelay){
@@ -267,7 +267,7 @@ static float pressShiftFactor=0.2;
 	
 	NSArray *animatedViews=[self subviewsToAnimateForViewController:lastController];
     for(int i=0;i<animatedViews.count;i++){
-        UIView *thisView=[animatedViews objectAtIndex:i];
+        UIView *thisView=animatedViews[i];
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;
@@ -294,21 +294,21 @@ static float pressShiftFactor=0.2;
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
 	for(int i=0;i< viewsToAnimate.count;i++){
-        UIView *thisView=[viewsToAnimate objectAtIndex:i];
+        UIView *thisView=viewsToAnimate[i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
-		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
+		[delayTimes addObject:@(thisDelay)];
 		if(thisDelay<minimumDelay){
 			minimumDelay=thisDelay;
 		}
 	}
 	for(int i=0;i<[delayTimes count];i++){
-		[delayTimes replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:[[delayTimes objectAtIndex:i]floatValue]-minimumDelay]];
+		delayTimes[i] = @([delayTimes[i]floatValue]-minimumDelay);
 	}
 	
 	float maxDelay=0;
 	for (int i=0;i<[viewsToAnimate count];i++) {
-		UIView *thisView = [viewsToAnimate objectAtIndex:i];
-		float thisDelay=[[delayTimes objectAtIndex:i]floatValue];
+		UIView *thisView = viewsToAnimate[i];
+		float thisDelay=[delayTimes[i]floatValue];
 		
 		[self prepareZoomInShow:thisView];
 		if(reallyPush){
@@ -354,7 +354,7 @@ static float pressShiftFactor=0.2;
 	if(!disableFade){
 		CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
 		fadeAnimation.timingFunction=positionAnimation.timingFunction;
-		[fadeAnimation setToValue:[NSNumber numberWithFloat:0]];
+		[fadeAnimation setToValue:@0.0f];
 		fadeAnimation.fillMode = kCAFillModeForwards;
 		fadeAnimation.removedOnCompletion = positionAnimation.removedOnCompletion;
 		fadeAnimation.duration=positionAnimation.duration;//0.13;
@@ -409,7 +409,7 @@ static float pressShiftFactor=0.2;
 	if(!disableFade){
 		CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
 		//fadeAnimation.timingFunction=positionAnimation.timingFunction;
-		[fadeAnimation setToValue:[NSNumber numberWithFloat:1]];
+		[fadeAnimation setToValue:@1.0f];
 		fadeAnimation.fillMode = kCAFillModeForwards;
 		fadeAnimation.removedOnCompletion = NO;
 		fadeAnimation.duration=animationDuration;//0.13;
@@ -422,7 +422,7 @@ static float pressShiftFactor=0.2;
 	viewController.view.userInteractionEnabled=YES;
 	NSArray *views=[self subviewsToAnimateForViewController:viewController];
     for(int i=0;i<views.count;i++){
-        UIView *thisView=[views objectAtIndex:i];
+        UIView *thisView=views[i];
 		if([thisView class]!=[UIActivityIndicatorView class]){
 			[thisView.layer removeAnimationForKey:@"positionx"];
             [thisView.layer removeAnimationForKey:@"positiony"];
@@ -448,16 +448,16 @@ static float pressShiftFactor=0.2;
 -(UIViewController*)popToRootViewControllerAnimated:(BOOL)animated{
     UIViewController *topController=[self topViewController];
 	if([[self viewControllers]count]>1){
-		[self popToViewController:[[self viewControllers] objectAtIndex:0] animated:animated];
+		[self popToViewController:[self viewControllers][0] animated:animated];
 	}
     return topController;
 }
 -(NSArray*)popToViewController:(UIViewController *)viewController animated:(BOOL)animated{
-	if([[self viewControllers]count]<=1)return [NSArray arrayWithObject:[self topViewController]];
+	if([[self viewControllers]count]<=1)return @[[self topViewController]];
 	if(viewController){
 		nextController=viewController;
 	}else{
-		nextController=[[self viewControllers] objectAtIndex:[[self viewControllers] count]-2];
+		nextController=[self viewControllers][[[self viewControllers] count]-2];
 	}
 	if(!animated){
 		return [super popToViewController:nextController animated:animated];
@@ -469,26 +469,26 @@ static float pressShiftFactor=0.2;
 	NSArray *viewsToAnimate=[self subviewsToAnimateForViewController:[self topViewController]];
 	
 	int indexOfNextViewController=[[self viewControllers]indexOfObject:nextController];
-	lastTouchedPoint=[((NSValue*)[[self centerPoints] objectAtIndex:indexOfNextViewController]) CGPointValue];
+	lastTouchedPoint=[((NSValue*)[self centerPoints][indexOfNextViewController]) CGPointValue];
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
 	for(int i=0;i<viewsToAnimate.count;i++){
-        UIView *thisView=[viewsToAnimate objectAtIndex:i];
+        UIView *thisView=viewsToAnimate[i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
-		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
+		[delayTimes addObject:@(thisDelay)];
 		if(thisDelay<minimumDelay){
 			minimumDelay=thisDelay;
 		}
 	}
 	for(int i=0;i<[delayTimes count];i++){
-		[delayTimes replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:[[delayTimes objectAtIndex:i]floatValue]-minimumDelay]];
+		delayTimes[i] = @([delayTimes[i]floatValue]-minimumDelay);
 	}
 	
 	float maxDelay=0;
 	for (int i=0;i<[viewsToAnimate count];i++) {
-		UIView *thisView = [viewsToAnimate objectAtIndex:i];
-		float thisDelay=[[delayTimes objectAtIndex:i]floatValue];
+		UIView *thisView = viewsToAnimate[i];
+		float thisDelay=[delayTimes[i]floatValue];
 		[self performSelector:@selector(zoomOutHide:) withObject:thisView afterDelay:thisDelay];
 		if(!disableFade){
 			if(thisDelay>maxDelay){
@@ -529,7 +529,7 @@ static float pressShiftFactor=0.2;
 	if(!disableFade){
 		CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
 		fadeAnimation.timingFunction=positionAnimation.timingFunction;
-		[fadeAnimation setToValue:[NSNumber numberWithFloat:0]];
+		[fadeAnimation setToValue:@0.0f];
 		fadeAnimation.fillMode = kCAFillModeForwards;
 		fadeAnimation.removedOnCompletion = positionAnimation.removedOnCompletion;
 		fadeAnimation.duration=positionAnimation.duration;//0.13;
@@ -541,7 +541,7 @@ static float pressShiftFactor=0.2;
 -(void)popOutToViewController:(UIViewController*)viewController{
 	NSArray *animatedViews=[self subviewsToAnimateForViewController:[self topViewController]];
     for(int i=0;i<animatedViews.count;i++){
-        UIView *thisView=[animatedViews objectAtIndex:i];
+        UIView *thisView=animatedViews[i];
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;
@@ -565,21 +565,21 @@ static float pressShiftFactor=0.2;
 	NSMutableArray *delayTimes=[NSMutableArray array];
 	float minimumDelay=MAXFLOAT;
 	for(int i=0;i<viewsToAnimate.count;i++){
-        UIView *thisView=[viewsToAnimate objectAtIndex:i];
+        UIView *thisView=viewsToAnimate[i];
 		float thisDelay=[self timeDelayForView:thisView atZoomingPoint:lastTouchedPoint];
-		[delayTimes addObject:[NSNumber numberWithFloat:thisDelay]];
+		[delayTimes addObject:@(thisDelay)];
 		if(thisDelay<minimumDelay){
 			minimumDelay=thisDelay;
 		}
 	}
 	for(int i=0;i<[delayTimes count];i++){
-		[delayTimes replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:[[delayTimes objectAtIndex:i]floatValue]-minimumDelay]];
+		delayTimes[i] = @([delayTimes[i]floatValue]-minimumDelay);
 	}
 	
 	float maxDelay=0;
 	for (int i=0;i<[viewsToAnimate count];i++) {
-		UIView *thisView = [viewsToAnimate objectAtIndex:i];
-		float thisDelay=[[delayTimes objectAtIndex:i]floatValue];
+		UIView *thisView = viewsToAnimate[i];
+		float thisDelay=[delayTimes[i]floatValue];
 		
 		[self prepareZoomOutShow:thisView];
 		[self performSelector:@selector(zoomOutShow:) withObject:thisView afterDelay:thisDelay];
@@ -646,7 +646,7 @@ static float pressShiftFactor=0.2;
 	if(!disableFade){
 		CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
 		//fadeAnimation.timingFunction=positionAnimation.timingFunction;
-		[fadeAnimation setFromValue:[NSNumber numberWithFloat:fadeOutOpacity]];
+		[fadeAnimation setFromValue:@(fadeOutOpacity)];
 		fadeAnimation.fillMode = kCAFillModeForwards;
 		fadeAnimation.removedOnCompletion = NO;
 		fadeAnimation.duration=animationDuration;//0.13;
@@ -659,7 +659,7 @@ static float pressShiftFactor=0.2;
 	[self topViewController].view.userInteractionEnabled=YES;
 	NSArray *views=[self subviewsToAnimateForViewController:viewController];
     for(int i=0;i<views.count;i++){
-        UIView *thisView=[views objectAtIndex:i];
+        UIView *thisView=views[i];
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;
@@ -672,14 +672,14 @@ static float pressShiftFactor=0.2;
 -(void)didTouchMovedTransparentView:(id)sender atPoint:(CGPoint)point{
 	NSArray *subviews=[self subviewsToAnimateForViewController:[self topViewController]];
     for(int i=0;i<subviews.count;i++) {
-        UIView *thisView=[subviews objectAtIndex:i];
+        UIView *thisView=subviews[i];
 		thisView.layer.transform=CATransform3DScale(CATransform3DMakeTranslation((point.x-thisView.frame.origin.x)*pressShiftFactor, (point.y-thisView.frame.origin.y)*pressShiftFactor, 0), 1/pressZoomFactor, 1/pressZoomFactor, 1/pressZoomFactor);
 	}
 }
 -(void)didTouchEndedTransparentView:(id)sender atPoint:(CGPoint)point{
 	NSArray *subviews=[self subviewsToAnimateForViewController:[self topViewController]];
     for(int i=0;i<subviews.count;i++) {
-        UIView *thisView=[subviews objectAtIndex:i];
+        UIView *thisView=subviews[i];
 		thisView.layer.transform=CATransform3DScale(CATransform3DMakeTranslation(0,0, 0), 1, 1, 1);
 	}
 }

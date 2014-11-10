@@ -20,7 +20,7 @@
 @implementation BRInstagramEngine
 @synthesize redirectUri, scope,accessToken,delegate;
 
--(id)initWithClientID:(NSString*)_clientID secret:(NSString*)_clientSecret{
+-(instancetype)initWithClientID:(NSString*)_clientID secret:(NSString*)_clientSecret{
 	clientID=[_clientID retain];
 	clientSecret=[_clientSecret retain];
     requests=[[NSMutableArray alloc]init];
@@ -72,14 +72,14 @@
 }
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)_params withMethod:(NSString *)method{
     NSMutableDictionary *params=[NSMutableDictionary dictionaryWithDictionary:_params];
-    [params setObject:accessToken forKey:@"access_token"];
+    params[@"access_token"] = accessToken;
     
 	NSMutableString *paramString=[NSMutableString string];
 	for(NSString *key in params){
         if(paramString.length){
-            [paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+            [paramString appendFormat:@"&%@=%@",key,params[key]];
         }else{
-            [paramString appendFormat:@"%@=%@",key,[params objectForKey:key]];
+            [paramString appendFormat:@"%@=%@",key,params[key]];
         }
 	}
     ASIFormDataRequest *request=[ASIFormDataRequest requestWithURL:[NSURL URLWithString:@""]];
@@ -117,7 +117,7 @@
     if(request.responseStatusCode>=400){
         NSMutableDictionary *userInfo=[NSMutableDictionary dictionary];
         if(request.responseStatusCode==400){
-            [userInfo setObject:@"You are not allowed to view this user's photos." forKey:NSLocalizedDescriptionKey];
+            userInfo[NSLocalizedDescriptionKey] = @"You are not allowed to view this user's photos.";
         }
         error=[NSError errorWithDomain:@"net.b123400.engine.instagram" code:request.responseStatusCode userInfo:userInfo];
         [self failedWithError:error forRequestIdentifier:[request identifier]];
@@ -146,20 +146,20 @@
 -(NSString*)getSelfFeedWithMinID:(NSString*)minID maxID:(NSString*)maxID{
 	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"20" forKey:@"count"];
 	if(minID){
-		[params setObject:minID forKey:@"min_id"];
+		params[@"min_id"] = minID;
 	}
     if(maxID){
-		[params setObject:maxID forKey:@"max_id"];
+		params[@"max_id"] = maxID;
 	}
 	return [self performRequestWithPath:@"users/self/feed" parameters:params];
 }
 -(NSString*)getUserFeedWithUserID:(NSString*)userID minID:(NSString*)minID maxID:(NSString*)maxID{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
     if(minID){
-        [params setObject:minID forKey:@"min_id"];
+        params[@"min_id"] = minID;
     }
     if(maxID){
-        [params setObject:maxID forKey:@"max_id"];
+        params[@"max_id"] = maxID;
     }
     return [self performRequestWithPath:[NSString stringWithFormat:@"users/%@/media/recent",userID] parameters:params];
 }

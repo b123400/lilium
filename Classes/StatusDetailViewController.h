@@ -46,7 +46,7 @@
 }
 @property (nonatomic,readonly) Status *status;
 @property (nonatomic,assign) id <StatusDetailViewControllerDelegate> delegate;
--(id)initWithStatus:(Status*)_status;
+-(instancetype)initWithStatus:(Status*)_status;
 
 -(void)refreshLikeButton;
 - (IBAction)likeButtonClicked:(id)sender;

@@ -20,7 +20,7 @@
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization.
@@ -29,7 +29,7 @@
     return self;
 }
 
--(id)initWithInstagramEngine:(BRInstagramEngine*)_engine{
+-(instancetype)initWithInstagramEngine:(BRInstagramEngine*)_engine{
 	backgroundBorderView=[[UIView alloc]init];
 	return [super initWithInstagramEngine:_engine];
 }

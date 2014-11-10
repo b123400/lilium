@@ -23,29 +23,29 @@ const NSString *token_not_renewable = @"token_not_renewable";
 
 @synthesize problem;
 
-- (id)initWithPointer:(const NSString *) aPointer
+- (instancetype)initWithPointer:(const NSString *) aPointer
 {
 	[super init];
 	problem = aPointer;
 	return self;
 }
 
-- (id)initWithProblem:(const NSString *) aProblem
+- (instancetype)initWithProblem:(const NSString *) aProblem
 {
 	NSUInteger idx = [[OAProblem validProblems] indexOfObject:aProblem];
 	if (idx == NSNotFound) {
 		return nil;
 	}
 	
-	return [self initWithPointer: [[OAProblem validProblems] objectAtIndex:idx]];
+	return [self initWithPointer: [OAProblem validProblems][idx]];
 }
 	
-- (id)initWithResponseBody:(const NSString *) response
+- (instancetype)initWithResponseBody:(const NSString *) response
 {
 	NSArray *fields = [response componentsSeparatedByString:@"&"];
 	for (NSString *field in fields) {
 		if ([field hasPrefix:@"oauth_problem="]) {
-			NSString *value = [[field componentsSeparatedByString:@"="] objectAtIndex:1];
+			NSString *value = [field componentsSeparatedByString:@"="][1];
 			return [self initWithProblem:value];
 		}
 	}

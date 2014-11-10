@@ -91,12 +91,10 @@ static NSMutableDictionary *colorNameCache = nil;
 	CGFloat r,g,b,a;
 	if (![self red:&r green:&g blue:&b alpha:&a]) return nil;
 	
-	return [NSArray arrayWithObjects:
-			[NSNumber numberWithFloat:r],
+	return @[[NSNumber numberWithFloat:r],
 			[NSNumber numberWithFloat:g],
 			[NSNumber numberWithFloat:b],
-			[NSNumber numberWithFloat:a],
-			nil];
+			[NSNumber numberWithFloat:a]];
 }
 
 - (BOOL)red:(CGFloat *)red green:(CGFloat *)green blue:(CGFloat *)blue alpha:(CGFloat *)alpha {
@@ -376,7 +374,7 @@ static NSMutableDictionary *colorNameCache = nil;
 	UIColor *color;
 	@synchronized(colorNameCache) {
 		// Look for the color in the cache
-		color = [colorNameCache objectForKey:cssColorName];
+		color = colorNameCache[cssColorName];
 		
 		if ((id)color == [NSNull null]) {
 			// If it wasn't there previously, it's still not there now
@@ -386,8 +384,7 @@ static NSMutableDictionary *colorNameCache = nil;
 			color = [self searchForColorByName:cssColorName];
 			
 			// Set the value in cache, storing NSNull on failure
-			[colorNameCache setObject:(color ?: (id)[NSNull null])
-							   forKey:cssColorName];
+			colorNameCache[cssColorName] = (color ?: (id)[NSNull null]);
 		}
 	}
 	

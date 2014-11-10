@@ -53,7 +53,7 @@ static NSCharacterSet *sDoubleCharacters = NULL;
 
 @implementation CDataScanner
 
-- (id)init
+- (instancetype)init
 {
 if ((self = [super init]) != NULL)
 	{
@@ -61,7 +61,7 @@ if ((self = [super init]) != NULL)
 return(self);
 }
 
-- (id)initWithData:(NSData *)inData;
+- (instancetype)initWithData:(NSData *)inData;
 {
 if ((self = [self init]) != NULL)
 	{
@@ -169,7 +169,7 @@ if (strncmp((char *)current, inString, theLength) == 0)
 	{
 	current += theLength;
 	if (outValue)
-		*outValue = [NSString stringWithUTF8String:inString];
+		*outValue = @(inString);
 	return(YES);
 	}
 return(NO);
@@ -257,7 +257,7 @@ NSString *theString = NULL;
 if ([self scanCharactersFromSet:sDoubleCharacters intoString:&theString])
 	{
 	if (outValue)
-		*outValue = [NSNumber numberWithDouble:[theString doubleValue]]; // TODO dont use doubleValue
+		*outValue = @([theString doubleValue]); // TODO dont use doubleValue
 	return(YES);
 	}
 return(NO);

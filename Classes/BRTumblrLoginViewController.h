@@ -30,7 +30,7 @@
 
 @property (nonatomic,assign) id <BRTumblrLoginViewControllerDelegate> delegate;
 
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
--(id)initWithConsumer:(OAConsumer*)_consumer;
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer;
 
 @end

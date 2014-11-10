@@ -12,13 +12,13 @@
 @property (nonatomic, readonly) CGFloat alpha;
 @property (nonatomic, readonly) UInt32 rgbHex;
 
-- (NSString *)colorSpaceString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *colorSpaceString;
 
 - (NSArray *)arrayFromRGBAComponents;
 
 - (BOOL)red:(CGFloat *)r green:(CGFloat *)g blue:(CGFloat *)b alpha:(CGFloat *)a;
 
-- (UIColor *)colorByLuminanceMapping;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) UIColor *colorByLuminanceMapping;
 
 - (UIColor *)colorByMultiplyingByRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
 - (UIColor *)       colorByAddingRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue alpha:(CGFloat)alpha;
@@ -35,8 +35,8 @@
 - (UIColor *) colorByLighteningToColor:(UIColor *)color;
 - (UIColor *)  colorByDarkeningToColor:(UIColor *)color;
 
-- (NSString *)stringFromColor;
-- (NSString *)hexStringFromColor;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *stringFromColor;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *hexStringFromColor;
 
 + (UIColor *)randomColor;
 + (UIColor *)colorWithString:(NSString *)stringToConvert;
@@ -45,7 +45,7 @@
 
 + (UIColor *)colorWithName:(NSString *)cssColorName;
 
-- (UIColor *) inverseColor;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) UIColor *inverseColor;
 
 @end
 

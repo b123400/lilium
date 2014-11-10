@@ -30,13 +30,13 @@
 @interface OAMutableURLRequest (Private)
 - (void)_generateTimestamp;
 - (void)_generateNonce;
-- (NSString *)_signatureBaseString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *_signatureBaseString;
 @end
 
 @interface OAToken (shutup)
 
--(id)pin;
--(id)oauth_token;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id pin;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id oauth_token;
 
 @end
 
@@ -45,7 +45,7 @@
 
 #pragma mark init
 
-- (id)initWithURL:(NSURL *)aUrl
+- (instancetype)initWithURL:(NSURL *)aUrl
 		 consumer:(OAConsumer *)aConsumer
 			token:(OAToken *)aToken
             realm:(NSString *)aRealm
@@ -83,7 +83,7 @@ signatureProvider:(id<OASignatureProviding, NSObject>)aProvider {
 
 // Setting a timestamp and nonce to known
 // values can be helpful for testing
-- (id)initWithURL:(NSURL *)aUrl
+- (instancetype)initWithURL:(NSURL *)aUrl
 		 consumer:(OAConsumer *)aConsumer
 			token:(OAToken *)aToken
             realm:(NSString *)aRealm
@@ -117,7 +117,7 @@ signatureProvider:(id<OASignatureProviding, NSObject>)aProvider
 
 	NSDictionary *tokenParameters = [token parameters];
 	for (NSString *k in tokenParameters) {
-		[chunks addObject:[NSString stringWithFormat:@"%@=\"%@\"", k, [[tokenParameters objectForKey:k] encodedURLParameterString]]];
+		[chunks addObject:[NSString stringWithFormat:@"%@=\"%@\"", k, [tokenParameters[k] encodedURLParameterString]]];
 	}
 
 	[chunks addObject:[NSString stringWithFormat:@"oauth_signature_method=\"%@\"", [[signatureProvider name] encodedURLParameterString]]];
@@ -180,7 +180,7 @@ signatureProvider:(id<OASignatureProviding, NSObject>)aProvider
 		[parameterPairs addObject:[[[[OARequestParameter alloc] initWithName:@"oauth_callback" value:@"perSecond://authed"] autorelease] URLEncodedNameValuePair]];
 	}
 	for(NSString *k in tokenParameters) {
-		[parameterPairs addObject:[[OARequestParameter requestParameter:k value:[tokenParameters objectForKey:k]] URLEncodedNameValuePair]];
+		[parameterPairs addObject:[[OARequestParameter requestParameter:k value:tokenParameters[k]] URLEncodedNameValuePair]];
 	}
     
 	if (![[self valueForHTTPHeaderField:@"Content-Type"] hasPrefix:@"multipart/form-data"]) {

@@ -41,6 +41,6 @@
 @property(readonly) BOOL didSucceed;
 @property(readonly) NSString *body;
 
-- (id)initWithRequest:(OAMutableURLRequest *)aRequest response:(NSURLResponse *)aResponse data:(NSData *)aData didSucceed:(BOOL)success;
+- (instancetype)initWithRequest:(OAMutableURLRequest *)aRequest response:(NSURLResponse *)aResponse data:(NSData *)aData didSucceed:(BOOL)success NS_DESIGNATED_INITIALIZER;
 
 @end

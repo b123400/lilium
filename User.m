@@ -35,7 +35,7 @@
     }
 }
 
--(id)init{
+-(instancetype)init{
     [[User allUsers] addObject:self];
     return [super init];
 }
@@ -122,25 +122,25 @@
 }
 #pragma mark -
 +(User*)userWithDictionary:(NSDictionary*)dict{
-    NSString *dictClass=[dict objectForKey:@"class"];
+    NSString *dictClass=dict[@"class"];
     if(dictClass&&![dictClass isEqualToString:NSStringFromClass([self class])]){
         return [NSClassFromString(dictClass) userWithDictionary:dict];
     }
-    StatusSourceType type=[[dict objectForKey:@"type"] intValue];
-    User *thisUser=[User userWithType:type userID:[dict objectForKey:@"userID"]];
-    thisUser.displayName=[dict objectForKey:@"displayName"];
-    thisUser.username=[dict objectForKey:@"username"];
-    if([dict objectForKey:@"profilePicture"])thisUser.profilePicture=[NSURL URLWithString:[dict objectForKey:@"profilePicture"]];
+    StatusSourceType type=[dict[@"type"] intValue];
+    User *thisUser=[User userWithType:type userID:dict[@"userID"]];
+    thisUser.displayName=dict[@"displayName"];
+    thisUser.username=dict[@"username"];
+    if(dict[@"profilePicture"])thisUser.profilePicture=[NSURL URLWithString:dict[@"profilePicture"]];
     return thisUser;
 }
 -(NSMutableDictionary*)dictionaryRepresentation{
     NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-    if(self.displayName)[dict setObject:self.displayName forKey:@"displayName"];
-    if(self.userID)[dict setObject:self.userID forKey:@"userID"];
-    if(self.username)[dict setObject:self.username forKey:@"username"];
-    if(self.profilePicture)[dict setObject:self.profilePicture.absoluteString forKey:@"profilePicture"];
-    [dict setObject:[NSNumber numberWithInt:self.type] forKey:@"type"];
-    [dict setObject:NSStringFromClass([self class]) forKey:@"class"];
+    if(self.displayName)dict[@"displayName"] = self.displayName;
+    if(self.userID)dict[@"userID"] = self.userID;
+    if(self.username)dict[@"username"] = self.username;
+    if(self.profilePicture)dict[@"profilePicture"] = self.profilePicture.absoluteString;
+    dict[@"type"] = [NSNumber numberWithInt:self.type];
+    dict[@"class"] = NSStringFromClass([self class]);
     return dict;
 }
 

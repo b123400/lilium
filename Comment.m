@@ -13,16 +13,16 @@
 
 +(Comment*)commentFromDictionary:(NSDictionary*)dictionary{
     Comment *newComment=[[[Comment alloc] init]autorelease];
-    if([dictionary objectForKey:@"text"])newComment.text=[dictionary objectForKey:@"text"];
-    if([dictionary objectForKey:@"user"])newComment.user=[User userWithDictionary:[dictionary objectForKey:@"user"]];
-    if([dictionary objectForKey:@"date"])newComment.date=[dictionary objectForKey:@"date"];
+    if(dictionary[@"text"])newComment.text=dictionary[@"text"];
+    if(dictionary[@"user"])newComment.user=[User userWithDictionary:dictionary[@"user"]];
+    if(dictionary[@"date"])newComment.date=dictionary[@"date"];
     return newComment;
 }
 -(NSDictionary*)dictionaryRepresentation{
     NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-    if(text)[dict setObject:text forKey:@"text"];
-    if(date)[dict setObject:date forKey:@"date"];
-    if(user)[dict setObject:[user dictionaryRepresentation] forKey:@"user"];
+    if(text)dict[@"text"] = text;
+    if(date)dict[@"date"] = date;
+    if(user)dict[@"user"] = [user dictionaryRepresentation];
     return dict;
 }
 

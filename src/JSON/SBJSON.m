@@ -31,7 +31,7 @@
 
 @implementation SBJSON
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         jsonWriter = [SBJsonWriter new];

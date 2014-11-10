@@ -29,8 +29,8 @@
 @property (nonatomic,retain) OAToken *accessToken;
 @property (nonatomic,assign) id <BRTumblrEngineDelegate> delegate;
 
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
--(id)initWithConsumer:(OAConsumer*)_consumer;
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer;
 
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSMutableDictionary*)params;
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSMutableDictionary*)params method:(NSString*)method;
@@ -39,7 +39,7 @@
 -(NSString*)getPostsWithBaseHostname:(NSString*)baseHostname offset:(int)offset;
 -(NSString*)likePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey;
 -(NSString*)unlikePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey;
--(NSString*)getUserBlogs;
+@property (NS_NONATOMIC_IOSONLY, getter=getUserBlogs, readonly, copy) NSString *userBlogs;
 -(NSString*)reblogPostWithBaseHostname:(NSString*)baseHostname postID:(NSString*)postID reblogKey:(NSString*)reblogKey comment:(NSString*)comment;
 -(NSString*)getBlogPostInfoWithBaseHostName:(NSString*)baseHostname postId:(NSString*)postID withNotes:(BOOL)withNotes;
 

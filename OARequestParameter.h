@@ -36,13 +36,13 @@
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *value;
 
-- (id)initWithName:(NSString *)aName value:(NSString *)aValue;
-- (NSString *)URLEncodedName;
-- (NSString *)URLEncodedValue;
-- (NSString *)URLEncodedNameValuePair;
+- (instancetype)initWithName:(NSString *)aName value:(NSString *)aValue NS_DESIGNATED_INITIALIZER;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *URLEncodedName;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *URLEncodedValue;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *URLEncodedNameValuePair;
 
 - (BOOL)isEqualToRequestParameter:(OARequestParameter *)parameter;
 
-+ (id)requestParameter:(NSString *)aName value:(NSString *)aValue;
++ (instancetype)requestParameter:(NSString *)aName value:(NSString *)aValue;
 
 @end

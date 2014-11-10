@@ -26,8 +26,8 @@
 @property (nonatomic,assign)    CGRect initialFrame;
 @property (nonatomic,assign)    CGRect finalFrame;
 
--(id)initWithImage:(UIImage*)image;
--(id)initWithImageURL:(NSURL*)url;
--(id)initWithImageURL:(NSURL*)url placeHolder:(UIImage*)placeHolderImage;
+-(instancetype)initWithImage:(UIImage*)image;
+-(instancetype)initWithImageURL:(NSURL*)url;
+-(instancetype)initWithImageURL:(NSURL*)url placeHolder:(UIImage*)placeHolderImage;
 
 @end

@@ -28,8 +28,8 @@
 
 @interface NSString (OAURLEncodingAdditions)
 
-- (NSString *)encodedURLString;
-- (NSString *)encodedURLParameterString;
-- (NSString *)decodedURLString;
-- (NSString *)removeQuotes;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *encodedURLString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *encodedURLParameterString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *decodedURLString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *removeQuotes;
 @end

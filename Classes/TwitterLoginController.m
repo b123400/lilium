@@ -31,7 +31,7 @@ static float loadingBorder=40.0;
     return self;
 }
 */
--(id)init{
+-(instancetype)init{
 	getter=[[BRTwitterOAuthTokenGetter alloc]initWithConsumerKey:kTwitterOAuthConsumerKey consumerSecret:kTwitterOAuthConsumerSecret];
 	getter.delegate=self;
 	[getter getRequestToken];
@@ -89,8 +89,8 @@ static float loadingBorder=40.0;
 	for(NSString *pair in pairs){
 		NSArray *thisPair=[pair componentsSeparatedByString:@"="];
 		if([thisPair count]>=2){
-			NSString *name=[thisPair objectAtIndex:0];
-			NSString *value=[thisPair objectAtIndex:1];
+			NSString *name=thisPair[0];
+			NSString *value=thisPair[1];
 			if([name isEqualToString:@"oauth_token"]){
 				oauthToken=[value retain];
 			}else if([name isEqualToString:@"oauth_verifier"]){

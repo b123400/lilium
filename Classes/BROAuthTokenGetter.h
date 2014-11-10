@@ -41,8 +41,8 @@
 
 @property (nonatomic,assign) id <BROAuthTokenGetterDelegate> delegate;
 
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
--(id)initWithConsumer:(OAConsumer*)_consumer;
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer;
 
 -(void)getRequestTokenWithURL:(NSURL*)url;
 -(void)getAccessTokenWithPin:(NSString*)pin url:(NSURL*)url;

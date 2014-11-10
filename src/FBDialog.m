@@ -222,7 +222,7 @@ BOOL FBIsDeviceIPad() {
   if (params) {
     NSMutableArray* pairs = [NSMutableArray array];
     for (NSString* key in params.keyEnumerator) {
-      NSString* value = [params objectForKey:key];
+      NSString* value = params[key];
       NSString* escaped_value = (NSString *)CFURLCreateStringByAddingPercentEscapes(
                                   NULL, /* allocator */
                                   (CFStringRef)value,
@@ -292,7 +292,7 @@ BOOL FBIsDeviceIPad() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // NSObject
 
-- (id)init {
+- (instancetype)init {
   if (self = [super initWithFrame:CGRectZero]) {
     _delegate = nil;
     _loadingURL = nil;
@@ -401,7 +401,7 @@ BOOL FBIsDeviceIPad() {
       NSString * errorCode = [self getStringFromUrl:[url absoluteString] needle:@"error_code="];
       NSString * errorStr = [self getStringFromUrl:[url absoluteString] needle:@"error_msg="];
       if (errorCode) {
-        NSDictionary * errorData = [NSDictionary dictionaryWithObject:errorStr forKey:@"error_msg"];
+        NSDictionary * errorData = @{@"error_msg": errorStr};
         NSError * error = [NSError errorWithDomain:@"facebookErrDomain"
                                               code:[errorCode intValue]
                                           userInfo:errorData];
@@ -516,7 +516,7 @@ BOOL FBIsDeviceIPad() {
   return str;
 }
 
-- (id)initWithURL: (NSString *) serverURL
+- (instancetype)initWithURL: (NSString *) serverURL
            params: (NSMutableDictionary *) params
          delegate: (id <FBDialogDelegate>) delegate {
 
@@ -588,7 +588,7 @@ BOOL FBIsDeviceIPad() {
 
   UIWindow* window = [UIApplication sharedApplication].keyWindow;
   if (!window) {
-    window = [[UIApplication sharedApplication].windows objectAtIndex:0];
+    window = ([UIApplication sharedApplication].windows)[0];
   }
 
   _modalBackgroundView.frame = window.frame;

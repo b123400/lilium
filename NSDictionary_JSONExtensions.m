@@ -33,7 +33,7 @@
 
 @implementation NSDictionary (NSDictionary_JSONExtensions)
 
-+ (id)dictionaryWithJSONData:(NSData *)inData error:(NSError **)outError
++ (instancetype)dictionaryWithJSONData:(NSData *)inData error:(NSError **)outError
 {
 return([[CJSONDeserializer deserializer] deserialize:inData error:outError]);
 }

@@ -59,7 +59,7 @@ else
 @synthesize nullObject;
 @synthesize allowedEncoding;
 
-- (id)init
+- (instancetype)init
 {
 if ((self = [super init]) != nil)
 	{
@@ -151,13 +151,13 @@ switch (C)
 	case 't':
 		if ([self scanUTF8String:"true" intoString:NULL])
 			{
-			theObject = [NSNumber numberWithBool:YES];
+			theObject = @YES;
 			}
 		break;
 	case 'f':
 		if ([self scanUTF8String:"false" intoString:NULL])
 			{
-			theObject = [NSNumber numberWithBool:NO];
+			theObject = @NO;
 			}
 		break;
 	case 'n':

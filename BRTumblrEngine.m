@@ -22,10 +22,10 @@
 @implementation BRTumblrEngine
 @synthesize delegate,accessToken;
 
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
 	return [self initWithConsumer:[[[OAConsumer alloc]initWithKey:consumerKey secret:consumerSecret]autorelease]];
 }
--(id)initWithConsumer:(OAConsumer*)_consumer{
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer{
 	consumer =[_consumer retain];
     fetchers=[[NSMutableArray alloc]init];
 	return [self init];
@@ -39,12 +39,12 @@
     if(![params isKindOfClass:[NSMutableDictionary class]]){
         params=[NSMutableDictionary dictionaryWithDictionary:params];
     }
-    [params setObject:consumer.key forKey:@"api_key"];
+    params[@"api_key"] = consumer.key;
 	for(NSString *key in params){
 		if([paramString length]){
-			[paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+			[paramString appendFormat:@"&%@=%@",key,params[key]];
 		}else{
-			[paramString appendFormat:@"%@=%@",key,[params objectForKey:key]];
+			[paramString appendFormat:@"%@=%@",key,params[key]];
 		}
 	}
 	
@@ -116,33 +116,33 @@
 -(NSString*)getUserDashBoardWithSinceID:(NSString*)sinceID offset:(int)offset{
 	NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"photo" forKey:@"type"];
 	if(sinceID){
-		[params setObject:sinceID forKey:@"since_id"];
+		params[@"since_id"] = sinceID;
 	}
 	if(offset){
-		[params setObject:[NSString stringWithFormat:@"%i",offset] forKey:@"offset"];
+		params[@"offset"] = [NSString stringWithFormat:@"%i",offset];
 	}
-    [params setObject:@"true" forKey:@"notes_info"];
+    params[@"notes_info"] = @"true";
 	return [self performRequestWithPath:@"user/dashboard" parameters:params];
 }
 -(NSString*)getPostsWithBaseHostname:(NSString*)baseHostname offset:(int)offset{
     NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObject:@"photo" forKey:@"type"];
     //[params setObject:baseHostname forKey:@"base-hostname"];
 	if(offset){
-		[params setObject:[NSString stringWithFormat:@"%i",offset] forKey:@"offset"];
+		params[@"offset"] = [NSString stringWithFormat:@"%i",offset];
 	}
     //[params setObject:@"true" forKey:@"notes_info"];
 	return [self performRequestWithPath:[NSString stringWithFormat:@"blog/%@/posts/photo",baseHostname] parameters:params];
 }
 -(NSString*)likePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
-    [params setObject:postID forKey:@"id"];
-    [params setObject:reblogKey forKey:@"reblog_key"];
+    params[@"id"] = postID;
+    params[@"reblog_key"] = reblogKey;
 	return [self performRequestWithPath:@"user/like" parameters:params method:@"post"];
 }
 -(NSString*)unlikePostWithID:(NSString*)postID reblogKey:(NSString*)reblogKey{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
-    [params setObject:postID forKey:@"id"];
-    [params setObject:reblogKey forKey:@"reblog_key"];
+    params[@"id"] = postID;
+    params[@"reblog_key"] = reblogKey;
 	return [self performRequestWithPath:@"user/unlike" parameters:params method:@"post"];
 }
 -(NSString*)getUserBlogs{
@@ -151,16 +151,16 @@
 }
 -(NSString*)reblogPostWithBaseHostname:(NSString*)baseHostname postID:(NSString*)postID reblogKey:(NSString*)reblogKey comment:(NSString*)comment{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
-    [params setObject:postID forKey:@"id"];
-    [params setObject:reblogKey forKey:@"reblog_key"];
-    if(comment)[params setObject:comment forKey:@"comment"];
+    params[@"id"] = postID;
+    params[@"reblog_key"] = reblogKey;
+    if(comment)params[@"comment"] = comment;
 	return [self performRequestWithPath:[NSString stringWithFormat:@"blog/%@/post/reblog",baseHostname] parameters:params method:@"post"];
 }
 -(NSString*)getBlogPostInfoWithBaseHostName:(NSString*)baseHostname postId:(NSString*)postID withNotes:(BOOL)withNotes{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
-    [params setObject:postID forKey:@"id"];
+    params[@"id"] = postID;
     if(withNotes){
-        [params setObject:@"true" forKey:@"notes_info"];
+        params[@"notes_info"] = @"true";
     }
 	return [self performRequestWithPath:[NSString stringWithFormat:@"blog/%@/posts",baseHostname] parameters:params];
 }

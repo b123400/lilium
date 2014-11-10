@@ -31,10 +31,10 @@
 
 @interface NSScanner (NSScanner_Extensions)
 
-- (NSString *)remainingString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *remainingString;
 
-- (unichar)currentCharacter;
-- (unichar)scanCharacter;
+@property (NS_NONATOMIC_IOSONLY, readonly) unichar currentCharacter;
+@property (NS_NONATOMIC_IOSONLY, readonly) unichar scanCharacter;
 - (BOOL)scanCharacter:(unichar)inCharacter;
 - (void)backtrack:(unsigned)inCount;
 

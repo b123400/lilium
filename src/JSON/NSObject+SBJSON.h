@@ -52,7 +52,7 @@
  
  @deprecated Given we bill ourselves as a "strict" JSON library, this method should be removed.
  */
-- (NSString *)JSONFragment;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *JSONFragment;
 
 /**
  @brief Returns a string containing the receiver encoded in JSON.
@@ -62,7 +62,7 @@
  @li NSDictionary
  @li NSArray
  */
-- (NSString *)JSONRepresentation;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *JSONRepresentation;
 
 @end
 

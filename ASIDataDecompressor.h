@@ -19,7 +19,7 @@
 }
 
 // Convenience constructor will call setupStream for you
-+ (id)decompressor;
++ (instancetype)decompressor;
 
 // Uncompress the passed chunk of data
 - (NSData *)uncompressBytes:(Bytef *)bytes length:(NSUInteger)length error:(NSError **)err;
@@ -31,11 +31,11 @@
 + (BOOL)uncompressDataFromFile:(NSString *)sourcePath toFile:(NSString *)destinationPath error:(NSError **)err;
 
 // Sets up zlib to handle the inflating. You only need to call this yourself if you aren't using the convenience constructor 'decompressor'
-- (NSError *)setupStream;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSError *setupStream;
 
 // Tells zlib to clean up. You need to call this if you need to cancel inflating part way through
 // If inflating finishes or fails, this method will be called automatically
-- (NSError *)closeStream;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSError *closeStream;
 
 @property (assign, readonly) BOOL streamReady;
 @end

@@ -57,7 +57,7 @@ static NSString* kSDKVersion = @"2";
 /**
  * Initialize the Facebook object with application ID.
  */
-- (id)initWithAppId:(NSString *)app_id {
+- (instancetype)initWithAppId:(NSString *)app_id {
   self = [super init];
   if (self) {
     [_appId release];
@@ -197,10 +197,10 @@ static NSString* kSDKVersion = @"2";
 	for (NSString *pair in pairs) {
 		NSArray *kv = [pair componentsSeparatedByString:@"="];
 		NSString *val =
-    [[kv objectAtIndex:1]
+    [kv[1]
      stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-		[params setObject:val forKey:[kv objectAtIndex:0]];
+		params[kv[0]] = val;
 	}
   return params;
 }
@@ -414,12 +414,12 @@ static NSString* kSDKVersion = @"2";
  */
 - (FBRequest*)requestWithParams:(NSMutableDictionary *)params
                     andDelegate:(id <FBRequestDelegate>)delegate {
-  if ([params objectForKey:@"method"] == nil) {
+  if (params[@"method"] == nil) {
     NSLog(@"API Method must be specified");
     return nil;
   }
 
-  NSString * methodName = [params objectForKey:@"method"];
+  NSString * methodName = params[@"method"];
   [params removeObjectForKey:@"method"];
 
   return [self requestWithMethodName:methodName
@@ -593,15 +593,15 @@ static NSString* kSDKVersion = @"2";
   [_fbDialog release];
 
   NSString *dialogURL = [kDialogBaseURL stringByAppendingString:action];
-  [params setObject:@"touch" forKey:@"display"];
-  [params setObject:kSDKVersion forKey:@"sdk"];
-  [params setObject:kRedirectURL forKey:@"redirect_uri"];
+  params[@"display"] = @"touch";
+  params[@"sdk"] = kSDKVersion;
+  params[@"redirect_uri"] = kRedirectURL;
 
   if (action == kLogin) {
-    [params setObject:@"user_agent" forKey:@"type"];
+    params[@"type"] = @"user_agent";
     _fbDialog = [[FBLoginDialog alloc] initWithURL:dialogURL loginParams:params delegate:self];
   } else {
-    [params setObject:_appId forKey:@"app_id"];
+    params[@"app_id"] = _appId;
     if ([self isSessionValid]) {
       [params setValue:[self.accessToken stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
                 forKey:@"access_token"];

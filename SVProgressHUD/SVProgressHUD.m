@@ -106,7 +106,7 @@ static SVProgressHUD *sharedView = nil;
     [super dealloc];
 }
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
 	
     if ((self = [super initWithFrame:frame])) {
 		self.layer.cornerRadius = 0;

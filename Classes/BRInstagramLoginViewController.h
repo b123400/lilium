@@ -26,6 +26,6 @@
 
 @property (assign) id delegate;
 
--(id)initWithInstagramEngine:(BRInstagramEngine*)_engine;
+-(instancetype)initWithInstagramEngine:(BRInstagramEngine*)_engine NS_DESIGNATED_INITIALIZER;
 
 @end

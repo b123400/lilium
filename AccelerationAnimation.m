@@ -17,7 +17,7 @@
 
 @implementation AccelerationAnimation
 
-+ (id)animationWithKeyPath:(NSString *)keyPath
++ (instancetype)animationWithKeyPath:(NSString *)keyPath
 	startValue:(double)startValue
 	endValue:(double)endValue
 	evaluationObject:(NSObject<Evaluate> *)evaluationObject
@@ -49,7 +49,7 @@
 	for (i = 0; i < count; i++)
 	{
 		double value = startValue + [evaluationObject evaluateAt:progress] * (endValue - startValue);
-		[valueArray addObject:[NSNumber numberWithDouble:value]];
+		[valueArray addObject:@(value)];
 		
 		progress += increment;
 	}
@@ -57,7 +57,7 @@
 	[self setValues:valueArray];
 }
 
-+ (id)animationWithKeyPath:(NSString *)keyPath
++ (instancetype)animationWithKeyPath:(NSString *)keyPath
 				startZoomValue:(double)startValue
 				  endZoomValue:(double)endValue
 		  evaluationObject:(NSObject<Evaluate> *)evaluationObject

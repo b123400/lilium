@@ -25,7 +25,7 @@ static char encodingTable[64] = {
 	return [result autorelease];
 }
 
-- (id) initWithBase64EncodedString:(NSString *) string {
+- (instancetype) initWithBase64EncodedString:(NSString *) string {
 	NSMutableData *mutableData = nil;
 
 	if( string ) {

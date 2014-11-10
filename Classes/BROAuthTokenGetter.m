@@ -13,10 +13,10 @@
 @implementation BROAuthTokenGetter
 @synthesize consumer,delegate,requestToken,accessToken;
 
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
 	return [self initWithConsumer:[[[OAConsumer alloc]initWithKey:consumerKey secret:consumerSecret]autorelease]];
 }
--(id)initWithConsumer:(OAConsumer*)_consumer{
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer{
 	self.consumer=_consumer;
 	return [self init];
 }

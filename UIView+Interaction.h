@@ -16,7 +16,6 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
 
--(BOOL)touchReactionEnabled;
--(void)setTouchReactionEnabled:(BOOL)enabled;
+@property (NS_NONATOMIC_IOSONLY) BOOL touchReactionEnabled;
 
 @end

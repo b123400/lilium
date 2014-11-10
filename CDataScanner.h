@@ -45,10 +45,10 @@
 @property (readonly, nonatomic, assign) NSUInteger bytesRemaining;
 @property (readonly, nonatomic, assign) BOOL isAtEnd;
 
-- (id)initWithData:(NSData *)inData;
+- (instancetype)initWithData:(NSData *)inData;
 
-- (unichar)currentCharacter;
-- (unichar)scanCharacter;
+@property (NS_NONATOMIC_IOSONLY, readonly) unichar currentCharacter;
+@property (NS_NONATOMIC_IOSONLY, readonly) unichar scanCharacter;
 - (BOOL)scanCharacter:(unichar)inCharacter;
 
 - (BOOL)scanUTF8String:(const char *)inString intoString:(NSString **)outValue;
@@ -64,7 +64,7 @@
 
 - (void)skipWhitespace;
 
-- (NSString *)remainingString;
-- (NSData *)remainingData;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *remainingString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSData *remainingData;
 
 @end

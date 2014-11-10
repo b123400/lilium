@@ -73,7 +73,7 @@
 }
 
 // Convenience constructor
-+ (id)queue;
++ (instancetype)queue;
 
 // Call this to reset a queue - it will cancel all operations, clear delegates, and suspend operation
 - (void)reset;

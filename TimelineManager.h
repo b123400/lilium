@@ -34,7 +34,7 @@
 
 -(NSArray*)latestStatuses:(int)count;
 -(NSArray*)statusesAfter:(Status*)aStatus count:(int)count;
--(Status*)randomStatus;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) Status *randomStatus;
 
 -(void)removeAllStatusWithSource:(StatusSourceType)source;
 

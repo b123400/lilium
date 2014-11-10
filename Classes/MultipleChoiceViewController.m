@@ -20,16 +20,16 @@
 +(MultipleChoiceViewController*)controllerWithChoices:(NSArray*)_choices{
     return [[[MultipleChoiceViewController alloc] initWithChoices:_choices] autorelease];
 }
--(id)initWithChoices:(NSArray*)_choices{
+-(instancetype)initWithChoices:(NSArray*)_choices{
     self = [self init];
     self.choices=_choices;
     return self;
 }
 
--(id)init{
+-(instancetype)init{
     return [self initWithNibName:@"MultipleChoiceViewController" bundle:NO];
 }
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -84,7 +84,7 @@
         cell.textLabel.textAlignment=NSTextAlignmentCenter;
         cell.detailTextLabel.textAlignment=NSTextAlignmentCenter;
     }
-    Choice *thisChoice=[choices objectAtIndex:indexPath.row];
+    Choice *thisChoice=choices[indexPath.row];
     cell.textLabel.text=thisChoice.text;
     cell.detailTextLabel.text=thisChoice.detailText;
     return cell;
@@ -95,7 +95,7 @@
     return choices.count;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    Choice *thisChoice=[choices objectAtIndex:indexPath.row];
+    Choice *thisChoice=choices[indexPath.row];
     thisChoice.action();
     [self.navigationController popViewControllerAnimated:YES];
 }

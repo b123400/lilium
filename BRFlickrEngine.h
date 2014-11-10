@@ -29,12 +29,12 @@
 @property (retain,nonatomic) OAToken *accessToken;
 @property (assign) id delegate;
 
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerKey;
--(id)initWithConsumer:(OAConsumer*)_consumer;
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerKey;
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer;
 
 -(NSString*)performRequestWithMethod:(NSString*)method parameters:(NSDictionary*)params; 
 
--(NSString*)getContactsPhotos;
+@property (NS_NONATOMIC_IOSONLY, getter=getContactsPhotos, readonly, copy) NSString *contactsPhotos;
 -(NSString*)getPhotosOfUser:(NSString*)userID minDate:(NSDate*)minDate maxDate:(NSDate*)maxDate page:(int)page;
 -(NSString*)getCommentsForPhotoWithID:(NSString*)photoID;
 -(NSString*)addFavoritesForPhotoWithID:(NSString*)photoID;

@@ -20,7 +20,7 @@
 {
 }
 
-+ (id)animationWithKeyPath:(NSString *)keyPath
++ (instancetype)animationWithKeyPath:(NSString *)keyPath
 	startValue:(double)startValue
 	endValue:(double)endValue
 	evaluationObject:(NSObject<Evaluate> *)evaluationObject
@@ -32,7 +32,7 @@
 	interstitialSteps:(NSUInteger)steps;
 
 
-+ (id)animationWithKeyPath:(NSString *)keyPath
++ (instancetype)animationWithKeyPath:(NSString *)keyPath
 			   startZoomValue:(double)startValue
 				 endZoomValue:(double)endValue
 		  evaluationObject:(NSObject<Evaluate> *)evaluationObject

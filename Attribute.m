@@ -11,22 +11,22 @@
 @implementation Attribute
 @synthesize url,range;
 
--(id)init{
+-(instancetype)init{
     range=NSMakeRange(0, 0);
     return [super init];
 }
 
 +(Attribute*)attributeFromDictionary:(NSDictionary*)dict{
     Attribute *newAttribute=[[[Attribute alloc]init]autorelease];
-    if([dict objectForKey:@"url"])newAttribute.url=[NSURL URLWithString:[dict objectForKey:@"url"]];
-    newAttribute.range=NSMakeRange([[dict objectForKey:@"location"] integerValue], [[dict objectForKey:@"length"]integerValue]);
+    if(dict[@"url"])newAttribute.url=[NSURL URLWithString:dict[@"url"]];
+    newAttribute.range=NSMakeRange([dict[@"location"] integerValue], [dict[@"length"]integerValue]);
     return newAttribute;
 }
 -(NSDictionary*)dictionaryRepresentation{
     NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-    if(url)[dict setObject:[url absoluteString] forKey:@"url"];
-    [dict setObject:[NSNumber numberWithInt:range.length] forKey:@"length"];
-    [dict setObject:[NSNumber numberWithInt:range.location] forKey:@"location"];
+    if(url)dict[@"url"] = [url absoluteString];
+    dict[@"length"] = [NSNumber numberWithInt:range.length];
+    dict[@"location"] = [NSNumber numberWithInt:range.location];
     return dict;
 }
 

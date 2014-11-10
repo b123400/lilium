@@ -15,6 +15,6 @@ struct pixel {
     unsigned char r, g, b, a;
 };
 
-- (UIColor*) getDominantColor;
+@property (NS_NONATOMIC_IOSONLY, getter=getDominantColor, readonly, copy) UIColor *dominantColor;
 
 @end

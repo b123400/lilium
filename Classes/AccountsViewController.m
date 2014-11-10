@@ -29,7 +29,7 @@
     return self;
 }
 */
--(id)init{
+-(instancetype)init{
 	tickImageViews=[[NSMutableArray alloc]init];
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter]     addObserver:self selector:@selector(orientationChanged:)     name:UIDeviceOrientationDidChangeNotification     object:[UIDevice currentDevice]];
@@ -172,11 +172,11 @@
 }
 
 -(void)refreshLoginStatus{
-	((UIImageView*)[tickImageViews objectAtIndex:StatusSourceTypeTwitter]).hidden=![BRFunctions didLoggedInTwitter];
-	((UIImageView*)[tickImageViews objectAtIndex:StatusSourceTypeFacebook]).hidden=![BRFunctions isFacebookLoggedIn:NO];
-	((UIImageView*)[tickImageViews objectAtIndex:StatusSourceTypeInstagram]).hidden=![BRFunctions didLoggedInInstagram];
-	((UIImageView*)[tickImageViews objectAtIndex:StatusSourceTypeFlickr]).hidden=![BRFunctions didLoggedInFlickr];
-	((UIImageView*)[tickImageViews objectAtIndex:StatusSourceTypeTumblr]).hidden=![BRFunctions didLoggedInTumblr];
+	((UIImageView*)tickImageViews[StatusSourceTypeTwitter]).hidden=![BRFunctions didLoggedInTwitter];
+	((UIImageView*)tickImageViews[StatusSourceTypeFacebook]).hidden=![BRFunctions isFacebookLoggedIn:NO];
+	((UIImageView*)tickImageViews[StatusSourceTypeInstagram]).hidden=![BRFunctions didLoggedInInstagram];
+	((UIImageView*)tickImageViews[StatusSourceTypeFlickr]).hidden=![BRFunctions didLoggedInFlickr];
+	((UIImageView*)tickImageViews[StatusSourceTypeTumblr]).hidden=![BRFunctions didLoggedInTumblr];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self updateLayoutForNewOrientation: [[UIDevice currentDevice]orientation]];

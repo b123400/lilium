@@ -43,7 +43,7 @@ extern NSString *const kJSONDeserializerErrorDomain /* = @"CJSONDeserializerErro
 /// JSON must be encoded in Unicode (UTF-8, UTF-16 or UTF-32). Use this if you expect to get the JSON in another encoding.
 @property (readwrite, nonatomic, assign) NSStringEncoding allowedEncoding;
 
-+ (id)deserializer;
++ (instancetype)deserializer;
 
 - (id)deserialize:(NSData *)inData error:(NSError **)outError;
 

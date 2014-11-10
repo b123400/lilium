@@ -44,7 +44,7 @@
     return self;
 }
 */
--(id)initWithStatus:(Status*)_status{
+-(instancetype)initWithStatus:(Status*)_status{
 	self=[self init];
 	status=[_status retain];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -63,7 +63,7 @@
 	return self;
 }
 
--(id)init{
+-(instancetype)init{
 	self = [super initWithNibName:@"StatusDetailViewController" bundle:nil];
     if (self) {
         
@@ -269,8 +269,8 @@
     // get keyboard size and loctaion
 	CGRect keyboardBounds;
     [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
-    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    NSNumber *duration = (note.userInfo)[UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = (note.userInfo)[UIKeyboardAnimationCurveUserInfoKey];
     
     // Need to translate the bounds to account for rotation.
     keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
@@ -292,8 +292,8 @@
 }
 
 -(void) keyboardWillHide:(NSNotification *)note{
-    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    NSNumber *duration = (note.userInfo)[UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = (note.userInfo)[UIKeyboardAnimationCurveUserInfoKey];
 	
 	// get a rect for the textView frame
 	CGRect containerFrame = commentComposeView.frame;
@@ -414,7 +414,7 @@
 	if(!cell){
 		cell=[[CommentTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
 	}
-	cell.comment=[status.comments objectAtIndex:indexPath.row];
+	cell.comment=(status.comments)[indexPath.row];
 	cell.selectionStyle=UITableViewCellSelectionStyleNone;
 	return cell;
 }
@@ -426,7 +426,7 @@
 	
 	UIFont *cellFont = [UIFont fontWithName:@"Arial" size:12];
 	CGSize constraintSize = CGSizeMake(tableView.frame.size.width-99, MAXFLOAT);
-	CGSize labelSize = [((Comment*)[status.comments objectAtIndex:indexPath.row]).text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+	CGSize labelSize = [((Comment*)(status.comments)[indexPath.row]).text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
 	height=labelSize.height+=64;
 	
 	if(height<85){
@@ -435,7 +435,7 @@
 	return height;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    Comment *thisComment=[status.comments objectAtIndex:indexPath.row];
+    Comment *thisComment=(status.comments)[indexPath.row];
     if(thisComment.user!=[User me]){
         UserViewController *userViewController=[[[UserViewController alloc]initWithUser:thisComment.user] autorelease];
         [self.navigationController pushViewController:userViewController animated:YES];

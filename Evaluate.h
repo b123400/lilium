@@ -26,7 +26,7 @@
 	double secondControlPoint;
 }
 
-- (id)initWithFirst:(double)newFirst second:(double)newSecond;
+- (instancetype)initWithFirst:(double)newFirst second:(double)newSecond NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -37,7 +37,7 @@
 	double scale;
 }
 
-- (id)initWithCoefficient:(double)newCoefficient;
+- (instancetype)initWithCoefficient:(double)newCoefficient NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -47,7 +47,7 @@
 	double zeta;
 }
 
-- (id)initWithOmega:(double)newOmega zeta:(double)newZeta;
+- (instancetype)initWithOmega:(double)newOmega zeta:(double)newZeta NS_DESIGNATED_INITIALIZER;
 
 @end
 

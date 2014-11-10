@@ -124,6 +124,6 @@
  
  */
 @interface NSObject (SBProxyForJson)
-- (id)proxyForJson;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id proxyForJson;
 @end
 

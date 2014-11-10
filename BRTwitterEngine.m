@@ -24,10 +24,10 @@
 @implementation BRTwitterEngine
 @synthesize delegate,accessToken;
 
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
 	return [self initWithConsumer:[[[OAConsumer alloc]initWithKey:consumerKey secret:consumerSecret]autorelease]];
 }
--(id)initWithConsumer:(OAConsumer*)_consumer{
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer{
 	consumer =[_consumer retain];
     fetchers=[[NSMutableArray alloc]init];
 	return [self init];
@@ -39,9 +39,9 @@
 	NSMutableString *paramString=[NSMutableString string];
 	for(NSString *key in params){
 		if([paramString length]){
-			[paramString appendFormat:@"&%@=%@",key,[[params objectForKey:key] stringByEscapingWithPercentage]];
+			[paramString appendFormat:@"&%@=%@",key,[params[key] stringByEscapingWithPercentage]];
 		}else{
-			[paramString appendFormat:@"%@=%@",key,[[params objectForKey:key] stringByEscapingWithPercentage]];
+			[paramString appendFormat:@"%@=%@",key,[params[key] stringByEscapingWithPercentage]];
 		}
 	}
 	
@@ -113,10 +113,10 @@
 								 @"true",@"include_rts",
 								 @"true",@"include_entities",nil];
 	if(sinceID){
-		[params setObject:sinceID forKey:@"since_id"];
+		params[@"since_id"] = sinceID;
 	}
 	if(maxID){
-		[params	setObject:maxID forKey:@"max_id"];
+		params[@"max_id"] = maxID;
 	}
 	return [self performRequestWithPath:@"../1/statuses/home_timeline" parameters:params];
 }
@@ -127,10 +127,10 @@
 								 @"true",@"include_entities",
                                  userID,@"user_id", nil];
 	if(sinceID){
-		[params setObject:sinceID forKey:@"since_id"];
+		params[@"since_id"] = sinceID;
 	}
 	if(maxID){
-		[params	setObject:maxID forKey:@"max_id"];
+		params[@"max_id"] = maxID;
 	}
 	return [self performRequestWithPath:@"statuses/user_timeline" parameters:params];
 
@@ -155,14 +155,14 @@
 }
 -(NSString*)getUserInfoWithUserID:(NSString*)userID{
     NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:@"true",@"include_entities",nil];
-    [params setObject:userID forKey:@"user_id"];
+    params[@"user_id"] = userID;
 	return [self performRequestWithPath:@"users/show" parameters:params];
 }
 -(NSString*)sendTweet:(NSString*)tweet inReplyToStatusWithID:(NSString*)statusID{
     NSMutableDictionary *params=[NSMutableDictionary dictionaryWithObjectsAndKeys:
 								 tweet,@"status", nil];
     if(statusID){
-        [params setObject:statusID forKey:@"in_reply_to_status_id"];
+        params[@"in_reply_to_status_id"] = statusID;
     }
     return [self performRequestWithPath:@"statuses/update" parameters:params withMethod:@"POST"];
 }
@@ -226,7 +226,7 @@
 	if([urlString isMatchedByRegex:regex]){
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
-		NSString *imageAddress=[captures objectAtIndex:0];
+		NSString *imageAddress=captures[0];
 		NSString *imageID=[[captures lastObject] substringFromIndex:[[captures lastObject]length]-2];
 		if(![imageID isEqualToString:@"z"]&&![imageID isEqualToString:@"f"]){
 			///those are video
@@ -247,7 +247,7 @@
 	if([urlString isMatchedByRegex:regex]){
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
-		NSString *imageAddress=[captures objectAtIndex:0];
+		NSString *imageAddress=captures[0];
 		if(![imageAddress isEqualToString:@""]){
 			if(size!=BRImageSizeFull){
 				return [NSURL URLWithString:[NSString stringWithFormat:@"%@:medium",imageAddress]];
@@ -261,7 +261,7 @@
 	if([urlString isMatchedByRegex:regex]){
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
-		NSString *imageAddress=[captures objectAtIndex:0];
+		NSString *imageAddress=captures[0];
 		if(![imageAddress isEqualToString:@""]){
 			if(size==BRImageSizeThumb){
 				return [NSURL URLWithString:[NSString stringWithFormat:@"%@/media/?size=t",imageAddress]];
@@ -277,7 +277,7 @@
 	if([urlString isMatchedByRegex:regex]){
 		
 		NSArray *captures=[urlString captureComponentsMatchedByRegex:regex];
-		NSString *imageAddress=[captures objectAtIndex:0];
+		NSString *imageAddress=captures[0];
 		if(![imageAddress isEqualToString:@""]){
 			if(size==BRImageSizeThumb){
 				return [NSURL URLWithString:[NSString stringWithFormat:@"%@/thumb",imageAddress]];

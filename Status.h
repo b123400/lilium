@@ -64,7 +64,7 @@ typedef enum StatusImageSize {
 
 -(void)prefetechThumb;
 -(UIImage*)cachedImageOfSize:(StatusImageSize)size;
--(BOOL)isImagePreloaded;
+@property (NS_NONATOMIC_IOSONLY, getter=isImagePreloaded, readonly) BOOL imagePreloaded;
 -(void)setLiked:(BOOL)_liked sync:(BOOL)sync;
 -(void)submitComment:(NSString*)commentString;
 

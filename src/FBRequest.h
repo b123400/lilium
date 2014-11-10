@@ -66,7 +66,7 @@
                         httpMethod:(NSString *) httpMethod
                           delegate:(id<FBRequestDelegate>)delegate
                         requestURL:(NSString *) url;
-- (BOOL) loading;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL loading;
 
 - (void) connect;
 

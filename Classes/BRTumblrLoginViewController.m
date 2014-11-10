@@ -10,7 +10,7 @@
 
 @interface BRTumblrLoginViewController ()
 
--(id)init_;
+-(instancetype)init_;
 -(void)failedWithError:(NSError*)error;
 
 @end
@@ -28,15 +28,15 @@
     return self;
 }
 */
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
 	return [self initWithConsumer:[[[OAConsumer alloc]initWithKey:consumerKey secret:consumerSecret]autorelease]];
 }
--(id)initWithConsumer:(OAConsumer*)_consumer{
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer{
 	getter=[[BRTumblrOAuthTokenGetter alloc]initWithConsumer:_consumer];
 	getter.delegate=self;
 	return [self init_];
 }
--(id)init_{
+-(instancetype)init_{
 	return [super initWithNibName:@"BRTumblrLoginViewController" bundle:nil];
 }
 
@@ -78,8 +78,8 @@
 	for(NSString *pair in pairs){
 		NSArray *thisPair=[pair componentsSeparatedByString:@"="];
 		if([thisPair count]>=2){
-			NSString *name=[thisPair objectAtIndex:0];
-			NSString *value=[thisPair objectAtIndex:1];
+			NSString *name=thisPair[0];
+			NSString *value=thisPair[1];
 			if([name isEqualToString:@"oauth_token"]){
 				oauthToken=[value retain];
 			}else if([name isEqualToString:@"oauth_verifier"]){

@@ -29,7 +29,7 @@
     return self;
 }
 */
--(id)init{
+-(instancetype)init{
 	getter=[[BRFlickrOAuthTokenGetter alloc]initWithConsumerKey:flickrAPIKey consumerSecret:flickrAPISecret];
 	getter.delegate=self;
 	return [super initWithNibName:@"FlickrLoginViewController" bundle:nil];
@@ -78,8 +78,8 @@
 	for(NSString *pair in pairs){
 		NSArray *thisPair=[pair componentsSeparatedByString:@"="];
 		if([thisPair count]>=2){
-			NSString *name=[thisPair objectAtIndex:0];
-			NSString *value=[thisPair objectAtIndex:1];
+			NSString *name=thisPair[0];
+			NSString *value=thisPair[1];
 			if([name isEqualToString:@"oauth_token"]){
 				oauthToken=[value retain];
 			}else if([name isEqualToString:@"oauth_verifier"]){

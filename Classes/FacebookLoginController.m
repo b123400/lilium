@@ -23,7 +23,7 @@
 }
 */
 
--(id)init{
+-(instancetype)init{
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbDidLogin) name:facebookDidLoginNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbDidNotLogin) name:facebookDidNotLoginNotification object:nil];
 	
@@ -63,8 +63,8 @@
 }
 - (void)request:(FBRequest *)request didLoad:(id)result{
 	if([result respondsToSelector:@selector(objectForKey:)]){
-		if([result objectForKey:@"id"]){
-			NSString *idString=[NSString stringWithFormat:@"%@",[result objectForKey:@"id"]];
+		if(result[@"id"]){
+			NSString *idString=[NSString stringWithFormat:@"%@",result[@"id"]];
 			[BRFunctions setFacebookCurrentUserID:idString];
 			[SVProgressHUD dismissWithSuccess:@"Success"];
 			[self.navigationController popViewControllerAnimated:YES];

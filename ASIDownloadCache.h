@@ -30,7 +30,7 @@
 // Returns a static instance of an ASIDownloadCache
 // In most circumstances, it will make sense to use this as a global cache, rather than creating your own cache
 // To make ASIHTTPRequests use it automatically, use [ASIHTTPRequest setDefaultCache:[ASIDownloadCache sharedCache]];
-+ (id)sharedCache;
++ (ASIDownloadCache*)sharedCache;
 
 // A helper function that determines if the server has requested data should not be cached by looking at the request's response headers
 + (BOOL)serverAllowsResponseCachingForRequest:(ASIHTTPRequest *)request;

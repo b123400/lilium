@@ -36,7 +36,7 @@
 
 @property (nonatomic,assign) id <BRInstagramEngineDelegate> delegate;
 
--(id)initWithClientID:(NSString*)_clientID secret:(NSString*)_clientSecret;
+-(instancetype)initWithClientID:(NSString*)_clientID secret:(NSString*)_clientSecret NS_DESIGNATED_INITIALIZER;
 
 -(NSURL*)authURL:(BOOL)mobileLayout;
 

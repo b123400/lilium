@@ -31,7 +31,7 @@
 @implementation UserViewController
 @synthesize statuses;
 
--(id)initWithUser:(User*)_user{
+-(instancetype)initWithUser:(User*)_user{
     user=[_user retain];
     self.statuses=user.statuses;
     [self loadOlderStatuses];
@@ -43,7 +43,7 @@
     return [self initWithNibName:@"UserViewController" bundle:nil];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -151,7 +151,7 @@
     request.direction=StatusRequestDirectionNewer;
     request.referenceUsers=[NSMutableArray arrayWithObject:user];
     if([self.statuses count]){
-        request.referenceStatuses=@[[self.statuses objectAtIndex:0]];
+        request.referenceStatuses=@[(self.statuses)[0]];
     }
     request.selector=@selector(requestFinished:withStatuses:withError:);
     request.delegate=self;
@@ -227,7 +227,7 @@
 		cell.backgroundColor=[UIColor blackColor];
 		[cell setTouchReactionEnabled:YES];
 	}
-	Status *thisStatus=[self.statuses objectAtIndex:indexPath.row];
+	Status *thisStatus=(self.statuses)[indexPath.row];
 	cell.status=thisStatus;
 	return cell;
 }
@@ -238,7 +238,7 @@
     return 1;
 }
 - (void)gridView:(id)gridView didSelectCell:(BRGridViewCell*)cell AtIndexPath:(NSIndexPath *)indexPath{
-    Status *thisStatus=[self.statuses objectAtIndex:indexPath.row];
+    Status *thisStatus=(self.statuses)[indexPath.row];
 	StatusDetailViewController *detailViewController=[[StatusDetailViewController alloc]initWithStatus:thisStatus];
     detailViewController.delegate=self;
 	[self.navigationController pushViewController:detailViewController animated:YES];
@@ -292,12 +292,12 @@
     if(currentStatus==[self.statuses lastObject])return nil;
     int index=[self.statuses indexOfObject:currentStatus];
     if(index==NSNotFound)return nil;
-    return [self.statuses objectAtIndex:index+1];
+    return (self.statuses)[index+1];
 }
 -(Status*)previousImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
     int index=[self.statuses indexOfObject:currentStatus];
     if(index==NSNotFound||index==0)return nil;
-    return [self.statuses objectAtIndex:index-1];
+    return (self.statuses)[index-1];
 }
 
 - (void)viewDidUnload {

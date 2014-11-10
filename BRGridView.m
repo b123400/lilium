@@ -19,7 +19,7 @@
 @implementation BRGridView
 @synthesize numOfRow,contentIndent,cellSize,cellMargin,widthOfGapBetweenSection,cells;
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame:frame];
     if (self) {
@@ -33,7 +33,7 @@
     }
     return self;
 }
--(id)initWithCoder:(NSCoder *)aDecoder{
+-(instancetype)initWithCoder:(NSCoder *)aDecoder{
 	self=[super initWithCoder:aDecoder];
 	reuseCellIdentifiers=[[NSMutableDictionary alloc]init];
 	cells=[[NSMutableArray	 alloc]init];
@@ -94,7 +94,7 @@
 				drawingX+=cellSize.width+cellMargin.width;
 			}
 		}*/
-		[numOfCellInSections addObject:[NSNumber numberWithInt:numOfCellInThisSection]];
+		[numOfCellInSections addObject:@(numOfCellInThisSection)];
 	}
 	totalContentWidth+=contentIndent.right;
 	self.contentSize=CGSizeMake(totalContentWidth, self.frame.size.height);
@@ -139,14 +139,14 @@
 -(void)drawCurrentContent{
 	if(!self.delegate)return;
 	for(int i=0;i<[frameOfSections count];i++){
-		CGRect sectionFrame=[[frameOfSections objectAtIndex:i] CGRectValue];
+		CGRect sectionFrame=[frameOfSections[i] CGRectValue];
 		if(self.contentOffset.x+self.frame.size.width>=sectionFrame.origin.x&&self.contentOffset.x<=sectionFrame.size.width+sectionFrame.origin.x){
 			//section is visible
 			float leftInvisibleWidth=self.contentOffset.x-sectionFrame.origin.x;
 			if(leftInvisibleWidth<0)leftInvisibleWidth=0.0;
 			float rightInvisibleWidth=(sectionFrame.origin.x+sectionFrame.size.width)-(self.contentOffset.x+self.frame.size.width);
 			if(rightInvisibleWidth<0)rightInvisibleWidth=0.0;
-			int numOfCellInThisSection=[[numOfCellInSections objectAtIndex:i]intValue];
+			int numOfCellInThisSection=[numOfCellInSections[i]intValue];
 			
 			int numOfLeftInvisibleColumn=leftInvisibleWidth/(cellSize.width+cellMargin.width);
 			int numOfLeftInvisibleCell=numOfLeftInvisibleColumn*numOfRow;
@@ -179,7 +179,7 @@
 					cell.frame=targetFrame;
 					if(![cells containsObject:cell]){
 						[cells addObject:cell];
-						[cellsIndex setObject:cell forKey:indexPath];
+						cellsIndex[indexPath] = cell;
 					}
 				}
 			}
@@ -207,25 +207,25 @@
 #pragma mark reuse
 - (id)dequeueReusableCellWithIdentifier:(NSString *)identifier{
 	if(!identifier)return nil;
-	if(![reuseCellIdentifiers objectForKey:identifier])return nil;
-	NSArray *cachedCells=[reuseCellIdentifiers objectForKey:identifier];
+	if(!reuseCellIdentifiers[identifier])return nil;
+	NSArray *cachedCells=reuseCellIdentifiers[identifier];
 	if(![cachedCells count])return nil;
-	return [cachedCells objectAtIndex:0];
+	return cachedCells[0];
 }
 -(void)cellDidMovedToWindow:(BRGridViewCell*)sender{
 	NSString *reuseIdentifier=[sender reuseIdentifier];
 	if(!reuseIdentifier)return;
-	if(![reuseCellIdentifiers objectForKey:reuseIdentifier])return;
-	NSMutableArray *cachedCells=[reuseCellIdentifiers objectForKey:reuseIdentifier];
+	if(!reuseCellIdentifiers[reuseIdentifier])return;
+	NSMutableArray *cachedCells=reuseCellIdentifiers[reuseIdentifier];
 	[cachedCells removeObject:sender];
 }
 -(void)cellDidRemovedFromWindow:(BRGridViewCell*)sender{
 	NSString *reuseIdentifier=[sender reuseIdentifier];
 	if(!reuseIdentifier)return;
-	if(![reuseCellIdentifiers objectForKey:reuseIdentifier]){
-		[reuseCellIdentifiers setObject:[NSMutableArray arrayWithObject:sender] forKey:reuseIdentifier];
+	if(!reuseCellIdentifiers[reuseIdentifier]){
+		reuseCellIdentifiers[reuseIdentifier] = [NSMutableArray arrayWithObject:sender];
 	}else{
-		NSMutableArray *cachedCells=[reuseCellIdentifiers objectForKey:reuseIdentifier];
+		NSMutableArray *cachedCells=reuseCellIdentifiers[reuseIdentifier];
 		[cachedCells addObject:sender];
 	}
 }
@@ -238,15 +238,15 @@
 #pragma mark -
 -(int)numberOfCellInSection:(int)section{
     if([numOfCellInSections count]-1<section)return 0;
-    return [[numOfCellInSections objectAtIndex:section] intValue];
+    return [numOfCellInSections[section] intValue];
 }
 -(void)scrollToCellAtIndexPath:(NSIndexPath *)indexPath animated:(BOOL)animated{
-    if([cellsIndex objectForKey:indexPath]){
-        [self scrollRectToVisible:[[cellsIndex objectForKey:indexPath] frame] animated:animated];
+    if(cellsIndex[indexPath]){
+        [self scrollRectToVisible:[cellsIndex[indexPath] frame] animated:animated];
         [self drawCurrentContent];
         return;
     }
-    CGRect sectionFrame=[[frameOfSections objectAtIndex:indexPath.section] CGRectValue];
+    CGRect sectionFrame=[frameOfSections[indexPath.section] CGRectValue];
     float x=floorf(indexPath.row/self.numOfRow)*(self.cellSize.width+self.cellMargin.width);
     float y=self.contentIndent.top+(indexPath.row%self.numOfRow)*(self.cellSize.height+self.cellMargin.height);
     

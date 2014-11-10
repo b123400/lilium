@@ -19,7 +19,7 @@
 }
 
 // Convenience constructor will call setupStream for you
-+ (id)compressor;
++ (instancetype)compressor;
 
 // Compress the passed chunk of data
 // Passing YES for shouldFinish will finalize the deflated data - you must pass YES when you are on the last chunk of data
@@ -32,11 +32,11 @@
 + (BOOL)compressDataFromFile:(NSString *)sourcePath toFile:(NSString *)destinationPath error:(NSError **)err;
 
 // Sets up zlib to handle the inflating. You only need to call this yourself if you aren't using the convenience constructor 'compressor'
-- (NSError *)setupStream;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSError *setupStream;
 
 // Tells zlib to clean up. You need to call this if you need to cancel deflating part way through
 // If deflating finishes or fails, this method will be called automatically
-- (NSError *)closeStream;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSError *closeStream;
 
 @property (assign, readonly) BOOL streamReady;
 @end

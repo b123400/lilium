@@ -86,7 +86,7 @@ static const NSTimeInterval kTimeoutInterval = 180.0;
 
     NSString* escaped_value = (NSString *)CFURLCreateStringByAddingPercentEscapes(
                                 NULL, /* allocator */
-                                (CFStringRef)[params objectForKey:key],
+                                (CFStringRef)params[key],
                                 NULL, /* charactersToLeaveUnescaped */
                                 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                 kCFStringEncodingUTF8);
@@ -121,7 +121,7 @@ static const NSTimeInterval kTimeoutInterval = 180.0;
     if (([[_params valueForKey:key] isKindOfClass:[UIImage class]])
       ||([[_params valueForKey:key] isKindOfClass:[NSData class]])) {
 
-      [dataDictionary setObject:[_params valueForKey:key] forKey:key];
+      dataDictionary[key] = [_params valueForKey:key];
       continue;
 
     }
@@ -182,13 +182,11 @@ static const NSTimeInterval kTimeoutInterval = 180.0;
                               autorelease];
   SBJSON *jsonParser = [[SBJSON new] autorelease];
   if ([responseString isEqualToString:@"true"]) {
-    return [NSDictionary dictionaryWithObject:@"true" forKey:@"result"];
+    return @{@"result": @"true"};
   } else if ([responseString isEqualToString:@"false"]) {
     if (error != nil) {
       *error = [self formError:kGeneralErrorCode
-                      userInfo:[NSDictionary
-                                dictionaryWithObject:@"This operation can not be completed"
-                                forKey:@"error_msg"]];
+                      userInfo:@{@"error_msg": @"This operation can not be completed"}];
     }
     return nil;
   }
@@ -197,7 +195,7 @@ static const NSTimeInterval kTimeoutInterval = 180.0;
   id result = [jsonParser objectWithString:responseString];
 
   if (![result isKindOfClass:[NSArray class]]) {
-    if ([result objectForKey:@"error"] != nil) {
+    if (result[@"error"] != nil) {
       if (error != nil) {
         *error = [self formError:kGeneralErrorCode
                         userInfo:result];
@@ -205,20 +203,20 @@ static const NSTimeInterval kTimeoutInterval = 180.0;
       return nil;
     }
 
-    if ([result objectForKey:@"error_code"] != nil) {
+    if (result[@"error_code"] != nil) {
       if (error != nil) {
-        *error = [self formError:[[result objectForKey:@"error_code"] intValue] userInfo:result];
+        *error = [self formError:[result[@"error_code"] intValue] userInfo:result];
       }
       return nil;
     }
 
-    if ([result objectForKey:@"error_msg"] != nil) {
+    if (result[@"error_msg"] != nil) {
       if (error != nil) {
         *error = [self formError:kGeneralErrorCode userInfo:result];
       }
     }
 
-    if ([result objectForKey:@"error_reason"] != nil) {
+    if (result[@"error_reason"] != nil) {
       if (error != nil) {
         *error = [self formError:kGeneralErrorCode userInfo:result];
       }

@@ -42,7 +42,7 @@
 @property(nonatomic, assign) id<FBSessionDelegate> sessionDelegate;
 @property(nonatomic, copy) NSString* localAppId;
 
-- (id)initWithAppId:(NSString *)app_id;
+- (instancetype)initWithAppId:(NSString *)app_id NS_DESIGNATED_INITIALIZER;
 
 - (void)authorize:(NSArray *)permissions
          delegate:(id<FBSessionDelegate>)delegate;
@@ -82,7 +82,7 @@
      andParams:(NSMutableDictionary *)params
    andDelegate:(id <FBDialogDelegate>)delegate;
 
-- (BOOL)isSessionValid;
+@property (NS_NONATOMIC_IOSONLY, getter=isSessionValid, readonly) BOOL sessionValid;
 
 @end
 

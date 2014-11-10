@@ -33,7 +33,7 @@
 @synthesize delegate;
 @synthesize request,connection;
 
-- (id)init {
+- (instancetype)init {
 	[super init];
 	responseData = [[NSMutableData alloc] init];
 	return self;

@@ -30,9 +30,9 @@
   id<FBLoginDialogDelegate> _loginDelegate;
 }
 
--(id) initWithURL:(NSString *) loginURL
+-(instancetype) initWithURL:(NSString *) loginURL
       loginParams:(NSMutableDictionary *) params
-      delegate:(id <FBLoginDialogDelegate>) delegate;
+      delegate:(id <FBLoginDialogDelegate>) delegate NS_DESIGNATED_INITIALIZER;
 @end
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

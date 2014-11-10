@@ -35,7 +35,7 @@
 @property(copy, readwrite) NSString *key;
 @property(copy, readwrite) NSString *secret;
 
-- (id)initWithKey:(const NSString *)aKey secret:(const NSString *)aSecret;
+- (instancetype)initWithKey:(const NSString *)aKey secret:(const NSString *)aSecret NS_DESIGNATED_INITIALIZER;
 
 - (BOOL)isEqualToConsumer:(OAConsumer *)aConsumer;
 

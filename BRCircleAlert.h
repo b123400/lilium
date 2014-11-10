@@ -32,7 +32,7 @@
 +(BRCircleAlert*)alertWithText:(NSString*)_text buttons:(NSArray*)_buttons;
 +(BRCircleAlert*)alertWithText:(NSString*)text color:(UIColor*)color buttons:(NSArray*)buttons;
 +(BRCircleAlert*)confirmAlertWithText:(NSString*)text action:(void (^)(void))action;
-- (id)initWithText:(NSString*)_text color:(UIColor*)_color buttons:(NSArray*)_buttons;
+- (instancetype)initWithText:(NSString*)_text color:(UIColor*)_color buttons:(NSArray*)_buttons NS_DESIGNATED_INITIALIZER;
 
 -(void)show;
 -(void)dismiss;

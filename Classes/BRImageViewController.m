@@ -23,22 +23,22 @@
 @implementation BRImageViewController
 @synthesize imageView,scrollView,initialFrame,finalFrame;
 
--(id)initWithImage:(UIImage*)_image{
+-(instancetype)initWithImage:(UIImage*)_image{
     image=[_image retain];
     return [self init];
 }
--(id)initWithImageURL:(NSURL*)_url{
+-(instancetype)initWithImageURL:(NSURL*)_url{
     url=[_url retain];
     return [self init];
 }
--(id)initWithImageURL:(NSURL*)_url placeHolder:(UIImage*)_placeHolderImage{
+-(instancetype)initWithImageURL:(NSURL*)_url placeHolder:(UIImage*)_placeHolderImage{
     url=[_url retain];
     if(_placeHolderImage){
         placeHolderImage=[_placeHolderImage retain];
     }
     return [self init];
 }
--(id)init{
+-(instancetype)init{
     initialFrame=CGRectZero;
     finalFrame=CGRectZero;
     lastPinchedScale=-1;

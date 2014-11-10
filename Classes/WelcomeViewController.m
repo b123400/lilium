@@ -30,7 +30,7 @@
     return self;
 }
 */
--(id)init{
+-(instancetype)init{
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[NSNotificationCenter defaultCenter]     addObserver:self selector:@selector(orientationChanged:)     name:UIDeviceOrientationDidChangeNotification     object:[UIDevice currentDevice]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView) name:AccountsDidUpdatedNotification object:nil];
@@ -86,7 +86,7 @@
 	[pinch release];
 }
 -(void)welcomePinchDidPinched{
-	[[NSUserDefaults standardUserDefaults]setObject:[NSNumber numberWithBool:YES] forKey:@"initialPinched"];
+	[[NSUserDefaults standardUserDefaults]setObject:@YES forKey:@"initialPinched"];
 	[self refreshView];
 }
 

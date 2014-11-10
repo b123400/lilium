@@ -27,6 +27,6 @@
 @property (assign) CGSize cellMargin;
 @property (retain) NSIndexPath *indexPath;
 
--(id)initWithReuseIdentifier:(NSString*)identifier;
+-(instancetype)initWithReuseIdentifier:(NSString*)identifier;
 
 @end

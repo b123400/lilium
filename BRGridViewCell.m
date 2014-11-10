@@ -21,7 +21,7 @@
     return self;
 }*/
 
--(id)initWithReuseIdentifier:(NSString *)identifier{
+-(instancetype)initWithReuseIdentifier:(NSString *)identifier{
 	reuseIdentifier=[identifier retain];
 	self=[self init];
 	self.clearsContextBeforeDrawing=YES;

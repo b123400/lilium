@@ -22,7 +22,7 @@
 
 @implementation TumblrLoginViewController
 
--(id)init{
+-(instancetype)init{
 	return [super initWithConsumerKey:tumblrAPIKey consumerSecret:tumblrAPISecret];
 }
 

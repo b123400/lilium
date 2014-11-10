@@ -48,27 +48,27 @@
 @property(retain, readwrite) NSDictionary *attributes;
 @property(readwrite, getter=isForRenewal) BOOL forRenewal;
 
-- (id)initWithKey:(NSString *)aKey secret:(NSString *)aSecret;
-- (id)initWithKey:(NSString *)aKey secret:(NSString *)aSecret session:(NSString *)aSession
+- (instancetype)initWithKey:(NSString *)aKey secret:(NSString *)aSecret;
+- (instancetype)initWithKey:(NSString *)aKey secret:(NSString *)aSecret session:(NSString *)aSession
 		 duration:(NSNumber *)aDuration attributes:(NSDictionary *)theAttributes created:(NSDate *)creation
-		renewable:(BOOL)renew;
-- (id)initWithHTTPResponseBody:(NSString *)body;
+		renewable:(BOOL)renew NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithHTTPResponseBody:(NSString *)body;
 
-- (id)initWithUserDefaultsUsingServiceProviderName:(NSString *)provider prefix:(NSString *)prefix;
+- (instancetype)initWithUserDefaultsUsingServiceProviderName:(NSString *)provider prefix:(NSString *)prefix NS_DESIGNATED_INITIALIZER;
 - (int)storeInUserDefaultsWithServiceProviderName:(NSString *)provider prefix:(NSString *)prefix;
 
-- (BOOL)isValid;
+@property (NS_NONATOMIC_IOSONLY, getter=isValid, readonly) BOOL valid;
 
 - (void)setAttribute:(NSString *)aKey value:(NSString *)aValue;
 - (NSString *)attribute:(NSString *)aKey;
 - (void)setAttributesWithString:(NSString *)aAttributes;
-- (NSString *)attributeString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *attributeString;
 
-- (BOOL)hasExpired;
-- (BOOL)isRenewable;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL hasExpired;
+@property (NS_NONATOMIC_IOSONLY, getter=isRenewable, readonly) BOOL renewable;
 - (void)setDurationWithString:(NSString *)aDuration;
-- (BOOL)hasAttributes;
-- (NSDictionary *)parameters;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL hasAttributes;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *parameters;
 
 - (BOOL)isEqualToToken:(OAToken *)aToken;
 

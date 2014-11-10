@@ -17,7 +17,7 @@
 
 @implementation ASINetworkQueue
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	[self setShouldCancelAllRequestsOnFailure:YES];
@@ -27,7 +27,7 @@
 	return self;
 }
 
-+ (id)queue
++ (instancetype)queue
 {
 	return [[[self alloc] init] autorelease];
 }

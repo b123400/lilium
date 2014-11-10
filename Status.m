@@ -20,59 +20,59 @@
 
 +(Status*)statusWithDictionary:(NSDictionary*)dict{
     Status *newStatus=[[[Status alloc] init]autorelease];
-    newStatus.user=[User userWithDictionary:[dict objectForKey:@"user"]];
+    newStatus.user=[User userWithDictionary:dict[@"user"]];
     
-    if([dict objectForKey:@"thumb"])newStatus.thumbURL=[NSURL URLWithString:[dict objectForKey:@"thumb"]];
-    if([dict objectForKey:@"medium"])newStatus.mediumURL=[NSURL URLWithString:[dict objectForKey:@"medium"]];
-    if([dict objectForKey:@"full"])newStatus.fullURL=[NSURL URLWithString:[dict objectForKey:@"full"]];
-    if([dict objectForKey:@"web"])newStatus.webURL=[NSURL URLWithString:[dict objectForKey:@"web"]];
-    if([dict objectForKey:@"caption"])newStatus.caption=[dict objectForKey:@"caption"];
-    if([dict objectForKey:@"statusID"])newStatus.statusID=[dict objectForKey:@"statusID"];
-    if([dict objectForKey:@"date"])newStatus.date=[dict objectForKey:@"date"];
-    if([dict objectForKey:@"captionColor"])newStatus.captionColor=[UIColor colorWithString:[dict objectForKey:@"captionColor"]];
-    if([dict objectForKey:@"comments"]){
+    if(dict[@"thumb"])newStatus.thumbURL=[NSURL URLWithString:dict[@"thumb"]];
+    if(dict[@"medium"])newStatus.mediumURL=[NSURL URLWithString:dict[@"medium"]];
+    if(dict[@"full"])newStatus.fullURL=[NSURL URLWithString:dict[@"full"]];
+    if(dict[@"web"])newStatus.webURL=[NSURL URLWithString:dict[@"web"]];
+    if(dict[@"caption"])newStatus.caption=dict[@"caption"];
+    if(dict[@"statusID"])newStatus.statusID=dict[@"statusID"];
+    if(dict[@"date"])newStatus.date=dict[@"date"];
+    if(dict[@"captionColor"])newStatus.captionColor=[UIColor colorWithString:dict[@"captionColor"]];
+    if(dict[@"comments"]){
         NSMutableArray *_comments=[NSMutableArray array];
-        for(NSDictionary *thisDict in [dict objectForKey:@"comments"]){
+        for(NSDictionary *thisDict in dict[@"comments"]){
             [_comments addObject:[Comment commentFromDictionary:thisDict]];
         }
         newStatus.comments=_comments;
     }
-    if([dict objectForKey:@"attributes"]){
+    if(dict[@"attributes"]){
         NSMutableArray *_attributes=[NSMutableArray array];
-        for(NSDictionary *thisDict in [dict objectForKey:@"attributes"]){
+        for(NSDictionary *thisDict in dict[@"attributes"]){
             [_attributes addObject:[Attribute attributeFromDictionary:thisDict]];
         }
         newStatus.attributes=_attributes;
     }
-    if([dict objectForKey:@"liked"])[newStatus setLiked:[[dict objectForKey:@"liked"]boolValue] sync:NO];
+    if(dict[@"liked"])[newStatus setLiked:[dict[@"liked"]boolValue] sync:NO];
 
     return newStatus;
 }
 -(NSMutableDictionary*)dictionaryRepresentation{
 	NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-    [dict setObject:[user dictionaryRepresentation] forKey:@"user"];
-	if(thumbURL)[dict setObject:[thumbURL absoluteString] forKey:@"thumb"];
-	if(mediumURL)[dict setObject:[mediumURL absoluteString] forKey:@"medium"];
-	if(fullURL)[dict setObject:[fullURL absoluteString] forKey:@"full"];
-	if(webURL)[dict setObject:[webURL absoluteString] forKey:@"web"];
-	if(caption)[dict setObject:caption forKey:@"caption"];
-	if(statusID)[dict setObject:statusID forKey:@"statusID"];
-	if(date)[dict setObject:date forKey:@"date"];
-    if(captionColor)[dict setObject:[captionColor stringFromColor] forKey:@"captionColor"];
+    dict[@"user"] = [user dictionaryRepresentation];
+	if(thumbURL)dict[@"thumb"] = [thumbURL absoluteString];
+	if(mediumURL)dict[@"medium"] = [mediumURL absoluteString];
+	if(fullURL)dict[@"full"] = [fullURL absoluteString];
+	if(webURL)dict[@"web"] = [webURL absoluteString];
+	if(caption)dict[@"caption"] = caption;
+	if(statusID)dict[@"statusID"] = statusID;
+	if(date)dict[@"date"] = date;
+    if(captionColor)dict[@"captionColor"] = [captionColor stringFromColor];
 
     NSMutableArray *commentsArray=[NSMutableArray array];
     for(Comment *thisComment in comments){
         [commentsArray addObject:[thisComment dictionaryRepresentation]];
     }
-    [dict setObject:commentsArray forKey:@"comments"];
+    dict[@"comments"] = commentsArray;
     
     NSMutableArray *attributesArray=[NSMutableArray array];
     for(Attribute *thisAttribute in attributesArray){
         [attributesArray addObject:[thisAttribute dictionaryRepresentation]];
     }
-    [dict setObject:attributesArray forKey:@"attributes"];
+    dict[@"attributes"] = attributesArray;
     
-	[dict setObject:[NSNumber numberWithBool:liked] forKey:@"liked"];
+	dict[@"liked"] = @(liked);
 	return dict;
 }
 #pragma mark - image
@@ -205,11 +205,11 @@
 #pragma mark - util
 +(NSArray*)allSources{
     return @[
-        [NSNumber numberWithInt:StatusSourceTypeTwitter],
-        [NSNumber numberWithInt:StatusSourceTypeInstagram],
-        [NSNumber numberWithInt:StatusSourceTypeTumblr],
-        [NSNumber numberWithInt:StatusSourceTypeFlickr],
-        [NSNumber numberWithInt:StatusSourceTypeFacebook]
+        @(StatusSourceTypeTwitter),
+        @(StatusSourceTypeInstagram),
+        @(StatusSourceTypeTumblr),
+        @(StatusSourceTypeFlickr),
+        @(StatusSourceTypeFacebook)
     ];
 }
 +(NSString*)sourceName:(StatusSourceType)source{

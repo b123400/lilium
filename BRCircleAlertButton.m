@@ -38,7 +38,7 @@
     if(action)Block_release(action);
     [super dealloc];
 }
--(id)init{
+-(instancetype)init{
     self= [super initWithFrame:CGRectMake(0, 0, BUTTON_RADIUS*2, BUTTON_RADIUS*2)];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     return self;

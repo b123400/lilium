@@ -59,7 +59,7 @@
 
 - (NSString *) getStringFromUrl: (NSString*) url needle:(NSString *) needle;
 
-- (id)initWithURL: (NSString *) loadingURL
+- (instancetype)initWithURL: (NSString *) loadingURL
            params: (NSMutableDictionary *) params
          delegate: (id <FBDialogDelegate>) delegate;
 

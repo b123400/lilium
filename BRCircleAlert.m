@@ -14,8 +14,8 @@
 
 @interface BRCircleAlert ()
 
--(float)radius;
--(float)minimumTextWidth;
+@property (NS_NONATOMIC_IOSONLY, readonly) float radius;
+@property (NS_NONATOMIC_IOSONLY, readonly) float minimumTextWidth;
 -(CGSize)sizeForTextWithWidth:(float)width;
 
 -(void)layout;
@@ -28,7 +28,7 @@
 @implementation BRCircleAlert
 @synthesize text,color,buttons;
 
-- (id)initWithText:(NSString*)_text color:(UIColor*)_color buttons:(NSArray*)_buttons{
+- (instancetype)initWithText:(NSString*)_text color:(UIColor*)_color buttons:(NSArray*)_buttons{
     self = [super initWithFrame:[UIApplication currentFrame]];
     
     if (self) {
@@ -81,9 +81,8 @@
     return [[[BRCircleAlert alloc]initWithText:_text color:color buttons:_buttons]autorelease];
 }
 +(BRCircleAlert*)confirmAlertWithText:(NSString*)text action:(void (^)(void))action{
-    return [BRCircleAlert alertWithText:text buttons:[NSArray arrayWithObjects:
-                                                      [BRCircleAlertButton tickButtonWithAction:action],
-                                                      [BRCircleAlertButton cancelButton], nil]];
+    return [BRCircleAlert alertWithText:text buttons:@[[BRCircleAlertButton tickButtonWithAction:action],
+                                                      [BRCircleAlertButton cancelButton]]];
 }
 -(void)layout{
     CGSize textViewSize=[self sizeForTextWithWidth:self.minimumTextWidth];
@@ -102,7 +101,7 @@
     //}
     
     for(int i=0;i<[buttons count];i++){
-        BRCircleAlertButton *thisButton =[buttons objectAtIndex:i];
+        BRCircleAlertButton *thisButton =buttons[i];
         
         thisButton.frame=CGRectMake(buttonXMargin+i*(BUTTON_RADIUS*2+BUTTON_SPACING), textView.frame.origin.y+textView.frame.size.height+buttonMargin, BUTTON_RADIUS*2, BUTTON_RADIUS*2);
     }

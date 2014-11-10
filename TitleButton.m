@@ -19,12 +19,12 @@
 @implementation TitleButton
 @synthesize textLabel,backgroundImageView,delegate;
 
--(id)initWithCoder:(NSCoder *)aDecoder{
+-(instancetype)initWithCoder:(NSCoder *)aDecoder{
     self= [super initWithCoder:aDecoder];
     [self setup];
     return self;
 }
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {

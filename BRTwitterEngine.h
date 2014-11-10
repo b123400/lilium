@@ -35,8 +35,8 @@ typedef enum BRImageSize{
 @property (nonatomic,retain) OAToken *accessToken;
 @property (nonatomic,assign) id <BRTwitterEngineDelegate> delegate;
 
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
--(id)initWithConsumer:(OAConsumer*)_consumer;
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer;
 
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params;
 -(NSString*)performRequestWithPath:(NSString*)path parameters:(NSDictionary*)params withMethod:(NSString*)method;
@@ -45,7 +45,7 @@ typedef enum BRImageSize{
 -(NSString*)getUserTimelineWithUserID:(NSString*)userID sinceID:(NSString*)sinceID maxID:(NSString*)maxID;
 -(NSString*)getRepliesForStatusWithID:(NSString*)statusID;
 -(NSString*)markFavorite:(BOOL)favorite forStatusWithID:(NSString*)statusID;
--(NSString*)getAuthedUserInfo;
+@property (NS_NONATOMIC_IOSONLY, getter=getAuthedUserInfo, readonly, copy) NSString *authedUserInfo;
 -(NSString*)getUserInfoWithUserID:(NSString*)userID;
 -(NSString*)sendTweet:(NSString*)tweet inReplyToStatusWithID:(NSString*)statusID;
 -(NSString*)getRelationshipWithUser:(NSString*)userID;

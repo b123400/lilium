@@ -29,7 +29,7 @@
 - (void)setAccessToken:(OAToken *)token;
 - (void)deleteSavedRequestToken;
 
-- (OACall *)queue;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) OACall *queue;
 - (void)enqueue:(OACall *)call selector:(SEL)selector;
 - (void)dequeue:(OACall *)call;
 - (SEL)getSelector:(OACall *)call;
@@ -38,7 +38,7 @@
 
 @implementation OATokenManager
 
-- (id)init {
+- (instancetype)init {
 	return [self initWithConsumer:nil
 							token:nil
 						oauthBase:nil
@@ -47,7 +47,7 @@
 						 delegate:nil];
 }
 
-- (id)initWithConsumer:(OAConsumer *)aConsumer token:(OAToken *)aToken oauthBase:(const NSString *)base
+- (instancetype)initWithConsumer:(OAConsumer *)aConsumer token:(OAToken *)aToken oauthBase:(const NSString *)base
 				 realm:(const NSString *)aRealm callback:(const NSString *)aCallback
 			  delegate:(NSObject <OATokenManagerDelegate> *)aDelegate {
 
@@ -145,7 +145,7 @@
 - (void)callFinished:(OACall *)call body:(NSString *)body
 {
 	SEL selector = [self getSelector:call];
-	id deleg = [delegates objectForKey:[NSString stringWithFormat:@"%p", call]];
+	id deleg = delegates[[NSString stringWithFormat:@"%p", call]];
 	if (deleg) {
 		[deleg performSelector:selector withObject:body];
 		[delegates removeObjectForKey:call];
@@ -163,7 +163,7 @@
 	id obj = nil;
 	@synchronized(calls) {
 		if ([calls count]) {
-			obj = [calls objectAtIndex:0];
+			obj = calls[0];
 		}
 	}
 	return obj;
@@ -194,7 +194,7 @@
 {
 	NSUInteger idx = [calls indexOfObject:call];
 	if (idx != NSNotFound) {
-		return NSSelectorFromString([selectors objectAtIndex:idx]);
+		return NSSelectorFromString(selectors[idx]);
 	}
 	return 0;
 }
@@ -372,7 +372,7 @@
 	NSLog(@"Received request for: %@", aURL);
 	[self enqueue:call selector:didFinish];
 	if (aDelegate) {
-		[delegates setObject:aDelegate forKey:[NSString stringWithFormat:@"%p", call]];
+		delegates[[NSString stringWithFormat:@"%p", call]] = aDelegate;
 	}
 	[self dispatch];
 }

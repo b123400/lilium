@@ -106,7 +106,7 @@ static NSMutableArray *tumblrUsers=nil;
 +(BOOL)isFacebookLoggedIn:(BOOL)authIfNotLoggedIn{
 	BOOL logged=[[BRFunctions sharedFacebook] isSessionValid];
 	if(authIfNotLoggedIn&&!logged){
-		NSArray *permissions=[NSArray arrayWithObjects:@"friends_photos",@"friends_videos",@"publish_stream",@"offline_access",@"read_stream",nil];
+		NSArray *permissions=@[@"friends_photos",@"friends_videos",@"publish_stream",@"offline_access",@"read_stream"];
 		[[BRFunctions sharedFacebook] authorize:permissions delegate:[BRFunctions sharedObject]];
 	}
 	return logged;
@@ -296,22 +296,22 @@ static NSMutableArray *tumblrUsers=nil;
 #pragma mark - accounts
 +(void)loadAccounts{
     NSDictionary *savedAccounts=[[NSUserDefaults standardUserDefaults] objectForKey:@"accounts"];
-    if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeTwitter]]){
+    if(savedAccounts[[Status sourceName:StatusSourceTypeTwitter]]){
         if(twitterUser)[twitterUser release];
-        twitterUser=[[User userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeTwitter]]] retain];
+        twitterUser=[[User userWithDictionary:savedAccounts[[Status sourceName:StatusSourceTypeTwitter]]] retain];
     }
-    if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]){
+    if(savedAccounts[[Status sourceName:StatusSourceTypeFacebook]]){
         if(facebookUser)[facebookUser release];
-        facebookUser=(FacebookUser*)[[FacebookUser userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeFacebook]]] retain];
+        facebookUser=(FacebookUser*)[[FacebookUser userWithDictionary:savedAccounts[[Status sourceName:StatusSourceTypeFacebook]]] retain];
     }
-    if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeInstagram]]){
+    if(savedAccounts[[Status sourceName:StatusSourceTypeInstagram]]){
         if(instagramUser)[instagramUser release];
-        instagramUser=[[User userWithDictionary:[savedAccounts objectForKey:[Status sourceName:StatusSourceTypeInstagram]]] retain];
+        instagramUser=[[User userWithDictionary:savedAccounts[[Status sourceName:StatusSourceTypeInstagram]]] retain];
     }
-    if([savedAccounts objectForKey:[Status sourceName:StatusSourceTypeTumblr]]){
+    if(savedAccounts[[Status sourceName:StatusSourceTypeTumblr]]){
         if(tumblrUsers)[tumblrUsers release];
         tumblrUsers=[[NSMutableArray alloc]init];
-        for(NSDictionary *thisDict in [savedAccounts objectForKey:[Status sourceName:StatusSourceTypeTumblr]]){
+        for(NSDictionary *thisDict in savedAccounts[[Status sourceName:StatusSourceTypeTumblr]]){
             [(NSMutableArray*)tumblrUsers addObject:[TumblrUser userWithDictionary:thisDict]];
         }
     }
@@ -352,15 +352,15 @@ static NSMutableArray *tumblrUsers=nil;
 }
 +(void)saveAccounts{
     NSMutableDictionary *accounts=[NSMutableDictionary dictionary];
-    if(twitterUser)[accounts setObject:[twitterUser dictionaryRepresentation] forKey:[Status sourceName:StatusSourceTypeTwitter]];
-    if(facebookUser)[accounts setObject:[facebookUser dictionaryRepresentation] forKey:[Status sourceName:StatusSourceTypeFacebook]];
-    if(instagramUser)[accounts setObject:[instagramUser dictionaryRepresentation] forKey:[Status sourceName:StatusSourceTypeInstagram]];
+    if(twitterUser)accounts[[Status sourceName:StatusSourceTypeTwitter]] = [twitterUser dictionaryRepresentation];
+    if(facebookUser)accounts[[Status sourceName:StatusSourceTypeFacebook]] = [facebookUser dictionaryRepresentation];
+    if(instagramUser)accounts[[Status sourceName:StatusSourceTypeInstagram]] = [instagramUser dictionaryRepresentation];
     if(tumblrUsers){
         NSMutableArray *tumblrDicts=[NSMutableArray array];
         for(TumblrUser *thisUser in tumblrUsers){
             [tumblrDicts addObject:[thisUser dictionaryRepresentation]];
         }
-        [accounts setObject:tumblrDicts forKey:[Status sourceName:StatusSourceTypeTumblr]];
+        accounts[[Status sourceName:StatusSourceTypeTumblr]] = tumblrDicts;
     }
     [[NSUserDefaults standardUserDefaults] setObject:accounts forKey:@"accounts"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -393,7 +393,7 @@ static NSMutableArray *tumblrUsers=nil;
     
     NSArray *paths =
     NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *basePath = ([paths count] > 0) ? paths[0] : nil;
     return basePath;
 }
 

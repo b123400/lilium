@@ -10,6 +10,6 @@
 
 @interface NSString (EscapePercentage)
 
--(NSString*)stringByEscapingWithPercentage;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *stringByEscapingWithPercentage;
 
 @end

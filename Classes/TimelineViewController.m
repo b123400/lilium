@@ -23,7 +23,7 @@
 
 @implementation TimelineViewController
 
--(id)init{
+-(instancetype)init{
 	statuses=[[[TimelineManager sharedManager] latestStatuses:30] mutableCopy];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidFinishedPreloadThumbImage:) name:TimelineManagerDidPrefectchThumbNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(timelineManagerDidLoadedNewerStatuses:) name:TimelineManagerDidRefreshNotification object:nil];
@@ -70,7 +70,7 @@
     if(index==NSNotFound)return nil;
     index++;
     if(index<statuses.count){
-        return [statuses objectAtIndex:index];
+        return statuses[index];
     }
     return nil;
 }
@@ -79,7 +79,7 @@
     if(index==NSNotFound)return nil;
     index--;
     if(index>=0){
-        return [statuses objectAtIndex:index];
+        return statuses[index];
     }
     return nil;
 }
@@ -143,7 +143,7 @@
 		cell.backgroundColor=[UIColor blackColor];
 		[cell setTouchReactionEnabled:YES];
 	}
-	Status *thisStatus=[statuses objectAtIndex:indexPath.row];
+	Status *thisStatus=statuses[indexPath.row];
 	cell.status=thisStatus;
 	return cell;
 }
@@ -154,7 +154,7 @@
 	return 1;
 }
 - (void)gridView:(id)gridView didSelectCell:(BRGridViewCell*)cell AtIndexPath:(NSIndexPath *)indexPath{
-	Status *thisStatus=[statuses objectAtIndex:indexPath.row];
+	Status *thisStatus=statuses[indexPath.row];
 	StatusDetailViewController *detailViewController=[[StatusDetailViewController alloc]initWithStatus:thisStatus];
     detailViewController.delegate=self;
 	[self.navigationController pushViewController:detailViewController animated:YES];

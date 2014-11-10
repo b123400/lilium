@@ -56,10 +56,10 @@ typedef enum StatusRequestDirection{
 @property (assign) StatusFetchingStatus tumblrStatus;
 @property (assign) StatusFetchingStatus plurkStatus;
 
-+(id)requestWithRequestType:(StatusRequestType)_type;
--(id)initWithRequestType:(StatusRequestType)_type;
++(instancetype)requestWithRequestType:(StatusRequestType)_type;
+-(instancetype)initWithRequestType:(StatusRequestType)_type NS_DESIGNATED_INITIALIZER;
 
--(StatusRequestType)type;
+@property (NS_NONATOMIC_IOSONLY, readonly) StatusRequestType type;
 -(NSError*)errorForSource:(StatusSourceType)source;
 -(void)setError:(NSError*)error forSource:(StatusSourceType)source;
 

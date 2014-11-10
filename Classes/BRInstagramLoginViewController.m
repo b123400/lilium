@@ -28,7 +28,7 @@
     return self;
 }
 */
--(id)initWithInstagramEngine:(BRInstagramEngine*)_engine{
+-(instancetype)initWithInstagramEngine:(BRInstagramEngine*)_engine{
 	engine=[_engine retain];
 	return [super initWithNibName:@"BRInstagramLoginViewController" bundle:nil];
 }

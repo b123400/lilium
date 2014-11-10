@@ -27,13 +27,13 @@ enum {
 
 @property (readonly) const NSString *problem;
 
-- (id)initWithProblem:(const NSString *)aProblem;
-- (id)initWithResponseBody:(const NSString *)response;
+- (instancetype)initWithProblem:(const NSString *)aProblem;
+- (instancetype)initWithResponseBody:(const NSString *)response;
 
 - (BOOL)isEqualToProblem:(OAProblem *)aProblem;
 - (BOOL)isEqualToString:(const NSString *)aProblem;
 - (BOOL)isEqualTo:(id)aProblem;
-- (int)code;
+@property (NS_NONATOMIC_IOSONLY, readonly) int code;
 
 + (OAProblem *)problemWithResponseBody:(const NSString *)response;
 

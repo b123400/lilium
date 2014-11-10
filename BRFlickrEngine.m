@@ -20,10 +20,10 @@
 @implementation BRFlickrEngine
 @synthesize accessToken,delegate;
 
--(id)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
+-(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
 	return [self initWithConsumer:[[[OAConsumer alloc]initWithKey:consumerKey secret:consumerSecret]autorelease]];
 }
--(id)initWithConsumer:(OAConsumer*)_consumer{
+-(instancetype)initWithConsumer:(OAConsumer*)_consumer{
 	consumer=[_consumer retain];
     fetchers=[[NSMutableArray alloc]init];
 	return [self init];
@@ -34,17 +34,17 @@
 }
 -(NSString*)performRequestWithMethod:(NSString*)method parameters:(NSDictionary*)_params withHTTPMethod:(NSString*)httpMethod{
     NSMutableDictionary *params=[NSMutableDictionary dictionaryWithDictionary:_params];
-    [params setObject:method forKey:@"method"];
-    [params setObject:[consumer key] forKey:@"api_key"];
-    [params setObject:@"json" forKey:@"format"];
-    [params setObject:@"1" forKey:@"nojsoncallback"];
+    params[@"method"] = method;
+    params[@"api_key"] = [consumer key];
+    params[@"format"] = @"json";
+    params[@"nojsoncallback"] = @"1";
     
 	NSMutableString *paramString=[NSMutableString string];
     for(NSString *key in params){
         if(paramString.length){
-            [paramString appendFormat:@"&%@=%@",key,[params objectForKey:key]];
+            [paramString appendFormat:@"&%@=%@",key,params[key]];
         }else{
-            [paramString appendFormat:@"%@=%@",key,[params objectForKey:key]];
+            [paramString appendFormat:@"%@=%@",key,params[key]];
         }
 	}
 	
@@ -108,49 +108,38 @@
 }
 
 -(NSString*)getContactsPhotos{
-	return [self performRequestWithMethod:@"flickr.photos.getContactsPhotos" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
-																						 @"1",@"include_self",
-																						 @"count",@"50",nil]];
+	return [self performRequestWithMethod:@"flickr.photos.getContactsPhotos" parameters:@{@"include_self": @"1",
+																						 @"50": @"count"}];
 }
 -(NSString*)getPhotosOfUser:(NSString*)userID minDate:(NSDate*)minDate maxDate:(NSDate*)maxDate page:(int)page{
     NSMutableDictionary *params=[NSMutableDictionary dictionary];
-    [params setObject:userID forKey:@"user_id"];
+    params[@"user_id"] = userID;
     if(minDate){
-        [params setObject:[NSString stringWithFormat:@"%f",[minDate timeIntervalSince1970]] forKey:@"min_upload_date"];
+        params[@"min_upload_date"] = [NSString stringWithFormat:@"%f",[minDate timeIntervalSince1970]];
     }
     if(maxDate){
-        [params setObject:[NSString stringWithFormat:@"%f",[maxDate timeIntervalSince1970]] forKey:@"max_upload_date"];
+        params[@"max_upload_date"] = [NSString stringWithFormat:@"%f",[maxDate timeIntervalSince1970]];
     }
     if(page){
-        [params setObject:[NSString stringWithFormat:@"%d",page] forKey:@"page"];
+        params[@"page"] = [NSString stringWithFormat:@"%d",page];
     }
     return [self performRequestWithMethod:@"flickr.people.getPhotos" parameters:params];
 }
 -(NSString*)getCommentsForPhotoWithID:(NSString*)photoID{
-	return [self performRequestWithMethod:@"flickr.photos.comments.getList" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
-																						 photoID,@"photo_id"
-																						,nil]];
+	return [self performRequestWithMethod:@"flickr.photos.comments.getList" parameters:@{@"photo_id": photoID}];
 }
 -(NSString*)addFavoritesForPhotoWithID:(NSString*)photoID{
-    return [self performRequestWithMethod:@"flickr.favorites.add" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                        photoID,@"photo_id"
-																						,nil]];
+    return [self performRequestWithMethod:@"flickr.favorites.add" parameters:@{@"photo_id": photoID}];
 }
 -(NSString*)removeFavoritesForPhotoWithID:(NSString*)photoID{
-    return [self performRequestWithMethod:@"flickr.favorites.remove" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                        photoID,@"photo_id"
-																						,nil]];
+    return [self performRequestWithMethod:@"flickr.favorites.remove" parameters:@{@"photo_id": photoID}];
 }
 -(NSString*)getUserInfoWithUserID:(NSString*)userID{
-    return [self performRequestWithMethod:@"flickr.people.getInfo" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 userID,@"user_id"
-                                                                                 ,nil]];
+    return [self performRequestWithMethod:@"flickr.people.getInfo" parameters:@{@"user_id": userID}];
 }
 -(NSString*)addComment:(NSString*)comment toPhotoWithPhotoID:(NSString*)photoID{
-    return [self performRequestWithMethod:@"flickr.photos.comments.addComment" parameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                               photoID,@"photo_id",
-                                                                               comment,@"comment_text",
-                                                                               nil]];
+    return [self performRequestWithMethod:@"flickr.photos.comments.addComment" parameters:@{@"photo_id": photoID,
+                                                                               @"comment_text": comment}];
 }
 #pragma mark -
 + (NSURL *)iconSourceURLWithFarm:(int)farm iconServer:(int)server userID:(NSString*)userID{
@@ -161,10 +150,10 @@
 	// http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}_[mstb].jpg
 	// http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}.jpg
 	
-	NSNumber* farm = [inDictionary objectForKey:@"farm"];
-	NSNumber *photoID = [inDictionary objectForKey:@"id"];
-	NSString *secret = [inDictionary objectForKey:@"secret"];
-	NSNumber *server = [inDictionary objectForKey:@"server"];
+	NSNumber* farm = inDictionary[@"farm"];
+	NSNumber *photoID = inDictionary[@"id"];
+	NSString *secret = inDictionary[@"secret"];
+	NSNumber *server = inDictionary[@"server"];
 	
 	NSMutableString *URLString = [NSMutableString stringWithString:@"http://"];
 	if (farm) {
@@ -188,7 +177,7 @@
 	return [NSURL URLWithString:URLString];
 }
 + (NSURL *)webPageURLFromDictionary:(NSDictionary *)inDictionary{
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/photos/%@/%@/",[inDictionary objectForKey:@"owner"],[inDictionary objectForKey:@"id"]]];
+	return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.flickr.com/photos/%@/%@/",inDictionary[@"owner"],inDictionary[@"id"]]];
 }
 
 + (NSString *)shortURLIDFromPhotoID:(long long)num {

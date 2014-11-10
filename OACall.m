@@ -27,48 +27,48 @@
 
 @synthesize url, method, parameters, files, ticket;
 
-- (id)init {
+- (instancetype)init {
 	return [self initWithURL:nil
 					  method:nil
 				  parameters:nil
 					   files:nil];
 }
 
-- (id)initWithURL:(NSURL *)aURL {
+- (instancetype)initWithURL:(NSURL *)aURL {
 	return [self initWithURL:aURL
 					  method:nil
 				  parameters:nil
 					   files:nil];
 }
 
-- (id)initWithURL:(NSURL *)aURL method:(NSString *)aMethod {
+- (instancetype)initWithURL:(NSURL *)aURL method:(NSString *)aMethod {
 	return [self initWithURL:aURL
 					  method:aMethod
 				  parameters:nil
 					   files:nil];
 }
 
-- (id)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters {
+- (instancetype)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters {
 	return [self initWithURL:aURL
 					  method:nil
 				  parameters:theParameters];
 }
 
-- (id)initWithURL:(NSURL *)aURL method:(NSString *)aMethod parameters:(NSArray *)theParameters {
+- (instancetype)initWithURL:(NSURL *)aURL method:(NSString *)aMethod parameters:(NSArray *)theParameters {
 	return [self initWithURL:aURL
 					  method:aMethod
 				  parameters:theParameters
 					   files:nil];
 }
 
-- (id)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters files:(NSDictionary*)theFiles {
+- (instancetype)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters files:(NSDictionary*)theFiles {
 	return [self initWithURL:aURL
 					  method:@"POST"
 				  parameters:theParameters
 					   files:theFiles];
 }
 
-- (id)initWithURL:(NSURL *)aURL
+- (instancetype)initWithURL:(NSURL *)aURL
 		   method:(NSString *)aMethod
 	   parameters:(NSArray *)theParameters
 			files:(NSDictionary*)theFiles {

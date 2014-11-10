@@ -50,13 +50,13 @@
 @property(readonly) NSString *signature;
 @property(readonly) NSString *nonce;
 
-- (id)initWithURL:(NSURL *)aUrl
+- (instancetype)initWithURL:(NSURL *)aUrl
 		 consumer:(OAConsumer *)aConsumer
 			token:(OAToken *)aToken
             realm:(NSString *)aRealm
-signatureProvider:(id<OASignatureProviding, NSObject>)aProvider;
+signatureProvider:(id<OASignatureProviding, NSObject>)aProvider NS_DESIGNATED_INITIALIZER;
 
-- (id)initWithURL:(NSURL *)aUrl
+- (instancetype)initWithURL:(NSURL *)aUrl
 		 consumer:(OAConsumer *)aConsumer
 			token:(OAToken *)aToken
             realm:(NSString *)aRealm

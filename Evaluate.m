@@ -16,7 +16,7 @@
 
 @implementation BezierEvaluator
 
-- (id)initWithFirst:(double)newFirst second:(double)newSecond
+- (instancetype)initWithFirst:(double)newFirst second:(double)newSecond
 {
 	self = [super init];
 	if (self != nil)
@@ -40,7 +40,7 @@
 
 @implementation ExponentialDecayEvaluator
 
-- (id)initWithCoefficient:(double)newCoeff
+- (instancetype)initWithCoefficient:(double)newCoeff
 {
 	self = [super init];
 	if (self != nil)
@@ -61,7 +61,7 @@
 
 @implementation SecondOrderResponseEvaluator
 
-- (id)initWithOmega:(double)newOmega zeta:(double)newZeta
+- (instancetype)initWithOmega:(double)newOmega zeta:(double)newZeta
 {
 	self = [super init];
 	if (self != nil)

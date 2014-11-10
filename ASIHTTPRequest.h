@@ -543,13 +543,13 @@ typedef void (^ASIDataBlock)(NSData *data);
 #pragma mark init / dealloc
 
 // Should be an HTTP or HTTPS url, may include username and password if appropriate
-- (id)initWithURL:(NSURL *)newURL;
+- (instancetype)initWithURL:(NSURL *)newURL;
 
 // Convenience constructor
-+ (id)requestWithURL:(NSURL *)newURL;
++ (instancetype)requestWithURL:(NSURL *)newURL;
 
-+ (id)requestWithURL:(NSURL *)newURL usingCache:(id <ASICacheDelegate>)cache;
-+ (id)requestWithURL:(NSURL *)newURL usingCache:(id <ASICacheDelegate>)cache andCachePolicy:(ASICachePolicy)policy;
++ (instancetype)requestWithURL:(NSURL *)newURL usingCache:(id <ASICacheDelegate>)cache;
++ (instancetype)requestWithURL:(NSURL *)newURL usingCache:(id <ASICacheDelegate>)cache andCachePolicy:(ASICachePolicy)policy;
 
 #if NS_BLOCKS_AVAILABLE
 - (void)setStartedBlock:(ASIBasicBlock)aStartedBlock;
@@ -591,13 +591,13 @@ typedef void (^ASIDataBlock)(NSData *data);
 #pragma mark get information about this request
 
 // Returns the contents of the result as an NSString (not appropriate for binary data - used responseData instead)
-- (NSString *)responseString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *responseString;
 
 // Response data, automatically uncompressed where appropriate
-- (NSData *)responseData;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSData *responseData;
 
 // Returns true if the response was gzip compressed
-- (BOOL)isResponseCompressed;
+@property (NS_NONATOMIC_IOSONLY, getter=isResponseCompressed, readonly) BOOL responseCompressed;
 
 #pragma mark running a request
 
@@ -614,7 +614,7 @@ typedef void (^ASIDataBlock)(NSData *data);
 #pragma mark HEAD request
 
 // Used by ASINetworkQueue to create a HEAD request appropriate for this request with the same headers (though you can use it yourself)
-- (ASIHTTPRequest *)HEADRequest;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) ASIHTTPRequest *HEADRequest;
 
 #pragma mark upload/download progress
 
@@ -660,7 +660,7 @@ typedef void (^ASIDataBlock)(NSData *data);
 // Called to retry our request when our persistent connection is closed
 // Returns YES if we haven't already retried, and connection will be restarted
 // Otherwise, returns NO, and nothing will happen
-- (BOOL)retryUsingNewConnection;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL retryUsingNewConnection;
 
 // Can be called by delegates from inside their willRedirectSelector implementations to restart the request with a new url
 - (void)redirectToURL:(NSURL *)newURL;
@@ -684,8 +684,8 @@ typedef void (^ASIDataBlock)(NSData *data);
 - (BOOL)applyProxyCredentials:(NSDictionary *)newCredentials;
 
 // Attempt to obtain credentials for this request from the URL, username and password or keychain
-- (NSMutableDictionary *)findCredentials;
-- (NSMutableDictionary *)findProxyCredentials;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableDictionary *findCredentials;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableDictionary *findProxyCredentials;
 
 // Unlock (unpause) the request thread so it can resume the request
 // Should be called by delegates when they have populated the authentication information after an authentication challenge
@@ -700,8 +700,8 @@ typedef void (^ASIDataBlock)(NSData *data);
 
 // Attempt to show the built-in authentication dialog, returns YES if credentials were supplied, NO if user cancelled dialog / dialog is disabled / running on main thread
 // Currently only used on iPhone OS
-- (BOOL)showProxyAuthenticationDialog;
-- (BOOL)showAuthenticationDialog;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL showProxyAuthenticationDialog;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL showAuthenticationDialog;
 
 // Construct a basic authentication header from the username and password supplied, and add it to the request headers
 // Used when shouldPresentCredentialsBeforeChallenge is YES
@@ -724,16 +724,16 @@ typedef void (^ASIDataBlock)(NSData *data);
 // Cleans up temporary files. There's normally no reason to call these yourself, they are called automatically when a request completes or fails
 
 // Clean up the temporary file used to store the downloaded data when it comes in (if downloadDestinationPath is set)
-- (BOOL)removeTemporaryDownloadFile;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL removeTemporaryDownloadFile;
 
 // Clean up the temporary file used to store data that is inflated (decompressed) as it comes in
-- (BOOL)removeTemporaryUncompressedDownloadFile;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL removeTemporaryUncompressedDownloadFile;
 
 // Clean up the temporary file used to store the request body (when shouldStreamPostDataFromDisk is YES)
-- (BOOL)removeTemporaryUploadFile;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL removeTemporaryUploadFile;
 
 // Clean up the temporary file used to store a deflated (compressed) request body when shouldStreamPostDataFromDisk is YES
-- (BOOL)removeTemporaryCompressedUploadFile;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL removeTemporaryCompressedUploadFile;
 
 // Remove a file on disk, returning NO and populating the passed error pointer if it fails
 + (BOOL)removeFileAtPath:(NSString *)path error:(NSError **)err;
@@ -741,7 +741,7 @@ typedef void (^ASIDataBlock)(NSData *data);
 #pragma mark persistent connections
 
 // Get the ID of the connection this request used (only really useful in tests and debugging)
-- (NSNumber *)connectionID;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSNumber *connectionID;
 
 // Called automatically when a request is started to clean up any persistent connections that have expired
 + (void)expirePersistentConnections;
@@ -766,8 +766,8 @@ typedef void (^ASIDataBlock)(NSData *data);
 + (void)removeProxyAuthenticationCredentialsFromSessionStore:(NSDictionary *)credentials;
 + (void)removeAuthenticationCredentialsFromSessionStore:(NSDictionary *)credentials;
 
-- (NSDictionary *)findSessionProxyAuthenticationCredentials;
-- (NSDictionary *)findSessionAuthenticationCredentials;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *findSessionProxyAuthenticationCredentials;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDictionary *findSessionAuthenticationCredentials;
 
 #pragma mark keychain storage
 

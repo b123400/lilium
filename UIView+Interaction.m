@@ -32,7 +32,7 @@ static const char *reactionKey = "touchReaction";
 	if(![touches count])return;
 	if(![self touchReactionEnabled])return;
 	
-	UITouch *thisTouch=[[touches allObjects] objectAtIndex:0];
+	UITouch *thisTouch=[touches allObjects][0];
 	CGPoint touchPoint=[thisTouch locationInView:self];
 	
 	CGPoint percentagePoint=CGPointMake(touchPoint.x/self.frame.size.width, touchPoint.y/self.frame.size.height);
@@ -89,7 +89,7 @@ static const char *reactionKey = "touchReaction";
 	return [enabled boolValue];
 }
 -(void)setTouchReactionEnabled:(BOOL)enabled{
-	objc_setAssociatedObject(self, reactionKey, [NSNumber numberWithBool:enabled], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	objc_setAssociatedObject(self, reactionKey, @(enabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

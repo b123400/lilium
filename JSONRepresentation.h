@@ -11,7 +11,7 @@
 @protocol JSONRepresentation
 
 @optional
-- (id)initWithJSONDataRepresentation:(NSData *)inJSONData;
+- (instancetype)initWithJSONDataRepresentation:(NSData *)inJSONData;
 
 - (NSData *)JSONDataRepresentation;
 

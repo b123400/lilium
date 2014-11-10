@@ -30,7 +30,7 @@
 @implementation OARequestParameter
 @synthesize name, value;
 
-- (id)initWithName:(NSString *)aName value:(NSString *)aValue {
+- (instancetype)initWithName:(NSString *)aName value:(NSString *)aValue {
     [super init];
     self.name = aName;
     self.value = aValue;
@@ -64,7 +64,7 @@
 }
 
 
-+ (id)requestParameter:(NSString *)aName value:(NSString *)aValue
++ (instancetype)requestParameter:(NSString *)aName value:(NSString *)aValue
 {
 	return [[[self alloc] initWithName:aName value:aValue] autorelease];
 }

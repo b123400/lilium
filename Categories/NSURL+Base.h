@@ -29,6 +29,6 @@
 
 @interface NSURL (OABaseAdditions)
 
-- (NSString *)URLStringWithoutQuery;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *URLStringWithoutQuery;
 
 @end

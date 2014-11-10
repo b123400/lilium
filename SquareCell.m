@@ -15,7 +15,7 @@
 @implementation SquareCell
 @synthesize imageURL,captionLabel,status;
 
--(id)initWithReuseIdentifier:(NSString*)identifier{
+-(instancetype)initWithReuseIdentifier:(NSString*)identifier{
 	self=[super initWithReuseIdentifier:identifier];
 	self.clipsToBounds=YES;
 	imageView=[[OLImageView alloc]init];
