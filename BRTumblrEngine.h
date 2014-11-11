@@ -22,12 +22,12 @@
 	OAConsumer *consumer;
 	OAToken *accessToken;
 	
-	id <BRTumblrEngineDelegate> delegate;
+	id <BRTumblrEngineDelegate> __weak delegate;
     
     NSMutableArray *fetchers;
 }
-@property (nonatomic,retain) OAToken *accessToken;
-@property (nonatomic,assign) id <BRTumblrEngineDelegate> delegate;
+@property (nonatomic,strong) OAToken *accessToken;
+@property (nonatomic,weak) id <BRTumblrEngineDelegate> delegate;
 
 -(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret;
 -(instancetype)initWithConsumer:(OAConsumer*)_consumer;

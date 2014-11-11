@@ -11,57 +11,33 @@
 #import "BRFunctions.h"
 #import "SVProgressHUD.h"
 #import <TMTumblrSDK/TMAPIClient.h>
-
-@interface BRTumblrLoginViewController ()
-
--(void)getAccessTokenFromQuery:(NSString*)query;
--(void)didReceivedAccessToken:(SSToken*)token;
--(void)failedWithError:(NSError*)error;
-
-@end
+#import <TMTumblrSDK/TMTumblrAuthenticator.h>
 
 @implementation TumblrLoginViewController
 
 -(instancetype)init{
-	return [super initWithConsumerKey:tumblrAPIKey consumerSecret:tumblrAPISecret];
+    return [super init];
 }
 
 -(void)viewDidLoad{
 	[super viewDidLoad];
-
-	webView.frame=CGRectInset(self.view.frame, 6, 6);
-    webView.layer.borderColor=[UIColor colorWithRed:44/255.0 green:71/255.0 blue:98/255.0 alpha:1.0].CGColor;
-    webView.layer.borderWidth=6;
-    webView.scalesPageToFit=YES;
-    webView.multipleTouchEnabled=NO;
-    webView.scrollView.bouncesZoom=NO;
 }
 
--(void)getAccessTokenFromQuery:(NSString*)query{
-	[SVProgressHUD show];
-	[super getAccessTokenFromQuery:query];
-}
--(void)didReceivedAccessToken:(SSToken*)token{
-	[super didReceivedAccessToken:token];
-	[SVProgressHUD show];
-	[SVProgressHUD dismissWithSuccess:@"Success"];
-}
--(void)failedWithError:(NSError*)error{
-	[super failedWithError:error];
-	[SVProgressHUD show];
-	[SVProgressHUD dismissWithError:@"Failed"];	
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)_webView{
-	[SVProgressHUD dismiss];
-}
 -(void)pushInAnimationDidFinished{
-	if(webView.loading){
-		[SVProgressHUD show];
-	}
     
-    [[TMAPIClient sharedInstance] authenticate:@"myapp" callback:^(NSError *error) {
-        // You are now authenticated (if !error)
+    [[TMAPIClient sharedInstance] authenticate:@"persecond-tumblr" callback:^(NSError *error) {
+        if (error) {
+            if ([self.delegate respondsToSelector:@selector(tumblrLoginViewController:failedWithError:)]) {
+                [self.delegate tumblrLoginViewController:self failedWithError:error];
+            }
+            return;
+        }
+        NSString *key = [TMAPIClient sharedInstance].OAuthToken;
+        NSString *tokenSecret = [TMAPIClient sharedInstance].OAuthTokenSecret;
+        OAToken *token = [[OAToken alloc] initWithKey:key secret:tokenSecret];
+        if ([self.delegate respondsToSelector:@selector(tumblrLoginViewController:didReceivedAccessToken:)]) {
+            [self.delegate tumblrLoginViewController:self didReceivedAccessToken:token];
+        }
     }];
 }
 -(BOOL)shouldPopByPinch{
@@ -69,8 +45,5 @@
 	return YES;
 }
 
--(void)dealloc{
-	[super dealloc];
-}
 
 @end

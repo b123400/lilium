@@ -15,7 +15,7 @@
 
 #define AccountsDidUpdatedNotification @"AccountsDidUpdatedNotification"
 
-@interface AccountsViewController : UIViewController <TwitterLoginControllerDelegate,BRInstagramLoginViewControllerDelegate,FlickrLoginViewControllerDelegate,BRTumblrLoginViewControllerDelegate> {
+@interface AccountsViewController : UIViewController <TwitterLoginControllerDelegate,BRInstagramLoginViewControllerDelegate,FlickrLoginViewControllerDelegate,TumblrLoginViewControllerDelegate> {
     
     IBOutlet UILabel *titleLabel;
 	IBOutlet UIButton *twitterButton;

@@ -13,6 +13,7 @@
 #import "StatusFetcher.h"
 #import "SDImageCache.h"
 #import <Crashlytics/Crashlytics.h>
+#import <TMTumblrSDK/TMAPIClient.h>
 
 @implementation perSecondAppDelegate
 
@@ -33,6 +34,9 @@
     //[GAI sharedInstance].debug = YES;
     // Create tracker instance.
 //    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-2207530-10"];
+    
+    [TMAPIClient sharedInstance].OAuthConsumerKey = tumblrAPIKey;
+    [TMAPIClient sharedInstance].OAuthConsumerSecret = tumblrAPISecret;
     
     [BRFunctions loadAccounts];
     [[TimelineManager sharedManager]loadRecentStatuses];
@@ -91,7 +95,9 @@
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-	
+    if ([url.scheme isEqualToString:@"persecond-tumblr"]) {
+        return [[TMAPIClient sharedInstance] handleOpenURL:url];
+    }
     return [[BRFunctions sharedFacebook] handleOpenURL:url]; 
 }
 #pragma mark -

@@ -23,10 +23,10 @@
 @synthesize delegate,accessToken;
 
 -(instancetype)initWithConsumerKey:(NSString*)consumerKey consumerSecret:(NSString*)consumerSecret{
-	return [self initWithConsumer:[[[OAConsumer alloc]initWithKey:consumerKey secret:consumerSecret]autorelease]];
+	return [self initWithConsumer:[[OAConsumer alloc]initWithKey:consumerKey secret:consumerSecret]];
 }
 -(instancetype)initWithConsumer:(OAConsumer*)_consumer{
-	consumer =[_consumer retain];
+	consumer =_consumer;
     fetchers=[[NSMutableArray alloc]init];
 	return [self init];
 }
@@ -54,16 +54,16 @@
 	}else{
         url=[NSString stringWithFormat:@"http://api.tumblr.com/v2/%@",path];
     }
-	OAMutableURLRequest *request = [[[OAMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
+	OAMutableURLRequest *request = [[OAMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
 																	consumer:consumer
 																	   token:accessToken   
 																	   realm:nil   
-														   signatureProvider:nil]autorelease];
+														   signatureProvider:nil];
     if(![[method lowercaseString] isEqualToString:@"get"]){
         request.HTTPMethod=method;
         [request setHTTPBodyWithString:paramString];
     }
-	OADataFetcher *fetcher=[[[OADataFetcher alloc]init] autorelease];
+	OADataFetcher *fetcher=[[OADataFetcher alloc]init];
 	[fetcher fetchDataWithRequest:request delegate:self didFinishSelector:@selector(requestDidFinished:withData:) didFailSelector:@selector(requestDidFailed:withError:)];
     [fetchers addObject:fetcher];
 	return [request identifier];
@@ -169,9 +169,6 @@
         [fetcher.connection cancel];
         fetcher.delegate=nil;
     }
-    [fetchers release];
-	[consumer release];
-	[super dealloc];
 }
 
 @end

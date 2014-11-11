@@ -7,10 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BRTumblrLoginViewController.h"
+#import "OAToken.h"
+//#import "BRTumblrLoginViewController.h"
 
-@interface TumblrLoginViewController : BRTumblrLoginViewController {
+@protocol TumblrLoginViewControllerDelegate <NSObject>
+
+-(void)tumblrLoginViewController:(id)sender didReceivedAccessToken:(OAToken*)token;
+-(void)tumblrLoginViewController:(id)sender failedWithError:(NSError*)error;
+
+@end
+
+@interface TumblrLoginViewController : UIViewController {
 	
 }
+
+@property (nonatomic, weak) id<TumblrLoginViewControllerDelegate> delegate;
 
 @end

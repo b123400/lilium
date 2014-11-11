@@ -124,11 +124,12 @@
         }]show];
     }
 }
+
+-(void)tumblrLoginViewController:(id)sender failedWithError:(NSError *)error{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 -(void)tumblrLoginViewController:(id)sender didReceivedAccessToken:(OAToken*)token{
 	[BRFunctions saveTumblrToken:token];
-	[self.navigationController popViewControllerAnimated:YES];
-}
--(void)tumblrLoginViewController:(id)sender failedWithError:(NSError*)error{
 	[self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark -

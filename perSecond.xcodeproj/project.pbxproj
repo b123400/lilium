@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		0F57AE02E42E4EE4B94EFAC2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D70F3FE3C24EE59FC24C6B /* libPods.a */; };
-		1D3623260D0F684500981E51 /* perSecondAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* perSecondAppDelegate.m */; };
-		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D3623260D0F684500981E51 /* perSecondAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* perSecondAppDelegate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		CF02E15A1693657E007913D9 /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02E1561693657E007913D9 /* heart.png */; };
 		CF02E15B1693657E007913D9 /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02E1571693657E007913D9 /* heart@2x.png */; };
-		CF10DA1616B4104200B88991 /* TitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CF10DA1516B4104200B88991 /* TitleButton.m */; };
+		CF10DA1616B4104200B88991 /* TitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CF10DA1516B4104200B88991 /* TitleButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF10DA5B16B47AC600B88991 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF10DA5A16B47AC600B88991 /* ImageIO.framework */; };
-		CF1E5F3016B3F6C0007F3DBB /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1E5F2F16B3F6C0007F3DBB /* SDImageCache.m */; };
-		CF1F1F0D16AD84E100366B5E /* MultipleChoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1F1F0C16AD84E100366B5E /* MultipleChoiceCell.m */; };
-		CF261DCE13D4AA6200D3F844 /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = CF261DCD13D4AA6200D3F844 /* Status.m */; };
+		CF1E5F3016B3F6C0007F3DBB /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1E5F2F16B3F6C0007F3DBB /* SDImageCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF1F1F0D16AD84E100366B5E /* MultipleChoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1F1F0C16AD84E100366B5E /* MultipleChoiceCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF261DCE13D4AA6200D3F844 /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = CF261DCD13D4AA6200D3F844 /* Status.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF261DD313D4B37400D3F844 /* loggedInCover.png in Resources */ = {isa = PBXBuildFile; fileRef = CF261DD113D4B37400D3F844 /* loggedInCover.png */; };
 		CF261DD413D4B37400D3F844 /* loggedInCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF261DD213D4B37400D3F844 /* loggedInCover@2x.png */; };
-		CF261E1913D4E01300D3F844 /* StatusFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = CF261E1813D4E01300D3F844 /* StatusFetcher.m */; };
+		CF261E1913D4E01300D3F844 /* StatusFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = CF261E1813D4E01300D3F844 /* StatusFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF2C2DEB16B2DB5A00EF1593 /* AccountsViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DDF16B2DB5A00EF1593 /* AccountsViewController~ipad.xib */; };
 		CF2C2DEC16B2DB5A00EF1593 /* BRInstagramLoginViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE016B2DB5A00EF1593 /* BRInstagramLoginViewController~ipad.xib */; };
 		CF2C2DED16B2DB5A00EF1593 /* BRTumblrLoginViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE116B2DB5A00EF1593 /* BRTumblrLoginViewController~ipad.xib */; };
@@ -37,20 +37,21 @@
 		CF2C2DF516B2DB5A00EF1593 /* WelcomeViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DE916B2DB5A00EF1593 /* WelcomeViewController~ipad.xib */; };
 		CF2C2DF616B2DB5A00EF1593 /* MainWindow~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2C2DEA16B2DB5A00EF1593 /* MainWindow~ipad.xib */; };
 		CF2D0E541412CC0D00E173DC /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF2D0E531412CC0D00E173DC /* CoreText.framework */; };
-		CF3125E713BE25580064B7AA /* BRFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3125E613BE25580064B7AA /* BRFunctions.m */; };
-		CF31260313BE4E120064B7AA /* AccountsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF31260113BE4E120064B7AA /* AccountsViewController.m */; };
+		CF3125E713BE25580064B7AA /* BRFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3125E613BE25580064B7AA /* BRFunctions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF31260313BE4E120064B7AA /* AccountsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF31260113BE4E120064B7AA /* AccountsViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF31260413BE4E120064B7AA /* AccountsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF31260213BE4E120064B7AA /* AccountsViewController.xib */; };
-		CF3B015F13CB74440060E0F6 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B015D13CB74440060E0F6 /* WelcomeViewController.m */; };
+		CF3B015F13CB74440060E0F6 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3B015D13CB74440060E0F6 /* WelcomeViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF3B016013CB74440060E0F6 /* WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3B015E13CB74440060E0F6 /* WelcomeViewController.xib */; };
-		CF40613E13EC2AF70019767C /* UIImage-Tint.m in Sources */ = {isa = PBXBuildFile; fileRef = CF40613D13EC2AF70019767C /* UIImage-Tint.m */; };
-		CF42E00A1690D0FC009FB526 /* BRCircleAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0071690D0FC009FB526 /* BRCircleAlert.m */; };
-		CF42E00B1690D0FC009FB526 /* BRCircleAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0091690D0FC009FB526 /* BRCircleAlertButton.m */; };
-		CF42E0131690D678009FB526 /* CommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0121690D677009FB526 /* CommentRequest.m */; };
-		CF42E0161690D684009FB526 /* LikeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0151690D684009FB526 /* LikeRequest.m */; };
-		CF42E77413D619060078935D /* StatusesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E77313D619060078935D /* StatusesRequest.m */; };
-		CF43090413EAC7DC007CA113 /* UIImage+averageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43090313EAC7DC007CA113 /* UIImage+averageColor.m */; };
-		CF43099413EAE02F007CA113 /* UIImage+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43099313EAE02F007CA113 /* UIImage+Operations.m */; };
-		CF43099713EAE059007CA113 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43099613EAE059007CA113 /* UIColor-Expanded.m */; };
+		CF40613E13EC2AF70019767C /* UIImage-Tint.m in Sources */ = {isa = PBXBuildFile; fileRef = CF40613D13EC2AF70019767C /* UIImage-Tint.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF41A6861A1252190094789B /* TumblrLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF41A6851A1252190094789B /* TumblrLoginViewController.xib */; };
+		CF42E00A1690D0FC009FB526 /* BRCircleAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0071690D0FC009FB526 /* BRCircleAlert.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF42E00B1690D0FC009FB526 /* BRCircleAlertButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0091690D0FC009FB526 /* BRCircleAlertButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF42E0131690D678009FB526 /* CommentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0121690D677009FB526 /* CommentRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF42E0161690D684009FB526 /* LikeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E0151690D684009FB526 /* LikeRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF42E77413D619060078935D /* StatusesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42E77313D619060078935D /* StatusesRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF43090413EAC7DC007CA113 /* UIImage+averageColor.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43090313EAC7DC007CA113 /* UIImage+averageColor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF43099413EAE02F007CA113 /* UIImage+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43099313EAE02F007CA113 /* UIImage+Operations.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF43099713EAE059007CA113 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = CF43099613EAE059007CA113 /* UIColor-Expanded.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF4309AF13EAEE22007CA113 /* imageCoverAlpha.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4309AB13EAEE22007CA113 /* imageCoverAlpha.png */; };
 		CF4309B013EAEE22007CA113 /* imageCoverAlpha@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4309AC13EAEE22007CA113 /* imageCoverAlpha@2x.png */; };
 		CF4309B113EAEE22007CA113 /* imageCoverCaption.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4309AD13EAEE22007CA113 /* imageCoverCaption.png */; };
@@ -68,10 +69,10 @@
 		CF47760313D1C30800FC2D37 /* settingsButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4775F713D1C30800FC2D37 /* settingsButton@2x.png */; };
 		CF47760413D1C30800FC2D37 /* twitterButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4775F813D1C30800FC2D37 /* twitterButton.png */; };
 		CF47760513D1C30800FC2D37 /* twitterButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4775F913D1C30800FC2D37 /* twitterButton@2x.png */; };
-		CF47764C13D1D1AD00FC2D37 /* BRFlickrEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF47764B13D1D1AD00FC2D37 /* BRFlickrEngine.m */; };
+		CF47764C13D1D1AD00FC2D37 /* BRFlickrEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF47764B13D1D1AD00FC2D37 /* BRFlickrEngine.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF47767913D1DEFD00FC2D37 /* getstartedButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF47767713D1DEFD00FC2D37 /* getstartedButton.png */; };
 		CF47767A13D1DEFD00FC2D37 /* getstartedButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF47767813D1DEFD00FC2D37 /* getstartedButton@2x.png */; };
-		CF4776B713D1E8FB00FC2D37 /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4776B513D1E8FB00FC2D37 /* TimelineViewController.m */; };
+		CF4776B713D1E8FB00FC2D37 /* TimelineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4776B513D1E8FB00FC2D37 /* TimelineViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF4776B813D1E8FB00FC2D37 /* TimelineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4776B613D1E8FB00FC2D37 /* TimelineViewController.xib */; };
 		CF4A28FD16B697040081E2F7 /* accountsButton-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A28F916B697040081E2F7 /* accountsButton-iPad.png */; };
 		CF4A28FE16B697040081E2F7 /* accountsButton-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A28FA16B697040081E2F7 /* accountsButton-iPad@2x.png */; };
@@ -90,59 +91,59 @@
 		CF4A295416B6E3080081E2F7 /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A294F16B6E3080081E2F7 /* 114.png */; };
 		CF4A295516B6E3080081E2F7 /* 144.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A295016B6E3080081E2F7 /* 144.png */; };
 		CF4A295616B6E3080081E2F7 /* 1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A295116B6E3080081E2F7 /* 1024.png */; };
-		CF5399F413CF09B7001E174B /* UIView+Interaction.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5399F313CF09B7001E174B /* UIView+Interaction.m */; };
-		CF57FD6513BF28DC00C184F8 /* TwitterLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FD6313BF28DC00C184F8 /* TwitterLoginController.m */; };
+		CF5399F413CF09B7001E174B /* UIView+Interaction.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5399F313CF09B7001E174B /* UIView+Interaction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FD6513BF28DC00C184F8 /* TwitterLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FD6313BF28DC00C184F8 /* TwitterLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF57FD6613BF28DC00C184F8 /* TwitterLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF57FD6413BF28DC00C184F8 /* TwitterLoginController.xib */; };
-		CF57FDB313BF498B00C184F8 /* SSToken.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDAE13BF498B00C184F8 /* SSToken.m */; };
-		CF57FDB413BF498B00C184F8 /* BROAuthTokenGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDB013BF498B00C184F8 /* BROAuthTokenGetter.m */; };
-		CF57FDB513BF498B00C184F8 /* BRTwitterOAuthTokenGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDB213BF498B00C184F8 /* BRTwitterOAuthTokenGetter.m */; };
-		CF57FE3513BF503000C184F8 /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDDB13BF502F00C184F8 /* Base64Transcoder.c */; };
-		CF57FE3613BF503000C184F8 /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDDD13BF502F00C184F8 /* hmac.c */; };
-		CF57FE3713BF503000C184F8 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDDF13BF502F00C184F8 /* sha1.c */; };
-		CF57FE3813BF503000C184F8 /* NSMutableURLRequest+Parameters.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDE313BF502F00C184F8 /* NSMutableURLRequest+Parameters.m */; };
-		CF57FE3913BF503000C184F8 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDE513BF502F00C184F8 /* NSString+URLEncoding.m */; };
-		CF57FE3A13BF503000C184F8 /* NSURL+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDE713BF502F00C184F8 /* NSURL+Base.m */; };
-		CF57FE3B13BF503000C184F8 /* OACall.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDE913BF502F00C184F8 /* OACall.m */; };
-		CF57FE3C13BF503000C184F8 /* OAConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDEB13BF502F00C184F8 /* OAConsumer.m */; };
-		CF57FE3D13BF503000C184F8 /* OADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDED13BF502F00C184F8 /* OADataFetcher.m */; };
-		CF57FE3E13BF503000C184F8 /* OAHMAC_SHA1SignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDEF13BF503000C184F8 /* OAHMAC_SHA1SignatureProvider.m */; };
-		CF57FE3F13BF503000C184F8 /* OAMutableURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF113BF503000C184F8 /* OAMutableURLRequest.m */; };
-		CF57FE4013BF503000C184F8 /* OAPlaintextSignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF313BF503000C184F8 /* OAPlaintextSignatureProvider.m */; };
-		CF57FE4113BF503000C184F8 /* OAProblem.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF513BF503000C184F8 /* OAProblem.m */; };
-		CF57FE4213BF503000C184F8 /* OARequestParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF713BF503000C184F8 /* OARequestParameter.m */; };
-		CF57FE4313BF503000C184F8 /* OAServiceTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF913BF503000C184F8 /* OAServiceTicket.m */; };
-		CF57FE4413BF503000C184F8 /* OAToken.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDFC13BF503000C184F8 /* OAToken.m */; };
-		CF57FE4513BF503000C184F8 /* OATokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDFE13BF503000C184F8 /* OATokenManager.m */; };
-		CF57FE5C13BF503000C184F8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE3213BF503000C184F8 /* NSData+Base64.m */; };
-		CF57FE5D13BF503000C184F8 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE3413BF503000C184F8 /* NSString+UUID.m */; };
-		CF57FE9413BF52C800C184F8 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8413BF52C800C184F8 /* CJSONDeserializer.m */; };
-		CF57FE9513BF52C800C184F8 /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8613BF52C800C184F8 /* CJSONScanner.m */; };
-		CF57FE9613BF52C800C184F8 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8813BF52C800C184F8 /* CJSONSerializer.m */; };
-		CF57FE9713BF52C800C184F8 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8B13BF52C800C184F8 /* CDataScanner.m */; };
-		CF57FE9813BF52C800C184F8 /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8D13BF52C800C184F8 /* CDataScanner_Extensions.m */; };
-		CF57FE9913BF52C800C184F8 /* NSCharacterSet_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8F13BF52C800C184F8 /* NSCharacterSet_Extensions.m */; };
-		CF57FE9A13BF52C800C184F8 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE9113BF52C800C184F8 /* NSDictionary_JSONExtensions.m */; };
-		CF57FE9B13BF52C800C184F8 /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE9313BF52C800C184F8 /* NSScanner_Extensions.m */; };
+		CF57FDB313BF498B00C184F8 /* SSToken.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDAE13BF498B00C184F8 /* SSToken.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FDB413BF498B00C184F8 /* BROAuthTokenGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDB013BF498B00C184F8 /* BROAuthTokenGetter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FDB513BF498B00C184F8 /* BRTwitterOAuthTokenGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDB213BF498B00C184F8 /* BRTwitterOAuthTokenGetter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3513BF503000C184F8 /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDDB13BF502F00C184F8 /* Base64Transcoder.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3613BF503000C184F8 /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDDD13BF502F00C184F8 /* hmac.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3713BF503000C184F8 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDDF13BF502F00C184F8 /* sha1.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3813BF503000C184F8 /* NSMutableURLRequest+Parameters.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDE313BF502F00C184F8 /* NSMutableURLRequest+Parameters.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3913BF503000C184F8 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDE513BF502F00C184F8 /* NSString+URLEncoding.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3A13BF503000C184F8 /* NSURL+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDE713BF502F00C184F8 /* NSURL+Base.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3B13BF503000C184F8 /* OACall.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDE913BF502F00C184F8 /* OACall.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3C13BF503000C184F8 /* OAConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDEB13BF502F00C184F8 /* OAConsumer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3D13BF503000C184F8 /* OADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDED13BF502F00C184F8 /* OADataFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3E13BF503000C184F8 /* OAHMAC_SHA1SignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDEF13BF503000C184F8 /* OAHMAC_SHA1SignatureProvider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE3F13BF503000C184F8 /* OAMutableURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF113BF503000C184F8 /* OAMutableURLRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE4013BF503000C184F8 /* OAPlaintextSignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF313BF503000C184F8 /* OAPlaintextSignatureProvider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE4113BF503000C184F8 /* OAProblem.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF513BF503000C184F8 /* OAProblem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE4213BF503000C184F8 /* OARequestParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF713BF503000C184F8 /* OARequestParameter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE4313BF503000C184F8 /* OAServiceTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDF913BF503000C184F8 /* OAServiceTicket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE4413BF503000C184F8 /* OAToken.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDFC13BF503000C184F8 /* OAToken.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE4513BF503000C184F8 /* OATokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FDFE13BF503000C184F8 /* OATokenManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE5C13BF503000C184F8 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE3213BF503000C184F8 /* NSData+Base64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE5D13BF503000C184F8 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE3413BF503000C184F8 /* NSString+UUID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE9413BF52C800C184F8 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8413BF52C800C184F8 /* CJSONDeserializer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE9513BF52C800C184F8 /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8613BF52C800C184F8 /* CJSONScanner.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE9613BF52C800C184F8 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8813BF52C800C184F8 /* CJSONSerializer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE9713BF52C800C184F8 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8B13BF52C800C184F8 /* CDataScanner.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE9813BF52C800C184F8 /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8D13BF52C800C184F8 /* CDataScanner_Extensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE9913BF52C800C184F8 /* NSCharacterSet_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE8F13BF52C800C184F8 /* NSCharacterSet_Extensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE9A13BF52C800C184F8 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE9113BF52C800C184F8 /* NSDictionary_JSONExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF57FE9B13BF52C800C184F8 /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FE9313BF52C800C184F8 /* NSScanner_Extensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF57FED313BF53CE00C184F8 /* YAJL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57FED213BF53CE00C184F8 /* YAJL.framework */; };
 		CF57FEEC13BF55B100C184F8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF57FEEB13BF55B100C184F8 /* libxml2.dylib */; };
-		CF5EE5B11679AE53008D55D3 /* UIScrollView+Pinch.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE5B01679AE53008D55D3 /* UIScrollView+Pinch.m */; };
-		CF67D5E716695D1C004B2EAA /* ABTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F351545B6F100E19AED /* ABTableViewCell.m */; };
-		CF68A19413ECFBF100B9450E /* StatusDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68A19213ECFBF100B9450E /* StatusDetailViewController.m */; };
+		CF5EE5B11679AE53008D55D3 /* UIScrollView+Pinch.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE5B01679AE53008D55D3 /* UIScrollView+Pinch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF67D5E716695D1C004B2EAA /* ABTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F351545B6F100E19AED /* ABTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF68A19413ECFBF100B9450E /* StatusDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68A19213ECFBF100B9450E /* StatusDetailViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF68A19513ECFBF100B9450E /* StatusDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF68A19313ECFBF100B9450E /* StatusDetailViewController.xib */; };
-		CF6D75EA13DF0B4300305FAE /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6D75E913DF0B4300305FAE /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		CF6D75EA13DF0B4300305FAE /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6D75E913DF0B4300305FAE /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-w -fno-objc-arc"; }; };
 		CF6D761B13DF28A000305FAE /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6D761A13DF28A000305FAE /* libicucore.dylib */; };
-		CF6E2F3B1545B75300E19AED /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F3A1545B75300E19AED /* CommentTableViewCell.m */; };
+		CF6E2F3B1545B75300E19AED /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E2F3A1545B75300E19AED /* CommentTableViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF6E3BFD13E5A4D3007CC286 /* tumblrButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6E3BFB13E5A4D3007CC286 /* tumblrButton.png */; };
 		CF6E3BFE13E5A4D3007CC286 /* tumblrButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6E3BFC13E5A4D3007CC286 /* tumblrButton@2x.png */; };
-		CF6E3CE313E5DDA1007CC286 /* TimelineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E3CE213E5DDA1007CC286 /* TimelineManager.m */; };
-		CF6E66B113E96737005E4674 /* BRGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E66B013E96737005E4674 /* BRGridView.m */; };
-		CF6E66B413E969C9005E4674 /* BRGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E66B313E969C9005E4674 /* BRGridViewCell.m */; };
-		CF6E66ED13E99847005E4674 /* SquareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E66EC13E99847005E4674 /* SquareCell.m */; };
+		CF6E3CE313E5DDA1007CC286 /* TimelineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E3CE213E5DDA1007CC286 /* TimelineManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF6E66B113E96737005E4674 /* BRGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E66B013E96737005E4674 /* BRGridView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF6E66B413E969C9005E4674 /* BRGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E66B313E969C9005E4674 /* BRGridViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF6E66ED13E99847005E4674 /* SquareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E66EC13E99847005E4674 /* SquareCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF6E66EF13E99909005E4674 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF6E66EE13E99909005E4674 /* test.jpg */; };
-		CF6E676313E9A0D9005E4674 /* SDWebImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674413E9A0D9005E4674 /* SDWebImageDownloader.m */; };
-		CF6E676413E9A0D9005E4674 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674713E9A0D9005E4674 /* SDWebImageManager.m */; };
-		CF6E676513E9A0D9005E4674 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674A13E9A0D9005E4674 /* UIButton+WebCache.m */; };
-		CF6E676613E9A0D9005E4674 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674C13E9A0D9005E4674 /* UIImageView+WebCache.m */; };
+		CF6E676313E9A0D9005E4674 /* SDWebImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674413E9A0D9005E4674 /* SDWebImageDownloader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF6E676413E9A0D9005E4674 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674713E9A0D9005E4674 /* SDWebImageManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF6E676513E9A0D9005E4674 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674A13E9A0D9005E4674 /* UIButton+WebCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF6E676613E9A0D9005E4674 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6E674C13E9A0D9005E4674 /* UIImageView+WebCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF7DFBEB16B94D42000ECA20 /* zoomin.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBE916B94D42000ECA20 /* zoomin.aiff */; };
 		CF7DFBEF16B94FF9000ECA20 /* zoomout.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBEE16B94FF9000ECA20 /* zoomout.aiff */; };
 		CF7DFBF116B95850000ECA20 /* alert.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF7DFBF016B95850000ECA20 /* alert.aiff */; };
@@ -150,87 +151,84 @@
 		CF7DFC1616B994D4000ECA20 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7DFC1516B994D4000ECA20 /* CoreData.framework */; };
 		CF81000113C4AE4300A68CB9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF81000013C4AE4300A68CB9 /* CFNetwork.framework */; };
 		CF81009B13C4BC5A00A68CB9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF81009A13C4BC5A00A68CB9 /* SystemConfiguration.framework */; };
-		CF8100BF13C4BFD100A68CB9 /* FlickrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8100BD13C4BFD100A68CB9 /* FlickrLoginViewController.m */; };
+		CF8100BF13C4BFD100A68CB9 /* FlickrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8100BD13C4BFD100A68CB9 /* FlickrLoginViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF8100C013C4BFD100A68CB9 /* FlickrLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8100BE13C4BFD100A68CB9 /* FlickrLoginViewController.xib */; };
-		CF8100C313C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8100C213C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m */; };
-		CF88E07616A5D88E006415DF /* MultipleChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07116A5D88E006415DF /* MultipleChoiceViewController.m */; };
+		CF8100C313C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8100C213C4C13A00A68CB9 /* BRFlickrOAuthTokenGetter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF88E07616A5D88E006415DF /* MultipleChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07116A5D88E006415DF /* MultipleChoiceViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF88E07716A5D88E006415DF /* MultipleChoiceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF88E07216A5D88E006415DF /* MultipleChoiceViewController.xib */; };
-		CF88E07816A5D88E006415DF /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07416A5D88E006415DF /* SettingViewController.m */; };
+		CF88E07816A5D88E006415DF /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07416A5D88E006415DF /* SettingViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF88E07916A5D88E006415DF /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF88E07516A5D88E006415DF /* SettingViewController.xib */; };
-		CF88E07D16A5D8C5006415DF /* BRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07C16A5D8C5006415DF /* BRImageViewController.m */; };
-		CF88E08016A5D90A006415DF /* Choice.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07F16A5D90A006415DF /* Choice.m */; };
-		CF8B6CF1151BAA91007798CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8B6CF0151BAA91007798CE /* User.m */; };
-		CF8B6CF4151BB76C007798CE /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8B6CF3151BB76C007798CE /* Comment.m */; };
-		CF8C6D9313C0AD4500C013B0 /* InstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6D9113C0AD4500C013B0 /* InstagramLoginViewController.m */; };
-		CF8C6DA913C0B04C00C013B0 /* BRInstagramEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6DA813C0B04C00C013B0 /* BRInstagramEngine.m */; };
-		CF8C6DAD13C0B41F00C013B0 /* BRInstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6DAB13C0B41F00C013B0 /* BRInstagramLoginViewController.m */; };
+		CF88E07D16A5D8C5006415DF /* BRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07C16A5D8C5006415DF /* BRImageViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF88E08016A5D90A006415DF /* Choice.m in Sources */ = {isa = PBXBuildFile; fileRef = CF88E07F16A5D90A006415DF /* Choice.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF8B6CF1151BAA91007798CE /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8B6CF0151BAA91007798CE /* User.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF8B6CF4151BB76C007798CE /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8B6CF3151BB76C007798CE /* Comment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF8C6D9313C0AD4500C013B0 /* InstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6D9113C0AD4500C013B0 /* InstagramLoginViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF8C6DA913C0B04C00C013B0 /* BRInstagramEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6DA813C0B04C00C013B0 /* BRInstagramEngine.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF8C6DAD13C0B41F00C013B0 /* BRInstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6DAB13C0B41F00C013B0 /* BRInstagramLoginViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF8C6DAE13C0B41F00C013B0 /* BRInstagramLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8C6DAC13C0B41F00C013B0 /* BRInstagramLoginViewController.xib */; };
 		CF9DEAD3146D854700FB9519 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */; };
-		CFA9A6A616B7D201006771C2 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA9A6A416B7D201006771C2 /* AboutViewController.m */; };
+		CFA9A6A616B7D201006771C2 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA9A6A416B7D201006771C2 /* AboutViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFA9A6A716B7D201006771C2 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA9A6A516B7D201006771C2 /* AboutViewController.xib */; };
-		CFABC52613DA732500B827DA /* BRTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFABC52513DA732500B827DA /* BRTwitterEngine.m */; };
-		CFADA8241694B94D00A1543F /* TumblrStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFADA8231694B94D00A1543F /* TumblrStatus.m */; };
-		CFBBBE3216726CDF00065DFC /* ReferenceComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3116726CDF00065DFC /* ReferenceComment.m */; };
-		CFBBBE3616726D2300065DFC /* FacebookUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3516726D2300065DFC /* FacebookUser.m */; };
-		CFBBBE3916726D3000065DFC /* TumblrUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3816726D3000065DFC /* TumblrUser.m */; };
-		CFBF2A7413D0AC99004DC335 /* UIControl+Interaction.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF2A7313D0AC99004DC335 /* UIControl+Interaction.m */; };
-		CFBF2AD513D0CF48004DC335 /* WelcomePinchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF2AD313D0CF48004DC335 /* WelcomePinchViewController.m */; };
+		CFABC52613DA732500B827DA /* BRTwitterEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFABC52513DA732500B827DA /* BRTwitterEngine.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFADA8241694B94D00A1543F /* TumblrStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = CFADA8231694B94D00A1543F /* TumblrStatus.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFBBBE3216726CDF00065DFC /* ReferenceComment.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3116726CDF00065DFC /* ReferenceComment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFBBBE3616726D2300065DFC /* FacebookUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3516726D2300065DFC /* FacebookUser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFBBBE3916726D3000065DFC /* TumblrUser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBBBE3816726D3000065DFC /* TumblrUser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFBF2A7413D0AC99004DC335 /* UIControl+Interaction.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF2A7313D0AC99004DC335 /* UIControl+Interaction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFBF2AD513D0CF48004DC335 /* WelcomePinchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBF2AD313D0CF48004DC335 /* WelcomePinchViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFBF2AD613D0CF48004DC335 /* WelcomePinchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBF2AD413D0CF48004DC335 /* WelcomePinchViewController.xib */; };
-		CFC2EE69166934F700995FC9 /* UIApplication+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC2EE68166934F700995FC9 /* UIApplication+Frame.m */; };
-		CFCCE77913BB9A5100D2BFD1 /* NichijyouNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE77813BB9A5100D2BFD1 /* NichijyouNavigationController.m */; };
-		CFCCE77C13BB9A6B00D2BFD1 /* NichijyouTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE77B13BB9A6B00D2BFD1 /* NichijyouTransparentView.m */; };
+		CFC2EE69166934F700995FC9 /* UIApplication+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC2EE68166934F700995FC9 /* UIApplication+Frame.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCCE77913BB9A5100D2BFD1 /* NichijyouNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE77813BB9A5100D2BFD1 /* NichijyouNavigationController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCCE77C13BB9A6B00D2BFD1 /* NichijyouTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE77B13BB9A6B00D2BFD1 /* NichijyouTransparentView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFCCE78A13BB9B5700D2BFD1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCCE78913BB9B5700D2BFD1 /* QuartzCore.framework */; };
-		CFCCE7DE13BB9EF700D2BFD1 /* CustomUITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE7DD13BB9EF700D2BFD1 /* CustomUITableView.m */; };
-		CFCCE83C13BBA3B400D2BFD1 /* AccelerationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE83913BBA3B400D2BFD1 /* AccelerationAnimation.m */; };
-		CFCCE83D13BBA3B400D2BFD1 /* Evaluate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE83B13BBA3B400D2BFD1 /* Evaluate.m */; };
-		CFCDCB3B13D8480A00E268E8 /* NSObject+Identifier.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCB3A13D8480A00E268E8 /* NSObject+Identifier.m */; };
-		CFCDCBEC13D8764800E268E8 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBD913D8764800E268E8 /* ASIAuthenticationDialog.m */; };
-		CFCDCBED13D8764800E268E8 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBDC13D8764800E268E8 /* ASIDataCompressor.m */; };
-		CFCDCBEE13D8764800E268E8 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBDE13D8764800E268E8 /* ASIDataDecompressor.m */; };
-		CFCDCBEF13D8764800E268E8 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBE013D8764800E268E8 /* ASIDownloadCache.m */; };
-		CFCDCBF013D8764800E268E8 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBE213D8764800E268E8 /* ASIFormDataRequest.m */; };
-		CFCDCBF113D8764800E268E8 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBE413D8764800E268E8 /* ASIHTTPRequest.m */; };
-		CFCDCBF213D8764800E268E8 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBE813D8764800E268E8 /* ASIInputStream.m */; };
-		CFCDCBF313D8764800E268E8 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBEA13D8764800E268E8 /* ASINetworkQueue.m */; };
-		CFCDCBF613D8766400E268E8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBF513D8766400E268E8 /* Reachability.m */; };
+		CFCCE7DE13BB9EF700D2BFD1 /* CustomUITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE7DD13BB9EF700D2BFD1 /* CustomUITableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCCE83C13BBA3B400D2BFD1 /* AccelerationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE83913BBA3B400D2BFD1 /* AccelerationAnimation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCCE83D13BBA3B400D2BFD1 /* Evaluate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCCE83B13BBA3B400D2BFD1 /* Evaluate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCB3B13D8480A00E268E8 /* NSObject+Identifier.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCB3A13D8480A00E268E8 /* NSObject+Identifier.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCBEC13D8764800E268E8 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBD913D8764800E268E8 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCBED13D8764800E268E8 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBDC13D8764800E268E8 /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCBEE13D8764800E268E8 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBDE13D8764800E268E8 /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCBEF13D8764800E268E8 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBE013D8764800E268E8 /* ASIDownloadCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCBF013D8764800E268E8 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBE213D8764800E268E8 /* ASIFormDataRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCBF113D8764800E268E8 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBE413D8764800E268E8 /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCBF213D8764800E268E8 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBE813D8764800E268E8 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCBF313D8764800E268E8 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBEA13D8764800E268E8 /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFCDCBF613D8766400E268E8 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCBF513D8766400E268E8 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFCDCBF813D8769200E268E8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFCDCBF713D8769200E268E8 /* MobileCoreServices.framework */; };
-		CFCDCC7213D88D4B00E268E8 /* BRTumblrOAuthTokenGetter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCC7113D88D4B00E268E8 /* BRTumblrOAuthTokenGetter.m */; };
-		CFCDCC7613D88EE900E268E8 /* BRTumblrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCC7413D88EE900E268E8 /* BRTumblrLoginViewController.m */; };
-		CFCDCC7713D88EE900E268E8 /* BRTumblrLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCDCC7513D88EE900E268E8 /* BRTumblrLoginViewController.xib */; };
 		CFCDCC7C13D88F1500E268E8 /* TumblrLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCC7B13D88F1500E268E8 /* TumblrLoginViewController.m */; };
 		CFCDCD3713D89F5900E268E8 /* BRTumblrEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCDCD3613D89F5900E268E8 /* BRTumblrEngine.m */; };
-		CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE0D201673E3E800C10953 /* UserViewController.m */; };
+		CFCE0D221673E3E800C10953 /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCE0D201673E3E800C10953 /* UserViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFCE0D231673E3E800C10953 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCE0D211673E3E800C10953 /* UserViewController.xib */; };
-		CFD783D3169CB3970018976E /* StatusUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD783D2169CB3970018976E /* StatusUserView.m */; };
-		CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */; };
+		CFD783D3169CB3970018976E /* StatusUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD783D2169CB3970018976E /* StatusUserView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFD9DD4D1699FCE50067D127 /* RelationshipRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD9DD4C1699FCE50067D127 /* RelationshipRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFD9DD64169A102A0067D127 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD9DD63169A102A0067D127 /* AudioToolbox.framework */; };
 		CFE4EDA816B6EAE900C3B1F3 /* actionbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE4EDA616B6EAE900C3B1F3 /* actionbutton.png */; };
 		CFE4EDA916B6EAE900C3B1F3 /* actionbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE4EDA716B6EAE900C3B1F3 /* actionbutton@2x.png */; };
-		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; };
-		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; };
+		CFE97F84151A2CF800187398 /* Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE97F83151A2CF700187398 /* Attribute.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF72994151B531800540795 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF72993151B531700540795 /* Request.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFF818F113C07E4000C37DD8 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF818F013C07E4000C37DD8 /* Checkmark@2x.png */; };
 		CFF818F313C07E5400C37DD8 /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF818F213C07E5400C37DD8 /* Checkmark.png */; };
 		CFF8190813C07EAF00C37DD8 /* svhud-error.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF8190213C07EAF00C37DD8 /* svhud-error.png */; };
 		CFF8190913C07EAF00C37DD8 /* svhud-error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF8190313C07EAF00C37DD8 /* svhud-error@2x.png */; };
 		CFF8190A13C07EAF00C37DD8 /* svhud-success.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF8190413C07EAF00C37DD8 /* svhud-success.png */; };
 		CFF8190B13C07EAF00C37DD8 /* svhud-success@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF8190513C07EAF00C37DD8 /* svhud-success@2x.png */; };
-		CFF8190C13C07EAF00C37DD8 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8190713C07EAF00C37DD8 /* SVProgressHUD.m */; };
-		CFF8198A13C08B3300C37DD8 /* FacebookLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8198813C08B3300C37DD8 /* FacebookLoginController.m */; };
+		CFF8190C13C07EAF00C37DD8 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8190713C07EAF00C37DD8 /* SVProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF8198A13C08B3300C37DD8 /* FacebookLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8198813C08B3300C37DD8 /* FacebookLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFF8198B13C08B3300C37DD8 /* FacebookLoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF8198913C08B3300C37DD8 /* FacebookLoginController.xib */; };
-		CFF819AA13C08CB700C37DD8 /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199213C08CB700C37DD8 /* Facebook.m */; };
+		CFF819AA13C08CB700C37DD8 /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199213C08CB700C37DD8 /* Facebook.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFF819AB13C08CB700C37DD8 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CFF8199513C08CB700C37DD8 /* FBDialog.bundle */; };
-		CFF819AC13C08CB700C37DD8 /* FBDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199713C08CB700C37DD8 /* FBDialog.m */; };
-		CFF819AD13C08CB700C37DD8 /* FBLoginDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199913C08CB700C37DD8 /* FBLoginDialog.m */; };
-		CFF819AE13C08CB700C37DD8 /* FBRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199B13C08CB700C37DD8 /* FBRequest.m */; };
-		CFF819AF13C08CB700C37DD8 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199F13C08CB700C37DD8 /* NSObject+SBJSON.m */; };
-		CFF819B013C08CB700C37DD8 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A113C08CB700C37DD8 /* NSString+SBJSON.m */; };
-		CFF819B113C08CB700C37DD8 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A313C08CB700C37DD8 /* SBJSON.m */; };
-		CFF819B213C08CB700C37DD8 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A513C08CB700C37DD8 /* SBJsonBase.m */; };
-		CFF819B313C08CB700C37DD8 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A713C08CB700C37DD8 /* SBJsonParser.m */; };
-		CFF819B413C08CB700C37DD8 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A913C08CB700C37DD8 /* SBJsonWriter.m */; };
-		CFFCD9A71695BFB3006DC49B /* CommentComposeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9A61695BFB3006DC49B /* CommentComposeView.m */; };
-		CFFCD9B81695FB2E006DC49B /* UserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9B71695FB2E006DC49B /* UserRequest.m */; };
-		CFFCD9CF16963873006DC49B /* NSString+EscapePercentage.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9CE16963873006DC49B /* NSString+EscapePercentage.m */; };
+		CFF819AC13C08CB700C37DD8 /* FBDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199713C08CB700C37DD8 /* FBDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF819AD13C08CB700C37DD8 /* FBLoginDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199913C08CB700C37DD8 /* FBLoginDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF819AE13C08CB700C37DD8 /* FBRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199B13C08CB700C37DD8 /* FBRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF819AF13C08CB700C37DD8 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8199F13C08CB700C37DD8 /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF819B013C08CB700C37DD8 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A113C08CB700C37DD8 /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF819B113C08CB700C37DD8 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A313C08CB700C37DD8 /* SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF819B213C08CB700C37DD8 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A513C08CB700C37DD8 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF819B313C08CB700C37DD8 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A713C08CB700C37DD8 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFF819B413C08CB700C37DD8 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF819A913C08CB700C37DD8 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFFCD9A71695BFB3006DC49B /* CommentComposeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9A61695BFB3006DC49B /* CommentComposeView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFFCD9B81695FB2E006DC49B /* UserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9B71695FB2E006DC49B /* UserRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CFFCD9CF16963873006DC49B /* NSString+EscapePercentage.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFCD9CE16963873006DC49B /* NSString+EscapePercentage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFFE731A16680AED00457BD2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFE731716680AED00457BD2 /* Default-568h@2x.png */; };
 		CFFE731B16680AED00457BD2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFE731816680AED00457BD2 /* Default.png */; };
 		CFFE731C16680AED00457BD2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFE731916680AED00457BD2 /* Default@2x.png */; };
@@ -300,6 +298,7 @@
 		CF3B015E13CB74440060E0F6 /* WelcomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WelcomeViewController.xib; sourceTree = "<group>"; };
 		CF40613C13EC2AF70019767C /* UIImage-Tint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Tint.h"; sourceTree = "<group>"; };
 		CF40613D13EC2AF70019767C /* UIImage-Tint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Tint.m"; sourceTree = "<group>"; };
+		CF41A6851A1252190094789B /* TumblrLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TumblrLoginViewController.xib; sourceTree = "<group>"; };
 		CF42E0061690D0FC009FB526 /* BRCircleAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRCircleAlert.h; sourceTree = "<group>"; };
 		CF42E0071690D0FC009FB526 /* BRCircleAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRCircleAlert.m; sourceTree = "<group>"; };
 		CF42E0081690D0FC009FB526 /* BRCircleAlertButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRCircleAlertButton.h; sourceTree = "<group>"; };
@@ -550,11 +549,6 @@
 		CFCDCBF413D8766400E268E8 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		CFCDCBF513D8766400E268E8 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		CFCDCBF713D8769200E268E8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		CFCDCC7013D88D4B00E268E8 /* BRTumblrOAuthTokenGetter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRTumblrOAuthTokenGetter.h; sourceTree = "<group>"; };
-		CFCDCC7113D88D4B00E268E8 /* BRTumblrOAuthTokenGetter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRTumblrOAuthTokenGetter.m; sourceTree = "<group>"; };
-		CFCDCC7313D88EE900E268E8 /* BRTumblrLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRTumblrLoginViewController.h; sourceTree = "<group>"; };
-		CFCDCC7413D88EE900E268E8 /* BRTumblrLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRTumblrLoginViewController.m; sourceTree = "<group>"; };
-		CFCDCC7513D88EE900E268E8 /* BRTumblrLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BRTumblrLoginViewController.xib; sourceTree = "<group>"; };
 		CFCDCC7A13D88F1500E268E8 /* TumblrLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TumblrLoginViewController.h; sourceTree = "<group>"; };
 		CFCDCC7B13D88F1500E268E8 /* TumblrLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TumblrLoginViewController.m; sourceTree = "<group>"; };
 		CFCDCD3513D89F5900E268E8 /* BRTumblrEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRTumblrEngine.h; sourceTree = "<group>"; };
@@ -1194,13 +1188,9 @@
 		CFCDCD1813D89DF100E268E8 /* Tumblr */ = {
 			isa = PBXGroup;
 			children = (
-				CFCDCC7013D88D4B00E268E8 /* BRTumblrOAuthTokenGetter.h */,
-				CFCDCC7113D88D4B00E268E8 /* BRTumblrOAuthTokenGetter.m */,
-				CFCDCC7313D88EE900E268E8 /* BRTumblrLoginViewController.h */,
-				CFCDCC7413D88EE900E268E8 /* BRTumblrLoginViewController.m */,
-				CFCDCC7513D88EE900E268E8 /* BRTumblrLoginViewController.xib */,
 				CFCDCC7A13D88F1500E268E8 /* TumblrLoginViewController.h */,
 				CFCDCC7B13D88F1500E268E8 /* TumblrLoginViewController.m */,
+				CF41A6851A1252190094789B /* TumblrLoginViewController.xib */,
 			);
 			name = Tumblr;
 			sourceTree = "<group>";
@@ -1499,7 +1489,6 @@
 				CF4776B813D1E8FB00FC2D37 /* TimelineViewController.xib in Resources */,
 				CF261DD313D4B37400D3F844 /* loggedInCover.png in Resources */,
 				CF261DD413D4B37400D3F844 /* loggedInCover@2x.png in Resources */,
-				CFCDCC7713D88EE900E268E8 /* BRTumblrLoginViewController.xib in Resources */,
 				CF6E3BFD13E5A4D3007CC286 /* tumblrButton.png in Resources */,
 				CF6E3BFE13E5A4D3007CC286 /* tumblrButton@2x.png in Resources */,
 				CF6E66EF13E99909005E4674 /* test.jpg in Resources */,
@@ -1517,6 +1506,7 @@
 				CF88E07716A5D88E006415DF /* MultipleChoiceViewController.xib in Resources */,
 				CF88E07916A5D88E006415DF /* SettingViewController.xib in Resources */,
 				CF2C2DEB16B2DB5A00EF1593 /* AccountsViewController~ipad.xib in Resources */,
+				CF41A6861A1252190094789B /* TumblrLoginViewController.xib in Resources */,
 				CF2C2DEC16B2DB5A00EF1593 /* BRInstagramLoginViewController~ipad.xib in Resources */,
 				CF2C2DED16B2DB5A00EF1593 /* BRTumblrLoginViewController~ipad.xib in Resources */,
 				CF2C2DEE16B2DB5A00EF1593 /* FacebookLoginController~ipad.xib in Resources */,
@@ -1683,8 +1673,6 @@
 				CFCDCBF213D8764800E268E8 /* ASIInputStream.m in Sources */,
 				CFCDCBF313D8764800E268E8 /* ASINetworkQueue.m in Sources */,
 				CFCDCBF613D8766400E268E8 /* Reachability.m in Sources */,
-				CFCDCC7213D88D4B00E268E8 /* BRTumblrOAuthTokenGetter.m in Sources */,
-				CFCDCC7613D88EE900E268E8 /* BRTumblrLoginViewController.m in Sources */,
 				CFCDCC7C13D88F1500E268E8 /* TumblrLoginViewController.m in Sources */,
 				CFCDCD3713D89F5900E268E8 /* BRTumblrEngine.m in Sources */,
 				CFABC52613DA732500B827DA /* BRTwitterEngine.m in Sources */,
@@ -1742,6 +1730,7 @@
 			baseConfigurationReference = E90D935B8B094C247C0BF075 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1786,6 +1775,7 @@
 			baseConfigurationReference = BB1832479F4A23BAE35571FA /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
@@ -1909,6 +1899,7 @@
 			baseConfigurationReference = A4BCCA00847ADCF45776E016 /* Pods.testflight.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
