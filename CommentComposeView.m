@@ -21,7 +21,7 @@
         textField.textColor=[UIColor whiteColor];
         textField.font=[UIFont systemFontOfSize:15];
         textField.backgroundColor=[UIColor colorWithRed:4/255.0 green:55/255.0 blue:108/255.0 alpha:1.0];
-        textField.placeholder=@"Your comment here";
+        textField.attributedPlaceholder=[[[NSAttributedString alloc] initWithString:@"Your comment here" attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}] autorelease];
         [self addSubview:textField];
     }
     return self;
