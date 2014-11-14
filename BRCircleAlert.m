@@ -52,7 +52,7 @@
         textView.font=[UIFont systemFontOfSize:16];
         textView.textColor=[UIColor whiteColor];
         textView.backgroundColor=[UIColor clearColor];
-        textView.textAlignment=NSTextAlignmentCenter;
+        textView.textAlignment = NSTextAlignmentCenter;
         textView.editable=NO;
         [self addSubview:textView];
         textView.text=_text;
@@ -158,6 +158,8 @@
 }
 #pragma mark -
 -(CGSize)sizeForTextWithWidth:(float)width{
+    return [textView sizeThatFits:CGSizeMake(width, FLT_MAX)];
+    
     CGRect textViewFrame=textView.frame;
     textViewFrame.size.width=width;
     textView.frame=textViewFrame;
