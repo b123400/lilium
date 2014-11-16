@@ -86,7 +86,7 @@
 }
 -(void)layout{
     CGSize textViewSize=[self sizeForTextWithWidth:self.minimumTextWidth];
-    float xMargin=([UIApplication currentFrame].size.width-self.minimumTextWidth)/2;
+    float xMargin=([UIApplication currentFrame].size.width-textViewSize.width)/2;
     float yMargin=([UIApplication currentFrame].size.height-textViewSize.height-_verticalBlank)/2;
     textView.frame=CGRectMake(xMargin, yMargin, textViewSize.width, textViewSize.height);
     

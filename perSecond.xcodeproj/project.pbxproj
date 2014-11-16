@@ -20,6 +20,7 @@
 		CF10DA5B16B47AC600B88991 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF10DA5A16B47AC600B88991 /* ImageIO.framework */; };
 		CF1E5F3016B3F6C0007F3DBB /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1E5F2F16B3F6C0007F3DBB /* SDImageCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF1F1F0D16AD84E100366B5E /* MultipleChoiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1F1F0C16AD84E100366B5E /* MultipleChoiceCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CF25D4851A18E17C002DE33B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF25D4841A18E17C002DE33B /* Images.xcassets */; };
 		CF261DCE13D4AA6200D3F844 /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = CF261DCD13D4AA6200D3F844 /* Status.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF261DD313D4B37400D3F844 /* loggedInCover.png in Resources */ = {isa = PBXBuildFile; fileRef = CF261DD113D4B37400D3F844 /* loggedInCover.png */; };
 		CF261DD413D4B37400D3F844 /* loggedInCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF261DD213D4B37400D3F844 /* loggedInCover@2x.png */; };
@@ -269,6 +270,7 @@
 		CF1E5F3116B3F6F2007F3DBB /* SDImageCacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDImageCacheDelegate.h; sourceTree = "<group>"; };
 		CF1F1F0B16AD84E100366B5E /* MultipleChoiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipleChoiceCell.h; sourceTree = "<group>"; };
 		CF1F1F0C16AD84E100366B5E /* MultipleChoiceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipleChoiceCell.m; sourceTree = "<group>"; };
+		CF25D4841A18E17C002DE33B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = perSecond/Images.xcassets; sourceTree = "<group>"; };
 		CF261DCC13D4AA6200D3F844 /* Status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Status.h; sourceTree = "<group>"; };
 		CF261DCD13D4AA6200D3F844 /* Status.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Status.m; sourceTree = "<group>"; };
 		CF261DD113D4B37400D3F844 /* loggedInCover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = loggedInCover.png; path = Images/loggedInCover.png; sourceTree = "<group>"; };
@@ -726,6 +728,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF25D4841A18E17C002DE33B /* Images.xcassets */,
 				CFF818ED13C07E3700C37DD8 /* Image */,
 				CFFBD82813E7065700C94C32 /* Core */,
 				CFCCE77713BB9A5100D2BFD1 /* NichijyouNavigationController.h */,
@@ -1524,6 +1527,7 @@
 				CF4A290016B697040081E2F7 /* settingsButton-iPad@2x.png in Resources */,
 				CF4A290916B6BA170081E2F7 /* Quicksand_Bold_Oblique.otf in Resources */,
 				CF4A290A16B6BA170081E2F7 /* Quicksand_Bold.otf in Resources */,
+				CF25D4851A18E17C002DE33B /* Images.xcassets in Resources */,
 				CF4A290B16B6BA170081E2F7 /* Quicksand_Book_Oblique.otf in Resources */,
 				CF4A290C16B6BA170081E2F7 /* Quicksand_Book.otf in Resources */,
 				CF4A290D16B6BA170081E2F7 /* Quicksand_Dash.otf in Resources */,
@@ -1730,6 +1734,8 @@
 			baseConfigurationReference = E90D935B8B094C247C0BF075 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1752,6 +1758,7 @@
 					"${PODS_HEADERS_SEARCH_PATHS}",
 				);
 				INFOPLIST_FILE = "perSecond-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1775,6 +1782,8 @@
 			baseConfigurationReference = BB1832479F4A23BAE35571FA /* Pods.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1791,7 +1800,7 @@
 					"${PODS_HEADERS_SEARCH_PATHS}",
 				);
 				INFOPLIST_FILE = "perSecond-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1899,6 +1908,8 @@
 			baseConfigurationReference = A4BCCA00847ADCF45776E016 /* Pods.testflight.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Siu Chak Chan (96BTYNR4S9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1921,6 +1932,7 @@
 					"${PODS_HEADERS_SEARCH_PATHS}",
 				);
 				INFOPLIST_FILE = "perSecond-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",

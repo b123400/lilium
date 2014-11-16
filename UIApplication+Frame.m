@@ -11,7 +11,7 @@
 @implementation UIApplication (Frame)
 
 +(CGRect)currentFrame{
-    CGRect appFrame=[UIScreen mainScreen].applicationFrame;
+    CGRect appFrame=[UIScreen mainScreen].bounds;
     appFrame.origin=CGPointZero;
     if(UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)){
         //landscape
