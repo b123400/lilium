@@ -111,7 +111,7 @@ static float pressShiftFactor=0.2;
 		
 		NSArray *viewsToAnimate=[self subviewsToAnimateForViewController:[self topViewController]];
 		
-		int indexOfNextViewController=[[self viewControllers]indexOfObject:targetController];
+		NSUInteger indexOfNextViewController=[[self viewControllers]indexOfObject:targetController];
 		lastTouchedPoint=[((NSValue*)[self centerPoints][indexOfNextViewController]) CGPointValue];
 				
 		for(int i=0;i<viewsToAnimate.count;i++){
@@ -268,6 +268,7 @@ static float pressShiftFactor=0.2;
 	NSArray *animatedViews=[self subviewsToAnimateForViewController:lastController];
     for(int i=0;i<animatedViews.count;i++){
         UIView *thisView=animatedViews[i];
+        thisView.layer.transform = CATransform3DIdentity;
 		[thisView.layer removeAllAnimations];
 		if(!disableFade){
 			thisView.layer.opacity=1;
@@ -468,7 +469,7 @@ static float pressShiftFactor=0.2;
 	[self topViewController].view.userInteractionEnabled=NO;
 	NSArray *viewsToAnimate=[self subviewsToAnimateForViewController:[self topViewController]];
 	
-	int indexOfNextViewController=[[self viewControllers]indexOfObject:nextController];
+	NSUInteger indexOfNextViewController=[[self viewControllers]indexOfObject:nextController];
 	lastTouchedPoint=[((NSValue*)[self centerPoints][indexOfNextViewController]) CGPointValue];
 	
 	NSMutableArray *delayTimes=[NSMutableArray array];
@@ -606,6 +607,7 @@ static float pressShiftFactor=0.2;
 	float yDifferent=(absoluteRect.origin.y+absoluteRect.size.height/2-lastTouchedPoint.y)*(zoomOutFactor-1);
 	
 	CALayer *layer=theView.layer;
+    layer.anchorPoint = CGPointMake(0.5, 0.5);
 	CGPoint targetPosition=CGPointMake(layer.position.x+xDifferent, layer.position.y+yDifferent);
 	
     SecondOrderResponseEvaluator *evaluator=nil;

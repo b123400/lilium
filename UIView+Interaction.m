@@ -62,22 +62,22 @@ static const char *reactionKey = "touchReaction";
 	
 	self.layer.anchorPoint = CGPointMake(1-percentagePoint.x,1-percentagePoint.y);
 	
-	[self.layer addAnimation:topAnim forKey:@"transform"];
+	[self.layer addAnimation:topAnim forKey:@"interaction-transform"];
 	
 	self.layer.edgeAntialiasingMask = kCALayerLeftEdge | kCALayerRightEdge | kCALayerBottomEdge | kCALayerTopEdge;
 	//self.layer.zPosition=10000;
 }
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
 	[super touchesMoved:touches withEvent:event];
-	[self.layer removeAllAnimations];
+	[self.layer removeAnimationForKey:@"interaction-transform"];
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
 	[super touchesEnded:touches withEvent:event];
-	[self.layer removeAllAnimations];
+	[self.layer removeAnimationForKey:@"interaction-transform"];
 }
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
 	[super touchesCancelled:touches withEvent:event];
-	[self.layer removeAllAnimations];
+	[self.layer removeAnimationForKey:@"interaction-transform"];
 }
 
 
