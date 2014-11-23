@@ -167,6 +167,7 @@
 		CF8C6DA913C0B04C00C013B0 /* BRInstagramEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6DA813C0B04C00C013B0 /* BRInstagramEngine.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF8C6DAD13C0B41F00C013B0 /* BRInstagramLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C6DAB13C0B41F00C013B0 /* BRInstagramLoginViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF8C6DAE13C0B41F00C013B0 /* BRInstagramLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8C6DAC13C0B41F00C013B0 /* BRInstagramLoginViewController.xib */; };
+		CF92F9071A1B925C0046ED9F /* Default.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF92F9061A1B925C0046ED9F /* Default.storyboard */; };
 		CF9DEAD3146D854700FB9519 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */; };
 		CFA9A6A616B7D201006771C2 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA9A6A416B7D201006771C2 /* AboutViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CFA9A6A716B7D201006771C2 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA9A6A516B7D201006771C2 /* AboutViewController.xib */; };
@@ -494,6 +495,7 @@
 		CF8C6DAA13C0B41F00C013B0 /* BRInstagramLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BRInstagramLoginViewController.h; path = Classes/BRInstagramLoginViewController.h; sourceTree = "<group>"; };
 		CF8C6DAB13C0B41F00C013B0 /* BRInstagramLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BRInstagramLoginViewController.m; path = Classes/BRInstagramLoginViewController.m; sourceTree = "<group>"; };
 		CF8C6DAC13C0B41F00C013B0 /* BRInstagramLoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BRInstagramLoginViewController.xib; path = Classes/BRInstagramLoginViewController.xib; sourceTree = "<group>"; };
+		CF92F9061A1B925C0046ED9F /* Default.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Default.storyboard; sourceTree = "<group>"; };
 		CF9DEAD2146D854700FB9519 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		CFA9A6A316B7D201006771C2 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		CFA9A6A416B7D201006771C2 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
@@ -650,6 +652,7 @@
 			isa = PBXGroup;
 			children = (
 				CF57FD6113BF28C800C184F8 /* Login */,
+				CF92F9061A1B925C0046ED9F /* Default.storyboard */,
 				CF31260013BE4E120064B7AA /* AccountsViewController.h */,
 				CF31260113BE4E120064B7AA /* AccountsViewController.m */,
 				CF31260213BE4E120064B7AA /* AccountsViewController.xib */,
@@ -1491,6 +1494,7 @@
 				CF47767A13D1DEFD00FC2D37 /* getstartedButton@2x.png in Resources */,
 				CF4776B813D1E8FB00FC2D37 /* TimelineViewController.xib in Resources */,
 				CF261DD313D4B37400D3F844 /* loggedInCover.png in Resources */,
+				CF92F9071A1B925C0046ED9F /* Default.storyboard in Resources */,
 				CF261DD413D4B37400D3F844 /* loggedInCover@2x.png in Resources */,
 				CF6E3BFD13E5A4D3007CC286 /* tumblrButton.png in Resources */,
 				CF6E3BFE13E5A4D3007CC286 /* tumblrButton@2x.png in Resources */,

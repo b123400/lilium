@@ -57,6 +57,8 @@
 		<string>Quicksand_Light_Oblique.otf</string>
 		<string>Quicksand_Light.otf</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>Default</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 </dict>

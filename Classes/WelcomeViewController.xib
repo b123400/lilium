@@ -22,9 +22,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5">
                     <rect key="frame" x="113" y="325" width="94" height="94"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="94" id="acD-V4-Lst"/>
+                        <constraint firstAttribute="height" constant="94" id="oMe-z4-zTe"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <state key="normal" image="settingsButton.png">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -37,9 +41,13 @@
                         <action selector="goSettings:" destination="-1" eventType="touchUpInside" id="27"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8">
                     <rect key="frame" x="113" y="450" width="94" height="29"/>
                     <color key="backgroundColor" red="1" green="0.47530016450000001" blue="0.62965045239999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="29" id="Nv7-j7-v6a"/>
+                        <constraint firstAttribute="width" constant="94" id="obx-Me-70S"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <state key="normal" title="?">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -52,9 +60,13 @@
                         <action selector="goAbout:" destination="-1" eventType="touchUpInside" id="35"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6">
                     <rect key="frame" x="113" y="203" width="94" height="94"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="94" id="eaN-d6-Jpc"/>
+                        <constraint firstAttribute="width" constant="94" id="f9x-dD-eOX"/>
+                    </constraints>
                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                     <state key="normal" image="accountsButton.png">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -67,12 +79,26 @@
                         <action selector="goAddAccount" destination="-1" eventType="touchUpInside" id="24"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="30" customClass="TitleButton">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="30" customClass="TitleButton">
                     <rect key="frame" x="113" y="79" width="94" height="94"/>
                     <color key="backgroundColor" red="0.32797352400000002" green="0.67183554290000003" blue="0.548643247" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="94" id="6jS-8U-gAx"/>
+                        <constraint firstAttribute="width" constant="94" id="e27-zc-Vts"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="5" secondAttribute="bottom" constant="61" id="8RL-4g-mr9"/>
+                <constraint firstAttribute="centerX" secondItem="30" secondAttribute="centerX" id="JGA-Rc-skF"/>
+                <constraint firstAttribute="bottom" secondItem="6" secondAttribute="bottom" constant="183" id="Tw5-bp-R5E"/>
+                <constraint firstAttribute="bottom" secondItem="30" secondAttribute="bottom" constant="307" id="WZ2-ng-tcP"/>
+                <constraint firstAttribute="centerX" secondItem="5" secondAttribute="centerX" id="b0X-5m-oh4"/>
+                <constraint firstAttribute="centerX" secondItem="6" secondAttribute="centerX" id="bNg-jf-3Qh"/>
+                <constraint firstAttribute="centerX" secondItem="8" secondAttribute="centerX" id="qxp-cc-5jF"/>
+                <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" constant="1" id="zFZ-v0-FmB"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="343" y="291"/>
