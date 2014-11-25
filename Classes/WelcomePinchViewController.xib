@@ -16,25 +16,27 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4">
                     <rect key="frame" x="51" y="152" width="214" height="157"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Now, pinch to get back." lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                            <rect key="frame" x="17" y="68" width="180" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="180" id="6"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </label>
+                    </subviews>
                     <color key="backgroundColor" red="0.33725491169999999" green="0.76862752440000004" blue="0.19215688110000001" alpha="1" colorSpace="deviceRGB"/>
                     <constraints>
+                        <constraint firstAttribute="centerY" secondItem="5" secondAttribute="centerY" id="8ZE-Nh-LtK"/>
                         <constraint firstAttribute="height" constant="157" id="9dC-fu-IIy"/>
+                        <constraint firstAttribute="centerX" secondItem="5" secondAttribute="centerX" id="BHJ-NZ-EnX"/>
                     </constraints>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Now, pinch to get back." lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                    <rect key="frame" x="70" y="217" width="180" height="21"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="180" id="6"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="5" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="7"/>
-                <constraint firstItem="5" firstAttribute="top" secondItem="1" secondAttribute="top" constant="217" id="8"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="51" id="9"/>
                 <constraint firstAttribute="trailing" secondItem="4" secondAttribute="trailing" constant="55" id="10"/>
                 <constraint firstAttribute="centerY" secondItem="4" secondAttribute="centerY" id="wp6-5K-O0b"/>
