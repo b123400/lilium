@@ -46,7 +46,7 @@
                                               object:self.backgroundImageView];
     
     self.autoresizesSubviews=YES;
-    self.textLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    self.textLabel=[[UILabel alloc] init];
     self.textLabel.textColor=[UIColor whiteColor];
     self.textLabel.autoresizingMask=UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     self.textLabel.backgroundColor=[UIColor colorWithWhite:0.0 alpha:0.2];
@@ -54,12 +54,13 @@
     self.textLabel.font=[UIFont fontWithName:@"QuicksandBold-Regular" size:18];
     [self addSubview:self.textLabel];
     
-    self.backgroundImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    self.backgroundImageView=[[UIImageView alloc]init];
 //    self.backgroundImageView.backgroundColor=[UIColor redColor];
     [self addSubview:self.backgroundImageView];
     
     [self bringSubviewToFront:self.backgroundImageView];
     [self bringSubviewToFront:self.textLabel];
+    [self layoutSubviews];
 }
 -(void)setImageWithURL:(NSURL*)url{
     [self.backgroundImageView setImageWithURL:url];
@@ -68,6 +69,13 @@
 -(void)didRefreshedImage{
     [self layoutWithAnimation:YES];
 }
+
+-(void)layoutSubviews {
+    [super layoutSubviews];
+    self.backgroundImageView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    self.textLabel.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+}
+
 -(void)layoutWithAnimation:(BOOL)animated{
     float animationDuration=15;
     float widthScale=self.frame.size.width/self.backgroundImageView.image.size.width;
@@ -76,7 +84,7 @@
         widthScale=heightScale=0;
     }
     [self.backgroundImageView.layer removeAllAnimations];
-    if(widthScale<heightScale){
+    if(widthScale - heightScale < -0.05){
         CGSize targetSize=CGSizeMake(self.backgroundImageView.image.size.width*heightScale, self.frame.size.height);
         self.backgroundImageView.frame=CGRectMake(0, 0, targetSize.width, targetSize.height);
         [UIView animateWithDuration:animationDuration animations:^{
@@ -88,7 +96,7 @@
                 }
             }
         }];
-    }else if(widthScale>heightScale){
+    }else if(widthScale - heightScale > 0.05){
         CGSize targetSize=CGSizeMake(self.frame.size.width, self.backgroundImageView.image.size.height*widthScale);
         self.backgroundImageView.frame=CGRectMake(0, 0, targetSize.width, targetSize.height);
         [UIView animateWithDuration:animationDuration animations:^{
@@ -104,7 +112,7 @@
         self.backgroundImageView.frame=CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         self.backgroundImageView.layer.transform=CATransform3DMakeScale(1.5, 1.5, 0);
         [UIView animateWithDuration:5.0 animations:^{
-            self.backgroundImageView.layer.transform=CATransform3DIdentity;
+            self.backgroundImageView.layer.transform=CATransform3DMakeScale(1.1, 1.1, 0);
         } completion:^(BOOL finished) {
             if(finished){
                 if(delegate&&[delegate respondsToSelector:@selector(titleButtonDidFinishedAnimation:)]){

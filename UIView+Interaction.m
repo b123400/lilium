@@ -58,8 +58,9 @@ static const char *reactionKey = "touchReaction";
 	CGPoint origin=self.frame.origin;
 	origin.x+=(1-percentagePoint.x)*self.frame.size.width;
 	origin.y+=(1-percentagePoint.y)*self.frame.size.height;
+    
 	self.center=origin;
-	
+    
 	self.layer.anchorPoint = CGPointMake(1-percentagePoint.x,1-percentagePoint.y);
 	
 	[self.layer addAnimation:topAnim forKey:@"interaction-transform"];
@@ -69,15 +70,26 @@ static const char *reactionKey = "touchReaction";
 }
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
 	[super touchesMoved:touches withEvent:event];
-	[self.layer removeAnimationForKey:@"interaction-transform"];
+	[self restoreOriginal];
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
 	[super touchesEnded:touches withEvent:event];
-	[self.layer removeAnimationForKey:@"interaction-transform"];
+	[self restoreOriginal];
 }
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
 	[super touchesCancelled:touches withEvent:event];
-	[self.layer removeAnimationForKey:@"interaction-transform"];
+    [self restoreOriginal];
+}
+
+- (void)restoreOriginal {
+    [self.layer removeAnimationForKey:@"interaction-transform"];
+    CGPoint center = self.center;
+    center.x -= self.layer.anchorPoint.x*self.bounds.size.width;
+    center.y -= self.layer.anchorPoint.y*self.bounds.size.height;
+    center.x += self.bounds.size.width /2;
+    center.y += self.bounds.size.height/2;
+    self.center = center;
+    self.layer.anchorPoint = CGPointMake(0.5, 0.5);
 }
 
 
