@@ -55,6 +55,7 @@
     [self addSubview:self.textLabel];
     
     self.backgroundImageView=[[UIImageView alloc]init];
+    self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
 //    self.backgroundImageView.backgroundColor=[UIColor redColor];
     [self addSubview:self.backgroundImageView];
     
@@ -83,44 +84,20 @@
     if(self.backgroundImageView.image.size.width==0||self.backgroundImageView.image.size.height==0){
         widthScale=heightScale=0;
     }
+    self.translatesAutoresizingMaskIntoConstraints = YES;
+    self.backgroundImageView.translatesAutoresizingMaskIntoConstraints = YES;
     [self.backgroundImageView.layer removeAllAnimations];
-    if(widthScale - heightScale < -0.05){
-        CGSize targetSize=CGSizeMake(self.backgroundImageView.image.size.width*heightScale, self.frame.size.height);
-        self.backgroundImageView.frame=CGRectMake(0, 0, targetSize.width, targetSize.height);
-        [UIView animateWithDuration:animationDuration animations:^{
-            self.backgroundImageView.frame=CGRectMake(self.frame.size.width-targetSize.width, 0, self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height);
-        } completion:^(BOOL finished) {
-            if(finished){
-                if(delegate&&[delegate respondsToSelector:@selector(titleButtonDidFinishedAnimation:)]){
-                    [delegate titleButtonDidFinishedAnimation:self];
-                }
+    self.backgroundImageView.frame=CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    self.backgroundImageView.layer.transform=CATransform3DMakeScale(1.5, 1.5, 0);
+    [UIView animateWithDuration:animationDuration animations:^{
+        self.backgroundImageView.layer.transform=CATransform3DMakeScale(1.1, 1.1, 0);
+    } completion:^(BOOL finished) {
+        if(finished){
+            if(delegate&&[delegate respondsToSelector:@selector(titleButtonDidFinishedAnimation:)]){
+                [delegate titleButtonDidFinishedAnimation:self];
             }
-        }];
-    }else if(widthScale - heightScale > 0.05){
-        CGSize targetSize=CGSizeMake(self.frame.size.width, self.backgroundImageView.image.size.height*widthScale);
-        self.backgroundImageView.frame=CGRectMake(0, 0, targetSize.width, targetSize.height);
-        [UIView animateWithDuration:animationDuration animations:^{
-            self.backgroundImageView.frame=CGRectMake(0, self.frame.size.height-self.backgroundImageView.frame.size.height, self.backgroundImageView.frame.size.width, self.backgroundImageView.frame.size.height);
-        } completion:^(BOOL finished) {
-            if(finished){
-                if(delegate&&[delegate respondsToSelector:@selector(titleButtonDidFinishedAnimation:)]){
-                    [delegate titleButtonDidFinishedAnimation:self];
-                }
-            }
-        }];
-    }else{
-        self.backgroundImageView.frame=CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-        self.backgroundImageView.layer.transform=CATransform3DMakeScale(1.5, 1.5, 0);
-        [UIView animateWithDuration:5.0 animations:^{
-            self.backgroundImageView.layer.transform=CATransform3DMakeScale(1.1, 1.1, 0);
-        } completion:^(BOOL finished) {
-            if(finished){
-                if(delegate&&[delegate respondsToSelector:@selector(titleButtonDidFinishedAnimation:)]){
-                    [delegate titleButtonDidFinishedAnimation:self];
-                }
-            }
-        }];
-    }
+        }
+    }];
     [self setNeedsDisplay];
 }
 -(void)startAnimation{
