@@ -39,33 +39,46 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    [super viewDidLoad];
     getStartedButton.layer.zPosition=1000;
 	[self refreshView];
-    [super viewDidLoad];
     aboutButton.titleLabel.font=[UIFont fontWithName:@"QuicksandBold-Regular" size:aboutButton.titleLabel.font.pointSize];
+    [timelineButton addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goTimeline)] autorelease]];
 }
 
 -(void)refreshView{
 	NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
 	NSNumber *didPinched=[defaults objectForKey:@"initialPinched"];
+    [initialPinchView removeFromSuperview];
+    [noAccountView removeFromSuperview];
+    [mainView removeFromSuperview];
+    
 	if(!didPinched||![didPinched boolValue]){
-		self.view=initialPinchView;
+		[self.view addSubview:initialPinchView];
 	}else if(![BRFunctions didLoggedInFlickr]&&
 			 ![BRFunctions didLoggedInTwitter]&&
 			 ![BRFunctions didLoggedInInstagram]&&
 			 ![BRFunctions isFacebookLoggedIn:NO]&&
 			 ![BRFunctions didLoggedInTumblr]){
-		self.view=noAccountView;
+		[self.view addSubview:noAccountView];
 	}else{
-		self.view=mainView;
+		[self.view addSubview:mainView];
+        mainView.frame = self.view.bounds;
 	}
     
     Status *randomStatus=[[TimelineManager sharedManager]randomStatus];
     timelineButton.delegate=self;
     [timelineButton setImageWithURL:randomStatus.thumbURL];
-    [timelineButton addGestureRecognizer:[[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(goTimeline)] autorelease]];
     timelineButton.textLabel.text=@"Timeline";
 }
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    CGRect frame = timelineButton.frame;
+    frame.origin.x = settingsButton.frame.origin.x;
+    timelineButton.frame = frame;
+}
+
 -(void)titleButtonDidFinishedAnimation:(id)button{
     Status *randomStatus=[[TimelineManager sharedManager]randomStatus];
     [timelineButton setImageWithURL:randomStatus.thumbURL];
@@ -74,7 +87,7 @@
     [timelineButton startAnimation];
 }
 -(NSArray*)viewsForNichijyouNavigationControllerToAnimate:(id)sender{
-    if(self.view==mainView){
+    if(mainView.superview){
         return @[timelineButton,accountButton,settingsButton,aboutButton];
     }
     return self.view.subviews;
@@ -126,6 +139,7 @@
 - (BOOL)shouldAutorotate {
     return YES;
 }
+
 - (NSUInteger)supportedInterfaceOrientations
 {
     //decide number of origination tob supported by Viewcontroller.
@@ -140,7 +154,7 @@
 }
 
 - (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation{
-    if(self.view==mainView){
+    if(mainView.superview){
         if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)return;
         switch (orientation) {
             case UIInterfaceOrientationLandscapeLeft:{

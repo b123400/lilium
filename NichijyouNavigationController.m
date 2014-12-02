@@ -607,9 +607,7 @@ static float pressShiftFactor=0.2;
 	float yDifferent=(absoluteRect.origin.y+absoluteRect.size.height/2-lastTouchedPoint.y)*(zoomOutFactor-1);
 	
 	CALayer *layer=theView.layer;
-    NSLog(NSStringFromCGPoint(layer.anchorPoint));
     layer.anchorPoint = CGPointMake(0.5, 0.5);
-    NSLog(NSStringFromCGPoint(layer.anchorPoint));
 	CGPoint targetPosition=CGPointMake(layer.position.x+xDifferent, layer.position.y+yDifferent);
 	
     SecondOrderResponseEvaluator *evaluator=nil;

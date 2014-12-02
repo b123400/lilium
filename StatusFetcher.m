@@ -61,7 +61,7 @@ static StatusFetcher* sharedFetcher=nil;
             [toRemove addObject:thisStatus];
         }
     }
-    NSLog(@"free %d statuses",toRemove.count);
+    NSLog(@"free %lu statuses",(unsigned long)toRemove.count);
     [allStatuses removeObjectsInArray:toRemove];
 }
 #pragma mark - Timeline

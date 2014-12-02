@@ -222,12 +222,10 @@
 	[self refreshLoginStatus];
     [[NSNotificationCenter defaultCenter] postNotificationName:AccountsDidUpdatedNotification object:nil];
 }
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
+
 - (BOOL)shouldAutorotate {
     UIInterfaceOrientation orientation = [[UIDevice currentDevice] orientation];
-    return [self shouldAutorotateToInterfaceOrientation:orientation];
+    return (orientation == UIInterfaceOrientationPortrait);
 }
 - (NSUInteger)supportedInterfaceOrientations
 {

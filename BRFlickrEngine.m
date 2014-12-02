@@ -182,7 +182,7 @@
 
 + (NSString *)shortURLIDFromPhotoID:(long long)num {
 	NSString *alphabet = @"123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
-	int baseCount = [alphabet length];
+	NSUInteger baseCount = [alphabet length];
 	NSString *encoded = @"";
 	while(num >= baseCount) {
 		double div = num/baseCount;

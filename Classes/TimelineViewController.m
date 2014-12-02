@@ -66,7 +66,7 @@
 
 #pragma mark - delegates
 -(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
-    int index=[statuses indexOfObject:currentStatus];
+    NSUInteger index=[statuses indexOfObject:currentStatus];
     if(index==NSNotFound)return nil;
     index++;
     if(index<statuses.count){
@@ -75,13 +75,10 @@
     return nil;
 }
 -(Status*)previousImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
-    int index=[statuses indexOfObject:currentStatus];
+    NSUInteger index=[statuses indexOfObject:currentStatus];
     if(index==NSNotFound)return nil;
     index--;
-    if(index>=0){
-        return statuses[index];
-    }
-    return nil;
+    return statuses[index];
 }
 -(void)timelineManagerDidLoadedNewerStatuses:(NSNotification*)notification{
     [SVProgressHUD dismiss];
@@ -124,7 +121,7 @@
 -(void)willPopOutFromSubviewController:(StatusDetailViewController*)controller{
     [self layoutAnimated:NO];
     Status *status=controller.status;
-    int index=[statuses indexOfObject:status];
+    NSUInteger index=[statuses indexOfObject:status];
     if(index!=NSNotFound){
         [gridView scrollToCellAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] animated:NO];
     }
