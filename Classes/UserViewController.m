@@ -290,12 +290,12 @@
 #pragma mark - detail view delegate
 -(Status*)nextImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
     if(currentStatus==[self.statuses lastObject])return nil;
-    int index=[self.statuses indexOfObject:currentStatus];
+    NSUInteger index=[self.statuses indexOfObject:currentStatus];
     if(index==NSNotFound)return nil;
     return (self.statuses)[index+1];
 }
 -(Status*)previousImageForStatusViewController:(id)controller currentStatus:(Status*)currentStatus{
-    int index=[self.statuses indexOfObject:currentStatus];
+    NSUInteger index=[self.statuses indexOfObject:currentStatus];
     if(index==NSNotFound||index==0)return nil;
     return (self.statuses)[index-1];
 }

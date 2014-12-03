@@ -145,11 +145,14 @@ static float loadingBorder=40.0;
 #pragma mark -
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    [super viewDidLoad];
 	fullBorder=backgroundBorderView.frame;
+    CGRect frame = loading.frame;
+    frame.origin.x = (self.view.frame.size.width-frame.size.width)/2;
+    loading.frame = frame;
 	backgroundBorderView.frame=CGRectMake(loading.frame.origin.x-loadingBorder, loading.frame.origin.y-loadingBorder, loading.frame.size.width+loadingBorder*2, loading.frame.size.height+loadingBorder*2);
 	webView.hidden=YES;
 	[loading startAnimating];
-    [super viewDidLoad];
 }
 
 
