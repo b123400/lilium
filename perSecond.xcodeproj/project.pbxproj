@@ -87,10 +87,6 @@
 		CF4A290E16B6BA170081E2F7 /* Quicksand_Light_Oblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF4A290716B6BA170081E2F7 /* Quicksand_Light_Oblique.otf */; };
 		CF4A290F16B6BA170081E2F7 /* Quicksand_Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF4A290816B6BA170081E2F7 /* Quicksand_Light.otf */; };
 		CF4A291116B6C9000081E2F7 /* SettingViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4A291016B6C9000081E2F7 /* SettingViewController~ipad.xib */; };
-		CF4A295216B6E3080081E2F7 /* 57.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A294D16B6E3080081E2F7 /* 57.png */; };
-		CF4A295316B6E3080081E2F7 /* 72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A294E16B6E3080081E2F7 /* 72.png */; };
-		CF4A295416B6E3080081E2F7 /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A294F16B6E3080081E2F7 /* 114.png */; };
-		CF4A295516B6E3080081E2F7 /* 144.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A295016B6E3080081E2F7 /* 144.png */; };
 		CF4A295616B6E3080081E2F7 /* 1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4A295116B6E3080081E2F7 /* 1024.png */; };
 		CF5399F413CF09B7001E174B /* UIView+Interaction.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5399F313CF09B7001E174B /* UIView+Interaction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF57FD6513BF28DC00C184F8 /* TwitterLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF57FD6313BF28DC00C184F8 /* TwitterLoginController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -353,10 +349,6 @@
 		CF4A290716B6BA170081E2F7 /* Quicksand_Light_Oblique.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Quicksand_Light_Oblique.otf; sourceTree = "<group>"; };
 		CF4A290816B6BA170081E2F7 /* Quicksand_Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Quicksand_Light.otf; sourceTree = "<group>"; };
 		CF4A291016B6C9000081E2F7 /* SettingViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SettingViewController~ipad.xib"; sourceTree = "<group>"; };
-		CF4A294D16B6E3080081E2F7 /* 57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 57.png; sourceTree = "<group>"; };
-		CF4A294E16B6E3080081E2F7 /* 72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 72.png; sourceTree = "<group>"; };
-		CF4A294F16B6E3080081E2F7 /* 114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114.png; sourceTree = "<group>"; };
-		CF4A295016B6E3080081E2F7 /* 144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 144.png; sourceTree = "<group>"; };
 		CF4A295116B6E3080081E2F7 /* 1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1024.png; sourceTree = "<group>"; };
 		CF5399F213CF09B7001E174B /* UIView+Interaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Interaction.h"; sourceTree = "<group>"; };
 		CF5399F313CF09B7001E174B /* UIView+Interaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Interaction.m"; sourceTree = "<group>"; };
@@ -1215,10 +1207,6 @@
 			children = (
 				CFE4EDA616B6EAE900C3B1F3 /* actionbutton.png */,
 				CFE4EDA716B6EAE900C3B1F3 /* actionbutton@2x.png */,
-				CF4A294D16B6E3080081E2F7 /* 57.png */,
-				CF4A294E16B6E3080081E2F7 /* 72.png */,
-				CF4A294F16B6E3080081E2F7 /* 114.png */,
-				CF4A295016B6E3080081E2F7 /* 144.png */,
 				CF4A295116B6E3080081E2F7 /* 1024.png */,
 				CF02E1561693657E007913D9 /* heart.png */,
 				CF02E1571693657E007913D9 /* heart@2x.png */,
@@ -1542,10 +1530,6 @@
 				CF7DFBEF16B94FF9000ECA20 /* zoomout.aiff in Resources */,
 				CF7DFBF116B95850000ECA20 /* alert.aiff in Resources */,
 				CF7DFBF716B95FC9000ECA20 /* like.aiff in Resources */,
-				CF4A295216B6E3080081E2F7 /* 57.png in Resources */,
-				CF4A295316B6E3080081E2F7 /* 72.png in Resources */,
-				CF4A295416B6E3080081E2F7 /* 114.png in Resources */,
-				CF4A295516B6E3080081E2F7 /* 144.png in Resources */,
 				CF4A295616B6E3080081E2F7 /* 1024.png in Resources */,
 				CFE4EDA816B6EAE900C3B1F3 /* actionbutton.png in Resources */,
 				CFE4EDA916B6EAE900C3B1F3 /* actionbutton@2x.png in Resources */,
