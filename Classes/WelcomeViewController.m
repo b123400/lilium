@@ -55,12 +55,14 @@
     
 	if(!didPinched||![didPinched boolValue]){
 		[self.view addSubview:initialPinchView];
+        initialPinchView.frame = self.view.bounds;
 	}else if(![BRFunctions didLoggedInFlickr]&&
 			 ![BRFunctions didLoggedInTwitter]&&
 			 ![BRFunctions didLoggedInInstagram]&&
 			 ![BRFunctions isFacebookLoggedIn:NO]&&
 			 ![BRFunctions didLoggedInTumblr]){
 		[self.view addSubview:noAccountView];
+        noAccountView.frame = self.view.bounds;
 	}else{
 		[self.view addSubview:mainView];
         mainView.frame = self.view.bounds;
@@ -78,6 +80,9 @@
         CGRect frame = timelineButton.frame;
         frame.origin.x = settingsButton.frame.origin.x;
         timelineButton.frame = frame;
+        initialPinchView.frame = self.view.bounds;
+        noAccountView.frame = self.view.bounds;
+        mainView.frame = self.view.bounds;
     }
 }
 
