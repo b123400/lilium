@@ -97,7 +97,7 @@
                 <constraint firstItem="30" firstAttribute="leading" secondItem="1" secondAttribute="centerX" multiplier="0.75" id="wL9-Bi-loO"/>
                 <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" constant="1" id="zFZ-v0-FmB"/>
             </constraints>
-            <point key="canvasLocation" x="916" y="243"/>
+            <point key="canvasLocation" x="913" y="243"/>
         </view>
         <view contentMode="scaleToFill" id="10">
             <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>

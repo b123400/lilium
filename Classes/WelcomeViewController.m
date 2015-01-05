@@ -74,9 +74,11 @@
 
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    CGRect frame = timelineButton.frame;
-    frame.origin.x = settingsButton.frame.origin.x;
-    timelineButton.frame = frame;
+    if (self.view.constraints.count) {
+        CGRect frame = timelineButton.frame;
+        frame.origin.x = settingsButton.frame.origin.x;
+        timelineButton.frame = frame;
+    }
 }
 
 -(void)titleButtonDidFinishedAnimation:(id)button{
