@@ -58,8 +58,6 @@
     
     [description appendAttributedString:[NSAttributedString attributedStringWithAttributedString:[OHASBasicMarkupParser attributedStringByProcessingMarkupInString:@"Includes ASIHTTPRequest by [All-Seeing Interactive](https://github.com/pokeb/asi-http-request/), licensed under BSD license.\n"]]];
     
-    [description appendAttributedString:[NSAttributedString attributedStringWithAttributedString:[OHASBasicMarkupParser attributedStringByProcessingMarkupInString:@"Includes [Facebook iOS SDK](https://developers.facebook.com/ios/) by Facebook, licensed under Apache License.\n"]]];
-    
     [description appendAttributedString:[NSAttributedString attributedStringWithAttributedString:[OHASBasicMarkupParser attributedStringByProcessingMarkupInString:@"Includes TouchJSON by [Touch Code](https://github.com/TouchCode/TouchJSON), licensed under BSD license.\n"]]];
     
     [description appendAttributedString:[NSAttributedString attributedStringWithAttributedString:[OHASBasicMarkupParser attributedStringByProcessingMarkupInString:@"Includes RegexKitLite by [John Engelhart](http://regexkit.sourceforge.net/RegexKitLite/), licensed under BSD license.\n"]]];
