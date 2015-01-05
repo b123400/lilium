@@ -79,7 +79,7 @@
     if(!textLabel){
         textLabel=[[OHAttributedLabel alloc] initWithFrame:CGRectMake(mainImageView.frame.origin.x, mainImageView.frame.origin.y+mainImageView.frame.size.height+5, mainImageView.frame.size.width, 1000)];
         textLabel.extendBottomToFit=YES;
-        textLabel.lineBreakMode=UILineBreakModeWordWrap;
+        textLabel.lineBreakMode=NSLineBreakByWordWrapping;
         textLabel.numberOfLines=0;
         textLabel.backgroundColor=[UIColor clearColor];
         textLabel.textColor=[UIColor whiteColor];
@@ -426,7 +426,7 @@
 	
 	UIFont *cellFont = [UIFont fontWithName:@"Arial" size:12];
 	CGSize constraintSize = CGSizeMake(tableView.frame.size.width-99, MAXFLOAT);
-	CGSize labelSize = [((Comment*)(status.comments)[indexPath.row]).text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+	CGSize labelSize = [((Comment*)(status.comments)[indexPath.row]).text sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:NSLineBreakByWordWrapping];
 	height=labelSize.height+=64;
 	
 	if(height<85){

@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FBConnect.h"
+//#import <FacebookSDK/FacebookSDK.h>
+#import <Accounts/Accounts.h>
+#import <Social/Social.h>
 #import "BRTwitterEngine.h"
 #import "BRInstagramEngine.h"
 #import "BRFlickrEngine.h"
@@ -21,8 +23,8 @@
 #define twitterSaveKey @"TwitterAccessToken"
 
 #define kFacebookAppID @"111015292318563"
-#define facebookDidLoginNotification @"facebookDidLoginNotification"
-#define facebookDidNotLoginNotification @"facebookDidNotLoginNotification"
+//#define facebookDidLoginNotification @"facebookDidLoginNotification"
+//#define facebookDidNotLoginNotification @"facebookDidNotLoginNotification"
 
 #define instagramClientID @"3a39c9aafa4146f8a06a688cb8a9781a"
 #define instagramClientSecret @"63bc6321512248e1b8b1f534697648f3"
@@ -38,7 +40,7 @@
 
 #define refreshIntervalKey @"refreshIntervalKey"
 
-@interface BRFunctions : NSObject <FBSessionDelegate> {
+@interface BRFunctions : NSObject {
 	
 }
 
@@ -48,11 +50,14 @@
 +(User*)twitterUser;
 +(void)logoutTwitter;
 
-+(Facebook*)sharedFacebook;
++ (ACAccountType *)sharedFacebookType;
++ (ACAccountStore *)sharedAccountStore;
++ (ACAccount *)sharedFacebookAccount;
+
 +(NSString*)facebookCurrentUserID;
 +(FacebookUser*)facebookUser;
 +(void)setFacebookCurrentUserID:(NSString*)userID;
-+(BOOL)isFacebookLoggedIn:(BOOL)authIfNotLoggedIn;
++(BOOL)isFacebookLoggedIn;
 +(void)logoutFacebook;
 
 +(BRInstagramEngine*)sharedInstagram;

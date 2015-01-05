@@ -12,6 +12,6 @@
 @interface FacebookLoginController : UIViewController {
 	IBOutlet UIButton *loggedInButton;
 }
--(IBAction)didTapped;
+//-(IBAction)didTapped;
 
 @end

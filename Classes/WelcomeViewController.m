@@ -59,7 +59,7 @@
 	}else if(![BRFunctions didLoggedInFlickr]&&
 			 ![BRFunctions didLoggedInTwitter]&&
 			 ![BRFunctions didLoggedInInstagram]&&
-			 ![BRFunctions isFacebookLoggedIn:NO]&&
+			 ![BRFunctions isFacebookLoggedIn]&&
 			 ![BRFunctions didLoggedInTumblr]){
 		[self.view addSubview:noAccountView];
         noAccountView.frame = self.view.bounds;

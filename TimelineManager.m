@@ -90,11 +90,11 @@ static TimelineManager *sharedManager=nil;
 	return [statuses objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, count)]];
 }
 -(NSArray*)statusesAfter:(Status*)aStatus count:(int)count{
-	int indexOfStatus=[statuses indexOfObject:aStatus];
+	unsigned long indexOfStatus=[statuses indexOfObject:aStatus];
 	if(indexOfStatus==NSNotFound)return nil;
-	int maxCount=[statuses count]-indexOfStatus-1;
+	unsigned long maxCount=[statuses count]-indexOfStatus-1;
 	if(maxCount<count){
-		count=maxCount;
+		count=(int)maxCount;
 		[self getOlderStatuses];
 	}
 	return [statuses objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexOfStatus+1, count)]];
@@ -209,7 +209,7 @@ static TimelineManager *sharedManager=nil;
 			[referenceStatuses addObject:firstStatus];
 		}
 	}
-	if([BRFunctions isFacebookLoggedIn:NO]){
+	if([BRFunctions isFacebookLoggedIn]){
 		Status *firstStatus=[self firstStatusCachedWithSource:StatusSourceTypeFacebook direction:direction==StatusRequestDirectionNewer];
 		if(firstStatus){
 			[referenceStatuses addObject:firstStatus];

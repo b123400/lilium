@@ -104,17 +104,53 @@ static StatusFetcher* sharedFetcher=nil;
 		}
 		
 		thisStatus=[self firstStatusWithSource:StatusSourceTypeFacebook inArray:request.referenceStatuses];
-		if([BRFunctions isFacebookLoggedIn:NO]){
-			FBRequest *fbRequest=nil;
+		if([BRFunctions isFacebookLoggedIn]){
+			SLRequest *fbRequest=nil;
 			if(thisStatus){
 				if(request.direction==StatusRequestDirectionNewer){
-					fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"me/home?type=photo&since=%f",[thisStatus.date timeIntervalSince1970]] andDelegate:self];
+                    fbRequest = [SLRequest requestForServiceType:SLServiceTypeFacebook
+                                                   requestMethod:SLRequestMethodGET
+                                                             URL:[NSURL URLWithString:@"https://graph.facebook.com/me/home"]
+                                                      parameters:@{
+                                                                   @"type":@"photo",
+                                                                   @"since":@([thisStatus.date timeIntervalSince1970]),
+                                                                   @"filter":@"app_2305272732"
+                                                                   }];
 				}else{
-					fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"me/home?type=photo&until=%f",[thisStatus.date timeIntervalSince1970]] andDelegate:self];
-				}
+                    fbRequest = [SLRequest requestForServiceType:SLServiceTypeFacebook
+                                                   requestMethod:SLRequestMethodGET
+                                                             URL:[NSURL URLWithString:@"https://graph.facebook.com/me/home"]
+                                                      parameters:@{
+                                                                   @"type":@"photo",
+                                                                   @"until":@([thisStatus.date timeIntervalSince1970]),
+                                                                   @"filter":@"app_2305272732"
+                                                                   }];
+                }
 			}else{
-				fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:@"me/home?type=photo" andDelegate:self];
+                fbRequest = [SLRequest requestForServiceType:SLServiceTypeFacebook
+                                               requestMethod:SLRequestMethodGET
+                                                         URL:[NSURL URLWithString:@"https://graph.facebook.com/me/home"]
+                                                  parameters:@{
+                                                               @"type":@"photo",
+                                                               @"filter":@"app_2305272732"
+                                                               }];
 			}
+            [fbRequest setAccount:[BRFunctions sharedFacebookAccount]];
+            [fbRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (error) {
+                        [self request:fbRequest didFailWithError:error];
+                        return;
+                    }
+                    NSError *error2 = nil;
+                    id result = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error2];
+                    if (error2) {
+                        [self request:fbRequest didFailWithError:error2];
+                        return;
+                    }
+                    [self request:fbRequest didLoad:result];
+                });
+            }];
 			[requestsByID setObject:request forKey:[fbRequest identifier]];
 			request.facebookStatus=StatusFetchingStatusLoading;
 		}
@@ -188,16 +224,16 @@ static StatusFetcher* sharedFetcher=nil;
                     break;
                 }
                 case StatusSourceTypeFacebook:{
-                    FBRequest *fbRequest=nil;
-                    if(!referenceStatus){
-                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo",thisUser.userID] andDelegate:self];
-                    }else if(request.direction==StatusRequestDirectionNewer){
-                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&since=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
-                    }else if(request.direction==StatusRequestDirectionOlder){
-                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&until=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
-                    }
-                    [requestsByID setObject:request forKey:[fbRequest identifier]];
-                    request.facebookStatus=StatusFetchingStatusLoading;
+//                    SLRequest *fbRequest=nil;
+//                    if(!referenceStatus){
+//                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo",thisUser.userID] andDelegate:self];
+//                    }else if(request.direction==StatusRequestDirectionNewer){
+//                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&since=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
+//                    }else if(request.direction==StatusRequestDirectionOlder){
+//                        fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/feed?type=photo&until=%f",thisUser.userID,referenceStatus.date.timeIntervalSince1970] andDelegate:self];
+//                    }
+//                    [requestsByID setObject:request forKey:[fbRequest identifier]];
+//                    request.facebookStatus=StatusFetchingStatusLoading;
                     break;
                 }
                 default:
@@ -271,8 +307,24 @@ static StatusFetcher* sharedFetcher=nil;
             break;
         }
         case StatusSourceTypeFacebook:{
-            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/comments",request.targetStatus.statusID] andDelegate:self];
+            SLRequest *fbRequest = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/comments", request.targetStatus.statusID]] parameters:@{}];
+//            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/comments",request.targetStatus.statusID] andDelegate:self];
 			[requestsByID setObject:request forKey:[fbRequest identifier]];
+            [fbRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (error) {
+                        [self request:fbRequest didFailWithError:error];
+                        return;
+                    }
+                    NSError *error2=nil;
+                    id result = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error2];
+                    if (error2) {
+                        [self request:fbRequest didFailWithError:error2];
+                        return;
+                    }
+                    [self request:fbRequest didLoad:result];
+                });
+            }];
             break;
         }
         case StatusSourceTypeFlickr: {
@@ -303,8 +355,24 @@ static StatusFetcher* sharedFetcher=nil;
             break;
         }
         case StatusSourceTypeFacebook:{
-            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/comments",request.targetStatus.statusID] andParams:[NSMutableDictionary dictionaryWithObject:request.submitCommentString forKey:@"message"] andHttpMethod:@"POST" andDelegate:self];
+            SLRequest *fbRequest = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodPOST URL:[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/comments",request.targetStatus.statusID]] parameters:@{@"message":request.submitCommentString}];
+//            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath: andParams:[NSMutableDictionary dictionaryWithObject:request.submitCommentString forKey:@"message"] andHttpMethod:@"POST" andDelegate:self];
 			[requestsByID setObject:request forKey:[fbRequest identifier]];
+            [fbRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (error) {
+                        [self request:fbRequest didFailWithError:error];
+                        return;
+                    }
+                    NSError *error2=nil;
+                    id result = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error2];
+                    if (error2) {
+                        [self request:fbRequest didFailWithError:error2];
+                        return;
+                    }
+                    [self request:fbRequest didLoad:result];
+                });
+            }];
             break;
         }
         case StatusSourceTypeFlickr: {
@@ -335,8 +403,25 @@ static StatusFetcher* sharedFetcher=nil;
     StatusSourceType source=request.targetStatus.user.type;
     switch (source) {
         case StatusSourceTypeFacebook:{
-            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/likes",request.targetStatus.statusID] andParams:[NSMutableDictionary dictionary] andHttpMethod:request.isLike?@"POST":@"DELETE" andDelegate:self];
+            SLRequest *fbRequest = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:request.isLike?SLRequestMethodPOST:SLRequestMethodDELETE URL:[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/likes",request.targetStatus.statusID]] parameters:@{}];
+            
+//            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/likes",request.targetStatus.statusID] andParams:[NSMutableDictionary dictionary] andHttpMethod:request.isLike?@"POST":@"DELETE" andDelegate:self];
 			[requestsByID setObject:request forKey:[fbRequest identifier]];
+            [fbRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (error) {
+                        [self request:fbRequest didFailWithError:error];
+                        return;
+                    }
+                    NSError *error2 = nil;
+                    id result = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error2];
+                    if (error2) {
+                        [self request:fbRequest didFailWithError:error2];
+                        return;
+                    }
+                    [self request:fbRequest didLoad:result];
+                });
+            }];
         }
             break;
         case StatusSourceTypeFlickr:{
@@ -407,8 +492,24 @@ static StatusFetcher* sharedFetcher=nil;
             break;
         }
         case StatusSourceTypeFacebook:{
-            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/",request.userID] andDelegate:self];
+            SLRequest *fbRequest = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/",request.userID]] parameters:@{}];
+//            FBRequest *fbRequest=[[BRFunctions sharedFacebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/",request.userID] andDelegate:self];
 			[requestsByID setObject:request forKey:[fbRequest identifier]];
+            [fbRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (error) {
+                        [self request:fbRequest didFailWithError:error];
+                        return;
+                    }
+                    NSError *error2 = nil;
+                    id result = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error2];
+                    if (error2) {
+                        [self request:fbRequest didFailWithError:error2];
+                        return;
+                    }
+                    [self request:fbRequest didLoad:result];
+                });
+            }];
             break;
         }
         case StatusSourceTypeFlickr: {
@@ -1225,7 +1326,7 @@ static StatusFetcher* sharedFetcher=nil;
     thisUser.username=[dictionary objectForKey:@"username"];
     return thisUser;
 }
-- (void)request:(FBRequest *)fbRequest didLoad:(id)result{
+- (void)request:(SLRequest *)fbRequest didLoad:(id)result{
 	NSString *identifier=[fbRequest identifier];
     if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[CommentRequest class]]){
@@ -1268,88 +1369,116 @@ static StatusFetcher* sharedFetcher=nil;
 	[df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
 	
 	NSArray *updates=[result objectForKey:@"data"];
+    int photoFound = 0;
+    __block int photoDone = 0;
 	for(NSDictionary *dict in updates){
 		if([[dict objectForKey:@"type"]isEqualToString:@"photo"]&&[dict objectForKey:@"picture"]){
-			NSString *smallPictureURL=[dict objectForKey:@"picture"];
-			NSRange sizeIndentifierRange=[smallPictureURL rangeOfString:@"_s" options:NSBackwardsSearch];
-			
-			NSString *thumbString=nil;
-			NSString *mediumString=nil;
-			NSString *fullString=nil;
-			
-			if(sizeIndentifierRange.location!=NSNotFound){
-				thumbString=[NSString stringWithFormat:@"%@%@%@",[smallPictureURL substringToIndex:sizeIndentifierRange.location],@"_q",[smallPictureURL substringFromIndex:sizeIndentifierRange.location+sizeIndentifierRange.length]];
-				mediumString=[NSString stringWithFormat:@"%@%@%@",[smallPictureURL substringToIndex:sizeIndentifierRange.location],@"_b",[smallPictureURL substringFromIndex:sizeIndentifierRange.location+sizeIndentifierRange.length]];
-				fullString=[NSString stringWithFormat:@"%@%@%@",[smallPictureURL substringToIndex:sizeIndentifierRange.location],@"_o",[smallPictureURL substringFromIndex:sizeIndentifierRange.location+sizeIndentifierRange.length]];
-			}
-			
-			Status *newStatus=[[Status alloc]init];
-			newStatus.statusID=[dict objectForKey:@"id"];
-			
-			if(thumbString){
-				newStatus.thumbURL=[NSURL URLWithString:thumbString];
-				//newStatus.thumbURL=[NSURL URLWithString:mediumString];
-				newStatus.mediumURL=[NSURL URLWithString:mediumString];
-				newStatus.fullURL=[NSURL URLWithString:fullString];
-			}
-            if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
-                newStatus.thumbURL=[NSURL URLWithString:mediumString];
-				newStatus.mediumURL=[NSURL URLWithString:fullString];
-				newStatus.fullURL=[NSURL URLWithString:fullString];
-            }else if([[UIScreen mainScreen]scale]==2.0){
-                newStatus.thumbURL=[NSURL URLWithString:mediumString];
-				newStatus.mediumURL=[NSURL URLWithString:mediumString];
-            }
-			newStatus.webURL=[NSURL URLWithString:[dict	objectForKey:@"link"]];
-			
-			if([dict objectForKey:@"message"])newStatus.caption=[dict objectForKey:@"message"];
-			
-			newStatus.user=[self facebookUserFromDict:[dict objectForKey:@"from"]];
-			
-			//2010-12-01T21:35:43+0000
-			
-			newStatus.date=[df dateFromString:[dict objectForKey:@"created_time"]];
-			
-			
-			
-			if([dict objectForKey:@"likes"]){
-				if([[dict objectForKey:@"likes"] objectForKey:@"data"]&&[[[dict objectForKey:@"likes"] objectForKey:@"data"] isKindOfClass:[NSArray class]]){
-					NSArray *likes=[[dict objectForKey:@"likes"] objectForKey:@"data"];
-					for(NSDictionary *thisLike in likes){
-						NSString *idString=[NSString stringWithFormat:@"%@",[thisLike objectForKey:@"id"]];
-						if([idString isEqualToString:[BRFunctions facebookCurrentUserID]]){
-							[newStatus setLiked:YES sync:NO];
-						}
-					}
-				}
-			}
+            photoFound++;
+            
+            NSString *objectId = [dict objectForKey:@"object_id"];
+            SLRequest *imageRequest = [SLRequest requestForServiceType:SLServiceTypeFacebook
+                                                    requestMethod:SLRequestMethodGET
+                                                              URL:[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@",objectId]]
+                                                       parameters:@{}];
+            [imageRequest setAccount:[BRFunctions sharedFacebookAccount]];
+            [imageRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSDictionary *info = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+                    NSArray *images = [info objectForKey:@"images"];
+                    
+                    Status *newStatus=[[Status alloc]init];
+                    newStatus.statusID=[dict objectForKey:@"id"];
+                    
+                    newStatus.fullURL = [NSURL URLWithString:images[0][@"source"]];
+                    newStatus.mediumURL = [NSURL URLWithString:images[1][@"source"]];
+                    newStatus.thumbURL = [NSURL URLWithString:images[2][@"source"]];
+                    
+                    newStatus.webURL=[NSURL URLWithString:[dict	objectForKey:@"link"]];
+                    
+                    if([dict objectForKey:@"message"])newStatus.caption=[dict objectForKey:@"message"];
+                    
+                    newStatus.user=[self facebookUserFromDict:[dict objectForKey:@"from"]];
+                    
+                    //2010-12-01T21:35:43+0000
+                    
+                    newStatus.date=[df dateFromString:[dict objectForKey:@"created_time"]];
+                    
+                    
+                    if([dict objectForKey:@"likes"]){
+                        if([[dict objectForKey:@"likes"] objectForKey:@"data"]&&[[[dict objectForKey:@"likes"] objectForKey:@"data"] isKindOfClass:[NSArray class]]){
+                            NSArray *likes=[[dict objectForKey:@"likes"] objectForKey:@"data"];
+                            for(NSDictionary *thisLike in likes){
+                                NSString *idString=[NSString stringWithFormat:@"%@",[thisLike objectForKey:@"id"]];
+                                if([idString isEqualToString:[BRFunctions facebookCurrentUserID]]){
+                                    [newStatus setLiked:YES sync:NO];
+                                }
+                            }
+                        }
+                    }
+                    
+                    if(![self didCachedStatus:newStatus inArray:_statuses]){
+                        if(request.delegate){
+                            if([request.delegate respondsToSelector:@selector(needThisStatus:)]){
+                                if([request.delegate needThisStatus:newStatus]){
+                                    [_statuses addObject:newStatus];
+                                }
+                            }else{
+                                [_statuses addObject:newStatus];
+                            }
+                        }
+                    }
+                    if(![self didCachedStatus:newStatus inArray:allStatuses]){
+                        [allStatuses addObject:newStatus];
+                    }
+                    
+                    photoDone++;
+                    if (photoDone == photoFound) {
+                        [self refreshTempStatusForRequest:request];
+                        [requestsByID removeObjectForKey:identifier];
+                    }
+                });
+            }];
+//			NSString *smallPictureURL=[dict objectForKey:@"picture"];
+//			NSRange sizeIndentifierRange=[smallPictureURL rangeOfString:@"_s" options:NSBackwardsSearch];
+//			
+//			NSString *thumbString=nil;
+//			NSString *mediumString=nil;
+//			NSString *fullString=nil;
+//			
+//			if(sizeIndentifierRange.location!=NSNotFound){
+//				thumbString=[NSString stringWithFormat:@"%@%@%@",[smallPictureURL substringToIndex:sizeIndentifierRange.location],@"_q",[smallPictureURL substringFromIndex:sizeIndentifierRange.location+sizeIndentifierRange.length]];
+//				mediumString=[NSString stringWithFormat:@"%@%@%@",[smallPictureURL substringToIndex:sizeIndentifierRange.location],@"_b",[smallPictureURL substringFromIndex:sizeIndentifierRange.location+sizeIndentifierRange.length]];
+//				fullString=[NSString stringWithFormat:@"%@%@%@",[smallPictureURL substringToIndex:sizeIndentifierRange.location],@"_o",[smallPictureURL substringFromIndex:sizeIndentifierRange.location+sizeIndentifierRange.length]];
+//			}
+//			
+//			Status *newStatus=[[Status alloc]init];
+//			newStatus.statusID=[dict objectForKey:@"id"];
+//			
+//			if(thumbString){
+//				newStatus.thumbURL=[NSURL URLWithString:thumbString];
+//				//newStatus.thumbURL=[NSURL URLWithString:mediumString];
+//				newStatus.mediumURL=[NSURL URLWithString:mediumString];
+//				newStatus.fullURL=[NSURL URLWithString:fullString];
+//			}
+//            if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad){
+//                newStatus.thumbURL=[NSURL URLWithString:mediumString];
+//				newStatus.mediumURL=[NSURL URLWithString:fullString];
+//				newStatus.fullURL=[NSURL URLWithString:fullString];
+//            }else if([[UIScreen mainScreen]scale]==2.0){
+//                newStatus.thumbURL=[NSURL URLWithString:mediumString];
+//				newStatus.mediumURL=[NSURL URLWithString:mediumString];
+//            }
+
 			//t = 75*113  // 75*56
 			//s = 87*130  // 130*98
 			//q = 180*270 // 180*135 //thumb
 			//b = 480*720 // 720*540 //medium
 			//n = 480*720 // 720*540
 			//o = download
-			
-			if(![self didCachedStatus:newStatus inArray:_statuses]){
-				if(request.delegate){
-					if([request.delegate respondsToSelector:@selector(needThisStatus:)]){
-						if([request.delegate needThisStatus:newStatus]){
-							[_statuses addObject:newStatus];
-						}
-					}else{
-						[_statuses addObject:newStatus];
-					}
-				}
-			}
-			if(![self didCachedStatus:newStatus inArray:allStatuses]){
-				[allStatuses addObject:newStatus];
-			}
 		}
 	}
-	[self refreshTempStatusForRequest:request];
-	[requestsByID removeObjectForKey:identifier];
 }
-- (void)request:(FBRequest *)fbRequest didFailWithError:(NSError *)error{
+- (void)request:(SLRequest *)fbRequest didFailWithError:(NSError *)error{
 	NSString *identifier=[fbRequest identifier];
     if (![requestsByID objectForKey:identifier])return;
     if([[requestsByID objectForKey:identifier] isKindOfClass:[StatusesRequest class]]){

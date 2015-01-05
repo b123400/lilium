@@ -9,6 +9,7 @@
 #import "FacebookLoginController.h"
 #import "BRFunctions.h"
 #import "SVProgressHUD.h"
+#import "MultipleChoiceViewController.h"
 
 @implementation FacebookLoginController
 
@@ -24,55 +25,131 @@
 */
 
 -(instancetype)init{
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbDidLogin) name:facebookDidLoginNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbDidNotLogin) name:facebookDidNotLoginNotification object:nil];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbDidLogin) name:facebookDidLoginNotification object:nil];
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fbDidNotLogin) name:facebookDidNotLoginNotification object:nil];
 	
 	return [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	BOOL isLoggedIn=[BRFunctions isFacebookLoggedIn:YES];
+	BOOL isLoggedIn=[BRFunctions isFacebookLoggedIn];
 	if(!isLoggedIn){
 		loggedInButton.hidden=YES;
+        [self login];
 	}
     [super viewDidLoad];
 }
 -(void)pushInAnimationDidFinished{
-	
-}
--(IBAction)didTapped{
-	[self.navigationController popViewControllerAnimated:YES];
-}
--(void)fbDidLogin{
-	[[BRFunctions sharedFacebook] requestWithGraphPath:@"me" andDelegate:(id)self];
-	[SVProgressHUD show];
-	//[self.navigationController popViewControllerAnimated:YES];
-}
--(void)fbDidNotLogin{
-	[self.navigationController popViewControllerAnimated:YES];
+    
 }
 
-#pragma mark FB request delegate
-
-
-- (void)request:(FBRequest *)request didFailWithError:(NSError *)error{
-	[[BRFunctions sharedFacebook] logout:[BRFunctions sharedObject]];
-	[SVProgressHUD dismissWithError:@"Failed"];
-	[self.navigationController popViewControllerAnimated:YES];
+- (void)login {
+    NSArray *permissions=@[@"friends_photos",@"read_stream"];
+    NSDictionary *options = @{ACFacebookAppIdKey : kFacebookAppID,
+                              ACFacebookPermissionsKey : permissions,
+                              ACFacebookAudienceKey:ACFacebookAudienceFriends};
+    
+    [[BRFunctions sharedAccountStore]
+     requestAccessToAccountsWithType:[BRFunctions sharedFacebookType] options:options completion:^(BOOL granted, NSError *error) {
+         
+         dispatch_async(dispatch_get_main_queue(), ^{
+             if (!granted) {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Failed to get permission for Facebook, please enable it in Setting.app." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                 [alert show];
+                 [alert release];
+                 [self.navigationController popViewControllerAnimated:YES];
+                 return;
+             }
+             if (error) {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                 [alert show];
+                 [alert release];
+                 [self.navigationController popViewControllerAnimated:YES];
+                 return;
+             }
+             NSArray *accounts = [[BRFunctions sharedAccountStore] accountsWithAccountType:[BRFunctions sharedFacebookType]];
+             if (accounts.count == 0) {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"No Facebook account found, please add it in Setting.app" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                 [alert show];
+                 [alert release];
+                 [self.navigationController popViewControllerAnimated:YES];
+                 return;
+                 
+             } else if (accounts.count == 1) {
+                 ACAccount *account = [accounts objectAtIndex:0];
+                 [self didChooseAccount:account];
+             } else {
+                 NSMutableArray *choices = @[].mutableCopy;
+                 for (int i = 0; i < accounts.count; i++) {
+                     ACAccount *account = [accounts objectAtIndex:i];
+                     Choice *thisChoice = [Choice choiceWithText:account.username detailText:nil action:^{
+                         [self didChooseAccount:account];
+                     }];
+                     [choices addObject:thisChoice];
+                 }
+                 MultipleChoiceViewController *controller = [MultipleChoiceViewController controllerWithChoices:choices];
+                 [self.navigationController pushViewController:controller animated:YES];
+             }
+         });
+     }];
 }
-- (void)request:(FBRequest *)request didLoad:(id)result{
-	if([result respondsToSelector:@selector(objectForKey:)]){
-		if(result[@"id"]){
-			NSString *idString=[NSString stringWithFormat:@"%@",result[@"id"]];
-			[BRFunctions setFacebookCurrentUserID:idString];
-			[SVProgressHUD dismissWithSuccess:@"Success"];
-			[self.navigationController popViewControllerAnimated:YES];
-			return;
-		}
-	}
-	[self request:request didFailWithError:nil];
+
+- (void)didChooseAccount:(ACAccount*)account {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:account.identifier forKey:@"currentFacebookUserIdentifier"];
+    [defaults synchronize];
+    
+    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeFacebook
+                                            requestMethod:SLRequestMethodGET
+                                                      URL:[NSURL URLWithString:@"https://graph.facebook.com/me"]
+                                               parameters:@{}];
+    [request setAccount:account];
+    [SVProgressHUD show];
+
+    [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error) {
+                [BRFunctions logoutFacebook];
+                [SVProgressHUD dismissWithError:@"Failed"];
+                
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+                [alert autorelease];
+                [self.navigationController popViewControllerAnimated:YES];
+                return;
+            }
+            
+            NSError *error2 = nil;
+            NSDictionary *result = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error2];
+            
+            if (error2) {
+                [BRFunctions logoutFacebook];
+                [SVProgressHUD dismissWithError:@"Failed"];
+                
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:error2.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+                [alert autorelease];
+                [self.navigationController popViewControllerAnimated:YES];
+                return;
+            }
+            
+            if([result respondsToSelector:@selector(objectForKey:)]){
+                if(result[@"id"]){
+                    NSString *idString=[NSString stringWithFormat:@"%@",result[@"id"]];
+                    [BRFunctions setFacebookCurrentUserID:idString];
+                    [SVProgressHUD dismissWithSuccess:@"Success"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                    return;
+                }
+            }
+        });
+    }];
 }
+
+//-(IBAction)didTapped{
+//	[self.navigationController popViewControllerAnimated:YES];
+//}
 
 #pragma mark -
 

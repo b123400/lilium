@@ -24,7 +24,7 @@
 
 @end
 
-@interface StatusFetcher : NSObject<BRTwitterEngineDelegate,BRInstagramEngineDelegate,BRTumblrEngineDelegate,FBRequestDelegate> {
+@interface StatusFetcher : NSObject<BRTwitterEngineDelegate,BRInstagramEngineDelegate,BRTumblrEngineDelegate> {
 	NSMutableArray *allStatuses;
 	
 	NSMutableDictionary *tempStatuses;

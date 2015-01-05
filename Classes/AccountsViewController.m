@@ -56,13 +56,12 @@
 
 #pragma mark Facebook
 -(void)loginWithFacebook{
-    if(![BRFunctions isFacebookLoggedIn:NO]){
+    if(![BRFunctions isFacebookLoggedIn]){
         FacebookLoginController *facebookController=[[FacebookLoginController alloc]init];
         [self.navigationController pushViewController:facebookController animated:YES];
         [facebookController release];
     }else{
         [[BRCircleAlert confirmAlertWithText:@"Are you sure to logout Facebook?" action:^{
-            [[BRFunctions sharedFacebook] logout:[BRFunctions sharedObject]];
             [BRFunctions logoutFacebook];
             [self refreshLoginStatus];
         }] show];
@@ -174,7 +173,7 @@
 
 -(void)refreshLoginStatus{
 	((UIImageView*)tickImageViews[StatusSourceTypeTwitter]).hidden=![BRFunctions didLoggedInTwitter];
-	((UIImageView*)tickImageViews[StatusSourceTypeFacebook]).hidden=![BRFunctions isFacebookLoggedIn:NO];
+	((UIImageView*)tickImageViews[StatusSourceTypeFacebook]).hidden=![BRFunctions isFacebookLoggedIn];
 	((UIImageView*)tickImageViews[StatusSourceTypeInstagram]).hidden=![BRFunctions didLoggedInInstagram];
 	((UIImageView*)tickImageViews[StatusSourceTypeFlickr]).hidden=![BRFunctions didLoggedInFlickr];
 	((UIImageView*)tickImageViews[StatusSourceTypeTumblr]).hidden=![BRFunctions didLoggedInTumblr];

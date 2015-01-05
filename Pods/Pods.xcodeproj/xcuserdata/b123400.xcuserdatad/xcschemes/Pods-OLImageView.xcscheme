@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9B695ECECBF66E8DFC83DD1F"
+               BlueprintIdentifier = "038CD287ACD9A85E1326AEE5"
                BuildableName = "libPods-OLImageView.a"
                BlueprintName = "Pods-OLImageView"
                ReferencedContainer = "container:Pods.xcodeproj">

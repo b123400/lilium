@@ -50,6 +50,13 @@
 	WelcomeViewController *welcome=[[WelcomeViewController alloc]init];
 	[self.navigationController pushViewController:welcome animated:YES];
 	[welcome release];
+    
+    
+    if ([BRFunctions sharedFacebookAccount]) {
+        [[BRFunctions sharedAccountStore] renewCredentialsForAccount:[BRFunctions sharedFacebookAccount] completion:^(ACAccountCredentialRenewResult renewResult, NSError *error) {
+            NSLog(@"Failed to renew: %@",error.localizedDescription);
+        }];
+    }
 
     return YES;
 }
@@ -98,7 +105,7 @@
     if ([url.scheme isEqualToString:@"persecond-tumblr"]) {
         return [[TMAPIClient sharedInstance] handleOpenURL:url];
     }
-    return [[BRFunctions sharedFacebook] handleOpenURL:url]; 
+    return YES;
 }
 #pragma mark -
 #pragma mark Memory management

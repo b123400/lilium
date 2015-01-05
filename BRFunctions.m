@@ -26,7 +26,7 @@
 
 static BRTwitterEngine *sharedTwitter=nil;
 static User *twitterUser=nil;
-static Facebook *sharedFacebook=nil;
+static ACAccount *sharedFacebookAccount=nil;
 static FacebookUser *facebookUser=nil;
 static BRInstagramEngine *sharedInstagram=nil;
 static User *instagramUser=nil;
@@ -85,56 +85,75 @@ static NSMutableArray *tumblrUsers=nil;
 }
 #pragma mark -
 #pragma mark Facebook
-+(Facebook*)sharedFacebook{
-	if(!sharedFacebook){
-		sharedFacebook=[[Facebook alloc] initWithAppId:kFacebookAppID];
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		if ([defaults objectForKey:@"FBAccessTokenKey"]
-			&& [defaults objectForKey:@"FBExpirationDateKey"]) {
-			sharedFacebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
-			sharedFacebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
-		}
-	}
-	return sharedFacebook;
++ (ACAccountStore *)sharedAccountStore {
+    static ACAccountStore *store = nil;
+    if (!store) {
+        store = [[ACAccountStore alloc] init];
+    }
+    return store;
 }
++ (ACAccountType *)sharedFacebookType {
+    static ACAccountType *type = nil;
+    if (!type) {
+        type = [[[BRFunctions sharedAccountStore] accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook] retain];
+    }
+    return type;
+}
++ (ACAccount *)sharedFacebookAccount {
+    if (!sharedFacebookAccount) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *identifier = [defaults objectForKey:@"currentFacebookUserIdentifier"];
+        if (!identifier) return nil;
+        sharedFacebookAccount = [[[BRFunctions sharedAccountStore] accountWithIdentifier:identifier] retain];
+    }
+    return sharedFacebookAccount;
+}
+
+//+(Facebook*)sharedFacebook{
+//	if(!sharedFacebook){
+//		sharedFacebook=[[Facebook alloc] initWithAppId:kFacebookAppID];
+//		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//		if ([defaults objectForKey:@"FBAccessTokenKey"]
+//			&& [defaults objectForKey:@"FBExpirationDateKey"]) {
+//			sharedFacebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
+//			sharedFacebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
+//		}
+//	}
+//	return sharedFacebook;
+//}
+
 +(void)setFacebookCurrentUserID:(NSString*)userID{
-	[[NSUserDefaults	standardUserDefaults] setObject:userID forKey:@"currentFacebookUserId"];
+	[[NSUserDefaults	 standardUserDefaults] setObject:userID forKey:@"currentFacebookUserId"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 +(NSString*)facebookCurrentUserID{
 	return [[NSUserDefaults standardUserDefaults] objectForKey:@"currentFacebookUserId"];
 }
-+(BOOL)isFacebookLoggedIn:(BOOL)authIfNotLoggedIn{
-	BOOL logged=[[BRFunctions sharedFacebook] isSessionValid];
-	if(authIfNotLoggedIn&&!logged){
-		NSArray *permissions=@[@"friends_photos",@"friends_videos",@"publish_stream",@"offline_access",@"read_stream"];
-		[[BRFunctions sharedFacebook] authorize:permissions delegate:[BRFunctions sharedObject]];
-	}
-	return logged;
++(BOOL)isFacebookLoggedIn {
+    BOOL loggedIn = [BRFunctions sharedFacebookType].accessGranted;
+    if (!loggedIn) return NO;
+    NSArray *accounts = [[BRFunctions sharedAccountStore] accountsWithAccountType:[BRFunctions sharedFacebookType]];
+    if (!accounts.count) return NO;
+    return [BRFunctions sharedFacebookAccount] != nil;
 }
-- (void)fbDidLogin {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[[BRFunctions sharedFacebook] accessToken] forKey:@"FBAccessTokenKey"];
-    [defaults setObject:[[BRFunctions sharedFacebook] expirationDate] forKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:facebookDidLoginNotification	object:nil];
-    [BRFunctions loadAccounts];
-}
-+(FacebookUser*)facebookUser{
-    return facebookUser;
-}
+
 +(void)requestFinished:(UserRequest*)request didReceivedFacebookUser:(FacebookUser*)user{
     if(facebookUser)[facebookUser release];
     facebookUser=[user retain];
     [BRFunctions saveAccounts];
 }
+
++(FacebookUser*)facebookUser {
+    return facebookUser;
+}
+
 +(void)logoutFacebook{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"FBAccessTokenKey"];
-    [defaults removeObjectForKey:@"FBExpirationDateKey"];
-    if(sharedFacebook){
-        [sharedFacebook release];
-        sharedFacebook=nil;
+    [defaults removeObjectForKey:@"currentFacebookUserIdentifier"];
+    [defaults synchronize];
+    if (sharedFacebookAccount) {
+        [sharedFacebookAccount release];
+        sharedFacebookAccount = nil;
     }
     if(facebookUser){
         [facebookUser release];
@@ -143,12 +162,7 @@ static NSMutableArray *tumblrUsers=nil;
     [self saveAccounts];
     [[TimelineManager sharedManager]removeAllStatusWithSource:StatusSourceTypeFacebook];
 }
-- (void)fbDidNotLogin:(BOOL)cancelled{
-	[[NSNotificationCenter defaultCenter] postNotificationName:facebookDidNotLoginNotification	object:nil];
-}
-- (void)fbDidLogout{
-	[BRFunctions setFacebookCurrentUserID:nil];
-}
+
 #pragma mark -
 #pragma mark Instagram
 +(BRInstagramEngine*)sharedInstagram{
@@ -325,7 +339,7 @@ static NSMutableArray *tumblrUsers=nil;
         request.userID=@"self";
         [[StatusFetcher sharedFetcher] getUserForRequest:request];
     }
-    if([BRFunctions isFacebookLoggedIn:NO]&&!facebookUser){
+    if([BRFunctions isFacebookLoggedIn]&&!facebookUser){
         UserRequest *request=[[[UserRequest alloc] init]autorelease];
         request.type=StatusSourceTypeFacebook;
         request.delegate=[self class];

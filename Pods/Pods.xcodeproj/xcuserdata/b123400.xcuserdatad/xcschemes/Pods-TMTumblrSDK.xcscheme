@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E4FE7C933AD7AA45940E015F"
+               BlueprintIdentifier = "CF91546E9AEAD4EBFB41BA7E"
                BuildableName = "libPods-TMTumblrSDK.a"
                BlueprintName = "Pods-TMTumblrSDK"
                ReferencedContainer = "container:Pods.xcodeproj">
