@@ -10,9 +10,16 @@
 #import "BRFunctions.h"
 #import "SVProgressHUD.h"
 
+#define kTimeoutLimit 30
+
 @interface TwitterLoginController ()
 
+@property (nonatomic, retain) NSTimer *timeoutTimer;
+
 -(void)getAccessTokenFromQuery:(NSString*)query;
+
+- (void)startTimeoutTimer;
+- (void)stopTimeoutTimer;
 
 @end
 
@@ -34,14 +41,16 @@ static float loadingBorder=40.0;
 -(instancetype)init{
 	getter=[[BRTwitterOAuthTokenGetter alloc]initWithConsumerKey:kTwitterOAuthConsumerKey consumerSecret:kTwitterOAuthConsumerSecret];
 	getter.delegate=self;
-	[getter getRequestToken];
+    self.timeoutTimer = nil;
 	
 	return [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
 }
 #pragma mark -
 #pragma mark request token
 -(void)didReceivedRequestTokenURL:(NSURL*)url{
+    [self stopTimeoutTimer];
 	[webView loadRequest:[NSURLRequest requestWithURL:url]];
+    [self startTimeoutTimer];
 }
 #pragma mark -
 #pragma mark web view
@@ -63,6 +72,7 @@ static float loadingBorder=40.0;
 - (void)webViewDidFinishLoad:(UIWebView *)_webView{
 	[loading stopAnimating];
 	if(webView.hidden){
+        [self stopTimeoutTimer];
 		[UIView animateWithDuration:0.5 animations:^{
 			backgroundBorderView.frame=CGRectInset(webView.frame, -5, -5);
 		} completion:^(BOOL finished){
@@ -106,13 +116,14 @@ static float loadingBorder=40.0;
 			backgroundBorderView.frame=CGRectMake(loading.frame.origin.x-loadingBorder, loading.frame.origin.y-loadingBorder, loading.frame.size.width+loadingBorder*2, loading.frame.size.height+loadingBorder*2);
 		} ];
 		[loading startAnimating];
-		
+        [self startTimeoutTimer];
 	}
 	if(oauthToken)[oauthToken release];
 	if(oauthVerifier)[oauthVerifier release];
 }
 
 -(void)didReceivedAccessToken:(SSToken*)token{
+    [self stopTimeoutTimer];
 	[delegate twitterLoginControllerDidReceivedAccessToken:token];
 	[SVProgressHUD show];
 	[SVProgressHUD dismissWithSuccess:@"Success"];
@@ -120,9 +131,14 @@ static float loadingBorder=40.0;
 }
 #pragma mark error
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-	
+    [self stopTimeoutTimer];
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithError:error.localizedDescription];
+    [self.navigationController popViewControllerAnimated:YES];
 }
+
 -(void)didFailedToReceiveRequestToken:(NSError*)error{
+    [self stopTimeoutTimer];
 	[SVProgressHUD show];
 	if(error){
 		[SVProgressHUD dismissWithError:[error localizedDescription]];
@@ -131,7 +147,9 @@ static float loadingBorder=40.0;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
+
 -(void)didFailedToReceiveAccessToken:(NSError*)error{
+    [self stopTimeoutTimer];
 	[SVProgressHUD show];
 	if(error){
 		[SVProgressHUD dismissWithError:[error localizedDescription]];
@@ -153,6 +171,8 @@ static float loadingBorder=40.0;
 	backgroundBorderView.frame=CGRectMake(loading.frame.origin.x-loadingBorder, loading.frame.origin.y-loadingBorder, loading.frame.size.width+loadingBorder*2, loading.frame.size.height+loadingBorder*2);
 	webView.hidden=YES;
 	[loading startAnimating];
+    [getter getRequestToken];
+    [self startTimeoutTimer];
 }
 
 
@@ -163,6 +183,32 @@ static float loadingBorder=40.0;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
+
+#pragma mark timeout timer
+
+- (void)startTimeoutTimer {
+    if (self.timeoutTimer) return;
+    self.timeoutTimer = [[NSTimer scheduledTimerWithTimeInterval:kTimeoutLimit
+                                                          target:self
+                                                        selector:@selector(timeoutTimerFired)
+                                                        userInfo:nil
+                                                         repeats:NO] retain];
+}
+
+- (void)stopTimeoutTimer {
+    if (self.timeoutTimer) {
+        [self.timeoutTimer invalidate];
+        [self.timeoutTimer release];
+        self.timeoutTimer = nil;
+    }
+}
+
+- (void)timeoutTimerFired {
+    [self stopTimeoutTimer];
+    [SVProgressHUD show];
+    [SVProgressHUD dismissWithError:@"Timeout"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
